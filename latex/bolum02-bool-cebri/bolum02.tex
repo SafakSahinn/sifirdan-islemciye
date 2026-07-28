@@ -1,0 +1,199 @@
+% =============================================================
+% Bölüm 2: Bool Cebri ve Mantık Kapıları
+% =============================================================
+\chapter{Bool Cebri ve Mantık Kapıları}
+\label{chap:bool-cebri}
+
+\begin{tcolorbox}[
+    colback=blokyesil!15,
+    colframe=sinyalyesil!60!black,
+    title={\textbf{Öğrenme Hedefleri}},
+    fonttitle=\bfseries,
+    rounded corners,
+    boxrule=0.8pt
+]
+Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
+\begin{itemize}[nosep, leftmargin=*]
+    \item İkili değişken ve mantık fonksiyonu kavramlarını tanımlamak.
+    \item Bool cebrinin Huntington aksiyomlarını ve temel teoremlerini uygulamak.
+    \item De Morgan teoremiyle Bool ifadelerini sadeleştirmek.
+    \item Yedi temel mantık kapısının (AND, OR, NOT, NAND, NOR, XOR, XNOR) doğruluk
+    tablolarını ve Bool ifadelerini yazmak.
+    \item NAND/NOR kapılarının fonksiyonel tamlığının ASIC tasarımındaki önemini açıklamak.
+\end{itemize}
+\end{tcolorbox}
+
+\section{Giriş}
+\label{sec:bool-giris}
+
+Önceki bölümde gördüğümüz ikili sayılar, bir bilgisayarın belleğinde \emph{durağan} veriyi
+temsil eder: bir sayı, bir karakter, bir renk kodu. Ama bir işlemci sadece veri saklamaz ---
+toplama yapar, karşılaştırır, dallanma kararı verir. Yani veriyi \emph{işleyen} bir mekanizmaya
+ihtiyacımız var; bu mekanizma da yine $0$ ve $1$'lerle, ama bu kez statik değil, girişe bağlı
+olarak çıkış üreten devrelerle kurulur. İşte bu devrelerin arkasındaki matematik, konumuz olan
+\emph{Bool cebri}\index{Bool cebri}dir.
+
+Sayısal donanım tasarımının bu ikinci temel taşı, 1854'te George Boole'un önerdiği ve 1938'de
+Claude Shannon'ın anahtarlama devrelerine uyguladığı Bool cebri üzerine kuruludur. Bu bölümde
+ikili mantığın aksiyomlarını, temel teoremlerini ve bunların fiziksel karşılığı olan mantık
+kapılarını inceleyeceğiz. Buradaki her kavram, önce Logisim'de simüle edilecek, sonra Verilog
+ile üç modelleme biçiminde yazılacak ve son olarak Icarus/Yosys akışıyla sentezlenecektir.
+
+\section{İkili Değişkenler ve Mantık Fonksiyonları}
+\label{sec:ikili-degiskenler}
+
+\begin{tanim}{İkili Değişken:}
+Yalnızca iki değer alabilen bir değişkene \emph{ikili değişken}\index{ikili değişken} denir.
+Bu değerler genellikle $\{0, 1\}$, $\{\text{DOĞRU}, \text{YANLIŞ}\}$ ya da
+$\{\text{YÜKSEK}, \text{DÜŞÜK}\}$ gerilim seviyeleri olarak yorumlanır. Sayısal devre
+tasarımında $0$ ve $1$ gösterimi kullanılır.
+\end{tanim}
+
+\begin{tanim}{Mantık Fonksiyonu:}
+$n$ adet ikili değişken $x_1, x_2, \ldots, x_n$ alan ve tek bir ikili çıktı üreten
+$f: \{0,1\}^n \to \{0,1\}$ eşlemesine \emph{mantık fonksiyonu}\index{mantık fonksiyonu}
+(Boole fonksiyonu) denir. Bir mantık fonksiyonu üç eşdeğer biçimde ifade edilebilir:
+\textbf{doğruluk tablosu}, \textbf{Bool ifadesi} ve \textbf{lojik devre şeması}. İlerleyen
+bölümlerde aynı fonksiyonu bu üç biçimde de üretip birbiriyle karşılaştıracağız.
+\end{tanim}
+
+\begin{bilginot}[Neden Üç Eşdeğer Gösterim?]
+Doğruluk tablosu bir fonksiyonun \emph{davranışını} kesin biçimde tanımlar ama büyüdükçe
+($2^n$ satır) okunması zorlaşır. Bool ifadesi kısa ve cebirsel işlemlere (sadeleştirme,
+De Morgan) uygundur. Devre şeması ise fiziksel gerçeklemeye en yakın gösterimdir. HDL
+tasarımında yazdığımız Verilog kodu da sonunda bu üçüncü forma, yani bir kapı ağına
+(netlist) sentezlenir.
+\end{bilginot}
+
+\section{Bool Cebrinin Aksiyomları}
+\label{sec:huntington}
+
+Bool cebri, Öklid geometrisi gibi \emph{aksiyomatik} bir sistemdir: az sayıda temel varsayımdan
+(aksiyom) yola çıkılır ve cebrin tüm teoremleri bu varsayımlardan mantıksal çıkarımla türetilir.
+George Boole'un 1854'teki özgün formülasyonu, matematikçi E.~V.~Huntington tarafından 1904'te
+altı \emph{postülata} indirgendi. Bu postülatlar, ikisi toplama ($+$) ikisi çarpma ($\cdot$)
+için olmak üzere dört çiftten oluşur; bu eşleşme, ilerleyen kısımda göreceğimiz
+\emph{düalite ilkesi}nin kaynağıdır.
+
+\begin{tanim}{Huntington Postülatları:}
+$B=\{0,1\}$ kümesi, $+$ (OR) ve $\cdot$ (AND) ikili işlemleri ile $'$ (NOT) tekli işlemi
+altında, her $x,y,z \in B$ için aşağıdaki altı özdeşliği sağlıyorsa \emph{Bool cebri} adını
+alır:
+\end{tanim}
+
+\begin{table}[h]
+\centering
+\caption{Huntington Postülatları}
+\label{tab:huntington}
+\begin{tabular}{clll}
+\toprule
+No & Postülat & Postülat (düali) & Adı \\
+\midrule
+1 & $x+0=x$ & $x\cdot 1=x$ & Birim eleman \\
+2 & $x+x'=1$ & $x\cdot x'=0$ & Tümleme \\
+3 & $x+y=y+x$ & $x\cdot y=y\cdot x$ & Değişme \\
+4 & $x+(yz)=(x+y)(x+z)$ & $x(y+z)=xy+xz$ & Dağılma \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{bilginot}[Anahtarlama Devresi Yorumu]
+Shannon'ın 1938'de gösterdiği gibi, bu postülatlar fiziksel bir anahtarlama devresi olarak
+okunabilir: $x+y$ iki anahtarın \textbf{paralel} bağlanması (biri kapalıysa akım geçer),
+$x\cdot y$ \textbf{seri} bağlanması (ikisi de kapalı olmalı), $x'$ ise $x$'in tersidir (biri
+kapalıyken diğeri açıktır).
+\end{bilginot}
+
+\begin{ornek}[Postülat 2'nin Anahtarlama Devresiyle Doğrulanması]
+$x$ ve $x'$ tanım gereği her zaman zıt durumdadır: biri kapalıyken diğeri mutlaka açıktır.
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Seri bağlantı ($x\cdot x'$):} Akım geçmesi için \emph{ikisinin de} kapalı
+    olması gerekir. Zıt oldukları için bu hiçbir zaman gerçekleşmez $\Rightarrow x\cdot x'=0$.
+    \item \textbf{Paralel bağlantı ($x+x'$):} Akım geçmesi için \emph{en az birinin} kapalı
+    olması yeterlidir. Zıt oldukları için her zaman biri kapalıdır $\Rightarrow x+x'=1$.
+\end{itemize}
+\end{ornek}
+
+\begin{alistirma}[\kolay]
+Postülat 1'i ($x+0=x$ ve $x\cdot 1=x$) yukarıdaki örnekteki gibi anahtarlama devresi
+yorumuyla açıklayınız: $0$ değerindeki bir anahtar her zaman açık, $1$ değerindeki bir anahtar
+her zaman kapalıdır. Bu anahtarın devreye paralel ya da seri eklenmesi neden devrenin
+davranışını değiştirmez?
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $0$ değerindeki bir anahtar her zaman \emph{açıktır}, yani hiçbir zaman
+akım geçirmez. Böyle bir anahtar $x$'e \textbf{paralel} eklendiğinde ($x+0$), devreye ek bir
+akım yolu sağlamaz. Akımın geçip geçmemesi hâlâ tamamen $x$'e bağlıdır, dolayısıyla
+$x+0=x$. $1$ değerindeki bir anahtar ise her zaman \emph{kapalıdır}, yani her zaman akım
+geçirir. Böyle bir anahtar $x$'e \textbf{seri} eklendiğinde ($x\cdot 1$), akımı hiçbir zaman
+engellemez --- yine akımın geçip geçmemesi tamamen $x$'e bağlı kalır, dolayısıyla $x\cdot 1=x$.
+
+\begin{bilginot}[Sıradan Cebirden Fark]
+Postülat 4'ün ilk yarısı, $x+(yz)=(x+y)(x+z)$, sıradan cebirde \textbf{geçerli değildir}
+(ör. $x{=}2,y{=}3,z{=}4$ için sol taraf $14$, sağ taraf $30$ verir). Bool cebrinde geçerli
+olmasının nedeni, değişkenlerin yalnızca $\{0,1\}$ değerlerini alması: bu sonlu kümede tüm
+$2^3=8$ kombinasyon tek tek denenerek özdeşlik doğrulanabilir. Bu ispat yöntemine
+\emph{mükemmel tümevarım} (perfect induction) denir ve Bool cebrinde sıkça kullanılır.
+\end{bilginot}
+
+\section{Düalite İlkesi ve Temel Teoremler}
+\label{sec:dualite}
+
+\begin{tanim}{Düalite İlkesi:}
+Bir Bool özdeşliğinin \emph{düali}, ifadedeki her $+$ ile $\cdot$'nin, her $0$ ile $1$'in yer
+değiştirilmesiyle elde edilir. Postülatların her biri kendi düaliyle çift geldiği için (bkz.
+Tablo~\ref{tab:huntington}), bu çiftlenme \textbf{tüm türetilmiş teoremlere de yansır}: bir teoremi
+postülatlardan kanıtladığınızda, düalini kanıtlamak için hiçbir ek işlem gerekmez. Kanıttaki
+her satırda aynı yer değiştirmeyi uygulamak yeterlidir.
+\end{tanim}
+
+Bunu somutlaştırmak için, listedeki ilk teoremi doğrudan postülatlardan türetelim.
+
+\begin{ornek}[Teorem 1'in Postülatlardan Türetilmesi: $x+x=x$]
+\begin{align*}
+x+x &= (x+x)\cdot 1 & &\text{[Postülat 1: } y\cdot 1=y \text{, burada } y=x+x \text{]}\\
+    &= (x+x)(x+x') & &\text{[Postülat 2: } 1=x+x' \text{]}\\
+    &= x+x\cdot x' & &\text{[Postülat 4: } (x+y)(x+z)=x+yz \text{]}\\
+    &= x+0 & &\text{[Postülat 2: } x\cdot x'=0 \text{]}\\
+    &= x & &\text{[Postülat 1: } x+0=x \text{]}
+\end{align*}
+\end{ornek}
+
+\begin{bilginot}[Düalitenin Getirisi: İkinci Teorem Bedava]
+Yukarıdaki kanıtın her satırında $+ \leftrightarrow \cdot$ ve $0 \leftrightarrow 1$ değişimini
+uygularsanız, $x\cdot x=x$ özdeşliğinin kanıtını elde edersiniz --- tek bir ek adım atmadan.
+Bu yüzden Bool cebri kaynaklarında teoremler genellikle çift çift, tek bir kanıtla sunulur.
+\end{bilginot}
+
+Aynı türetme yöntemiyle elde edilen diğer temel teoremler, ileride sadeleştirme
+işlemlerinde sürekli kullanacağımız için aşağıda topluca listelenmiştir.
+
+\begin{table}[h]
+\centering
+\caption{Temel Teoremler}
+\begin{tabular}{clll}
+\toprule
+No & Teorem & Teorem (düali) & Adı \\
+\midrule
+1 & $x+x=x$ & $x\cdot x=x$ & Yinelenirlik (idempotence) \\
+2 & $x+1=1$ & $x\cdot 0=0$ & Yutan eleman \\
+3 & $(x')'=x$ & --- & Çifte tümleme \\
+4 & $x+xy=x$ & $x(x+y)=x$ & Yutma (absorption) \\
+5 & $x+(y+z)=(x+y)+z$ & $x(yz)=(xy)z$ & Birleşme (associative) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{alistirma}[\orta]
+Teorem 4'ü ($x+xy=x$) yukarıdaki Teorem 1 kanıtını örnek alarak postülatlardan türetiniz.
+\emph{İpucu:} $x$'i önce $x\cdot 1$ olarak yazıp Postülat 4'ü (dağılma) tersten uygulamayı
+deneyin.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{align*}
+x+xy &= x\cdot 1+x\cdot y & &\text{[Postülat 1: } x=x\cdot 1 \text{]}\\
+     &= x\cdot(1+y) & &\text{[Postülat 4: } xy_1+xy_2=x(y_1+y_2) \text{, dağılma]}\\
+     &= x\cdot 1 & &\text{[Teorem 2: } 1+y=1 \text{]}\\
+     &= x & &\text{[Postülat 1: } x\cdot 1=x \text{]}
+\end{align*}

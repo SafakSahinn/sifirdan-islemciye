@@ -1,0 +1,28 @@
+% =============================================================
+% Sıfırdan İşlemciye — Sürüm Ayarları
+% Bu dosya sürüm numarası, çalışma modu ve bölüm yönetimini
+% merkezi olarak kontrol eder. Yapı, Oğuz Ergin'in
+% "Bilgisayar Mimarisi" kitabındaki sistemden uyarlanmıştır.
+% =============================================================
+
+% --- Sürüm Bilgisi ---
+\newcommand{\kitapsurum}{0.1.0}
+
+% --- Çalışma Modu ---
+% Günlük çalışma: sadece etkin bölüm(ler)i derlemek için aşağıdaki satırı aç.
+% Tam derleme için yorum satırı yap.
+\includeonly{bolum01-sayi-sistemleri/bolum01,bolum02-bool-cebri/bolum02}
+
+% --- Bölüm Yönetim Makroları ---
+% \bolumekle: Dosya varsa \include eder, yoksa sayacı atlar ve label tanımlar.
+%   #1 = dosya yolu (uzantısız), #2 = label adı, #3 = bölüm numarası, #4 = başlık
+\makeatletter
+\newcommand{\bolumekle}[4]{%
+  \IfFileExists{#1.tex}{%
+    \include{#1}%
+  }{%
+    \stepcounter{chapter}%
+    \protected@write\@auxout{}{\string\newlabel{#2}{{#3}{}{#4}{chapter.#3}{}}}%
+  }%
+}
+\makeatother

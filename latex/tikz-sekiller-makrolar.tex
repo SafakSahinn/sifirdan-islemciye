@@ -1,0 +1,413 @@
+% =============================================================
+% TikZ Şekil Makroları - Bilgisayar Mimarisi Kitabı
+% Oğuz Ergin
+% =============================================================
+% Bu dosya tüm bölümlerde kullanılan ortak TikZ şekil
+% makrolarını ve stil tanımlarını içerir.
+% =============================================================
+
+% -----------------------------------------------
+% RENKLER
+% -----------------------------------------------
+\definecolor{sinyalmavi}{RGB}{70, 130, 180}
+\definecolor{sinyalkirmizi}{RGB}{200, 60, 60}
+\definecolor{sinyallacivert}{RGB}{30, 60, 130}   % yerleşik (artık yeni olmayan) denetim sinyalleri
+\definecolor{sinyalyesil}{RGB}{60, 160, 60}
+\definecolor{blokgri}{RGB}{240, 240, 240}
+\definecolor{blokmavi}{RGB}{200, 220, 240}
+\definecolor{blokkirmizi}{RGB}{255, 220, 220}
+\definecolor{blokyesil}{RGB}{220, 245, 220}
+\definecolor{bloksari}{RGB}{255, 250, 205}
+\definecolor{blokturuncu}{RGB}{255, 225, 180}
+\definecolor{vurgumavi}{RGB}{0, 100, 200}
+\definecolor{vurgukirmizi}{RGB}{200, 0, 0}
+\definecolor{vurguyesil}{RGB}{0, 140, 60}
+\definecolor{vurguturuncu}{RGB}{200, 120, 0}
+
+% -----------------------------------------------
+% RENK VARYANTLARI (açık tonlar)
+% -----------------------------------------------
+\colorlet{blokmavi-acik}{blokmavi!30}
+\colorlet{blokkirmizi-acik}{blokkirmizi!30}
+\colorlet{blokyesil-acik}{blokyesil!30}
+\colorlet{bloksari-acik}{bloksari!30}
+\colorlet{blokgri-acik}{blokgri!30}
+
+% -----------------------------------------------
+% BORU HATTI AŞAMA RENKLERİ
+% -----------------------------------------------
+\definecolor{asamagetir}{RGB}{200, 220, 240}    % G: Getir — mavi
+\definecolor{asamacoz}{RGB}{220, 245, 220}       % Ç: Çöz — yeşil
+\definecolor{asamayurut}{RGB}{255, 235, 200}     % U: Yürüt — turuncu
+\definecolor{asamabellek}{RGB}{255, 220, 220}    % B: Bellek — kırmızı
+\definecolor{asamayaz}{RGB}{230, 220, 250}       % Y: Yaz — mor
+
+% -----------------------------------------------
+% GENEL TikZ STİLLERİ
+% -----------------------------------------------
+
+% Blok şeması stilleri
+\tikzset{
+    % Temel blok stili
+    blok/.style={
+        draw, rectangle, rounded corners=2pt,
+        minimum width=2cm, minimum height=1cm,
+        fill=blokmavi, font=\small,
+        align=center
+    },
+    % Vurgulu blok
+    vurgublok/.style={
+        blok, fill=blokkirmizi, draw=vurgukirmizi, thick
+    },
+    % Bellek bloku
+    bellekblok/.style={
+        draw, rectangle, minimum width=2.5cm, minimum height=1.5cm,
+        fill=blokyesil, font=\small, align=center
+    },
+    % Yazmaç bloku
+    yazmacblok/.style={
+        draw, rectangle, minimum width=2cm, minimum height=0.8cm,
+        fill=bloksari, font=\small, align=center
+    },
+    % Ok stilleri
+    okstil/.style={
+        ->, >=Stealth, thick
+    },
+    ciftok/.style={
+        <->, >=Stealth, thick
+    },
+    veristil/.style={
+        ->, >=Stealth, thick, sinyalmavi
+    },
+    denetimstil/.style={
+        ->, >=Stealth, dashed, sinyalkirmizi
+    },
+}
+
+% -----------------------------------------------
+% KARNO HARİTASI MAKROSU
+% -----------------------------------------------
+
+% 2 değişkenli Karno haritası
+% #1: değişken isimleri (örn. "A" ve "B")
+% #2: hücre değerleri (4 adet, sırasıyla 00,01,10,11)
+\newcommand{\karnoiki}[4][]{%
+    % #2=değişken1, #3=değişken2, #4=değerler (virgülle ayrılmış 4 değer)
+    \begin{tikzpicture}[scale=0.8]
+        % Grid
+        \draw (0,0) grid (2,2);
+        % Değişken etiketleri
+        \node[above] at (0.5, 2) {\footnotesize 0};
+        \node[above] at (1.5, 2) {\footnotesize 1};
+        \node[left] at (0, 1.5) {\footnotesize 0};
+        \node[left] at (0, 0.5) {\footnotesize 1};
+        \node[above left] at (0, 2) {\footnotesize #2\textbackslash #3};
+        % Hücre değerleri
+        \foreach \val [count=\i from 0] in {#4} {
+            \pgfmathtruncatemacro{\col}{mod(\i,2)}
+            \pgfmathtruncatemacro{\row}{1 - int(\i/2)}
+            \node at (\col+0.5, \row+0.5) {\val};
+        }
+        #1
+    \end{tikzpicture}
+}
+
+% 3 değişkenli Karno haritası
+% #1: ek TikZ kodu (gruplamalar vb.)
+% #2: satır değişkeni, #3: sütun değişkenleri
+% #4: 8 hücre değeri (AB\C sıralaması: 00/0, 00/1, 01/0, 01/1, 11/0, 11/1, 10/0, 10/1)
+\newcommand{\karnouc}[4][]{%
+    \begin{tikzpicture}[scale=0.8]
+        \draw (0,0) grid (4,2);
+        \node[above] at (0.5, 2) {\footnotesize 00};
+        \node[above] at (1.5, 2) {\footnotesize 01};
+        \node[above] at (2.5, 2) {\footnotesize 11};
+        \node[above] at (3.5, 2) {\footnotesize 10};
+        \node[left] at (0, 1.5) {\footnotesize 0};
+        \node[left] at (0, 0.5) {\footnotesize 1};
+        \node[above left] at (0, 2) {\footnotesize #2\textbackslash #3};
+        \foreach \val [count=\i from 0] in {#4} {
+            \pgfmathtruncatemacro{\col}{mod(\i,4)}
+            \pgfmathtruncatemacro{\row}{1 - int(\i/4)}
+            \node at (\col+0.5, \row+0.5) {\val};
+        }
+        #1
+    \end{tikzpicture}
+}
+
+% 4 değişkenli Karno haritası
+% #1: ek TikZ kodu
+% #2: satır değişkenleri, #3: sütun değişkenleri
+% #4: 16 hücre değeri (AB\CD sıralaması: Karno sırasıyla 00,01,11,10)
+\newcommand{\karnodort}[4][]{%
+    \begin{tikzpicture}[scale=0.8]
+        \draw (0,0) grid (4,4);
+        \node[above] at (0.5, 4) {\footnotesize 00};
+        \node[above] at (1.5, 4) {\footnotesize 01};
+        \node[above] at (2.5, 4) {\footnotesize 11};
+        \node[above] at (3.5, 4) {\footnotesize 10};
+        \node[left] at (0, 3.5) {\footnotesize 00};
+        \node[left] at (0, 2.5) {\footnotesize 01};
+        \node[left] at (0, 1.5) {\footnotesize 11};
+        \node[left] at (0, 0.5) {\footnotesize 10};
+        \node[above left] at (0, 4) {\footnotesize #2\textbackslash #3};
+        \foreach \val [count=\i from 0] in {#4} {
+            \pgfmathtruncatemacro{\col}{mod(\i,4)}
+            \pgfmathtruncatemacro{\row}{3 - int(\i/4)}
+            \node at (\col+0.5, \row+0.5) {\val};
+        }
+        #1
+    \end{tikzpicture}
+}
+
+% -----------------------------------------------
+% FLIP-FLOP MAKROLARI
+% -----------------------------------------------
+
+% Genel flip-flop çizim stili
+\tikzset{
+    flipflop/.style={
+        draw, rectangle, minimum width=1.8cm, minimum height=2.4cm,
+        font=\small, thick
+    },
+    ffgiris/.style={font=\footnotesize},
+    ffcikis/.style={font=\footnotesize},
+}
+
+% -----------------------------------------------
+% MANTIK KAPISI STİLLERİ
+% -----------------------------------------------
+
+\tikzset{
+    % Mantık kapısı sembol boyutları
+    kapiboy/.style={
+        circuit logic US, huge circuit symbols
+    },
+}
+
+% -----------------------------------------------
+% BIT ALANI DİYAGRAMI MAKROSU
+% -----------------------------------------------
+
+% Buyruk bit alanı çizimi
+% #1: toplam bit genişliği (örn. 32)
+% #2: alanlar listesi (tikz node'ları olarak verilecek)
+\tikzset{
+    bitalani/.style={
+        draw, minimum height=0.8cm, font=\footnotesize\ttfamily,
+        anchor=west, fill=blokmavi
+    },
+    bitust/.style={
+        font=\tiny, above, text=gray
+    },
+    bitalt/.style={
+        font=\scriptsize, below
+    },
+}
+
+% -----------------------------------------------
+% AKIŞ ŞEMASI STİLLERİ
+% -----------------------------------------------
+
+\tikzset{
+    % Akış şeması blokları
+    akisbaslangic/.style={
+        draw, rounded rectangle, rounded rectangle west arc=10pt,
+        rounded rectangle east arc=10pt,
+        minimum width=2cm, minimum height=0.6cm,
+        fill=blokyesil, font=\footnotesize, align=center,
+        thick
+    },
+    akisislem/.style={
+        draw, rectangle, rounded corners=2pt,
+        minimum width=2.5cm, minimum height=0.6cm,
+        fill=blokmavi, font=\footnotesize, align=center,
+        thick
+    },
+    akiskarar/.style={
+        draw, diamond, aspect=2, minimum width=1.8cm,
+        fill=bloksari, font=\footnotesize, align=center,
+        inner sep=1pt, thick
+    },
+    akisok/.style={
+        ->, >=Stealth, thick
+    },
+    % Geri dönüş oku (döngü çizgileri için)
+    akisdonus/.style={
+        ->, >=Stealth, thick, rounded corners=8pt
+    },
+}
+
+% -----------------------------------------------
+% ZAMANLAMA ŞEMASI STİLLERİ
+% -----------------------------------------------
+
+\tikzset{
+    zamansinyal/.style={
+        very thick, sinyalmavi
+    },
+    zamanok/.style={
+        <->, >=Stealth, thin
+    },
+    zamanetiket/.style={
+        font=\footnotesize
+    },
+}
+
+% -----------------------------------------------
+% VERİYOLU BİLEŞEN STİLLERİ (Bölüm 4-5 için)
+% -----------------------------------------------
+
+\tikzset{
+    % Çoklayıcı (MUX)
+    mux/.style={
+        draw, trapezium, trapezium angle=70,
+        minimum width=0.6cm, minimum height=1.2cm,
+        font=\tiny, thick, fill=blokgri, shape border rotate=270
+    },
+    % AMB
+    amb/.style={
+        draw, rectangle, minimum width=1.2cm, minimum height=1.8cm,
+        fill=blokmavi, font=\small, thick, align=center
+    },
+    % Toplayıcı (daire)
+    toplayici/.style={
+        draw, circle, minimum size=0.6cm, font=\small, thick,
+        fill=blokgri, inner sep=0pt
+    },
+    % Yazmaç (ince uzun dikdörtgen)
+    yazmac/.style={
+        draw, rectangle, minimum width=0.3cm, minimum height=2cm,
+        fill=bloksari, font=\tiny, thick
+    },
+    % Denetim birimi
+    denetim/.style={
+        draw, ellipse, minimum width=2cm, minimum height=1.2cm,
+        fill=blokkirmizi!30, font=\small, thick, align=center
+    },
+    % Bellek
+    bellek/.style={
+        draw, rectangle, minimum width=1.8cm, minimum height=2cm,
+        fill=blokyesil, font=\small, thick, align=center
+    },
+    % Veri yolu (kalın çizgi)
+    veriyolu/.style={
+        line width=2pt, ->, >=Stealth
+    },
+    % İnce sinyal
+    sinyal/.style={
+        ->, >=Stealth, thin
+    },
+}
+
+% -----------------------------------------------
+% DURUM MAKİNESİ STİLLERİ
+% -----------------------------------------------
+
+\tikzset{
+    durum/.style={
+        draw, circle, minimum size=1.2cm, font=\small,
+        thick, fill=blokmavi
+    },
+    durumok/.style={
+        ->, >=Stealth, thick, bend left=20
+    },
+    durumdongu/.style={
+        ->, >=Stealth, thick, loop above, looseness=8
+    },
+}
+
+% -----------------------------------------------
+% BELLEK DİYAGRAMI STİLLERİ (Bölüm 6 için)
+% -----------------------------------------------
+
+\tikzset{
+    % Önbellek satırı
+    onbellek/.style={
+        draw, rectangle, minimum height=0.5cm, font=\tiny,
+        fill=blokmavi!30
+    },
+    % Bellek hücresi
+    bellekhucre/.style={
+        draw, rectangle, minimum width=0.8cm, minimum height=0.5cm,
+        font=\tiny
+    },
+}
+
+% -----------------------------------------------
+% BORU HATTI DİYAGRAM STİLLERİ (Bölüm 5-6 için)
+% -----------------------------------------------
+
+\tikzset{
+    % Pipeline aşama kutusu
+    asama/.style={
+        draw, rectangle, minimum width=1.2cm, minimum height=0.7cm,
+        font=\footnotesize, align=center, thick
+    },
+    % Beş aşama stili
+    asamaG/.style={asama, fill=asamagetir},
+    asamaC/.style={asama, fill=asamacoz},
+    asamaU/.style={asama, fill=asamayurut},
+    asamaB/.style={asama, fill=asamabellek},
+    asamaY/.style={asama, fill=asamayaz},
+    % Boş/stall aşama
+    asamabos/.style={asama, fill=blokgri, dashed},
+    % Pipeline yazmaç (aşamalar arası)
+    pipeyazmac/.style={
+        draw, rectangle, minimum width=0.15cm, minimum height=1.8cm,
+        fill=bloksari, thick
+    },
+    % İşlemci birimi (veri yolu bileşeni)
+    birim/.style={
+        draw, rectangle, rounded corners=3pt,
+        minimum width=1.5cm, minimum height=1cm,
+        fill=blokmavi, font=\small, thick, align=center
+    },
+}
+
+% -----------------------------------------------
+% ÇOK ÇEKİRDEKLİ / PARALEL STİLLER (Bölüm 8-9)
+% -----------------------------------------------
+
+\tikzset{
+    % İşlemci çekirdeği
+    cekirdek/.style={
+        draw, rectangle, rounded corners=4pt,
+        minimum width=2cm, minimum height=1.5cm,
+        fill=blokmavi, font=\small, thick, align=center
+    },
+    % Önbellek kutusu
+    onbellekblok/.style={
+        draw, rectangle, minimum width=1.8cm, minimum height=0.8cm,
+        fill=blokyesil-acik, font=\footnotesize, align=center
+    },
+    % Paylaşılan kaynak
+    paylasilan/.style={
+        draw, rectangle, rounded corners=2pt,
+        minimum width=3cm, minimum height=1cm,
+        fill=bloksari, font=\small, thick, align=center
+    },
+    % Bağlantı yolu (bus/interconnect)
+    baglanti/.style={
+        draw, rectangle, minimum height=0.4cm,
+        fill=blokgri, font=\footnotesize
+    },
+}
+
+% -----------------------------------------------
+% GPU / HIZLANDIRICI STİLLERİ (Bölüm 10)
+% -----------------------------------------------
+
+\tikzset{
+    % SM / CU birimi
+    gpubirim/.style={
+        draw, rectangle, rounded corners=2pt,
+        minimum width=1cm, minimum height=0.8cm,
+        fill=blokmavi, font=\tiny, thick, align=center
+    },
+    % Bellek modülü
+    gpubellek/.style={
+        draw, rectangle, minimum width=2cm, minimum height=0.6cm,
+        fill=blokyesil, font=\footnotesize, align=center
+    },
+}

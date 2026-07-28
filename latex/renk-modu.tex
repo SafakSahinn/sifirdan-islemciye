@@ -1,0 +1,178 @@
+% =============================================================
+% Renk Modu Ayarları - Bilgisayar Mimarisi Kitabı
+% Oğuz Ergin
+% =============================================================
+% Bu dosya kitabın baskı renk modunu belirler.
+% Kullanım: ana-kitap.tex'te \input{preamble} sonrasına
+%           \input{renk-modu} ekleyin.
+%
+% Modlar:
+%   \renkmodurenkli    → Tam renkli baskı (varsayılan)
+%   \renkmoduikirenk   → İki renkli baskı (siyah + mavi)
+%   \renkmodutekrenk   → Tek renkli (siyah-beyaz) baskı
+%
+% Modu değiştirmek için aşağıdaki satırlardan birini
+% etkin hale getirin:
+% =============================================================
+
+% --- Mod seçimi (yalnızca BİRİNİ etkin bırakın) ---
+\newcommand{\renkmodurenkli}{}        % ← Tam renkli (varsayılan)
+%\newcommand{\renkmoduikirenk}{}      % ← İki renkli
+%\newcommand{\renkmodutekrenk}{}      % ← Tek renkli (siyah-beyaz)
+
+
+% =============================================================
+% MOD 1: TAM RENKLİ (değişiklik yapmaz, orijinal renkler kalır)
+% =============================================================
+\ifdefined\renkmodurenkli
+    % Tam renkli mod: Tüm renkler orijinal değerlerde kalır.
+    % Ek bir tanım gerekmez.
+\fi
+
+
+% =============================================================
+% MOD 2: İKİ RENKLİ (siyah + bolumrenk mavisi)
+% =============================================================
+\ifdefined\renkmoduikirenk
+
+    % --- Ana tema renkleri (değişmez) ---
+    % bolumrenk, baslikrenk: Orijinal mavi kalır (0, 71, 133)
+
+    % --- tcolorbox ortamları → mavi tonlarına dönüştür ---
+    % Örnek kutusu: mavi kalır (zaten bolumrenk)
+    % Tanım kutusu: turuncu → mavi
+    \renewtcolorbox{tanim}[1][]{
+        colback=bolumrenk!5!white,
+        colframe=bolumrenk!80!black,
+        fonttitle=\bfseries,
+        title={#1},
+        breakable, enhanced, arc=1mm,
+    }
+    % Bilgi notu: yeşil → mavi
+    \renewtcolorbox{bilginot}{
+        colback=bolumrenk!5!white,
+        colframe=bolumrenk!60!black,
+        fonttitle=\bfseries,
+        title={Not},
+        breakable, enhanced, arc=1mm,
+        borderline west={3pt}{0pt}{bolumrenk!60!black},
+    }
+
+    % --- Kod listeleme → mavi tonları ---
+    \lstset{
+        rulecolor=\color{black!40},
+    }
+    \lstdefinestyle{mips}{
+        keywordstyle=\color{bolumrenk}\bfseries,
+        commentstyle=\color{black!50},
+        stringstyle=\color{bolumrenk!70},
+    }
+    \lstdefinestyle{riscv}{
+        keywordstyle=\color{bolumrenk}\bfseries,
+        commentstyle=\color{black!50},
+        stringstyle=\color{bolumrenk!70},
+        sensitive=true,
+    }
+    \lstdefinestyle{cuda}{
+        keywordstyle=\color{bolumrenk}\bfseries,
+        commentstyle=\color{black!50},
+        stringstyle=\color{bolumrenk!70},
+    }
+
+    % --- TikZ blok renkleri → mavi/gri tonları ---
+    \definecolor{blokmavi}{RGB}{200, 220, 240}       % açık mavi (orijinal)
+    \definecolor{bloksari}{RGB}{220, 230, 245}        % açık mavi (sarı yerine)
+    \definecolor{blokyesil}{RGB}{230, 240, 250}       % çok açık mavi (yeşil yerine)
+    \definecolor{blokkirmizi}{RGB}{210, 225, 245}     % açık mavi (kırmızı yerine)
+    \definecolor{blokgri}{RGB}{235, 235, 235}         % açık gri (orijinal)
+    \definecolor{blokturuncu}{RGB}{215, 230, 245}     % açık mavi (turuncu yerine)
+
+    % TikZ sinyal renkleri → mavi/koyu gri
+    \definecolor{sinyalmavi}{RGB}{0, 71, 133}         % koyu mavi
+    \definecolor{sinyalkirmizi}{RGB}{100, 100, 100}   % koyu gri (kırmızı yerine)
+    \definecolor{sinyalyesil}{RGB}{0, 71, 133}        % koyu mavi (yeşil yerine)
+    \definecolor{vurgumavi}{RGB}{0, 71, 133}          % koyu mavi
+    \definecolor{vurgukirmizi}{RGB}{80, 80, 80}       % koyu gri (kırmızı yerine)
+
+\fi
+
+
+% =============================================================
+% MOD 3: TEK RENKLİ (siyah-beyaz, gri tonları)
+% =============================================================
+\ifdefined\renkmodutekrenk
+
+    % --- Ana tema renkleri → siyah ---
+    \definecolor{bolumrenk}{RGB}{0, 0, 0}
+    \definecolor{baslikrenk}{RGB}{0, 0, 0}
+    \definecolor{kuturenk}{RGB}{240, 240, 240}
+
+    % --- Hyperref → siyah ---
+    \hypersetup{
+        linkcolor=black,
+        citecolor=black,
+        urlcolor=black!70,
+    }
+
+    % --- tcolorbox ortamları → gri tonları ---
+    \renewtcolorbox{ornek}[1][]{
+        colback=black!3,
+        colframe=black!70,
+        fonttitle=\bfseries,
+        title={Örnek #1},
+        breakable, enhanced, left=4mm, right=4mm, arc=1mm,
+    }
+    \renewtcolorbox{tanim}[1][]{
+        colback=black!5,
+        colframe=black!60,
+        fonttitle=\bfseries,
+        title={#1},
+        breakable, enhanced, arc=1mm,
+    }
+    \renewtcolorbox{bilginot}{
+        colback=black!3,
+        colframe=black!50,
+        fonttitle=\bfseries,
+        title={Not},
+        breakable, enhanced, arc=1mm,
+        borderline west={3pt}{0pt}{black!50},
+    }
+
+    % --- Kod listeleme → siyah/gri ---
+    \lstset{
+        backgroundcolor=\color{black!4},
+        rulecolor=\color{black!30},
+    }
+    \lstdefinestyle{mips}{
+        keywordstyle=\bfseries,
+        commentstyle=\color{black!50}\itshape,
+        stringstyle=\color{black!70},
+    }
+    \lstdefinestyle{riscv}{
+        keywordstyle=\bfseries,
+        commentstyle=\color{black!50}\itshape,
+        stringstyle=\color{black!70},
+        sensitive=true,
+    }
+    \lstdefinestyle{cuda}{
+        keywordstyle=\bfseries,
+        commentstyle=\color{black!50}\itshape,
+        stringstyle=\color{black!70},
+    }
+
+    % --- TikZ blok renkleri → gri tonları ---
+    \definecolor{blokmavi}{RGB}{230, 230, 230}        % açık gri
+    \definecolor{bloksari}{RGB}{220, 220, 220}        % gri
+    \definecolor{blokyesil}{RGB}{240, 240, 240}       % çok açık gri
+    \definecolor{blokkirmizi}{RGB}{210, 210, 210}     % orta açık gri
+    \definecolor{blokgri}{RGB}{235, 235, 235}         % açık gri
+    \definecolor{blokturuncu}{RGB}{225, 225, 225}     % gri (turuncu yerine)
+
+    % TikZ sinyal renkleri → siyah/gri
+    \definecolor{sinyalmavi}{RGB}{0, 0, 0}            % siyah
+    \definecolor{sinyalkirmizi}{RGB}{100, 100, 100}   % koyu gri
+    \definecolor{sinyalyesil}{RGB}{50, 50, 50}        % koyu gri
+    \definecolor{vurgumavi}{RGB}{0, 0, 0}             % siyah
+    \definecolor{vurgukirmizi}{RGB}{80, 80, 80}       % koyu gri
+
+\fi

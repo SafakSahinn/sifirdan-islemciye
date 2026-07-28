@@ -1,0 +1,444 @@
+% =============================================================
+% Bilgisayar Mimarisi Kitabı - Preamble
+% Oğuz Ergin
+% Şablon C: Modern Teknik (Libertinus + renkli başlıklar)
+% =============================================================
+
+% --- Temel Paketler ---
+\usepackage{fontspec}
+\usepackage[turkish,shorthands=:!]{babel}
+
+% --- Yazı Tipi: Libertinus ---
+\usepackage{libertinus}
+% Monospace: Consolas (Windows) veya DejaVu Sans Mono (Linux/CI)
+\IfFontExistsTF{Consolas}{%
+  \setmonofont{Consolas}[Scale=0.82]%
+}{%
+  \setmonofont{DejaVu Sans Mono}[Scale=0.82]%
+}
+
+% --- Sayfa Düzeni ---
+\usepackage[a4paper, margin=2.5cm, top=3cm, bottom=3cm, headheight=25pt]{geometry}
+\raggedbottom  % Sayfaları aynı yüksekliğe zorlamayı kapat (aşırı dikey boşluk önlenir)
+
+% --- Renkler (font/listing/titlesec tanımlarından önce) ---
+\usepackage{xcolor}
+\usepackage{pifont}  % \ding{51} (checkmark) ve \ding{55} (cross) için
+\definecolor{kuturenk}{RGB}{230, 240, 250}
+\definecolor{baslikrenk}{RGB}{0, 71, 133}
+\definecolor{bolumrenk}{RGB}{0, 71, 133}
+\definecolor{acikgri}{RGB}{245, 245, 245}
+\definecolor{yanilgirenk}{RGB}{180, 40, 40}   % koyu kırmızı
+\definecolor{tuzakrenk}{RGB}{180, 120, 0}      % koyu turuncu
+
+% Yanılgı ve Tuzak başlık komutları
+\newcommand{\yanilgi}[1]{\subsubsection*{{\color{yanilgirenk}\textbf{Yanılgı:}} #1}}
+\newcommand{\tuzak}[1]{\subsubsection*{{\color{tuzakrenk}\textbf{Tuzak:}} #1}}
+
+% TikZ blok şeması renkleri tikz-sekiller-makrolar.tex'te tanımlıdır.
+
+% --- Bölüm Başlık Stili ---
+\usepackage{titlesec}
+
+% Bölüm başlığı: Renkli büyük numara + alt çizgi
+\titleformat{\chapter}[display]
+    {\normalfont\bfseries\color{bolumrenk}}
+    {\flushright\fontsize{72}{72}\selectfont\color{bolumrenk!30}\thechapter}
+    {-20pt}
+    {\huge\flushleft}
+    [\vspace{-5pt}{\color{bolumrenk}\titlerule[2pt]}]
+
+% Section: renkli
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{bolumrenk}}
+    {\thesection}{1em}{}
+
+% Subsection
+\titleformat{\subsection}
+    {\normalfont\large\bfseries\color{bolumrenk!80}}
+    {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1.2ex plus 0.4ex minus 0.2ex}{0.4ex plus 0.1ex}
+
+% --- Matematik ---
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\setmathfont{Libertinus Math}
+
+% Checkmark: Libertinus'ta ✓ glifi yok, platformda bulunan fonttan al
+\IfFontExistsTF{Apple Symbols}{%
+  \newfontfamily\symbolfont{Apple Symbols}%
+}{%
+  \IfFontExistsTF{Segoe UI Symbol}{%
+    \newfontfamily\symbolfont{Segoe UI Symbol}%
+  }{%
+    \newfontfamily\symbolfont{DejaVu Sans}%
+  }%
+}
+\AtBeginDocument{\def\checkmark{{\symbolfont ✓}}}
+
+% Emoji desteği (Segoe UI Emoji veya Noto Color Emoji)
+\IfFontExistsTF{Segoe UI Emoji}{%
+  \newfontface\emojifont{Segoe UI Emoji}%
+}{%
+  \IfFontExistsTF{Noto Color Emoji}{%
+    \newfontface\emojifont{Noto Color Emoji}%
+  }{%
+    \newfontface\emojifont{Segoe UI Symbol}%  % son çare: siyah-beyaz
+  }%
+}
+\newcommand{\emoji}[1]{{\emojifont #1}}
+
+% Kızgın Kuş ikonu (satır içi TikZ — orijinal çizim)
+\newcommand{\kizginkus}{%
+  \begin{tikzpicture}[baseline=-0.5ex, scale=0.12]
+    % Gövde (kırmızı daire)
+    \fill[red!85!black] (0,0) circle (1);
+    % Karın (açık krem)
+    \fill[orange!20!white] (0,-0.35) ellipse (0.55 and 0.4);
+    % Sol göz (beyaz)
+    \fill[white] (-0.3,0.2) ellipse (0.25 and 0.28);
+    % Sağ göz (beyaz)
+    \fill[white] (0.3,0.2) ellipse (0.25 and 0.28);
+    % Sol göz bebeği (siyah, içe bakan)
+    \fill[black] (-0.18,0.18) circle (0.1);
+    % Sağ göz bebeği (siyah, içe bakan)
+    \fill[black] (0.18,0.18) circle (0.1);
+    % Sol kızgın kaş
+    \fill[black] (-0.55,0.55) -- (-0.1,0.4) -- (-0.12,0.48) -- cycle;
+    % Sağ kızgın kaş
+    \fill[black] (0.55,0.55) -- (0.1,0.4) -- (0.12,0.48) -- cycle;
+    % Gaga (sarı üçgen)
+    \fill[yellow!90!orange] (0,-0.05) -- (-0.18,-0.2) -- (0.18,-0.2) -- cycle;
+    % Tepedeki tüyler
+    \fill[red!70!black] (-0.05,0.95) -- (0.05,0.95) -- (0.1,1.35) -- (0,1.25) -- (-0.1,1.35) -- cycle;
+  \end{tikzpicture}%
+}
+
+% --- Tablolar ---
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+% --- Listeler ---
+\usepackage[shortlabels]{enumitem}
+\setlist{itemsep=2pt, parsep=0pt, topsep=4pt}  % Liste maddelerindeki aşırı boşluğu azalt
+
+% --- Şekiller ve Grafikler ---
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\captionsetup{labelfont=bf}                    % "Tablo 1.1:" ve "Şekil 1.1:" kalın
+\captionsetup[table]{textfont=it}              % Tablo açıklama metni yatık
+% Şekil/tablo etrafı boşluk (varsayılan ~20pt, sıkıştırılıyor)
+\setlength{\textfloatsep}{10pt plus 3pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+% Sayfa sonu boşluklarını azalt: float'lara daha fazla alan ver
+\renewcommand{\topfraction}{0.9}        % Sayfanın en fazla %90'ı üstte float olabilir
+\renewcommand{\bottomfraction}{0.9}     % Sayfanın en fazla %90'ı altta float olabilir
+\renewcommand{\textfraction}{0.1}       % Sayfanın en az %10'u metin olmalı (varsayılan %20)
+\renewcommand{\floatpagefraction}{0.75} % Sadece float sayfası için en az %75 dolu olmalı
+\setcounter{topnumber}{3}               % Sayfa başına en fazla 3 üst float
+\setcounter{bottomnumber}{2}            % Sayfa başına en fazla 2 alt float
+\setcounter{totalnumber}{5}             % Sayfa başına toplam en fazla 5 float
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes, arrows, arrows.meta, positioning, calc, decorations.markings,
+    circuits.logic.US, circuits.logic.IEC, fit, patterns, matrix, automata, babel,
+    decorations.pathreplacing, decorations.pathmorphing, shadows, backgrounds}
+\usepackage[section]{placeins}  % Şekillerin bölüm dışına taşmasını engeller
+\usepackage[american]{circuitikz}  % Mantık kapısı devre şemaları
+
+% TikZ global ok stili — tüm tikzpicture'larda >=Stealth varsayılan olur
+\tikzset{>=Stealth}
+\tikzset{okstil/.style={->, >=Stealth, thick}}
+
+% --- TikZ Şekil Makroları ---
+\input{tikz-sekiller-makrolar}
+
+% --- Kod Listeleme ---
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kod}
+\lstloadlanguages{[ANSI]C, C++, Java}  % listings 1.11b uyumsuzluk düzeltmesi: dilleri önceden yükle
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    tabsize=4,
+    captionpos=b,
+    xleftmargin=2em,
+    framexleftmargin=1.5em,
+    backgroundcolor=\color{acikgri},
+    rulecolor=\color{bolumrenk!40},
+    extendedchars=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    texcl=true,
+}
+
+% --- Assembly/MIPS stil tanımı ---
+\lstdefinestyle{mips}{
+    morekeywords={add, sub, addi, lw, sw, beq, bne, slt, j, jal, jr, and, or, sll, srl, lui, ori, mult, div, mfhi, mflo},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black}\ttfamily,
+    stringstyle=\color{red},
+    morecomment=[l]{\#},
+    texcl=true,
+}
+
+% --- Assembly/RISC-V stil tanımı ---
+\lstdefinestyle{riscv}{
+    morekeywords={add, sub, addi, and, or, xor, andi, ori, xori, sll, srl, sra, slli, srli, srai, slt, sltu, slti, sltiu, lw, sw, lb, sb, lh, sh, lbu, lhu, ld, sd, beq, bne, blt, bge, bltu, bgeu, jal, jalr, lui, auipc, ecall, ebreak, mul, mulh, mulhu, mulhsu, div, divu, rem, remu, nop, li, la, mv, not, neg, j, ret, call, tail, fadd.s, fsub.s, fmul.s, fdiv.s, fsqrt.s, fadd.d, fsub.d, fmul.d, fdiv.d, flw, fsw, fld, fsd, feq.s, flt.s, fle.s, fcvt.w.s, fcvt.s.w, csrr, csrw, csrs, csrc, fence, fence.i, wfi, mret, sret, lr.w, sc.w, lr.d, sc.d, amoswap.w, amoadd.w, amoand.w, amoor.w, amoxor.w, amomax.w, amomin.w, amomaxu.w, amominu.w, amoswap.d, amoadd.d, amoand.d, amoor.d, amoxor.d, amomax.d, amomin.d, amomaxu.d, amominu.d, prefetch.r, prefetch.w, prefetch.i, zero, ra, sp, gp, tp, t0, t1, t2, t3, t4, t5, t6, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, a0, a1, a2, a3, a4, a5, a6, a7, fp, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31, f0, f1, f2, f3, f4, f5, f6, f7},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black}\ttfamily,
+    stringstyle=\color{red},
+    morecomment=[l]{\#},
+    texcl=true,
+    sensitive=true,
+}
+
+% --- Verilog stil tanımı ---
+\lstdefinestyle{verilog}{
+    morekeywords={module, endmodule, input, output, inout, wire, reg, parameter, localparam, assign, always, begin, end, if, else, case, endcase, default, posedge, negedge, initial, forever, for, while, integer, genvar, generate, endgenerate, task, endtask, function, endfunction},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    sensitive=true,
+}
+
+% --- CUDA/C stil tanımı ---
+\lstdefinestyle{cuda}{
+    morekeywords={__global__, __device__, __shared__, __host__, __constant__, int, void, if, else, return, for, while, float, double, const, unsigned, struct, typedef, sizeof, static, extern, char, short, long, signed, blockIdx, blockDim, threadIdx, gridDim, warpSize},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+}
+
+% --- Alıştırmalardaki kod blokları için kompakt stil ---
+\lstdefinestyle{alistirma-kod}{
+    numbers=none,
+    xleftmargin=1em,
+    framexleftmargin=0.5em,
+    frame=single,
+    backgroundcolor=\color{acikgri},
+    rulecolor=\color{bolumrenk!40},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    tabsize=4,
+    aboveskip=0.5\baselineskip,
+    belowskip=0.5\baselineskip,
+}
+
+% --- Bağlantılar ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=bolumrenk,
+    citecolor=bolumrenk,
+    urlcolor=bolumrenk!70,
+    bookmarks=true,
+    bookmarksnumbered=true,
+}
+
+% --- Kaynakça ---
+\usepackage{csquotes}
+\DeclareQuoteAlias{american}{turkish}
+\usepackage[style=numeric, sorting=nyt, backend=biber, defernumbers=false]{biblatex}
+\addbibresource{kaynakca.bib}
+
+% --- Dizin ---
+\usepackage{makeidx}
+\makeindex
+
+% --- Özel Ortamlar (Environments) ---
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins}
+
+% Örnek kutusu — numaralı (Bölüm.Sıra biçiminde, ör. Örnek 1.1, Örnek 1.2, ...)
+\newcounter{ornek}[chapter]
+\renewcommand{\theornek}{\thechapter.\arabic{ornek}}
+\newtcolorbox{orneknum}[1]{
+    colback=bolumrenk!5,
+    colframe=bolumrenk,
+    fonttitle=\bfseries,
+    title={#1},
+    breakable,
+    enhanced,
+    left=4mm,
+    right=4mm,
+    arc=1mm,
+}
+\newenvironment{ornek}[1][]{%
+    \refstepcounter{ornek}%
+    \begin{orneknum}{Örnek~\theornek: #1}%
+}{%
+    \end{orneknum}%
+}
+
+% Tanım kutusu
+\newtcolorbox{tanim}[1][]{
+    colback=orange!5!white,
+    colframe=orange!80!black,
+    fonttitle=\bfseries,
+    title={#1},
+    breakable,
+    enhanced,
+    arc=1mm,
+}
+
+% Alıştırma zorluk dereceleri (yıldız glifi Libertinus'ta yok, \symbolfont ile alınır)
+\newcommand{\kolay}{{\normalfont\small\textcolor{green!60!black}{\symbolfont★}}}
+\newcommand{\orta}{{\normalfont\small\textcolor{orange!80!black}{\symbolfont★★}}}
+\newcommand{\zor}{{\normalfont\small\textcolor{red!70!black}{\symbolfont★★★}}}
+
+% Alıştırma ortamı — isteğe bağlı zorluk parametresi: \begin{alistirma}[\kolay]
+\newcounter{alistirma}[chapter]
+\renewcommand{\thealistirma}{\thechapter.\arabic{alistirma}}
+\newenvironment{alistirma}[1][]{%
+    \refstepcounter{alistirma}%
+    \par\medskip\noindent\textbf{Alıştırma \thealistirma}%
+    \def\alistirmazorluk{#1}%
+    \ifx\alistirmazorluk\empty\else\hspace{0.5em}#1\fi\space
+}{%
+    \par\medskip
+}
+
+% Bilgi notu sayacı ve listesi
+\newcounter{bilginotu}[chapter]
+\renewcommand{\thebilginotu}{\thechapter.\arabic{bilginotu}}
+
+\makeatletter
+\newcommand{\listofbilginotlari}{%
+    \chapter*{Bilgi Notları Listesi}%
+    \addcontentsline{toc}{chapter}{Bilgi Notları Listesi}%
+    \@starttoc{lon}%
+}
+\newcommand{\l@bilginotu}{\@dottedtocline{1}{0em}{3em}}
+\makeatother
+
+% Bilgi notu iç kutusu (doğrudan kullanılmaz)
+\newtcolorbox{bilginotuic}[1]{
+    colback=green!5!white,
+    colframe=green!60!black,
+    fonttitle=\bfseries,
+    title={#1},
+    enhanced,
+    breakable,
+    arc=1mm,
+    borderline west={3pt}{0pt}{green!60!black},
+}
+
+% Bilgi notu ortamı (numaralı, listeye eklenir)
+\newenvironment{bilginot}[1][]{%
+    \refstepcounter{bilginotu}%
+    \def\bilginotarg{#1}%
+    \ifx\bilginotarg\empty
+        \addcontentsline{lon}{bilginotu}{\protect\numberline{\thebilginotu}Bilgi Notu}%
+        \begin{bilginotuic}{Bilgi Notu~\thebilginotu}%
+    \else
+        \addcontentsline{lon}{bilginotu}{\protect\numberline{\thebilginotu}#1}%
+        \begin{bilginotuic}{Bilgi Notu~\thebilginotu: #1}%
+    \fi
+}{%
+    \end{bilginotuic}%
+}
+
+% Terim kökeni kutusu
+\definecolor{terimrenk}{RGB}{139, 90, 43}
+\newtcolorbox{terimnotu}[1][Terim Kökenleri]{
+    colback=terimrenk!5!white,
+    colframe=terimrenk!80!black,
+    fonttitle=\bfseries,
+    title={\small\textsf{#1}},
+    breakable,
+    enhanced,
+    arc=1mm,
+    borderline west={3pt}{0pt}{terimrenk!80!black},
+    fontupper=\small,
+    top=2mm, bottom=2mm,
+}
+
+% Karşılaştırma kutusu (diğer mimarilerle karşılaştırma)
+\definecolor{karsirenk}{RGB}{100, 60, 150}
+\newtcolorbox{karsilastirma}[1][Diğer Mimarilerde]{
+    colback=karsirenk!5!white,
+    colframe=karsirenk!70!black,
+    fonttitle=\bfseries,
+    title={\small\textsf{#1}},
+    breakable,
+    enhanced,
+    arc=1mm,
+    borderline west={3pt}{0pt}{karsirenk!70!black},
+    fontupper=\small,
+    top=2mm, bottom=2mm,
+}
+
+% --- Üstbilgi/Altbilgi ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\color{bolumrenk}\leftmark}
+\fancyhead[RO]{\small\color{bolumrenk}\rightmark}
+\fancyfoot[C]{\color{bolumrenk}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{bolumrenk}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Şekil numaralama ---
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\numberwithin{equation}{chapter}
+
+% --- Şekil/Tablo listesinde bölüm başlıkları ---
+\makeatletter
+\let\kitap@origchapter\@chapter
+\def\@chapter[#1]#2{%
+  \kitap@origchapter[#1]{#2}%
+  \addtocontents{lof}{%
+    {\protect\noindent\protect\bfseries\protect\color{bolumrenk}%
+     \@chapapp~\thechapter{} --- #1\protect\par\protect\nopagebreak\protect\smallskip}%
+  }%
+  \addtocontents{lot}{%
+    {\protect\noindent\protect\bfseries\protect\color{bolumrenk}%
+     \@chapapp~\thechapter{} --- #1\protect\par\protect\nopagebreak\protect\smallskip}%
+  }%
+  \addtocontents{lon}{\protect\addvspace{10\p@}}%
+  \addtocontents{lon}{%
+    {\protect\noindent\protect\bfseries\protect\color{bolumrenk}%
+     \@chapapp~\thechapter{} --- #1\protect\par\protect\nopagebreak\protect\smallskip}%
+  }%
+}
+\makeatother
+
+% --- Bölüm açılış fotoğrafı (başlıkla aynı sayfada) ---
+\newcommand{\bolumfoto}[3][]{%
+    \par\vspace{0.6em}%
+    \begin{center}%
+    \begin{minipage}{\textwidth}%
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.38\textheight,keepaspectratio]{#2}\\[6pt]%
+    {\small\color{bolumrenk}\textit{#3}}%
+    \ifx\relax#1\relax\else\\[8pt]%
+    {\small\itshape #1}%
+    \fi
+    \end{minipage}%
+    \end{center}%
+    \par\vspace{0.8em}%
+    \newpage%
+}
+
+% --- Eksik şekil yer tutucusu ---
+\newcommand{\eksikfigur}[2][]{%
+    \begin{figure}[H]
+    \centering
+    \fbox{\parbox{0.7\textwidth}{\centering\vspace{2cm}\textbf{[ŞEKİL GEREKLİ]}\\#2\vspace{2cm}}}
+    \caption{#2}
+    \ifx&#1&\else\label{#1}\fi
+    \end{figure}
+}

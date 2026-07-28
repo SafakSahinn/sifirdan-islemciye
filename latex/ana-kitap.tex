@@ -1,0 +1,76 @@
+% =============================================================
+% Sıfırdan İşlemciye — Sayısal Donanım Tasarımı
+% Şafak Şahin
+% Altyapı: Oğuz Ergin'in "Bilgisayar Mimarisi" (prof-oguzergin/bilgisayar-mimarisi)
+% kitabının preamble/renk-modu/tikz-sekiller-makrolar/surum-ayarlari
+% altyapısından uyarlanmıştır (bkz. _template_ergin/LICENSE).
+% =============================================================
+\documentclass[12pt, a4paper, twoside, openright]{book}
+
+\input{preamble}
+\input{renk-modu}
+\input{surum-ayarlari}
+
+\begin{document}
+
+% --- Ön Sayfalar ---
+\frontmatter
+
+% Kapak sayfası şimdilik yok (sonraki bir adımda eklenecek).
+
+\thispagestyle{empty}
+\begin{center}
+\vspace*{4cm}
+{\Huge\bfseries Sıfırdan İşlemciye\par}
+\vspace{16pt}
+{\Large Sayısal Donanım Tasarımı: Sayı Sistemlerinden Basit Bir CPU Mimarisine\par}
+\vspace{24pt}
+{\large\bfseries Şafak Şahin\par}
+\end{center}
+
+\clearpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\noindent
+{\small
+\textbf{Sıfırdan İşlemciye} --- Sayısal Donanım Tasarımı\\[3pt]
+Şafak Şahin\\[6pt]
+Sürüm \kitapsurum, \the\year\\[6pt]
+Kişisel çalışma notu olarak hazırlanmıştır; yayıncı yoktur.\\[6pt]
+Bu belgenin LaTeX altyapısı (preamble/renk-modu/tikz-sekiller-makrolar/sürüm-ayarları),
+Oğuz Ergin'in \emph{Bilgisayar Mimarisi} kitabından (\url{https://github.com/prof-oguzergin/bilgisayar-mimarisi})
+uyarlanmıştır; bkz. o projenin lisansı. Bu belgedeki özgün metin ve teknik içerik yazarına aittir.\\[6pt]
+\textit{İlk sürüm, Temmuz 2026}
+}
+\vspace{2cm}
+\cleardoublepage
+
+% İçindekiler
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{Şekil Listesi}
+\cleardoublepage
+\listoftables
+\addcontentsline{toc}{chapter}{Tablo Listesi}
+\cleardoublepage
+\listofbilginotlari
+
+% --- Ana İçerik ---
+\mainmatter
+
+\bolumekle{bolum01-sayi-sistemleri/bolum01}{chap:sayi-sistemleri}{1}{Sayı Sistemleri ve Kodlama}
+\bolumekle{bolum02-bool-cebri/bolum02}{chap:bool-cebri}{2}{Bool Cebri ve Mantık Kapıları}
+
+% --- Arka Sayfalar ---
+\backmatter
+
+\chapter*{Terimler Sözlüğü}
+\addcontentsline{toc}{chapter}{Terimler Sözlüğü}
+\input{terimler-sozlugu}
+
+\printbibliography[title={Kaynakça}]
+
+\printindex
+
+\end{document}
