@@ -1,3 +1,6 @@
+# Yerel proje brifi (yalnızca yerelde tutulur, GitHub'a yüklenmez)
+CLAUDE.md
+
 # Telif hakkı korumalı / büyük referans PDF'ler (repoya asla dahil edilmez)
 Michael Ciletti M. Morris Mano - Digital Design Global Edition-PEARSON.pdf
 bilgisayar-mimarisi.pdf
@@ -21,4 +24,3 @@ Acik_Kaynak_VLSI_Araclar__ve_Gelistirme_Ortam__Kurulum_Rehberi.pdf
 *.synctex.gz
 *.fls
 *.fdb_latexmk
-CLAUDE.md
