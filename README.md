@@ -23,6 +23,34 @@ işlenir.
 
 🟩 Tamamlandı &nbsp;&nbsp; 🟨 Devam Ediyor &nbsp;&nbsp; ⬜ Planlandı
 
+## Mevcut Durum
+
+| # | Bölüm | Durum |
+|---|-------|:---:|
+| 1 | Sayı Sistemleri ve Kodlama | ✅ Tamamlandı |
+| 2 | Bool Cebri ve Mantık Kapıları | ✅ Tamamlandı |
+| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | 🟨 Devam ediyor |
+| 4 | Kombinasyonel Mantık Devreleri | ⬜ Planlandı |
+| 5 | Senkron Ardışık Mantık | ⬜ Planlandı |
+| 6 | Yazmaçlar ve Sayaçlar | ⬜ Planlandı |
+| 7 | Bellek ve Programlanabilir Mantık | ⬜ Planlandı |
+| 8 | RTL, ASMD ve Kontrol Mantığı | ⬜ Planlandı |
+| 9 | Basit Bir CPU Mimarisi | ⬜ Planlandı |
+
+<details>
+<summary><b>Bölüm 1 — detaylı ilerleme</b></summary>
+<br>
+
+- [x] Giriş
+- [x] Sayı Tabanları ve Dönüşümler
+- [x] İkili Aritmetik (Toplama, Çıkarma, Çarpma, Bölme)
+- [x] Tümleyenler (Complements)
+- [x] İşaretli İkili Sayılar
+- [x] IEEE 754 ile Kayan Noktalı Sayı Gösterimi
+- [x] BCD ve Diğer İkili Kodlar (Gray, ASCII, Parity)
+
+</details>
+
 <details>
 <summary><b>Bölüm 2 — detaylı ilerleme</b></summary>
 <br>
@@ -39,22 +67,6 @@ işlenir.
 - [ ] Entegre Devreler
 
 </details>
-
-## Mevcut Durum
-
-| # | Bölüm | Durum |
-|---|-------|:---:|
-| 1 | Sayı Sistemleri ve Kodlama | ✅ Tamamlandı |
-| 2 | Bool Cebri ve Mantık Kapıları | ✅ Tamamlandı |
-| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | 🟨 Devam ediyor |
-| 4 | Kombinasyonel Mantık Devreleri | ⬜ Planlandı |
-| 5 | Senkron Ardışık Mantık | ⬜ Planlandı |
-| 6 | Yazmaçlar ve Sayaçlar | ⬜ Planlandı |
-| 7 | Bellek ve Programlanabilir Mantık | ⬜ Planlandı |
-| 8 | RTL, ASMD ve Kontrol Mantığı | ⬜ Planlandı |
-| 9 | Basit Bir CPU Mimarisi | ⬜ Planlandı |
-
-Bölüm 2'nin alt başlık bazında ilerlemesi için yukarıdaki açılır listeye bakabilirsin.
 
 ## Metodoloji
 
