@@ -1,5 +1,7 @@
 # Sıfırdan İşlemciye — Sayısal Donanım Tasarımı
 
+**Yazarlar:** Şafak Şahin - Batuhan Hangün
+
 Bool cebri ve temel mantık kapılarından başlayıp kombinasyonel ve ardışık mantık
 devreleri üzerinden ilerleyen, sonlu durum makinelerine (FSM) ve basit bir CPU
 mimarisine kadar uzanan, Türkçe yazılmış kapsamlı bir dijital donanım tasarımı kitabı.
@@ -37,7 +39,12 @@ işlenir.
 
 - **Bölüm 1 — Sayı Sistemleri ve Kodlama:** tamamlandı (sayı tabanları, ikili
   aritmetik, tümleyenler, işaretli sayılar, IEEE 754, BCD/Gray/ASCII/parity).
-- **Bölüm 2 — Bool Cebri ve Mantık Kapıları:** devam ediyor.
+- **Bölüm 2 — Bool Cebri ve Mantık Kapıları:** devam ediyor. Tamamlanan kısımlar:
+  Giriş (tarihçe, ikili değişkenler, gerilim eşikleri), Cebirsel Yapı Kavramı
+  (postülat kavramı, küme/ikili işlem, cisim örneği), Bool Cebirinin Aksiyomları
+  (Huntington postülatları, sıradan cebirle karşılaştırma, iki-değerli doğrulama),
+  Düalite İlkesi ve Temel Teoremler, De Morgan Teoremi (ispat, doğruluk tablosu,
+  $n$-değişkenli genelleme, tümleyen alma kısayolu). Sırada: Sayısal Mantık Kapıları.
 - Sonraki bölümler henüz başlamadı.
 
 ## Derleme
