@@ -127,6 +127,7 @@
 
 % --- Şekiller ve Grafikler ---
 \usepackage{graphicx}
+\graphicspath{{gorseller/}}
 \usepackage{float}
 \usepackage{subcaption}
 \captionsetup{labelfont=bf}                    % "Tablo 1.1:" ve "Şekil 1.1:" kalın
@@ -362,6 +363,46 @@
     borderline west={3pt}{0pt}{terimrenk!80!black},
     fontupper=\small,
     top=2mm, bottom=2mm,
+}
+
+% Detaylı Bilgi sayacı ve listesi (numaralı, terimrenk/kahverengi kutu)
+\newcounter{detaynotu}[chapter]
+\renewcommand{\thedetaynotu}{\thechapter.\arabic{detaynotu}}
+
+\makeatletter
+\newcommand{\listofdetaybilgiler}{%
+    \chapter*{Detaylı Bilgi Listesi}%
+    \addcontentsline{toc}{chapter}{Detaylı Bilgi Listesi}%
+    \@starttoc{lod}%
+}
+\newcommand{\l@detaynotu}{\@dottedtocline{1}{0em}{3em}}
+\makeatother
+
+% Detaylı bilgi iç kutusu (doğrudan kullanılmaz)
+\newtcolorbox{detaybilgiic}[1]{
+    colback=terimrenk!5!white,
+    colframe=terimrenk!80!black,
+    fonttitle=\bfseries,
+    title={#1},
+    enhanced,
+    breakable,
+    arc=1mm,
+    borderline west={3pt}{0pt}{terimrenk!80!black},
+}
+
+% Detaylı bilgi ortamı (numaralı, listeye eklenir)
+\newenvironment{detaybilgi}[1][]{%
+    \refstepcounter{detaynotu}%
+    \def\detaybilgiarg{#1}%
+    \ifx\detaybilgiarg\empty
+        \addcontentsline{lod}{detaynotu}{\protect\numberline{\thedetaynotu}Detaylı Bilgi}%
+        \begin{detaybilgiic}{Detaylı Bilgi~\thedetaynotu}%
+    \else
+        \addcontentsline{lod}{detaynotu}{\protect\numberline{\thedetaynotu}#1}%
+        \begin{detaybilgiic}{Detaylı Bilgi~\thedetaynotu: #1}%
+    \fi
+}{%
+    \end{detaybilgiic}%
 }
 
 % Karşılaştırma kutusu (diğer mimarilerle karşılaştırma)

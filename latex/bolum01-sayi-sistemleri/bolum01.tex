@@ -70,7 +70,7 @@ kararıdır. Bir devrede onluk sistem için gereken $10$ farklı gerilim seviyes
 biçimde ayırt etmek pahalı ve gürültüye karşı kırılgan olurdu. Seviyeler arası fark küçük
 kalır, en ufak bir parazit yanlış okumaya yol açar. Yalnızca \emph{iki} durumu (akım var/yok,
 yüksek/düşük gerilim) ayırt etmek çok daha güvenilir ve ucuzdur; seviyeler arasında büyük bir
-güvenlik payı (gürültü marjı) bırakılabilir. İkili değişkenler üzerine kurulu Bool cebrini
+güvenlik payı (gürültü marjı) bırakılabilir. İkili değişkenler üzerine kurulu Bool cebirini
 Bölüm~\ref{chap:bool-cebri}'de işleyeceğiz.
 \end{bilginot}
 
@@ -189,8 +189,6 @@ gösterim kuralıdır.
 
 \begin{table}[h]
 \centering
-\caption{Ondalık--Onaltılık--İkili Karşılık Tablosu}
-\label{tab:hex-tablosu}
 \begin{tabular}{ccc}
 \toprule
 Ondalık & Onaltılık & 4-bit İkili \\
@@ -204,6 +202,8 @@ Ondalık & Onaltılık & 4-bit İkili \\
 15 & F & 1111 \\
 \bottomrule
 \end{tabular}
+\caption{Ondalık--Onaltılık--İkili Karşılık Tablosu}
+\label{tab:hex-tablosu}
 \end{table}
 
 Bu tablo (Tablo~\ref{tab:hex-tablosu}), donanım tasarımında sürekli kullanılacağı için
@@ -1208,8 +1208,6 @@ Kısayolu kullanarak $(10101)_2$'nin ($5$-bit $2$'nin tümleyeni) değerini bulu
 
 \begin{table}[h]
 \centering
-\caption{4-Bit İşaretli Sayılar: Üç Gösterimin Karşılaştırması}
-\label{tab:isaretli-4bit}
 \begin{tabular}{cccc}
 \toprule
 Ondalık & 2'nin Tümleyeni & 1'in Tümleyeni & İşaret-Büyüklük \\
@@ -1233,6 +1231,8 @@ $-7$ & 1001 & 1000 & 1111 \\
 $-8$ & 1000 & --- & --- \\
 \bottomrule
 \end{tabular}
+\caption{4-Bit İşaretli Sayılar: Üç Gösterimin Karşılaştırması}
+\label{tab:isaretli-4bit}
 \end{table}
 
 Tablo~\ref{tab:isaretli-4bit}'ten iki gözlem çıkar:
@@ -1475,8 +1475,6 @@ her iki uca da uzanabilir.
 
 \begin{table}[h]
 \centering
-\caption{IEEE 754 Tek ve Çift Duyarlıklı Formatlar}
-\label{tab:ieee754-format}
 \begin{tabular}{lccc}
 \toprule
 Format & İşaret & Üs & Mantissa \\
@@ -1485,6 +1483,8 @@ Tek duyarlık (32 bit) & 1 bit & 8 bit (bias $=127$) & 23 bit \\
 Çift duyarlık (64 bit) & 1 bit & 11 bit (bias $=1023$) & 52 bit \\
 \bottomrule
 \end{tabular}
+\caption{IEEE 754 Tek ve Çift Duyarlıklı Formatlar}
+\label{tab:ieee754-format}
 \end{table}
 
 \begin{bilginot}[Neden İşaretli Değil, Biaslı Üs?]

@@ -1,7 +1,7 @@
 % =============================================================
-% Bölüm 2: Bool Cebri ve Mantık Kapıları
+% Bölüm 2: Bool Cebiri ve Mantık Kapıları
 % =============================================================
-\chapter{Bool Cebri ve Mantık Kapıları}
+\chapter{Bool Cebiri ve Mantık Kapıları}
 \label{chap:bool-cebri}
 
 \begin{tcolorbox}[
@@ -15,7 +15,7 @@
 Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
 \begin{itemize}[nosep, leftmargin=*]
     \item İkili değişken ve mantık fonksiyonu kavramlarını tanımlamak.
-    \item Bool cebrinin Huntington aksiyomlarını ve temel teoremlerini uygulamak.
+    \item Bool cebirinin Huntington aksiyomlarını ve temel teoremlerini uygulamak.
     \item De Morgan teoremiyle Bool ifadelerini sadeleştirmek.
     \item Yedi temel mantık kapısının (AND, OR, NOT, NAND, NOR, XOR, XNOR) doğruluk
     tablolarını ve Bool ifadelerini yazmak.
@@ -31,23 +31,204 @@ temsil eder: bir sayı, bir karakter, bir renk kodu. Ama bir işlemci sadece ver
 toplama yapar, karşılaştırır, dallanma kararı verir. Yani veriyi \emph{işleyen} bir mekanizmaya
 ihtiyacımız var; bu mekanizma da yine $0$ ve $1$'lerle, ama bu kez statik değil, girişe bağlı
 olarak çıkış üreten devrelerle kurulur. İşte bu devrelerin arkasındaki matematik, konumuz olan
-\emph{Bool cebri}\index{Bool cebri}dir.
+\emph{Bool cebiri}\index{Bool cebiri}dir.
 
-Sayısal donanım tasarımının bu ikinci temel taşı, 1854'te George Boole'un önerdiği ve 1938'de
-Claude Shannon'ın anahtarlama devrelerine uyguladığı Bool cebri üzerine kuruludur. Bu bölümde
-ikili mantığın aksiyomlarını, temel teoremlerini ve bunların fiziksel karşılığı olan mantık
-kapılarını inceleyeceğiz. Buradaki her kavram, önce Logisim'de simüle edilecek, sonra Verilog
-ile üç modelleme biçiminde yazılacak ve son olarak Icarus/Yosys akışıyla sentezlenecektir.
+\subsection{Bool Cebirinin Kısa Tarihçesi}
+\label{sec:bool-tarihce}
 
-\section{İkili Değişkenler ve Mantık Fonksiyonları}
+Bool cebirinin hikayesi, matematiğin soyut bir kolunun onlarca yıl sonra mühendisliğin temel
+taşı hâline gelişinin klasik bir örneğidir.
+
+1815-1864 yılları arasında yaşayan, büyük ölçüde kendi kendini yetiştirmiş İngiliz matematikçi
+George Boole, 1854'te yayımladığı \emph{An Investigation of the Laws of Thought} adlı eserinde,
+mantıksal önermeleri $0$ ve $1$ değerleriyle simgeleyen, toplama ve çarpmaya benzeyen
+işlemlerle işleyen cebirsel bir sistem kurdu. Bugün kullandığımız ``Bool cebiri''
+(Boolean algebra) adı doğrudan onun soyadından gelir. Bu adlandırma kendisinden sonraki
+matematikçiler tarafından, onun onuruna yapılmıştır. Ne var ki Boole'un çalıştığı dönemde bu
+cebiri fiziksel bir devre üzerinde gerçekleyecek herhangi bir teknoloji yoktu; bu çalışma,
+seksen yıl boyunca saf matematiğin/mantık felsefesinin bir parçası olarak kaldı.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{george_boole.jpg}
+\caption{Boole'un portresi, \textit{The Illustrated London News}, 21 Ocak 1865.}
+\label{fig:george-boole}
+\end{figure}
+
+Bu boşluğu, 1937'de MIT'de yüksek lisans öğrencisi olan Claude Shannon doldurdu.
+\emph{A Symbolic Analysis of Relay and Switching Circuits} başlıklı tezinde (1938'de
+yayımlandı), Boole'un $0/1$ cebirinin, elektromekanik röle ve anahtarlama devrelerini
+tasarlamak ve analiz etmek için birebir kullanılabileceğini gösterdi. Bu çalışma sık sık
+``20. yüzyılın en önemli yüksek lisans tezi'' olarak anılır ve sayısal devre tasarımının
+(switching theory) kurucu belgesi kabul edilir. Boole'un soyut matematiğini ilk kez somut
+bir mühendislik aracına dönüştürdü.
+
+Shannon'ın bilim tarihindeki ikinci büyük katkısı, bundan on yıl kadar sonra, 1948'de
+yayımladığı \emph{A Mathematical Theory of Communication} makalesiyle geldi; bu çalışmayla
+\textbf{bilgi teorisinin (information theory) kurucusu} kabul edilir. Bilginin nasıl
+ölçülebileceğini ve gürültülü bir kanaldan ne kadar güvenilir şekilde iletilebileceğini
+matematiksel olarak formülleştiren bu alan, bugünkü tüm sayısal iletişim (internet, cep
+telefonu, veri sıkıştırma) sistemlerinin teorik temelini oluşturur. Böylece Shannon, hem
+sayısal devre tasarımının hem de bilgi teorisinin kurucusu olarak, sayısal çağın
+mimarlarından biri kabul edilir.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{claude_shannon.jpg}
+\caption{Claude Shannon, y. 1950'ler (Tekniska Museet).}
+\label{fig:claude-shannon}
+\end{figure}
+
+Bu bölümde, Boole'un kurduğu ikili mantığın aksiyomlarını ve temel teoremlerini, Shannon'ın
+gösterdiği fiziksel karşılığı yani mantık kapılarını inceleyeceğiz. Buradaki her kavram,
+Logisim'de simüle edilerek pekiştirilecektir.
+
+\subsection{İkili Değişkenler ve Mantık Fonksiyonları}
 \label{sec:ikili-degiskenler}
 
 \begin{tanim}{İkili Değişken:}
 Yalnızca iki değer alabilen bir değişkene \emph{ikili değişken}\index{ikili değişken} denir.
-Bu değerler genellikle $\{0, 1\}$, $\{\text{DOĞRU}, \text{YANLIŞ}\}$ ya da
-$\{\text{YÜKSEK}, \text{DÜŞÜK}\}$ gerilim seviyeleri olarak yorumlanır. Sayısal devre
+Bu değerler genellikle $\{0, 1\}$, $\{\text{DOĞRU (T)}, \text{YANLIŞ (F)}\}$ ya da
+$\{\text{YÜKSEK (H)}, \text{DÜŞÜK (L)}\}$ gerilim seviyeleri olarak yorumlanır. Sayısal devre
 tasarımında $0$ ve $1$ gösterimi kullanılır.
 \end{tanim}
+
+\begin{bilginot}[Bir Devre $0$ ve $1$'i Fiziksel Olarak Nasıl Ayırt Eder?]
+Bir sayısal devre, girişine gelen gerilimi bir \emph{sayı} olarak okumaz. Gerilimin iki
+bölgeden hangisine düştüğüne bakar. Devredeki her kapı, girişindeki gerilimi bir
+\textbf{eşik değeriyle} (threshold) karşılaştıran bir tür karşılaştırıcı gibi davranır:
+gerilim belirli bir üst eşiğin üzerindeyse bu giriş $1$ olarak, belirli bir alt eşiğin
+altındaysa $0$ olarak okunur. Bu ikisinin arasında kalan, ne yeterince yüksek ne yeterince
+düşük, bir gerilim ise \textbf{tanımsız/yasak bölgededir}; devrenin normal çalışması
+sırasında burada hiç bulunulmaması beklenir, buraya yalnızca bir durumdan diğerine geçerken,
+çok kısa bir süreliğine uğranır. Bu eşiklerin standart mühendislik gösterimi ve tam
+anlamları aşağıdaki tablolarda açıklanmıştır.
+\end{bilginot}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Simge & Açılımı & Anlamı \\
+\midrule
+$V_{IL}$ & Voltage, \textbf{I}nput, \textbf{L}ow & Bir GİRİŞİN hâlâ Lojik $0$ sayılacağı en yüksek gerilim \\
+$V_{IH}$ & Voltage, \textbf{I}nput, \textbf{H}igh & Bir GİRİŞİN Lojik $1$ sayılacağı en düşük gerilim \\
+$V_{OL}$ & Voltage, \textbf{O}utput, \textbf{L}ow & Bir ÇIKIŞIN Lojik $0$ için üreteceği garanti gerilim \\
+$V_{OH}$ & Voltage, \textbf{O}utput, \textbf{H}igh & Bir ÇIKIŞIN Lojik $1$ için üreteceği garanti gerilim \\
+\bottomrule
+\end{tabular}
+\caption{Gerilim eşiği simgelerinin açılımı: alt simgenin ilk harfi Giriş ($I$) ya da Çıkış
+($O$) tarafını, ikinci harfi Yüksek ($H$) ya da Düşük ($L$) seviyeyi belirtir. Bu dört simge
+İngilizce ``Input/Output'' ve ``High/Low'' kelimelerinin baş harflerinden gelir.}
+\label{tab:gerilim-esikleri}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Lojik Seviye & Gerilim Aralığı & Anlamı \\
+\midrule
+Lojik $1$ & $V_{IH}$ -- $5\,\text{V}$ & Devre bunu kesin $1$ olarak okur \\
+Belirsiz / Yasak & $V_{IL}$ -- $V_{IH}$ & Geçerli bir çalışma durumu değildir \\
+Lojik $0$ & $0\,\text{V}$ -- $V_{IL}$ & Devre bunu kesin $0$ olarak okur \\
+\bottomrule
+\end{tabular}
+\caption{Örnek gerilim eşikleri (5\,V'luk bir sistem örneği).}
+\label{tab:gerilim-araliklari}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=3cm,y=0.9cm]
+    \draw[thick,->] (0,-0.1) -- (0,5.4) node[above] {Gerilim};
+    \fill[blokmavi] (0,0) rectangle (1,1);
+    \fill[blokgri] (0,1) rectangle (1,2);
+    \fill[blokkirmizi] (0,2) rectangle (1,3);
+    \fill[blokgri] (0,3) rectangle (1,4);
+    \fill[blokyesil] (0,4) rectangle (1,5);
+    \draw (0,0) rectangle (1,5);
+    \draw[dashed] (0,1) -- (1,1);
+    \draw[dashed] (0,2) -- (1,2);
+    \draw[dashed] (0,3) -- (1,3);
+    \draw[dashed] (0,4) -- (1,4);
+    \node[left] at (0,0) {\small $0\,\text{V}$};
+    \node[left] at (0,1) {\small $V_{OL}$};
+    \node[left] at (0,2) {\small $V_{IL}$};
+    \node[left] at (0,3) {\small $V_{IH}$};
+    \node[left] at (0,4) {\small $V_{OH}$};
+    \node[left] at (0,5) {\small $5\,\text{V}$};
+    \node[right] at (1,0.5) {\small Lojik $0$ (çıkış garantili)};
+    \node[right] at (1,1.5) {\small Gürültü payı (alt)};
+    \node[right] at (1,2.5) {\small\textbf{Yasak / Belirsiz Bölge}};
+    \node[right] at (1,3.5) {\small Gürültü payı (üst)};
+    \node[right] at (1,4.5) {\small Lojik $1$ (çıkış garantili)};
+\end{tikzpicture}
+\caption{Beş bölgeli sinyal seviyesi diyagramı (şematik, ölçekli değildir).}
+\label{fig:sinyal-seviyeleri}
+\end{figure}
+
+Gerçekte gürültü payı bantları çok daha incedir; burada okunaklı olması için abartılı
+çizilmiştir. Yaklaşık 5\,V TTL (Transistör-Transistör Lojik, klasik bir dijital devre
+ailesi) değerleri: $V_{OL}=0.4$, $V_{IL}=0.8$, $V_{IH}=2.0$, $V_{OH}=2.4$. Bir kapının
+çıkışı yalnızca en dıştaki iki bölgede ($0$--$V_{OL}$ ya da $V_{OH}$--$5\,\text{V}$) durur;
+bir sonraki kapının girişi ise daha geniş bir aralığı ($0$--$V_{IL}$ ya da
+$V_{IH}$--$5\,\text{V}$) kabul eder. Aradaki iki ince şerit gürültü payıdır.
+
+\begin{detaybilgi}[Yasak Bölge Gerçekten Ne Anlama Gelir?]
+Yasak bölgenin asıl tehlikesi cihaza zarar vermesi değil, sinyalin anlamının
+belirsizleşmesidir: gerilim bu aralıkta kalırsa devre onu güvenilir şekilde $0$ ya da $1$
+olarak sınıflandıramaz, sonuç üreticiye, sıcaklığa, hatta zamana göre değişebilir ve bu
+doğrudan bir mantık hatasına yol açar. Buna ek olarak gerçek bir fiziksel risk de vardır:
+özellikle CMOS teknolojisinde, giriş gerilimi bu ara bölgede kalırsa kapının içindeki hem
+$p$-tipi hem $n$-tipi transistörler aynı anda kısmen iletken hâle gelir ve besleme
+geriliminden toprağa doğrudan bir ``şönt akımı'' akar. Hızlı ve kısa geçişlerde (normal
+anahtarlamada) bu kaçınılmazdır ve zararsızdır. Ama bir sinyal bu bölgede beklenenden uzun
+süre kalırsa (ör. çok yavaş yükselen/düşen bir kenar), bu şönt akımı gereksiz güç tüketimine
+ve ısınmaya yol açabilir. Özetle: tanımlayıcı/asıl sebep mantıksal belirsizlik, ısınma riski
+ise ikincil bir sonuçtur.
+\end{detaybilgi}
+
+\begin{detaybilgi}[Gürültü Payı (Noise Margin)]
+Bölüm~\ref{chap:sayi-sistemleri}'de, iki seviyeli gösterimin ``seviyeler arasında büyük bir
+güvenlik payı bırakılabildiği'' için güvenilir olduğunu söylemiştik; şimdi bunu
+netleştirebiliriz. Bir teli, birbirine bağlı iki kapı olarak düşünelim: \textbf{gönderen}
+kapı (çıkışı) ve \textbf{alan} kapı (girişi). Gönderen kapı hiçbir zaman keyfi bir gerilim
+üretmez: Lojik $1$ göndermek istediğinde çıkışını en az $V_{OH}$'a, Lojik $0$ göndermek
+istediğinde en fazla $V_{OL}$'a çeker. Bunlar üreticinin \emph{garanti ettiği}
+değerleridir: $1$ veya $0$'ın kendisi değil, o değeri temsil eden gerilim sınırlarıdır. Alan
+kapının girişi ise daha \textbf{gevşek} davranır: $V_{OH}$ kadar yüksek beklemez, $V_{IH}$
+kadarını da Lojik $1$ olarak kabul eder ($V_{IH}\le V_{OH}$); benzer şekilde $V_{OL}$ kadar
+düşük beklemez, $V_{IL}$ kadarını da Lojik $0$ olarak kabul eder ($V_{IL}\ge V_{OL}$).
+Aradaki fark, $V_{OH}-V_{IH}$ ve $V_{IL}-V_{OL}$, işte \emph{gürültü payı}dır: hat üzerinde
+oluşan küçük bir parazit ya da gerilim düşümü, bu payı aşmadığı sürece sinyal hâlâ doğru
+okunur.
+\end{detaybilgi}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=0.8cm]
+    \draw (0,0) rectangle (1.4,5);
+    \fill[blokyesil] (0,4) rectangle (1.4,5);
+    \draw[dashed] (0,4) -- (1.4,4);
+    \node[left] at (-0.1,4) {\small $V_{OH}$};
+    \node at (0.7,-0.5) {\small Gönderen (çıkış)};
+    \draw (3.4,0) rectangle (4.8,5);
+    \fill[blokyesil!45] (3.4,3.1) rectangle (4.8,5);
+    \draw[dashed] (3.4,3.1) -- (4.8,3.1);
+    \node[right] at (4.9,3.1) {\small $V_{IH}$};
+    \node at (4.1,-0.5) {\small Alan (giriş)};
+    \draw[->] (1.4,4.5) -- (3.4,4.5) node[midway,above] {\small sinyal};
+    \draw[<->] (2.4,3.1) -- (2.4,4);
+    \node[right, align=center] at (2.5,3.55) {\scriptsize Gürültü\\Payı};
+\end{tikzpicture}
+\caption{Gönderen ve alan kapı arasındaki gürültü payı.}
+\label{fig:gurultu-payi-gorsel}
+\end{figure}
+
+Gönderen kapının garanti ettiği $V_{OH}$ ile alan kapının kabul ettiği $V_{IH}$ arasındaki
+boşluk gürültü payıdır: sinyal bu aralık kadar zayıflasa/parazit alsa bile alan kapı hâlâ
+Lojik $1$ olarak okur.
 
 \begin{tanim}{Mantık Fonksiyonu:}
 $n$ adet ikili değişken $x_1, x_2, \ldots, x_n$ alan ve tek bir ikili çıktı üreten
@@ -60,52 +241,304 @@ bölümlerde aynı fonksiyonu bu üç biçimde de üretip birbiriyle karşılaş
 \begin{bilginot}[Neden Üç Eşdeğer Gösterim?]
 Doğruluk tablosu bir fonksiyonun \emph{davranışını} kesin biçimde tanımlar ama büyüdükçe
 ($2^n$ satır) okunması zorlaşır. Bool ifadesi kısa ve cebirsel işlemlere (sadeleştirme,
-De Morgan) uygundur. Devre şeması ise fiziksel gerçeklemeye en yakın gösterimdir. HDL
-tasarımında yazdığımız Verilog kodu da sonunda bu üçüncü forma, yani bir kapı ağına
-(netlist) sentezlenir.
+De Morgan) uygundur. Devre şeması ise fiziksel gerçeklemeye en yakın gösterimdir; ilerleyen
+bölümlerde bu üç gösterimi aynı fonksiyon üzerinde üretip Logisim'de simüle edeceğiz.
 \end{bilginot}
 
-\section{Bool Cebrinin Aksiyomları}
+\section{Cebirsel Yapı Kavramı}
+\label{sec:cebirsel-yapi}
+
+Bir sonraki bölümde Bool cebirinin kendi kurallarını (Huntington postülatları) göreceğiz.
+Ama bu kurallara "neden bunlar" diye sormadan geçmemek için, önce bir adım geriye gidip daha
+genel bir soru soralım: bir \emph{cebirsel yapı} tam olarak nedir, ve bir matematiksel sistemi
+tanımlarken neden ispatsız kabul edilen \emph{postülatlara} ihtiyaç duyarız?
+
+\subsection{Postülat Nedir?}
+\label{sec:postulat-nedir}
+
+\begin{tanim}{Postülat (Aksiyom):}
+Tümdengelimli (deductive) bir matematiksel sistemde, ispat gerektirmeden doğru kabul edilen
+ve sistemin tüm diğer önermelerinin (teoremlerinin) kendisinden mantıksal çıkarımla
+türetildiği temel önermeye \emph{postülat}\index{postülat} ya da \emph{aksiyom}\index{aksiyom}
+denir.
+\end{tanim}
+
+\begin{bilginot}[Kelimenin Kökeni: Kabul mü, İspat mı?]
+``Postülat'' kelimesi Fransızca \textit{postulat} üzerinden Türkçeye geçmiştir; onun da
+kökeninde Latince \textit{postulare} fiili vardır: ``\textbf{istemek, talep etmek}.''
+Kelimenin özünde ``ispatlanmış'' değil, ``doğru kabul edilmesi \textbf{istenen}'' bir önerme
+fikri yatar. Bir postülat, bir sistemin kurucusunun ``bunu tartışmasız veri olarak kabul
+edelim'' diye \emph{talep ettiği} bir başlangıç noktasıdır. ``Aksiyom'' kelimesi de yakın bir
+akrabadır: Yunanca \textit{axioma} (``değerli/layık görülen şey''), kökü \textit{axioun}
+(``değerli görmek''). Yani bir aksiyom, ``kendiliğinden o kadar açık ki ispat gerektirmeyecek
+kadar değerli görülen'' bir önermedir. Eski Yunan'da (Euclid) bu ikisi ayrı tutulurdu: tüm
+bilimler için geçerli ``ortak kavramlar'' (ör. ``eşitlere eşit eklenirse sonuç eşit olur'')
+ile yalnızca geometriye özgü ``postülatlar'' (ör. ``iki nokta arasından bir doğru
+çizilebilir''). Günümüzde bu ayrım büyük ölçüde kalkmış, iki terim neredeyse eşanlamlı
+kullanılıyor. Ama postülatın kökeninde hâlâ o ``kabul edilmesi talep edilen'' vurgu durur.
+\end{bilginot}
+
+\begin{bilginot}[Neden İspatsız Kabul Ederiz?]
+Bunun adı \emph{sonsuz gerileme} (infinite regress) sorunudur: her önermeyi bir öncekinden
+ispatlamaya kalkarsak, ispat zinciri hiç bitmez. Bir yerde durup ``bunu veri kabul ediyorum''
+demek zorundayız. Euclid geometrisinde ``nokta'' ve ``doğru'' kavramları bile tanımsız temel
+terimlerdir; onları başka bir şeyden tanımlamaya çalışırsanız yine sonsuz gerilemeye
+düşersiniz. Aynı mantık, doğal sayıları tanımlayan Peano aksiyomlarında ve ileride
+göreceğimiz Huntington'ın Bool cebiri postülatlarında da geçerlidir. Günlük hayattan bir
+benzetme: bir anayasanın temel maddeleri de başka bir kanundan ``ispatlanmaz'', toplumsal bir
+uzlaşmayla \emph{kabul edilir}. Diğer tüm kanunlar bu maddelerden türetilir. Ya da bir
+oyunun kuralları: ``futbolda topa elle dokunulmaz'' kanıtlanamaz, oyunun tanımının kendisidir.
+Huntington da 1904'te Bool cebirini tanımlarken tam olarak bunu yaptı: aşağıda göreceğimiz 6
+postülatı \emph{seçti}, ispatlamadı. Bool cebirinin tüm teoremleri bu 6 kuraldan
+türetilecektir.
+\end{bilginot}
+
+\subsection{Küme ve İkili İşlem}
+\label{sec:kume-ikili-islem}
+
+\begin{tanim}{Küme:}
+Ortak bir özelliği olan nesneler topluluğuna \emph{küme}\index{küme} denir. $x$ nesnesi $S$
+kümesinin bir üyesiyse $x\in S$, değilse $x\notin S$ yazılır. Sonlu sayıda elemanı olan bir
+küme süslü parantezle gösterilir: $A=\{1,2,3,4\}$.
+\end{tanim}
+
+\begin{tanim}{İkili İşlem:}
+Bir $S$ kümesi üzerinde tanımlı \emph{ikili işlem}\index{ikili işlem} (binary operator),
+$S$'nin her eleman çiftine yine $S$'den tek bir eleman atayan kuraldır. Örneğin $a*b=c$
+ilişkisinde, eğer $a,b\in S$ olduğunda her zaman $c\in S$ oluyorsa, $*$ işlemi $S$ üzerinde
+bir ikili işlemdir.
+\end{tanim}
+
+\begin{ornek}[Kapalı Olmayan Bir İşlem]
+Doğal sayılar kümesi $N=\{1,2,3,\ldots\}$, toplama işlemi altında kapalıdır: her
+$a,b\in N$ için $a+b\in N$'dir. Ama aynı küme, çıkarma işlemi altında kapalı
+\textbf{değildir}: $2,3\in N$ olduğu hâlde $2-3=-1\notin N$'dir. Bu yüzden çıkarma, $N$
+üzerinde bir ikili işlem değildir.
+\end{ornek}
+
+\subsection{Cebirsel Yapı İçin Altı Genel Postülat}
+\label{sec:genel-postulatlar}
+
+Bir küme, üzerinde tanımlı ikili işlem(ler) ve bu işlemlerin uyduğu postülatlarla birlikte
+bir \emph{cebirsel yapı}\index{cebirsel yapı} oluşturur. Çeşitli cebirsel yapıları
+tanımlamakta en sık kullanılan altı postülat şunlardır:
+
+\begin{tanim}{Genel Postülatlar:}
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Kapalılık (Closure):} $S$ üzerindeki her eleman çifti için işlem, yine
+    $S$'den bir eleman üretir.
+    \item \textbf{Birleşme (Associative):} her $x,y,z\in S$ için $(x*y)*z=x*(y*z)$.
+    \item \textbf{Değişme (Commutative):} her $x,y\in S$ için $x*y=y*x$.
+    \item \textbf{Birim Eleman (Identity):} öyle bir $e\in S$ vardır ki her $x\in S$ için
+    $e*x=x*e=x$.
+    \item \textbf{Ters Eleman (Inverse):} birim elemanı $e$ olan bir yapıda, her $x\in S$
+    için öyle bir $y\in S$ vardır ki $x*y=e$.
+    \item \textbf{Dağılma (Distributive):} $S$ üzerinde $*$ ve $\#$ iki ayrı işlemse, $*$'ın
+    $\#$ üzerine dağılması şu demektir: $x*(y\#z)=(x*y)\#(x*z)$.
+\end{itemize}
+\end{tanim}
+
+\begin{ornek}[Somut Bir Cebirsel Yapı: Cisim (Field)]
+Gerçek sayılar kümesi, $+$ ve $\times$ işlemleriyle birlikte bir \emph{cisim}\index{cisim}
+(field) oluşturur; bu, sıradan aritmetiğin ve cebirin temelidir. Altı genel postülat burada
+şöyle karşılık bulur:
+\begin{itemize}[nosep, leftmargin=*]
+    \item Toplamsal birim eleman: $0$ (çünkü $x+0=x$).
+    \item Çarpımsal birim eleman: $1$ (çünkü $x\times 1=x$).
+    \item Toplamsal ters eleman \textbf{çıkarmayı} tanımlar: $a$'nın tersi $-a$'dır, çünkü
+    $a+(-a)=0$.
+    \item Çarpımsal ters eleman \textbf{bölmeyi} tanımlar: $a\neq 0$ için $a$'nın tersi
+    $1/a$'dır, çünkü $a\times(1/a)=1$.
+    \item Geçerli tek dağılma kuralı, $\times$'in $+$ üzerine dağılmasıdır:
+    $a\times(b+c)=(a\times b)+(a\times c)$. Tersi, yani $+$'nin $\times$ üzerine dağılması,
+    sıradan cebirde \textbf{geçerli değildir}.
+\end{itemize}
+\end{ornek}
+
+\begin{bilginot}[Bool Cebiri Nereye Oturuyor?]
+Bool cebiri de tam olarak bu çerçeveye uyan bir cebirsel yapıdır: bir küme ($B=\{0,1\}$),
+iki ikili işlem ($+$ ve $\cdot$) ve bu işlemlerin uyduğu postülatlar. Ama bir sonraki
+bölümde göreceğimiz gibi, Huntington'ın seçtiği postülatlar yukarıdaki altı genel
+postülatın \textbf{hepsini içermez}: \textbf{ters eleman postülatı yoktur}. Dolayısıyla
+Bool cebirinde çıkarma ve bölme işlemleri de yoktur. Buna karşılık cisimde bulunmayan bir
+postülat, \emph{tümleme} (complement), Bool cebirine özgü olarak eklenir. Bu, Bool cebirinin
+neden sıradan cebirden temelden farklı davrandığının ilk ipucudur.
+\end{bilginot}
+
+\section{Bool Cebirinin Aksiyomları}
 \label{sec:huntington}
 
-Bool cebri, Öklid geometrisi gibi \emph{aksiyomatik} bir sistemdir: az sayıda temel varsayımdan
-(aksiyom) yola çıkılır ve cebrin tüm teoremleri bu varsayımlardan mantıksal çıkarımla türetilir.
-George Boole'un 1854'teki özgün formülasyonu, matematikçi E.~V.~Huntington tarafından 1904'te
-altı \emph{postülata} indirgendi. Bu postülatlar, ikisi toplama ($+$) ikisi çarpma ($\cdot$)
-için olmak üzere dört çiftten oluşur; bu eşleşme, ilerleyen kısımda göreceğimiz
-\emph{düalite ilkesi}nin kaynağıdır.
+Bool cebiri, Öklid geometrisi gibi \emph{aksiyomatik} bir sistemdir: az sayıda temel varsayımdan
+(aksiyom) yola çıkılır ve cebirin tüm teoremleri bu varsayımlardan mantıksal çıkarımla türetilir.
+Boole'un 1854'teki özgün formülasyonunu ve Shannon'ın bunu anahtarlama devrelerine
+uyarlamasını Bölüm~\ref{sec:bool-tarihce}'de görmüştük. Burada kullanacağımız kesin/formal
+tanım ise matematikçi Edward V. Huntington'ın 1904'te önerdiği altı postülata dayanır.
+
+Huntington (1874--1952), Harvard'da matematik profesörü olarak çalışmış bir Amerikalı
+matematikçiydi; cebirsel yapıların aksiyomatik temellerine katkılarıyla tanınır. 1904'te
+Boole'un cebrini altı postülata indirgeyerek bugün kullandığımız formu ortaya koydu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{edward_huntington.jpg}
+\caption{Edward V. Huntington (1874--1952).}
+\label{fig:huntington}
+\end{figure}
+
+Bu postülatlar altı tanedir: beşi toplama ($+$) ve çarpma ($\cdot$) için ayrı ayrı ifade
+edilen çiftler hâlinde, biri (altıncısı) ise düali olmayan tekil bir kuraldır. Bu çiftlenme,
+ilerleyen kısımda göreceğimiz \emph{düalite ilkesi}nin kaynağıdır.
 
 \begin{tanim}{Huntington Postülatları:}
 $B=\{0,1\}$ kümesi, $+$ (OR) ve $\cdot$ (AND) ikili işlemleri ile $'$ (NOT) tekli işlemi
-altında, her $x,y,z \in B$ için aşağıdaki altı özdeşliği sağlıyorsa \emph{Bool cebri} adını
+altında, her $x,y,z \in B$ için aşağıdaki altı özdeşliği sağlıyorsa \emph{Bool cebiri} adını
 alır:
 \end{tanim}
 
 \begin{table}[h]
 \centering
-\caption{Huntington Postülatları}
-\label{tab:huntington}
 \begin{tabular}{clll}
 \toprule
 No & Postülat & Postülat (düali) & Adı \\
 \midrule
-1 & $x+0=x$ & $x\cdot 1=x$ & Birim eleman \\
-2 & $x+x'=1$ & $x\cdot x'=0$ & Tümleme \\
+1 & $x+y\in B$ & $x\cdot y\in B$ & Kapalılık \\
+2 & $x+0=x$ & $x\cdot 1=x$ & Birim eleman \\
 3 & $x+y=y+x$ & $x\cdot y=y\cdot x$ & Değişme \\
 4 & $x+(yz)=(x+y)(x+z)$ & $x(y+z)=xy+xz$ & Dağılma \\
+5 & $x+x'=1$ & $x\cdot x'=0$ & Tümleme \\
+6 & \multicolumn{2}{c}{$B$'de $x\neq y$ olacak şekilde en az iki eleman vardır} & Farklılık \\
 \bottomrule
 \end{tabular}
+\caption{Huntington Postülatları}
+\label{tab:huntington}
 \end{table}
+
+\subsection{Sıradan Cebirle Karşılaştırma}
+\label{sec:siradan-cebir-karsilastirma}
+
+Bool cebirini sıradan cebirle (reel sayılar, $+$ ve $\times$) karşılaştırmak hem farklarını
+netleştirir hem de Bölüm~\ref{sec:genel-postulatlar}'da tanıdığımız genel çerçeveye nasıl
+oturduğunu somutlaştırır:
+
+\begin{enumerate}[nosep, leftmargin=*]
+    \item Huntington postülatları \textbf{birleşme (associative)} kuralını içermez. Ama bu
+    kural Bool cebirinde de geçerlidir ve diğer postülatlardan türetilebilir. Bunu
+    Bölüm~\ref{sec:dualite}'de teorem olarak göreceğiz.
+    \item $+$'nin $\cdot$ üzerine dağılması ($x+(yz)=(x+y)(x+z)$, Postülat 4) Bool cebirinde
+    geçerlidir, ama sıradan cebirde \textbf{geçerli değildir} (ör.\ $x{=}2,y{=}3,z{=}4$ için
+    sol taraf $14$, sağ taraf $30$ verir). Bool cebirinde geçerli olmasının nedeni,
+    değişkenlerin yalnızca $\{0,1\}$ değerlerini alması: bu sonlu kümede tüm $2^3=8$
+    kombinasyon tek tek denenerek özdeşlik doğrulanabilir. Bu ispat yöntemine \emph{mükemmel
+    tümevarım} (perfect induction) denir; bir sonraki alt bölümde bu yöntemi bizzat
+    uygulayacağız.
+    \item Bölüm~\ref{sec:genel-postulatlar}'da gördüğümüz gibi, Huntington postülatlarında
+    \textbf{ters eleman yoktur}; dolayısıyla Bool cebirinde çıkarma ve bölme işlemleri de
+    yoktur.
+    \item Yine Bölüm~\ref{sec:genel-postulatlar}'da değindiğimiz gibi, Postülat 5'in tanımladığı
+    \textbf{tümleme} (complement) işlemi sıradan cebirde hiç yoktur.
+    \item Sıradan cebir, sonsuz elemanlı reel sayılar kümesi üzerine kuruludur. Bool cebiri ise
+    genel/tanımsız bir $B$ kümesi üzerine kuruludur. Bizim kullanacağımız
+    \textbf{iki-değerli} özel hâlde ise $B=\{0,1\}$'dir; bunu bir sonraki alt bölümde doğrulayacağız.
+\end{enumerate}
 
 \begin{bilginot}[Anahtarlama Devresi Yorumu]
 Shannon'ın 1938'de gösterdiği gibi, bu postülatlar fiziksel bir anahtarlama devresi olarak
 okunabilir: $x+y$ iki anahtarın \textbf{paralel} bağlanması (biri kapalıysa akım geçer),
 $x\cdot y$ \textbf{seri} bağlanması (ikisi de kapalı olmalı), $x'$ ise $x$'in tersidir (biri
-kapalıyken diğeri açıktır).
+kapalıyken diğeri açıktır). Şekil~\ref{fig:anahtarlama-devresi} bu iki bağlantıyı gösterir.
 \end{bilginot}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \draw (0,0) -- (0,1);
+    \draw (2.5,0) -- (2.5,1);
+    \node[left] at (0,0.5) {$A$};
+    \node[right] at (2.5,0.5) {$B$};
+    \draw (0,1) -- (0.4,1);
+    \filldraw (0.4,1) circle (1.2pt);
+    \draw[very thick] (0.4,1) -- (1.8,1.4);
+    \filldraw (2.1,1) circle (1.2pt);
+    \draw (2.1,1) -- (2.5,1);
+    \node[above] at (1.25,1.4) {$x$};
+    \draw (0,0) -- (0.4,0);
+    \filldraw (0.4,0) circle (1.2pt);
+    \draw[very thick] (0.4,0) -- (1.8,0.4);
+    \filldraw (2.1,0) circle (1.2pt);
+    \draw (2.1,0) -- (2.5,0);
+    \node[above] at (1.25,0.4) {$y$};
+    \node[below] at (1.25,-0.4) {\small Paralel: $x+y$};
+\end{tikzpicture}
+\hspace{1.8cm}
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \node[left] at (0,0.5) {$A$};
+    \draw (0,0.5) -- (0.4,0.5);
+    \filldraw (0.4,0.5) circle (1.2pt);
+    \draw[very thick] (0.4,0.5) -- (1.3,0.9);
+    \filldraw (1.6,0.5) circle (1.2pt);
+    \draw (1.6,0.5) -- (2.0,0.5);
+    \node[above] at (0.85,0.9) {$x$};
+    \filldraw (2.0,0.5) circle (1.2pt);
+    \draw[very thick] (2.0,0.5) -- (2.9,0.9);
+    \filldraw (3.2,0.5) circle (1.2pt);
+    \draw (3.2,0.5) -- (3.6,0.5);
+    \node[above] at (2.45,0.9) {$y$};
+    \node[right] at (3.6,0.5) {$B$};
+    \node[below] at (1.8,-0.4) {\small Seri: $x\cdot y$};
+\end{tikzpicture}
+\caption{Paralel ($x+y$) ve seri ($x\cdot y$) anahtar bağlantısı.}
+\label{fig:anahtarlama-devresi}
+\end{figure}
+
+Soldaki paralel bağlantıda $A$'dan $B$'ye akım geçmesi için $x$ ya da $y$'den en az birinin
+kapalı olması yeterlidir. Sağdaki seri bağlantıda ise akım geçmesi için hem $x$ hem $y$'nin
+kapalı olması gerekir.
 
 \begin{ornek}[Postülat 2'nin Anahtarlama Devresiyle Doğrulanması]
 $x$ ve $x'$ tanım gereği her zaman zıt durumdadır: biri kapalıyken diğeri mutlaka açıktır.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \node[left] at (0,0.5) {$A$};
+    \draw (0,0.5) -- (0.4,0.5);
+    \filldraw (0.4,0.5) circle (1.2pt);
+    \draw[very thick] (0.4,0.5) -- (1.6,0.5);
+    \filldraw (1.6,0.5) circle (1.2pt);
+    \draw (1.6,0.5) -- (2.0,0.5);
+    \node[above] at (1.0,0.5) {$x$};
+    \filldraw (2.0,0.5) circle (1.2pt);
+    \draw[very thick] (2.0,0.5) -- (2.9,0.9);
+    \filldraw (3.2,0.5) circle (1.2pt);
+    \draw (3.2,0.5) -- (3.6,0.5);
+    \node[above] at (2.45,0.9) {$x'$};
+    \node[right] at (3.6,0.5) {$B$};
+    \node[below] at (1.8,-0.4) {\small Seri: $x\cdot x'$};
+\end{tikzpicture}
+\hspace{1.8cm}
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \draw (0,0) -- (0,1);
+    \draw (2.5,0) -- (2.5,1);
+    \node[left] at (0,0.5) {$A$};
+    \node[right] at (2.5,0.5) {$B$};
+    \draw (0,1) -- (0.4,1);
+    \filldraw (0.4,1) circle (1.2pt);
+    \draw[very thick] (0.4,1) -- (2.1,1);
+    \filldraw (2.1,1) circle (1.2pt);
+    \draw (2.1,1) -- (2.5,1);
+    \node[above] at (1.25,1) {$x$};
+    \draw (0,0) -- (0.4,0);
+    \filldraw (0.4,0) circle (1.2pt);
+    \draw[very thick] (0.4,0) -- (1.8,0.4);
+    \filldraw (2.1,0) circle (1.2pt);
+    \draw (2.1,0) -- (2.5,0);
+    \node[above] at (1.25,0.4) {$x'$};
+    \node[below] at (1.25,-0.4) {\small Paralel: $x+x'$};
+\end{tikzpicture}
+\caption{Postülat 2'nin ($x+x'=1$, $x\cdot x'=0$) anahtarlama devresi doğrulaması.}
+\label{fig:postulat2-devre}
+\end{figure}
+
 \begin{itemize}[nosep, leftmargin=*]
     \item \textbf{Seri bağlantı ($x\cdot x'$):} Akım geçmesi için \emph{ikisinin de} kapalı
     olması gerekir. Zıt oldukları için bu hiçbir zaman gerçekleşmez $\Rightarrow x\cdot x'=0$.
@@ -121,20 +554,135 @@ her zaman kapalıdır. Bu anahtarın devreye paralel ya da seri eklenmesi neden 
 davranışını değiştirmez?
 \end{alistirma}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \draw (0,0) -- (0,1);
+    \draw (2.5,0) -- (2.5,1);
+    \node[left] at (0,0.5) {$A$};
+    \node[right] at (2.5,0.5) {$B$};
+    \draw (0,1) -- (0.4,1);
+    \filldraw (0.4,1) circle (1.2pt);
+    \draw[very thick] (0.4,1) -- (1.8,1.4);
+    \filldraw (2.1,1) circle (1.2pt);
+    \draw (2.1,1) -- (2.5,1);
+    \node[above] at (1.25,1.4) {$x$};
+    \draw (0,0) -- (0.4,0);
+    \filldraw (0.4,0) circle (1.2pt);
+    \draw[very thick] (0.4,0) -- (1.8,0.4);
+    \filldraw (2.1,0) circle (1.2pt);
+    \draw (2.1,0) -- (2.5,0);
+    \node[above] at (1.25,0.4) {$0$};
+    \node[below] at (1.25,-0.4) {\small $x+0$};
+\end{tikzpicture}
+\hspace{1.8cm}
+\begin{tikzpicture}[x=1cm,y=1cm]
+    \node[left] at (0,0.5) {$A$};
+    \draw (0,0.5) -- (0.4,0.5);
+    \filldraw (0.4,0.5) circle (1.2pt);
+    \draw[very thick] (0.4,0.5) -- (1.3,0.9);
+    \filldraw (1.6,0.5) circle (1.2pt);
+    \draw (1.6,0.5) -- (2.0,0.5);
+    \node[above] at (0.85,0.9) {$x$};
+    \filldraw (2.0,0.5) circle (1.2pt);
+    \draw[very thick] (2.0,0.5) -- (3.2,0.5);
+    \filldraw (3.2,0.5) circle (1.2pt);
+    \draw (3.2,0.5) -- (3.6,0.5);
+    \node[above] at (2.6,0.5) {$1$};
+    \node[right] at (3.6,0.5) {$B$};
+    \node[below] at (1.8,-0.4) {\small $x\cdot 1$};
+\end{tikzpicture}
+\caption{Postülat 1'in ($x+0=x$, $x\cdot 1=x$) anahtarlama devresi doğrulaması.}
+\label{fig:postulat1-devre}
+\end{figure}
+
 \noindent\textbf{Çözüm:} $0$ değerindeki bir anahtar her zaman \emph{açıktır}, yani hiçbir zaman
 akım geçirmez. Böyle bir anahtar $x$'e \textbf{paralel} eklendiğinde ($x+0$), devreye ek bir
 akım yolu sağlamaz. Akımın geçip geçmemesi hâlâ tamamen $x$'e bağlıdır, dolayısıyla
 $x+0=x$. $1$ değerindeki bir anahtar ise her zaman \emph{kapalıdır}, yani her zaman akım
 geçirir. Böyle bir anahtar $x$'e \textbf{seri} eklendiğinde ($x\cdot 1$), akımı hiçbir zaman
-engellemez --- yine akımın geçip geçmemesi tamamen $x$'e bağlı kalır, dolayısıyla $x\cdot 1=x$.
+engellemez. Yine akımın geçip geçmemesi tamamen $x$'e bağlı kalır, dolayısıyla $x\cdot 1=x$.
 
-\begin{bilginot}[Sıradan Cebirden Fark]
-Postülat 4'ün ilk yarısı, $x+(yz)=(x+y)(x+z)$, sıradan cebirde \textbf{geçerli değildir}
-(ör. $x{=}2,y{=}3,z{=}4$ için sol taraf $14$, sağ taraf $30$ verir). Bool cebrinde geçerli
-olmasının nedeni, değişkenlerin yalnızca $\{0,1\}$ değerlerini alması: bu sonlu kümede tüm
-$2^3=8$ kombinasyon tek tek denenerek özdeşlik doğrulanabilir. Bu ispat yöntemine
-\emph{mükemmel tümevarım} (perfect induction) denir ve Bool cebrinde sıkça kullanılır.
-\end{bilginot}
+\subsection{İki-Değerli Bool Cebrinin Doğrulanması}
+\label{sec:iki-degerli-dogrulama}
+
+Şimdiye kadar Huntington postülatlarını genel bir $B$ kümesi için tanımladık. Ama bizim asıl
+ilgilendiğimiz özel durum, $B=\{0,1\}$ olan \emph{iki-değerli} Bool cebridir. Bu kümede $+$,
+$\cdot$ ve $'$ işlemlerini aşağıdaki tablolarla tanımlıyoruz:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cc|c}
+\toprule
+$x$ & $y$ & $x\cdot y$ \\
+\midrule
+0&0&0\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\quad
+\begin{tabular}{cc|c}
+\toprule
+$x$ & $y$ & $x+y$ \\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&1\\
+\bottomrule
+\end{tabular}
+\quad
+\begin{tabular}{c|c}
+\toprule
+$x$ & $x'$ \\
+\midrule
+0&1\\1&0\\
+\bottomrule
+\end{tabular}
+\caption{İki-değerli Bool cebrinin işlem tabloları.}
+\label{tab:iki-degerli-tablolar}
+\end{table}
+
+Bu tablolar, sırasıyla AND, OR ve NOT işlemleriyle birebir aynıdır. Şimdi altı postülatın bu
+tablolar üzerinde gerçekten sağlandığını, \emph{mükemmel tümevarımla} (perfect induction,
+yani sonlu sayıdaki tüm kombinasyonu tek tek deneyerek) tek tek gösterelim:
+
+\begin{enumerate}[nosep, leftmargin=*]
+    \item \textbf{Kapalılık:} Tablolardaki her sonuç $0$ ya da $1$'dir, yani her zaman
+    $B$'nin içindedir.
+    \item \textbf{Birim eleman:} Tablodan $0+0=0$, $0+1=1+0=1$; yani $x+0=x$. Benzer
+    şekilde $1\cdot 1=1$, $1\cdot 0=0\cdot 1=0$; yani $x\cdot 1=x$.
+    \item \textbf{Değişme:} Tabloların köşegene göre simetrik olması, $x+y=y+x$ ve
+    $x\cdot y=y\cdot x$'i doğrudan gösterir.
+    \item \textbf{Dağılma:} $x\cdot(y+z)=xy+xz$ özdeşliği, olası $2^3=8$ kombinasyonun
+    tümü için Tablo~\ref{tab:dagilma-dogrulama}'da doğrulanmıştır (son iki sütun her satırda
+    eşittir). $+$'nin $\cdot$ üzerine dağılması da benzer bir tabloyla doğrulanabilir.
+    \item \textbf{Tümleme:} $x'$ tablosundan, $x+x'=1$ ($0+1=1$, $1+0=1$) ve $x\cdot x'=0$
+    ($0\cdot 1=0$, $1\cdot 0=0$) her iki $x$ değeri için de sağlanır.
+    \item \textbf{Farklılık:} $B$ kümesinde $1\neq 0$ olacak şekilde iki eleman vardır.
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc|c|c|c|c|c}
+\toprule
+$x$ & $y$ & $z$ & $y+z$ & $x\cdot(y+z)$ & $xy$ & $xz$ & $xy+xz$ \\
+\midrule
+0&0&0&0&0&0&0&0\\
+0&0&1&1&0&0&0&0\\
+0&1&0&1&0&0&0&0\\
+0&1&1&1&0&0&0&0\\
+1&0&0&0&0&0&0&0\\
+1&0&1&1&1&0&1&1\\
+1&1&0&1&1&1&0&1\\
+1&1&1&1&1&1&1&1\\
+\bottomrule
+\end{tabular}
+\caption{Dağılma postülatının ($x\cdot(y+z)=xy+xz$) mükemmel tümevarımla doğrulanması.}
+\label{tab:dagilma-dogrulama}
+\end{table}
+
+Böylece iki-değerli Bool cebrinin gerçekten bir Bool cebri olduğunu, yani altı Huntington
+postülatını da sağladığını göstermiş olduk. Mühendisler bu yapıya \emph{anahtarlama cebri}
+(switching algebra) da der. Bu, Bölüm~\ref{sec:ikili-degiskenler}'de tanıdığımız AND/OR/NOT
+işlemleriyle birebir aynı şeydir. Bundan sonra ``iki-değerli'' sıfatını düşürüp sade
+\emph{Bool cebri} diyeceğiz.
 
 \section{Düalite İlkesi ve Temel Teoremler}
 \label{sec:dualite}
@@ -151,26 +699,36 @@ Bunu somutlaştırmak için, listedeki ilk teoremi doğrudan postülatlardan tü
 
 \begin{ornek}[Teorem 1'in Postülatlardan Türetilmesi: $x+x=x$]
 \begin{align*}
-x+x &= (x+x)\cdot 1 & &\text{[Postülat 1: } y\cdot 1=y \text{, burada } y=x+x \text{]}\\
-    &= (x+x)(x+x') & &\text{[Postülat 2: } 1=x+x' \text{]}\\
+x+x &= (x+x)\cdot 1 & &\text{[Postülat 2: } y\cdot 1=y \text{, burada } y=x+x \text{]}\\
+    &= (x+x)(x+x') & &\text{[Postülat 5: } 1=x+x' \text{]}\\
     &= x+x\cdot x' & &\text{[Postülat 4: } (x+y)(x+z)=x+yz \text{]}\\
-    &= x+0 & &\text{[Postülat 2: } x\cdot x'=0 \text{]}\\
-    &= x & &\text{[Postülat 1: } x+0=x \text{]}
+    &= x+0 & &\text{[Postülat 5: } x\cdot x'=0 \text{]}\\
+    &= x & &\text{[Postülat 2: } x+0=x \text{]}
 \end{align*}
 \end{ornek}
 
 \begin{bilginot}[Düalitenin Getirisi: İkinci Teorem Bedava]
 Yukarıdaki kanıtın her satırında $+ \leftrightarrow \cdot$ ve $0 \leftrightarrow 1$ değişimini
-uygularsanız, $x\cdot x=x$ özdeşliğinin kanıtını elde edersiniz --- tek bir ek adım atmadan.
-Bu yüzden Bool cebri kaynaklarında teoremler genellikle çift çift, tek bir kanıtla sunulur.
+uygularsanız, $x\cdot x=x$ özdeşliğinin kanıtını elde edersiniz. Tek bir ek adım atmadan.
+Bu yüzden Bool cebiri kaynaklarında teoremler genellikle çift çift, tek bir kanıtla sunulur.
 \end{bilginot}
+
+Somut olarak görelim: yukarıdaki beş satırın her birinde $+\leftrightarrow\cdot$ ve
+$0\leftrightarrow 1$ değişimini uyguladığımızda, Teorem 1(b)'nin ispatı ortaya çıkar:
+
+\begin{align*}
+x\cdot x &= x\cdot x+0 & &\text{[Postülat 2: } x+0=x \text{, burada } x\to x\cdot x \text{]}\\
+    &= x\cdot x+x\cdot x' & &\text{[Postülat 5: } x\cdot x'=0 \text{]}\\
+    &= x\cdot(x+x') & &\text{[Postülat 4: } xy+xz=x(y+z) \text{, dağılma]}\\
+    &= x\cdot 1 & &\text{[Postülat 5: } x+x'=1 \text{]}\\
+    &= x & &\text{[Postülat 2: } x\cdot 1=x \text{]}
+\end{align*}
 
 Aynı türetme yöntemiyle elde edilen diğer temel teoremler, ileride sadeleştirme
 işlemlerinde sürekli kullanacağımız için aşağıda topluca listelenmiştir.
 
 \begin{table}[h]
 \centering
-\caption{Temel Teoremler}
 \begin{tabular}{clll}
 \toprule
 No & Teorem & Teorem (düali) & Adı \\
@@ -182,7 +740,29 @@ No & Teorem & Teorem (düali) & Adı \\
 5 & $x+(y+z)=(x+y)+z$ & $x(yz)=(xy)z$ & Birleşme (associative) \\
 \bottomrule
 \end{tabular}
+\caption{Temel Teoremler}
 \end{table}
+
+\begin{ornek}[Teorem 2'nin İspatı: $x+1=1$]
+\begin{align*}
+x+1 &= 1\cdot(x+1) & &\text{[Postülat 2: } x\cdot 1=x \text{, tersten]}\\
+    &= (x+x')(x+1) & &\text{[Postülat 5: } x+x'=1 \text{, tersten]}\\
+    &= x+x'\cdot 1 & &\text{[Postülat 4: } (x+y)(x+z)=x+yz \text{, dağılma]}\\
+    &= x+x' & &\text{[Postülat 2: } x\cdot 1=x \text{]}\\
+    &= 1 & &\text{[Postülat 5: } x+x'=1 \text{]}
+\end{align*}
+Düal teorem $x\cdot 0=0$, düalite ilkesiyle (her satırda $+\leftrightarrow\cdot$,
+$0\leftrightarrow 1$ değişimiyle) doğrudan elde edilir.
+\end{ornek}
+
+\begin{bilginot}[Teorem 3: Çifte Tümleme Neden Farklı İspatlanır?]
+$(x')'=x$ teoremi, diğerlerinden farklı bir ispat yöntemi gerektirir: postülat zincirinden
+değil, her elemanın tümleyeninin \textbf{bir tane olmasından} (unique) gelir. Postülat 5'e göre $x'$,
+$x+x'=1$ ve $x\cdot x'=0$'ı sağlayan (tek) elemandır. Şimdi $x'$'in kendi tümleyenine, yani
+$(x')'$'e bakalım: bu da $x'+(x')'=1$ ve $x'\cdot(x')'=0$'ı sağlamalıdır. Ama $x$ zaten bu
+iki denklemi sağlıyor ($x'+x=1$ ve $x'\cdot x=0$, Postülat 3 ve 5'ten). Bir elemanın
+tümleyeni yalnızca bir tane (unique) olduğu için, $(x')'=x$ olmak zorundadır.
+\end{bilginot}
 
 \begin{alistirma}[\orta]
 Teorem 4'ü ($x+xy=x$) yukarıdaki Teorem 1 kanıtını örnek alarak postülatlardan türetiniz.
@@ -192,8 +772,305 @@ deneyin.
 
 \noindent\textbf{Çözüm:}
 \begin{align*}
-x+xy &= x\cdot 1+x\cdot y & &\text{[Postülat 1: } x=x\cdot 1 \text{]}\\
+x+xy &= x\cdot 1+x\cdot y & &\text{[Postülat 2: } x=x\cdot 1 \text{]}\\
      &= x\cdot(1+y) & &\text{[Postülat 4: } xy_1+xy_2=x(y_1+y_2) \text{, dağılma]}\\
      &= x\cdot 1 & &\text{[Teorem 2: } 1+y=1 \text{]}\\
-     &= x & &\text{[Postülat 1: } x\cdot 1=x \text{]}
+     &= x & &\text{[Postülat 2: } x\cdot 1=x \text{]}
 \end{align*}
+
+\begin{bilginot}[İspatların İkinci Yolu: Doğruluk Tablosu]
+Bool teoremleri, postülat zincirinden yürüyen cebirsel ispatlar yerine \textbf{doğruluk
+tablosuyla} da ispatlanabilir: eşitliğin iki tarafı, değişkenlerin tüm olası
+kombinasyonlarında aynı sonucu veriyorsa, özdeşlik doğrulanmış olur (bu da bir tür mükemmel
+tümevarımdır, Bölüm~\ref{sec:iki-degerli-dogrulama}'de kullandığımız yöntemin aynısı).
+Örneğin yutma teoremi ($x+xy=x$) şöyle doğrulanır:
+\begin{center}
+\begin{tabular}{cc|c|c}
+\toprule
+$x$ & $y$ & $xy$ & $x+xy$ \\
+\midrule
+0&0&0&0\\0&1&0&0\\1&0&0&1\\1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+Son sütun ($x+xy$) baştaki $x$ sütunuyla birebir aynıdır. Teorem doğrulanmıştır. Birleşme
+ve De Morgan gibi teoremlerin cebirsel ispatları uzun olduğundan, pratikte doğruluk tablosu
+yöntemi çok daha kullanışlıdır; De Morgan'ı ele alırken bu yöntemi tekrar kullanacağız.
+\end{bilginot}
+
+\subsection{Operatör Önceliği}
+\label{sec:operator-onceligi}
+
+Bir Bool ifadesini doğru değerlendirmek için işlem önceliği şu sırayla uygulanır: (1)
+parantez içi, (2) tümleme ($'$), (3) çarpma ($\cdot$, AND), (4) toplama ($+$, OR).
+Parantez içindeki her şey önce hesaplanır; sonra tümleme, sonra çarpma, en son toplama
+işlemi uygulanır. Bu sıralama, çarpmanın toplamadan önce yapıldığı sıradan aritmetikle
+uyumludur (tümleme hariç, bu sıradan aritmetikte karşılığı olmayan bir adımdır).
+
+\begin{ornek}[İşlem Önceliğinin Uygulanması]
+$(x+y)'$ ifadesinde önce parantez içi $x+y$ hesaplanır, sonra sonucun tümleyeni alınır.
+$x'y'$ ifadesinde ise önce $x'$ ve $y'$ ayrı ayrı hesaplanır (tümleme), sonra ikisi çarpılır
+(AND). Bu iki ifade farklı bir sırayla değerlendirilir; birbirlerine eşit olup olmadıklarını
+De Morgan teoremini işlerken göreceğiz.
+\end{ornek}
+
+\begin{alistirma}[\orta]
+Postülat ve teoremleri kullanarak şu ifadeyi sadeleştiriniz:
+$F=x'y'z+xyz+x'yz+xy'z$.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{align*}
+F &= x'y'z+xyz+x'yz+xy'z \\
+  &= (x'y'z+x'yz)+(xyz+xy'z) & &\text{[yeniden gruplama]}\\
+  &= x'z(y'+y)+xz(y+y') & &\text{[Postülat 4: dağılma]}\\
+  &= x'z\cdot 1+xz\cdot 1 & &\text{[Postülat 5: } y+y'=1 \text{]}\\
+  &= x'z+xz & &\text{[Postülat 2: } x\cdot 1=x \text{]}\\
+  &= z(x'+x) & &\text{[Postülat 4: dağılma]}\\
+  &= z\cdot 1 & &\text{[Postülat 5: } x'+x=1 \text{]}\\
+  &= z & &\text{[Postülat 2: } x\cdot 1=x \text{]}
+\end{align*}
+
+\begin{alistirma}[\kolay]
+$F=x'y'z$ ifadesinin doğruluk tablosunu oluşturunuz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{center}
+\begin{tabular}{ccc|c}
+\toprule
+$x$ & $y$ & $z$ & $F$ \\
+\midrule
+0&0&0&0\\
+0&0&1&1\\
+0&1&0&0\\
+0&1&1&0\\
+1&0&0&0\\
+1&0&1&0\\
+1&1&0&0\\
+1&1&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F$ yalnızca $x=0$, $y=0$, $z=1$ olduğunda $1$'dir, çünkü ancak bu durumda $x'=1$,
+$y'=1$ ve $z=1$ olup üçünün çarpımı $1$ olur.
+
+\section{De Morgan Teoremi}
+\label{sec:demorgan}
+
+Augustus De Morgan (1806--1871), Hindistan'da doğmuş, University College London'ın ilk
+matematik profesörü olarak görev yapmış, İngiliz matematik ve mantık bilimciydi. Mantık cebirine
+kesin/biçimsel bir temel kazandırma çabalarıyla tanınır; bu bölümde adını taşıyan iki
+özdeşlik de onun bu çalışmalarından gelir.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{augustus_de_morgan.jpg}
+\caption{Augustus De Morgan (1806--1871).}
+\label{fig:demorgan}
+\end{figure}
+
+\begin{tanim}{De Morgan Teoremi:}
+Her $x,y\in B$ için aşağıdaki iki özdeşlik geçerlidir:
+\[
+(x+y)'=x'y' \qquad\qquad (xy)'=x'+y'
+\]
+\end{tanim}
+
+Bu teoremin cebirsel ispatı biraz uzundur, ama görmeye değer: kullandığı yöntem,
+Bölüm~\ref{sec:dualite}'de Teorem 3'te ($(x')'=x$) gördüğümüz \textbf{tümleyenin bir tane
+olması} (unique) ilkesinin bir başka güzel uygulamasıdır.
+
+\begin{ornek}[De Morgan'ın İlk Yarısının İspatı: $(x+y)'=x'y'$]
+Bir elemanın tümleyeni, onunla toplandığında $1$, çarpıldığında $0$ veren \textbf{bir tane
+(unique)}
+elemandır (Postülat 5 ve Bölüm~\ref{sec:dualite}'deki Teorem 3'ün ispatı). O hâlde
+$(x+y)'$'nin ne olduğunu bulmak için, $x'y'$'nin bu iki şartı sağladığını göstermemiz
+yeterli:
+
+\textbf{Şart 1: } $(x+y)\cdot x'y'=0$
+\begin{align*}
+(x+y)\cdot x'y' &= x\cdot x'y'+y\cdot x'y' & &\text{[Postülat 4: dağılma]}\\
+    &= (xx')y'+x'(yy') & &\text{[Postülat 3: yeniden grupla]}\\
+    &= 0\cdot y'+x'\cdot 0 & &\text{[Postülat 5: } xx'=0,\ yy'=0 \text{]}\\
+    &= 0+0 & &\text{[Teorem 2: } x\cdot 0=0 \text{]}\\
+    &= 0
+\end{align*}
+
+\textbf{Şart 2: } $(x+y)+x'y'=1$
+\begin{align*}
+(x+y)+x'y' &= [(x+y)+x'][(x+y)+y'] & &\text{[Postülat 4: } a+bc=(a+b)(a+c) \text{]}\\
+    &= [(x+x')+y][x+(y+y')] & &\text{[Postülat 3: yeniden grupla]}\\
+    &= [1+y][x+1] & &\text{[Postülat 5: } x+x'=1,\ y+y'=1 \text{]}\\
+    &= 1\cdot 1 & &\text{[Teorem 2: } 1+y=1 \text{]}\\
+    &= 1
+\end{align*}
+
+$x'y'$, $(x+y)$'nin tümleyeni olma şartlarının ikisini de sağladı; tümleyen bir tane (unique)
+olduğu için $(x+y)'=x'y'$ olmak zorundadır.
+\end{ornek}
+
+\begin{bilginot}[İkinci Yarı Düalite ile Bedava]
+$(xy)'=x'+y'$, yukarıdaki ispatın her satırında $+\leftrightarrow\cdot$ ve
+$0\leftrightarrow 1$ değişimi uygulanarak doğrudan elde edilir; Bölüm~\ref{sec:dualite}'de
+gördüğümüz düalite ilkesinin bir başka örneğidir.
+\end{bilginot}
+
+\subsection{Doğruluk Tablosuyla Doğrulama}
+\label{sec:demorgan-truth-table}
+
+Bölüm~\ref{sec:iki-degerli-dogrulama}'da tanıdığımız yöntemle, De Morgan teoreminin ilk
+yarısını ($(x+y)'=x'y'$) bir doğruluk tablosuyla da doğrulayabiliriz:
+
+\begin{center}
+\begin{tabular}{cc|c|c|cc|c}
+\toprule
+$x$ & $y$ & $x+y$ & $(x+y)'$ & $x'$ & $y'$ & $x'y'$ \\
+\midrule
+0&0&0&1&1&1&1\\
+0&1&1&0&1&0&0\\
+1&0&1&0&0&1&0\\
+1&1&1&0&0&0&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Son iki sütun ($(x+y)'$ ve $x'y'$) her satırda birebir aynıdır; özdeşlik doğrulanmıştır.
+
+\begin{alistirma}[\kolay]
+İkinci yarıyı ($(xy)'=x'+y'$) doğrulayan doğruluk tablosunu oluşturunuz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{center}
+\begin{tabular}{cc|c|c|cc|c}
+\toprule
+$x$ & $y$ & $xy$ & $(xy)'$ & $x'$ & $y'$ & $x'+y'$ \\
+\midrule
+0&0&0&1&1&1&1\\
+0&1&0&1&1&0&1\\
+1&0&0&1&0&1&1\\
+1&1&1&0&0&0&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+Son iki sütun ($(xy)'$ ve $x'+y'$) yine her satırda birebir aynıdır.
+
+\subsection{$n$-Değişkenli Genelleme}
+\label{sec:demorgan-n-degiskenli}
+
+İki değişken için kanıtladığımız De Morgan teoremi, aslında herhangi bir $n$ değişken için
+de geçerlidir:
+
+\begin{tanim}{De Morgan Teoreminin Genel Hâli:}
+Her $n\geq 2$ ve $x_1,x_2,\ldots,x_n\in B$ için:
+\[
+(x_1+x_2+\cdots+x_n)'=x_1'x_2'\cdots x_n' \qquad\qquad
+(x_1x_2\cdots x_n)'=x_1'+x_2'+\cdots+x_n'
+\]
+\end{tanim}
+
+Sözel olarak: bir toplamın tümleyeni, terimlerin tümleyenlerinin çarpımına eşittir; bir
+çarpımın tümleyeni, terimlerin tümleyenlerinin toplamına eşittir, kaç terim olursa olsun.
+
+\begin{bilginot}[Kanıt Yöntemi: Matematiksel Tümevarım (Induction)]
+Bunu ispatlamanın doğal yolu \emph{matematiksel tümevarım}dır (mathematical induction). Bu
+yöntem iki adımdan oluşur: (1) \textbf{temel adım}, iddianın en küçük durumda ($n=2$) doğru
+olduğunu göstermek (bunu zaten yaptık); (2) \textbf{tümevarım adımı}, iddianın $n=k$ için
+doğru olduğunu \emph{varsayıp}, bu varsayımı kullanarak $n=k+1$ için de doğru olduğunu
+göstermek. Bu iki adım birlikte, iddianın $n=2,3,4,\ldots$ diye \textbf{sonsuza kadar tüm}
+$n$ değerleri için doğru olduğunu garanti eder. Tıpkı bir domino dizisinde ilk taşı
+devirmenin ve ``her taş devrilirse bir sonraki de devrilir'' kuralının, tüm dizinin
+devrileceğini garanti etmesi gibi.
+\end{bilginot}
+
+\begin{ornek}[Tümevarım Adımının Uygulanması]
+Toplamla ilgili yarıyı ele alalım. \textbf{Tümevarım hipotezi:} $n=k$ için
+$(x_1+\cdots+x_k)'=x_1'\cdots x_k'$ doğru olsun. Şimdi $n=k+1$ için:
+\begin{align*}
+(x_1+\cdots+x_k+x_{k+1})' &= \big[(x_1+\cdots+x_k)+x_{k+1}\big]' & &\text{[gruplama]}\\
+    &= (x_1+\cdots+x_k)'\cdot x_{k+1}' & &\text{[2-değişkenli De Morgan]}\\
+    &= (x_1'\cdots x_k')\cdot x_{k+1}' & &\text{[tümevarım hipotezi]}\\
+    &= x_1'\cdots x_k' x_{k+1}'
+\end{align*}
+Bu tam istediğimiz sonuç: $k+1$ terim için de özdeşlik sağlanıyor. $n=2$ temel adımı zaten
+kanıtlanmıştı ve tümevarım adımı da gösterildiğine göre, teorem tüm $n\geq 2$ için doğrudur.
+Çarpımla ilgili yarı ($(x_1\cdots x_n)'=x_1'+\cdots+x_n'$) da aynı yöntemle, düalite
+kullanılarak ispatlanır.
+\end{ornek}
+
+\begin{ornek}[Dört Değişkenli Bir Uygulama]
+$F=(a+b+c+d)'$ ifadesinin tümleyensiz hâlini bulalım. Genel De Morgan formülünü doğrudan
+uygularız:
+\[
+F=(a+b+c+d)'=a'b'c'd'
+\]
+Benzer şekilde $G=(pqrs)'$ için $G=p'+q'+r'+s'$ olur.
+\end{ornek}
+
+\begin{alistirma}[\orta]
+$H=(w'+x+y'+z)'$ ifadesini genel De Morgan formülüyle sadeleştiriniz. \emph{İpucu:}
+önce toplamın tümleyenini alın, sonra her terimin kendi tümleyenini tekrar sadeleştirin
+(Bölüm~\ref{sec:dualite}'deki Teorem 3'ü, $(x')'=x$, hatırlayın).
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{align*}
+H=(w'+x+y'+z)' &= (w')'\cdot x'\cdot(y')'\cdot z' & &\text{[genel De Morgan]}\\
+    &= w\cdot x'\cdot y\cdot z' & &\text{[Teorem 3: } (x')'=x \text{]}
+\end{align*}
+
+\subsection{Bir Fonksiyonun Tümleyenini Bulmanın İki Yolu}
+\label{sec:tumleyenin-iki-yolu}
+
+Karmaşık bir Bool ifadesinin ($F$) tümleyenini bulmak için iki yöntemimiz var.
+
+\textbf{Yol 1 (doğrudan):} De Morgan'ı ifadenin en dışındaki işlemden başlayıp içe doğru,
+adım adım uygulamak, yukarıdaki örneklerde yaptığımız gibi.
+
+\textbf{Yol 2 (kısayol):} Aşağıdaki iki adımı uygulamak:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item $F$'in \textbf{dualini} alın: her $+$'yi $\cdot$'ye, her $\cdot$'yi $+$'ye, her
+    $0$'ı $1$'e, her $1$'i $0$'a çevirin (değişkenlerin kendisine dokunmayın).
+    \item Ortaya çıkan dual ifadedeki \textbf{her değişkeni kendi tümleyeniyle}
+    değiştirin ($x\to x'$, $x'\to x$).
+\end{enumerate}
+Sonuç, doğrudan $F'$'tir. Bu kısayol işe yarar çünkü $n$-değişkenli De Morgan teoremi,
+tekrar tekrar uygulandığında tam olarak bu iki işlemi (dual alma + literal tümleme) yapar;
+biz sadece bunu tek seferde, satır satır ispat yapmadan uyguluyoruz.
+
+\begin{ornek}[İki Yöntemin Karşılaştırılması: $F=xy+x'z$]
+\textbf{Yol 1 (doğrudan De Morgan):}
+\begin{align*}
+F' = (xy+x'z)' &= (xy)'\cdot(x'z)' & &\text{[De Morgan, dış toplama]}\\
+    &= (x'+y')\cdot(x+z') & &\text{[De Morgan + Teorem 3: } (x')'=x \text{]}
+\end{align*}
+
+\textbf{Yol 2 (kısayol):}
+\begin{enumerate}[nosep, leftmargin=*]
+    \item $F=xy+x'z$'in duali: $+\leftrightarrow\cdot$ değişimiyle $F^d=(x+y)(x'+z)$.
+    \item Her değişkeni tümle: $x\to x'$, $y\to y'$, $x'\to x$, $z\to z'$. Sonuç:
+    $F'=(x'+y')(x+z')$.
+\end{enumerate}
+
+İki yöntem de aynı sonucu verdi: $F'=(x'+y')(x+z')$.
+\end{ornek}
+
+\begin{alistirma}[\zor]
+$F=x'y+xz'$ ifadesinin tümleyenini kısayol yöntemiyle (dual al, her değişkeni tümle)
+bulunuz. Sonucu doğrudan De Morgan uygulayarak da doğrulayınız.
+\end{alistirma}
+
+\noindent\textbf{Çözüm (Kısayol):}
+\begin{enumerate}[nosep, leftmargin=*]
+    \item Dual: $F^d=(x'+y)(x+z')$.
+    \item Her değişkeni tümle ($x\to x'$, $y\to y'$, $x'\to x$, $z'\to z$):
+    $F'=(x+y')(x'+z)$.
+\end{enumerate}
+
+\noindent\textbf{Doğrulama (doğrudan De Morgan):}
+\begin{align*}
+F' = (x'y+xz')' &= (x'y)'\cdot(xz')' & &\text{[De Morgan, dış toplama]}\\
+    &= (x+y')\cdot(x'+z) & &\text{[De Morgan + Teorem 3]}
+\end{align*}
+İki yöntem yine aynı sonucu verdi.
