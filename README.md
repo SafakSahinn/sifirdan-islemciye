@@ -20,27 +20,30 @@ işlenir.
 ## İlerleme Yolu
 
 ```mermaid
-flowchart TD
-    subgraph Row1[" "]
-        direction LR
+flowchart LR
+    subgraph F1["Faz 1 — Temeller"]
         B1["Bölüm 1<br/>Sayı Sistemleri"]
         B2["Bölüm 2<br/>Bool Cebri ve<br/>Mantık Kapıları"]
+    end
+    subgraph F2["Faz 2 — Kombinasyonel Mantık"]
         B3["Bölüm 3<br/>K-map"]
         B4["Bölüm 4<br/>Komb. Mantık"]
+    end
+    subgraph F3["Faz 3 — Ardışık Mantık"]
         B5["Bölüm 5<br/>Ardışık Mantık"]
         B6["Bölüm 6<br/>Yazmaçlar"]
     end
-
-    subgraph Row2[" "]
-        direction RL
-        B9["Bölüm 9<br/>CPU Mimarisi"]
-        B8["Bölüm 8<br/>RTL/ASMD"]
+    subgraph F4["Faz 4 — Bellek"]
         B7["Bölüm 7<br/>Bellek"]
     end
+    subgraph F5["Faz 5 — RTL"]
+        B8["Bölüm 8<br/>RTL/ASMD"]
+    end
+    subgraph F6["Faz 6 — CPU"]
+        B9["Bölüm 9<br/>CPU Mimarisi"]
+    end
 
-    B1 --> B2 --> B3 --> B4 --> B5 --> B6
-    B6 --> B7
-    B7 --> B8 --> B9
+    B1 --> B2 --> B3 --> B4 --> B5 --> B6 --> B7 --> B8 --> B9
 
     class B1 done
     class B2 progress
@@ -49,8 +52,6 @@ flowchart TD
     classDef done fill:#2ea44f,stroke:#1a7f37,color:#ffffff,stroke-width:2px
     classDef progress fill:#d4a72c,stroke:#9a6700,color:#ffffff,stroke-width:2px
     classDef todo fill:#e1e4e8,stroke:#8c959f,color:#24292f,stroke-width:1px
-    style Row1 fill:transparent,stroke:transparent
-    style Row2 fill:transparent,stroke:transparent
 ```
 
 🟩 Tamamlandı &nbsp;&nbsp; 🟨 Devam Ediyor &nbsp;&nbsp; ⬜ Planlandı
@@ -103,20 +104,17 @@ Bölüm 2'nin alt başlık bazında ilerlemesi için yukarıdaki açılır liste
 
 ## Kullanılan Araçlar
 
-| Sütun | Araç | |
-|---|---|---|
+| Sütun | Araç | Logo |
+|---|---|:---:|
 | Dokümantasyon | XeLaTeX | ![LaTeX](https://img.shields.io/badge/-XeLaTeX-008080?logo=latex&logoColor=white) |
-| Simülasyon | Logisim | ![Logisim](https://img.shields.io/badge/-Logisim-4A90D9) |
-| HDL | Xilinx Vivado | ![Vivado](https://img.shields.io/badge/-Vivado-A31F34) |
-| Testbench | Icarus Verilog / Verilator | ![Icarus](https://img.shields.io/badge/-Icarus%20%2F%20Verilator-E67E22) |
-| Dalga Analizi | GTKWave | ![GTKWave](https://img.shields.io/badge/-GTKWave-16A085) |
-| Sentez | Yosys | ![Yosys](https://img.shields.io/badge/-Yosys-6A5ACD) |
-| Layout / ASIC | OpenLane · KLayout (SKY130) | ![OpenLane](https://img.shields.io/badge/-OpenLane%20%2F%20KLayout-2E8B57) |
-
-> Not: Bu araçların çoğu niş, açık kaynak EDA projeleri olduğu için hazır bir logo
-> servisinde (shields.io/simple-icons) resmî ikonları bulunmuyor; rozetler bu yüzden
-> düz renkli. Gerçek logo dosyalarını paylaşırsan (portrelerde yaptığımız gibi) buraya
-> gömebilirim.
+| Simülasyon | Logisim | <img src="assets/logos/logism.svg" height="28" alt="Logisim"> |
+| HDL | Xilinx Vivado | <img src="assets/logos/vivado.webp" height="28" alt="Vivado"> |
+| Testbench | Icarus Verilog | <img src="assets/logos/icarus.png" height="28" alt="Icarus Verilog"> |
+| Testbench | Verilator | <img src="assets/logos/verilator.png" height="28" alt="Verilator"> |
+| Dalga Analizi | GTKWave | <img src="assets/logos/gtkwave.png" height="28" alt="GTKWave"> |
+| Sentez | Yosys | <img src="assets/logos/yosys.png" height="28" alt="Yosys"> |
+| Layout / ASIC | OpenLane | <img src="assets/logos/openlane.png" height="28" alt="OpenLane"> |
+| Layout / ASIC | KLayout (SKY130) | <img src="assets/logos/klayout.png" height="28" alt="KLayout"> |
 
 ## Derleme
 
