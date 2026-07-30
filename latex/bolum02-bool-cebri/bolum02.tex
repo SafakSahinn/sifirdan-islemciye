@@ -1073,3 +1073,972 @@ F' = (x'y+xz')' &= (x'y)'\cdot(xz')' & &\text{[De Morgan, dış toplama]}\\
     &= (x+y')\cdot(x'+z) & &\text{[De Morgan + Teorem 3]}
 \end{align*}
 İki yöntem yine aynı sonucu verdi.
+
+\subsection{Diğer Mantık İşlemleri}
+\label{sec:diger-mantik-islemleri}
+
+Şimdiye kadar $x,y$ değişkenleriyle AND ($xy$) ve OR ($x+y$) fonksiyonlarını kullandık.
+Ama bunlar, $x$ ve $y$'den kurulabilecek fonksiyonların yalnızca ikisi. $n$ ikili
+değişkenin $2^n$ farklı giriş kombinasyonu vardır (doğruluk tablosunun $2^n$ satırı); her
+satırda $F$ bağımsız olarak $0$ ya da $1$ olabileceğinden, toplam $2^{2^n}$ farklı fonksiyon
+mümkündür. İki değişken için ($n=2$) bu sayı $2^4=16$'dır. Bu 16 fonksiyonun doğruluk
+tabloları Tablo~\ref{tab:16-fonksiyon}'da listelenmiştir:
+
+\begin{table}[H]
+\centering
+{\small
+\begin{tabular}{cc|cccccccccccccccc}
+\toprule
+$x$&$y$&$F_0$&$F_1$&$F_2$&$F_3$&$F_4$&$F_5$&$F_6$&$F_7$&$F_8$&$F_9$&$F_{10}$&$F_{11}$&$F_{12}$&$F_{13}$&$F_{14}$&$F_{15}$\\
+\midrule
+0&0&0&0&0&0&0&0&0&0&1&1&1&1&1&1&1&1\\
+0&1&0&0&0&0&1&1&1&1&0&0&0&0&1&1&1&1\\
+1&0&0&0&1&1&0&0&1&1&0&0&1&1&0&0&1&1\\
+1&1&0&1&0&1&0&1&0&1&0&1&0&1&0&1&0&1\\
+\bottomrule
+\end{tabular}}
+\caption{İki ikili değişkenin 16 fonksiyonu için doğruluk tabloları}
+\label{tab:16-fonksiyon}
+\end{table}
+
+Her sütun, Bool ifadesi ve (varsa) özel bir adla Tablo~\ref{tab:16-fonksiyon-ifade}'de
+özetlenmiştir:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lccl}
+\toprule
+Fonksiyon & Operatör sembolü & Adı & Açıklama \\
+\midrule
+$F_0=0$ & --- & Sıfır & İkili sabit 0 \\
+$F_1=xy$ & $x\cdot y$ & AND & $x$ ve $y$ \\
+$F_2=xy'$ & $x/y$ & Engelleme (inhibition) & $x$ var, $y$ yok \\
+$F_3=x$ & $x$ & Aktarım (transfer) & $x$ \\
+$F_4=x'y$ & $y/x$ & Engelleme (inhibition) & $y$ var, $x$ yok \\
+$F_5=y$ & $y$ & Aktarım (transfer) & $y$ \\
+$F_6=xy'+x'y$ & $x\oplus y$ & XOR (Özel-VEYA) & $x$ veya $y$, ikisi birden değil \\
+$F_7=x+y$ & $x+y$ & OR & $x$ veya $y$ \\
+$F_8=(x+y)'$ & $x\downarrow y$ & NOR & Not-OR \\
+$F_9=xy+x'y'$ & $(x\oplus y)'$ & XNOR (Denklik) & $x$, $y$'ye eşit \\
+$F_{10}=y'$ & $y'$ & Tümleme (complement) & $y$ değil \\
+$F_{11}=x+y'$ & $x\subset y$ & Çıkarım (implication) & $y$ ise $x$ \\
+$F_{12}=x'$ & $x'$ & Tümleme (complement) & $x$ değil \\
+$F_{13}=x'+y$ & $x\supset y$ & Çıkarım (implication) & $x$ ise $y$ \\
+$F_{14}=(xy)'$ & $x\uparrow y$ & NAND & Not-AND \\
+$F_{15}=1$ & --- & Birim & İkili sabit 1 \\
+\bottomrule
+\end{tabular}
+\caption{İki değişkenin 16 fonksiyonu için Bool ifadeleri}
+\label{tab:16-fonksiyon-ifade}
+\end{table}
+
+Bu 16 fonksiyon üç grupta toplanabilir: iki sabit fonksiyon (Sıfır, Birim), dört tekli
+(\emph{unary}) işlem (iki Tümleme, iki Aktarım) ve sekiz farklı ikili işlemi tanımlayan on
+fonksiyon (AND, OR, NAND, NOR, XOR, XNOR, Engelleme, Çıkarım). Bu özel sembollerin
+(örneğin $\uparrow$, $\downarrow$, $\subset$) hiçbiri Bölüm~\ref{sec:mantik-kapilari}'de
+göreceğimiz kapı sembolleri kadar yaygın değildir; yalnızca $\oplus$ (XOR) sayısal
+tasarımcılar arasında gerçekten kullanılır. Engelleme ve çıkarım işlemleri mantıkçılar
+tarafından kullanılsa da sayısal tasarımda neredeyse hiç görülmez.
+
+XOR ile XNOR birbirinin tümleyenidir: Tablo~\ref{tab:16-fonksiyon}'da $F_6$ (XOR) ile
+$F_9$ (XNOR) sütunlarını karşılaştırırsanız, her satırda tam tersi değerler taşıdıklarını
+görürsünüz. Bu yüzden XNOR'a \emph{eşdeğerlik} de denir: $x$ ile $y$ eşit olduğunda $1$
+üretir.
+
+\section{Sayısal Mantık Kapıları}
+\label{sec:mantik-kapilari}
+
+Şimdiye kadar Bool cebrini yalnızca cebirsel bir sistem olarak ele aldık: değişkenler,
+postülatlar, teoremler. Ama bu bölümün başında da vurguladığımız gibi, Bool cebrinin asıl
+gücü, fiziksel bir devreye (\emph{mantık kapısına}) birebir karşılık gelmesinden
+gelir. Bir mantık fonksiyonu üç eşdeğer biçimde ifade edilebileceğini
+(Bölüm~\ref{sec:ikili-degiskenler}) hatırlayın: doğruluk tablosu, Bool ifadesi ve lojik
+devre şeması. Şimdiye kadar ilk ikisiyle çalıştık; bu bölümde üçüncü gösterimi, yani
+gerçek kapı sembollerini tanıyacağız.
+
+\subsection{Sekiz Temel Kapı}
+\label{sec:sekiz-temel-kapi}
+
+Bir Bool fonksiyonunu AND, OR ve NOT işlemleriyle gerçeklemek en doğal yoldur, çünkü Bool
+cebrinin kendisi bu üç işlem üzerine kurulu. Ama pratikte başka kapılar da kullanılır:
+üretim kolaylığı, çok girişe genişleyebilme ve diğer kapılarla birlikte bir fonksiyonu tek
+başına gerçekleyebilme gibi nedenlerle. Aşağıdaki sekiz kapı, sayısal tasarımda standart
+kabul edilen kapılardır: her biri için grafik sembolü, doğruluk tablosu ve Bool ifadesi
+birlikte verilmiştir.
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{AND} &
+$F=x\cdot y$ \\
+\begin{circuitikz}[scale=0.8]
+\node[and port] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&0\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{AND kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-and}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{OR} &
+$F=x+y$ \\
+\begin{circuitikz}[scale=0.8]
+\node[or port, line width=0.4pt] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{OR kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-or}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{NOT (Tersleyici)} &
+$F=x'$ \\
+\begin{circuitikz}[scale=0.8]
+\node[not port] (g) at (0,0) {};
+\draw (g.in) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{c|c}
+\toprule
+$x$&$F$\\
+\midrule
+0&1\\1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOT (tersleyici) kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-not}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{Tampon (Buffer)} &
+$F=x$ \\
+\begin{circuitikz}[scale=0.8]
+\node[buffer port] (g) at (0,0) {};
+\draw (g.in) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{c|c}
+\toprule
+$x$&$F$\\
+\midrule
+0&0\\1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{Tampon (buffer) kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-tampon}
+\end{figure}
+
+\begin{bilginot}[Tampon Bir Mantık İşlemi mi?]
+Tampon (buffer) kapısı, girişini olduğu gibi çıkışa aktarır; mantıksal bir işlem yapmaz.
+Peki neden var? Sinyal zayıfladığında (uzun bir tel üzerinde ya da çok fazla kapıyı
+sürerken) gerilim seviyesini tazelemek için kullanılır; elektriksel olarak birbirine
+ardı ardına bağlı iki tersleyiciye eşdeğerdir ($((x')')=x$, Bölüm~\ref{sec:dualite} Teorem 3).
+\end{bilginot}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{NAND} &
+$F=(x\cdot y)'$ \\
+\begin{circuitikz}[scale=0.8]
+\node[nand port, line width=0.4pt] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&1\\0&1&1\\1&0&1\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NAND kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-nand}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{NOR} &
+$F=(x+y)'$ \\
+\begin{circuitikz}[scale=0.8]
+\node[nor port] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&1\\0&1&0\\1&0&0\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOR kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-nor}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{XOR (Özel-VEYA)} &
+$F=xy'+x'y=x\oplus y$ \\
+\begin{circuitikz}[scale=0.8]
+\node[xor port] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{XOR (özel-VEYA) kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-xor}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{3.6cm}m{6.5cm}@{}}
+\textbf{XNOR (Denklik)} &
+$F=xy+x'y'=(x\oplus y)'$ \\
+\begin{circuitikz}[scale=0.8]
+\node[xnor port, line width=0.4pt] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.4,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.4,0) node[left] {$y$};
+\draw (g.out) -- ++(0.4,0) node[right] {$F$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$F$\\
+\midrule
+0&0&1\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{XNOR (denklik) kapısı: sembol ve doğruluk tablosu.}
+\label{fig:kapi-xnor}
+\end{figure}
+
+\begin{bilginot}[NAND ve NOR Neden Bu Kadar Yaygın?]
+AND ve OR yerine pratikte NAND ve NOR kapıları çok daha sık kullanılır. Nedeni cebirsel
+değil, fiziksel: NAND ve NOR, transistör devreleriyle AND/OR'dan daha az elemanla ve daha
+hızlı gerçeklenir. İleride (kombinasyonel mantık bölümünde) göreceğimiz gibi, tek başına
+NAND ya da tek başına NOR kullanarak \emph{herhangi} bir Bool fonksiyonu gerçeklenebilir.
+Bu özelliğe \emph{fonksiyonel tamlık} denir.
+\end{bilginot}
+
+\begin{detaybilgi}[CMOS Transistör Düzeyinde NAND ve NOR Neden Daha Az Eleman Gerektirir?]
+Bu "daha az eleman" iddiasını CMOS transistör düzeyinde somutlaştıralım. CMOS'ta her
+kapı, girişleri VDD'ye bağlayan bir PMOS ağı ile girişleri toprağa (GND) bağlayan bir NMOS
+ağından oluşur. İki girişli bir NAND, iki PMOS'un \emph{paralel} (VDD'ye bağlı) ve iki
+NMOS'un \emph{seri} bağlanmasıyla doğrudan gerçeklenir; toplam dört transistör yeterlidir:
+
+\begin{center}
+\begin{circuitikz}[scale=0.75]
+\draw (0,5) node[pmos] (Mp1) {};
+\draw (2.4,5) node[pmos] (Mp2) {};
+\draw (0,2.6) node[nmos] (Mn1) {};
+\draw (0,1) node[nmos] (Mn2) {};
+
+\draw (-1.9,6) -- (3.0,6) node[right] {$V_{DD}$};
+\draw (Mp1.S) -- (0,6);
+\draw (Mp2.S) -- (2.4,6);
+
+\draw (Mp1.D) -- ++(0,-0.4) coordinate (fL);
+\draw (Mp2.D) -- ++(0,-0.4) coordinate (fR);
+\draw (fL) -- (fR);
+\draw (fL) -- (Mn1.D);
+\draw (fL) -- ++(3.0,0) node[right] {$F=(xy)'$};
+
+\draw (Mn1.S) -- (Mn2.D);
+\draw (Mn2.S) -- ++(0,-0.5) node[ground] {};
+
+\draw (Mp1.G) -- (Mn1.G);
+\draw (Mp1.G) -- ++(-0.7,0) node[left] {$x$};
+
+\draw (Mp2.G) -- ++(-0.3,0) -- ++(0,1.5) -- ++(-3.9,0) coordinate (yLbl) -- ++(0,-5.5) -- (Mn2.G);
+\draw (yLbl) -- ++(-0.7,0) node[left] {$y$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam: 4 transistör} (2 PMOS + 2 NMOS).
+
+Aynı fonksiyonu doğrudan bir AND kapısıyla elde etmek isteseydik, NAND'ın ürettiği
+$(xy)'$ sonucunu bir tersleyiciden (2 transistör: 1 PMOS + 1 NMOS) geçirip yeniden tersi
+alınması gerekirdi, çünkü Bool cebirinde AND'i doğrudan üreten tek bir PMOS/NMOS ağı yoktur.
+Aşağıdaki devrede $F$, bir önceki NAND devresinin çıkışıyla aynı düğümdür; devrenin geri
+kalanı bu $F$'i tersleyip $G=xy$'yi üretir:
+
+\begin{center}
+\begin{circuitikz}[scale=0.75]
+\draw (0,5) node[pmos] (Mp1) {};
+\draw (2.4,5) node[pmos] (Mp2) {};
+\draw (0,2.6) node[nmos] (Mn1) {};
+\draw (0,1) node[nmos] (Mn2) {};
+\draw (5,5) node[pmos] (Mp3) {};
+\draw (5,2.6) node[nmos] (Mn3) {};
+
+\draw (-1.9,6) -- (5.6,6) node[right] {$V_{DD}$};
+\draw (Mp1.S) -- (0,6);
+\draw (Mp2.S) -- (2.4,6);
+\draw (Mp3.S) -- (5,6);
+
+\draw (Mp1.D) -- ++(0,-0.4) coordinate (fL);
+\draw (Mp2.D) -- ++(0,-0.4) coordinate (fR);
+\draw (fL) -- (fR);
+\draw (fL) -- (Mn1.D);
+\draw (fL) -- ++(1.6,0) coordinate (fOut) node[below] {$F$};
+
+\draw (Mn1.S) -- (Mn2.D);
+\draw (Mn2.S) -- ++(0,-0.5) node[ground] {};
+
+\draw (Mp1.G) -- (Mn1.G);
+\draw (Mp1.G) -- ++(-0.7,0) node[left] {$x$};
+
+\draw (Mp2.G) -- ++(-0.3,0) -- ++(0,1.5) -- ++(-3.9,0) coordinate (yLbl) -- ++(0,-5.5) -- (Mn2.G);
+\draw (yLbl) -- ++(-0.7,0) node[left] {$y$};
+
+\draw (fOut) -- (fOut -| Mp3.G) -- (Mp3.G);
+\draw (Mp3.G) -- (Mn3.G);
+\draw (Mp3.D) -- ++(0,-0.4) coordinate (gL);
+\draw (gL) -- (Mn3.D);
+\draw (gL) -- ++(1.4,0) node[right] {$G=xy$};
+\draw (Mn3.S) -- ++(0,-0.5) node[ground] {};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam: 6 transistör} (3 PMOS + 3 NMOS) — NAND'a göre bir PMOS-NMOS çifti fazla.
+Aynı fark OR/NOR arasında da geçerlidir. Bir işlemci milyonlarca kapı içerdiğinden, her
+kapı başına iki fazla transistör devasa bir alan ve güç maliyetine dönüşür; NAND/NOR'un
+tercih edilme nedeni tam olarak budur.
+\end{detaybilgi}
+
+\subsection{Sadeleştirmenin Önemi: Devre Üzerinden Gösterim}
+\label{sec:sadelestirme-onemi}
+
+Artık kapı sembollerini tanıdığımıza göre, Bölüm~\ref{sec:operator-onceligi}'de
+sadeleştirdiğimiz $F=x'y'z+xyz+x'yz+xy'z$ örneğine geri dönüp, sadeleştirmenin devre
+üzerinde ne anlama geldiğini somut olarak görelim.
+
+\textbf{Sadeleştirilmemiş hâl} dört çarpım terimi içerir; her terim üç girişli bir AND
+kapısı gerektirir, dört AND çıkışı da bir OR kapısında birleşir. Ayrıca $x'$ ve $y'$
+için iki tersleyici (NOT) gerekir (şekle dahil edilmedi, ama toplam kapı sayısına
+dahildir):
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\node[and port, number inputs=3] (a1) at (2,9) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y'$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[and port, number inputs=3] (a2) at (2,6) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[and port, number inputs=3] (a3) at (2,3) {};
+\draw (a3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[and port, number inputs=3] (a4) at (2,0) {};
+\draw (a4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y'$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[or port, number inputs=4] (o1) at (7,4.5) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (a3.out) -| (o1.in 3);
+\draw (a4.out) -| (o1.in 4);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam:} 2 NOT + 4 AND (3 girişli) + 1 OR (4 girişli) = \textbf{7 kapı}.
+
+\textbf{Sadeleştirilmiş hâl} ise $F=z$ idi: yani $F$, $z$ girişinin \textbf{doğrudan
+kendisi}. Hiçbir kapıya gerek yok:
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\draw (0,0) node[left] {$z$} -- ++(2,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam: 0 kapı.} Aynı fonksiyonu 7 kapı yerine tek bir telle gerçekliyoruz.
+
+\begin{bilginot}[Sadeleştirme Neden Bu Kadar Önemli?]
+Bu örnek uç bir durum ($7\to 0$) ama gerçek tasarımlarda sadeleştirme her zaman gerçek bir
+kazanç sağlar: daha az kapı demek daha az transistör, daha az silikon alanı, daha az güç
+tüketimi ve (sinyalin daha az kapıdan geçmesi sayesinde) daha kısa yayılma gecikmesi
+demektir. Bir işlemci milyonlarca kez tekrar eden bir alt devrede tek bir kapıyı bile
+kaldırabilmek, üretimde büyük bir maliyet/performans farkı yaratır. Bu yüzden
+sadeleştirme yöntemleri (Karnaugh haritaları gibi), kitabın ilerleyen bir bölümünde ayrıca
+ve derinlemesine ele alınacak.
+\end{bilginot}
+
+\begin{alistirma}[\orta]
+$F=xy+xy'$ fonksiyonunu sadeleştirip, sadeleştirilmemiş ve sadeleştirilmiş hâllerin kapı
+sayılarını karşılaştırınız.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{align*}
+F = xy+xy' &= x(y+y') & &\text{[Postülat 4: dağılma]}\\
+    &= x\cdot 1 & &\text{[Postülat 5: $y+y'=1$]}\\
+    &= x & &\text{[Postülat 2: birim eleman]}
+\end{align*}
+\textbf{Sadeleştirilmemiş hâl:} $y'$ için 1 NOT, $xy$ ve $xy'$ için 2 AND (2 girişli), ikisini
+birleştirmek için 1 OR (2 girişli) gerekir (NOT şekle dahil edilmedi, ama toplam kapı
+sayısına dahildir):
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\node[and port] (b1) at (2,3) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+
+\node[and port] (b2) at (2,0) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y'$};
+
+\node[or port] (o1) at (5,1.5) {};
+\draw (b1.out) -| (o1.in 1);
+\draw (b2.out) -| (o1.in 2);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam:} 1 NOT + 2 AND + 1 OR = \textbf{4 kapı.}
+
+\textbf{Sadeleştirilmiş hâl:} $F=x$, yani $x$ girişinin doğrudan kendisi:
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\draw (0,0) node[left] {$x$} -- ++(2,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam: 0 kapı.}
+
+\begin{alistirma}[\zor]
+$F=xy+x'z+yz$ fonksiyonunu sadeleştiriniz. \emph{İpucu:} $yz$ terimini $x+x'=1$ ile çarpıp
+açın.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:}
+\begin{align*}
+F = xy+x'z+yz &= xy+x'z+yz(x+x') & &\text{[Postülat 5: $x+x'=1$, birim ile çarp]}\\
+    &= xy+x'z+xyz+x'yz & &\text{[Postülat 4: dağılma]}\\
+    &= xy(1+z)+x'z(1+y) & &\text{[gruplama + Postülat 4]}\\
+    &= xy\cdot 1+x'z\cdot 1 & &\text{[Teorem 2: $1+z=1$, $1+y=1$]}\\
+    &= xy+x'z & &\text{[Postülat 2: birim eleman]}
+\end{align*}
+$yz$ terimi, $xy$ ve $x'z$'nin yanında \textbf{gereksizdi}: $x$ ile $x'$'nin ikisi de $0$
+olamayacağından, $xy$ veya $x'z$'den biri zaten $yz$'nin kapsadığı her durumu içeriyordu.
+\textbf{Sadeleştirilmemiş hâl:} $x'$ için 1 NOT, $xy$/$x'z$/$yz$ için 3 AND (2 girişli), 1 OR
+(3 girişli) gerekir (NOT şekle dahil edilmedi, ama toplam kapı sayısına dahildir):
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\node[and port] (c1) at (2,6) {};
+\draw (c1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (c1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+
+\node[and port] (c2) at (2,3) {};
+\draw (c2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
+\draw (c2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[and port] (c3) at (2,0) {};
+\draw (c3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (c3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[or port, number inputs=3] (o2) at (6,3) {};
+\draw (c1.out) -| (o2.in 1);
+\draw (c2.out) -| (o2.in 2);
+\draw (c3.out) -| (o2.in 3);
+\draw (o2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam:} 1 NOT + 3 AND + 1 OR = \textbf{5 kapı.}
+
+\textbf{Sadeleştirilmiş hâl:} $x'$ için 1 NOT, $xy$/$x'z$ için 2 AND (2 girişli), 1 OR (2
+girişli) gerekir:
+
+\begin{center}
+\begin{circuitikz}[scale=0.85]
+\node[and port] (d1) at (2,3) {};
+\draw (d1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (d1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+
+\node[and port] (d2) at (2,0) {};
+\draw (d2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
+\draw (d2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+
+\node[or port] (o3) at (5,1.5) {};
+\draw (d1.out) -| (o3.in 1);
+\draw (d2.out) -| (o3.in 2);
+\draw (o3.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\end{center}
+
+\textbf{Toplam:} 1 NOT + 2 AND + 1 OR = \textbf{4 kapı.}
+
+\subsection{Çok Girişli Genişletme}
+\label{sec:cok-girisli-genisletme}
+
+Tersleyici ve tampon dışındaki kapılar iki girişten fazlasına genişletilebilir. Bir kapının
+çok girişe genişleyebilmesi için temsil ettiği işlemin hem \textbf{değişmeli} hem
+\textbf{birleşmeli} olması gerekir. OR işlemi için:
+\[
+x+y=y+x \quad\text{(değişme)}, \qquad (x+y)+z=x+(y+z)=x+y+z \quad\text{(birleşme)}
+\]
+Bu, kapı girişlerinin yer değiştirebileceğini ve OR fonksiyonunun üç ya da daha çok
+değişkene genişleyebileceğini gösterir. Aynısı AND için de geçerlidir.
+
+NAND ve NOR işlemleri değişmelidir, ama \textbf{birleşmeli değildir}:
+$(x\downarrow y)\downarrow z\neq x\downarrow(y\downarrow z)$. Bunu cebirsel olarak
+gösterelim:
+\begin{align*}
+(x\downarrow y)\downarrow z &= [(x+y)'+z]' = (x+y)z' = xz'+yz'\\
+x\downarrow(y\downarrow z) &= [x+(y+z)']' = x'(y+z) = x'y+x'z
+\end{align*}
+İki sonuç farklı olduğundan ($xz'+yz'\neq x'y+x'z$), NOR birleşmeli değildir. Aynı
+durum NAND için de geçerlidir. Devre üzerinde bu fark açıkça görülür:
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[nor port] (g1) at (0,2) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\node[nor port] (g2) at (3,1) {};
+\draw (g1.out) -| (g2.in 1);
+\draw (g2.in 2) -- ++(-0.6,0) node[left] {$z$};
+\draw (g2.out) -- ++(0.6,0) node[right] {\small $(x\downarrow y)\downarrow z=(x+y)z'$};
+\end{circuitikz}
+
+\bigskip
+\begin{circuitikz}[scale=0.85]
+\node[nor port] (h1) at (0,1) {};
+\draw (h1.in 1) -- ++(-0.6,0) node[left] {$y$};
+\draw (h1.in 2) -- ++(-0.6,0) node[left] {$z$};
+\node[nor port] (h2) at (3,2) {};
+\draw (h2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (h1.out) -| (h2.in 2);
+\draw (h2.out) -- ++(0.6,0) node[right] {\small $x\downarrow(y\downarrow z)=x'(y+z)$};
+\end{circuitikz}
+\caption{NOR işleminin birleşmeli olmadığının gösterimi: $(x\downarrow y)\downarrow
+z\neq x\downarrow(y\downarrow z)$.}
+\label{fig:nor-birlesmezlik}
+\end{figure}
+
+Bu sorunu aşmak için çok girişli NOR (ya da NAND) kapısı, kaskad bağlantı üzerinden
+değil, \textbf{doğrudan tümlenmiş bir OR (ya da AND) kapısı} olarak tanımlanır:
+\[
+x\downarrow y\downarrow z=(x+y+z)', \qquad x\uparrow y\uparrow z=(xyz)'
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[nor port, number inputs=3] (m1) at (0,3) {};
+\draw (m1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (m1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (m1.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (m1.out) -- ++(0.6,0) node[right] {$x\downarrow y\downarrow z=(x+y+z)'$};
+
+\node[nand port, number inputs=3] (m2) at (0,0) {};
+\draw (m2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (m2.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (m2.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (m2.out) -- ++(0.6,0) node[right] {$x\uparrow y\uparrow z=(xyz)'$};
+\end{circuitikz}
+\caption{Üç girişli NOR ve NAND kapılarının grafik sembolleri.}
+\label{fig:nor-nand-3giris}
+\end{figure}
+
+Kaskad bağlı NAND kapılarını yazarken doğru parantezlemeye dikkat etmek gerekir.
+Örneğin aşağıdaki devrede:
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[nand port, number inputs=3] (n1) at (0,4) {};
+\draw (n1.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (n1.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (n1.in 3) -- ++(-0.6,0) node[left] {$C$};
+
+\node[nand port] (n2) at (0,1) {};
+\draw (n2.in 1) -- ++(-0.6,0) node[left] {$D$};
+\draw (n2.in 2) -- ++(-0.6,0) node[left] {$E$};
+
+\node[nand port] (n3) at (4,2.5) {};
+\draw (n1.out) -| (n3.in 1);
+\draw (n2.out) -| (n3.in 2);
+\draw (n3.out) -- ++(0.6,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Kaskad NAND kapılarıyla $F=[(ABC)'(DE)']'=ABC+DE$ gerçeklemesi.}
+\label{fig:kaskad-nand}
+\end{figure}
+
+fonksiyon şöyle yazılmalıdır: $F=[(ABC)'(DE)']'$. De Morgan uygulanınca $F=ABC+DE$
+elde edilir; yani bu devre, aynı fonksiyonu yalnızca NAND kapılarıyla gerçekleştirebiliyor
+(bu tür standart ifade biçimlerine ilerleyen bir bölümde ayrıca değineceğiz).
+
+XOR ve XNOR hem değişmeli hem birleşmelidir, dolayısıyla çok girişe genişleyebilirler.
+Ama donanımda çok girişli XOR nadirdir; iki girişli hâli bile genelde başka kapı
+türleriyle kurulur. Üstelik çok değişkenli tanımı da değişir: XOR bir
+\textbf{tek sayı fonksiyonudur} (\emph{odd function}): giriş değişkenlerindeki $1$
+sayısı tek olduğunda $1$ üretir. Üç girişli XOR, iki girişli kapıların kaskad
+bağlanmasıyla ya da tek bir üç girişli kapı sembolüyle gösterilebilir:
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[xor port] (p1) at (0,3) {};
+\draw (p1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (p1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\node[xor port] (p2) at (3,1.5) {};
+\draw (p1.out) -| (p2.in 1);
+\draw (p2.in 2) -- ++(-0.6,0) node[left] {$z$};
+\draw (p2.out) -- ++(0.6,0) node[right] {$F=x\oplus y\oplus z$};
+\end{circuitikz}
+
+\bigskip
+\begin{circuitikz}[scale=0.85]
+\node[xor port, number inputs=3] (p3) at (0,0) {};
+\draw (p3.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (p3.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (p3.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (p3.out) -- ++(0.6,0) node[right] {$F=x\oplus y\oplus z$};
+\end{circuitikz}
+\caption{İki girişli kapıların kaskadı (üstte) ve tek bir üç girişli kapı sembolü
+(altta) ile üç girişli XOR.}
+\label{fig:xor-3giris}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc|c}
+\toprule
+$x$&$y$&$z$&$F$\\
+\midrule
+0&0&0&0\\
+0&0&1&1\\
+0&1&0&1\\
+0&1&1&0\\
+1&0&0&1\\
+1&0&1&0\\
+1&1&0&0\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\caption{Üç girişli XOR'un doğruluk tablosu: $F=1$, girişlerdeki $1$ sayısı tek
+olduğunda (yani tam olarak bir tanesi ya da üçü de $1$ olduğunda).}
+\label{tab:xor-3giris}
+\end{table}
+
+\subsection{Pozitif ve Negatif Mantık}
+\label{sec:pozitif-negatif-mantik}
+
+Bir kapının girişindeki ve çıkışındaki ikili sinyal (geçiş anları dışında) iki değerden
+birini alır: yüksek seviye ($H$) ve alçak seviye ($L$). İki sinyal değerine iki mantık
+değeri atanacağından, iki farklı atama mümkündür: yüksek seviyeyi ($H$) mantıksal $1$
+olarak seçmek \textbf{pozitif mantık}, alçak seviyeyi ($L$) mantıksal $1$ olarak seçmek
+ise \textbf{negatif mantık} sistemi tanımlar. "Pozitif" ve "negatif" adları biraz
+yanıltıcıdır: iki sinyal de gerilim işareti bakımından pozitif ya da negatif olabilir;
+belirleyici olan sinyallerin gerçek değeri değil, iki seviyeye atanan göreli mantık
+değerleridir.
+
+Donanım kapıları $H$ ve $L$ gibi sinyal değerleri cinsinden tanımlanır; pozitif ya da
+negatif mantık ataması kullanıcının tercihidir. Örneğin $H=3\,\text{V}$ ve $L=0\,\text{V}$
+olan fiziksel bir kapıyı ele alalım:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc|ccc|ccc}
+\toprule
+\multicolumn{3}{c|}{Fiziksel ($H$/$L$)} & \multicolumn{3}{c|}{Pozitif mantık ($H{=}1$)} & \multicolumn{3}{c}{Negatif mantık ($L{=}1$)}\\
+$x$&$y$&$F$&$x$&$y$&$F$&$x$&$y$&$F$\\
+\midrule
+$L$&$L$&$L$&0&0&0&1&1&1\\
+$L$&$H$&$L$&0&1&0&1&0&1\\
+$H$&$L$&$L$&1&0&0&0&1&1\\
+$H$&$H$&$H$&1&1&1&0&0&0\\
+\bottomrule
+\end{tabular}
+\caption{Aynı fiziksel kapının pozitif mantıkta AND, negatif mantıkta OR olarak
+yorumlanması.}
+\label{tab:pozitif-negatif}
+\end{table}
+
+Pozitif mantık ataması ($H=1$, $L=0$) ile bu tablo AND işlemiyle birebir örtüşür.
+Şimdi aynı fiziksel kapıya negatif mantık ataması yapalım ($L=1$, $H=0$): sonuç, satırlar
+ters sırada olsa da, OR işlemiyle örtüşür. Yani \textbf{aynı fiziksel kapı}, pozitif
+mantıkta AND kapısı, negatif mantıkta ise OR kapısı olarak çalışır. Grafik sembollerde
+negatif mantık varsayıldığında uçlara küçük bir üçgen (kutupluluk göstergesi) eklenir.
+Önce mantıksal değerin sinyal değerine nasıl atandığını görselleştirelim:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9]
+\node at (0,1.6) {\small Mantıksal değer};
+\node at (3.0,1.6) {\small Sinyal değeri};
+\node (a1) at (0,0.9) {$1$};
+\node (a2) at (0,0.1) {$0$};
+\node (b1) at (3.0,0.9) {$H$};
+\node (b2) at (3.0,0.1) {$L$};
+\draw (a1) -- (b1);
+\draw (a2) -- (b2);
+\node[left] at (-1.6,0.5) {(a) Pozitif mantık:};
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}[scale=0.9]
+\node at (0,1.6) {\small Mantıksal değer};
+\node at (3.0,1.6) {\small Sinyal değeri};
+\node (c1) at (0,0.9) {$0$};
+\node (c2) at (0,0.1) {$1$};
+\node (d1) at (3.0,0.9) {$H$};
+\node (d2) at (3.0,0.1) {$L$};
+\draw (c1) -- (d1);
+\draw (c2) -- (d2);
+\node[left] at (-1.6,0.5) {(b) Negatif mantık:};
+\end{tikzpicture}
+\caption{Mantıksal değerin sinyal değerine ataması: pozitif mantıkta $1\to H$, $0\to L$
+(üstte); negatif mantıkta $0\to H$, $1\to L$ (altta).}
+\label{fig:mantik-kutbu-atama}
+\end{figure}
+
+Şimdi aynı atamanın kapı sembollerine nasıl yansıdığını görelim:
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\draw (0,0) rectangle (2.2,1.6);
+\node at (1.1,0.8) {\small Sayısal kapı};
+\draw (-0.6,1.2) node[left] {$x$} -- (0,1.2);
+\draw (-0.6,0.4) node[left] {$y$} -- (0,0.4);
+\draw (2.2,0.8) -- (2.8,0.8) node[right] {$z$};
+\end{circuitikz}
+
+\bigskip
+\begin{circuitikz}[scale=0.85]
+\node[and port] (g1) at (0,0) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (g1.out) -- ++(0.6,0) node[right] {$z$};
+\node[right=2.2cm] at (g1) {\small (pozitif mantık: AND)};
+\end{circuitikz}
+
+\bigskip
+\begin{circuitikz}[scale=0.85]
+\node[or port] (g2) at (0,0) {};
+\draw (g2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (g2.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (g2.out) -- ++(0.6,0) node[right] {$z$};
+\filldraw ($(g2.in 1)+(-0.32,0.08)$) -- ($(g2.in 1)+(-0.12,0)$) -- ($(g2.in 1)+(-0.32,-0.08)$) -- cycle;
+\filldraw ($(g2.in 2)+(-0.32,0.08)$) -- ($(g2.in 2)+(-0.12,0)$) -- ($(g2.in 2)+(-0.32,-0.08)$) -- cycle;
+\filldraw ($(g2.out)+(0.12,0.08)$) -- ($(g2.out)+(0.32,0)$) -- ($(g2.out)+(0.12,-0.08)$) -- cycle;
+\node[right=2.2cm] at (g2) {\small (negatif mantık: OR)};
+\end{circuitikz}
+\caption{Aynı fiziksel kapı bloğu (üstte), pozitif mantıkta AND sembolüyle (ortada) ve
+negatif mantıkta uçlarındaki kutupluluk üçgenleriyle OR sembolüyle (altta) gösterilir.}
+\label{fig:pozitif-negatif-sembol}
+\end{figure}
+
+Pozitif mantıktan negatif mantığa (ya da tersine) geçmek, girişlerin ve çıkışın hepsinde
+$1$'leri $0$'a, $0$'ları $1$'e çevirmek anlamına gelir; bu da fonksiyonun \emph{dualini}
+almaktır (Bölüm~\ref{sec:dualite}). Bu yüzden kutup değişiminde tüm AND sembolleri OR'a,
+tüm OR sembolleri AND'e dönüşür.
+
+\begin{bilginot}[Bu Kitapta Hangi Mantık Kullanılıyor?]
+Negatif mantık pratikte nadiren tercih edilir ve kafa karıştırıcı olabilir. Bu kitap
+boyunca yalnızca \textbf{pozitif mantık} varsayılacak ($H=1$, $L=0$); negatif mantık
+kapıları bir daha kullanılmayacaktır. Burada tanıtılmasının amacı, aynı fiziksel
+donanımın atamaya bağlı olarak farklı yorumlanabileceğini görmenizdir.
+\end{bilginot}
+
+\section{Kanonik ve Standart Formlar}
+\label{sec:kanonik-standart-formlar}
+
+"Kanonik" sözcüğü Eski Yunanca \emph{kanōn} ($\kappa\alpha\nu\acute{\omega}\nu$)
+kökünden gelir; ilk anlamı düz bir çubuk ya da ölçüm aletiydi, zamanla mecazi olarak
+"kural, ölçüt, standart" anlamını kazandı. Latinceye \emph{canonicus} olarak geçti,
+oradan da Türkçeye "kanon" (yasa, kural) ve "kanonik" (kurala uygun, standart)
+sözcükleri türedi. Matematikte bir \textbf{kanonik form}, bir nesneyi ifade etmenin
+standart ve \textbf{tek (unique)} yoludur.
+
+Bu, Bölüm~\ref{sec:sadelestirme-onemi}'de gördüğümüz sadeleştirmeden temelde
+farklıdır: sadeleştirme bir fonksiyonu \emph{en az} kapıyla ifade etmeyi hedefler ve
+genelde tek bir "en sade" sonuca varmaz (izlenen algebraik yola göre farklı ama eşdeğer
+sonuçlar elde edilebilir). Kanonik form ise sadelik değil \textbf{teklik} arar: her Bool
+fonksiyonunun tam olarak bir kanonik minterm toplamı ve tam olarak bir kanonik maxterm
+çarpımı biçimi vardır. Bu bölümde bu iki standart biçimi tanıyacağız.
+
+\subsection{Minterm ve Maxterm}
+\label{sec:minterm-maxterm}
+
+Bir ikili değişken ya normal ($x$) ya da tümlü ($x'$) biçimde bulunabilir. İki değişken
+$x,y$ AND ile birleştirildiğinde dört olası bileşim ortaya çıkar: $x'y'$, $x'y$, $xy'$,
+$xy$. Genel olarak $n$ değişken $2^n$ farklı bileşim üretir.
+
+\begin{tanim}{Minterm:}
+$n$ ikili değişkenin her birinin (normal ya da tümlü biçimde) tam olarak bir kez
+AND ile çarpılmasından oluşan terime \emph{minterm} (asgari terim, standart çarpım)
+denir. Değişken, ilgili bit $0$ ise tümlü, $1$ ise normal biçimde yazılır. $n$ değişken
+için $2^n$ farklı minterm vardır; $j$'inci minterm $m_j$ ile gösterilir ($j$, ikili
+sayının onluk karşılığıdır).
+\end{tanim}
+
+\begin{tanim}{Maxterm:}
+$n$ ikili değişkenin her birinin (normal ya da tümlü biçimde) tam olarak bir kez OR
+ile toplanmasından oluşan terime \emph{maxterm} (azami terim, standart toplam) denir.
+Değişken, ilgili bit $0$ ise normal, $1$ ise tümlü biçimde yazılır ---
+minterm'deki kuralın tam tersi. $j$'inci maxterm $M_j$ ile gösterilir.
+\end{tanim}
+
+Üç değişken için tüm minterm ve maxtermler Tablo~\ref{tab:minterm-maxterm}'de
+listelenmiştir:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc|cc|cc}
+\toprule
+$x$&$y$&$z$&Minterm&Simge&Maxterm&Simge\\
+\midrule
+0&0&0&$x'y'z'$&$m_0$&$x+y+z$&$M_0$\\
+0&0&1&$x'y'z$&$m_1$&$x+y+z'$&$M_1$\\
+0&1&0&$x'yz'$&$m_2$&$x+y'+z$&$M_2$\\
+0&1&1&$x'yz$&$m_3$&$x+y'+z'$&$M_3$\\
+1&0&0&$xy'z'$&$m_4$&$x'+y+z$&$M_4$\\
+1&0&1&$xy'z$&$m_5$&$x'+y+z'$&$M_5$\\
+1&1&0&$xyz'$&$m_6$&$x'+y'+z$&$M_6$\\
+1&1&1&$xyz$&$m_7$&$x'+y'+z'$&$M_7$\\
+\bottomrule
+\end{tabular}
+\caption{Üç ikili değişken için minterm ve maxtermler.}
+\label{tab:minterm-maxterm}
+\end{table}
+
+Tablodan önemli bir ilişki görülür: $j$'inci maxterm, $j$'inci mintermin tümleyenidir
+ve tersi de doğrudur: $m_j'=M_j$. Örneğin $m_2=x'yz'$ iken $M_2=x+y'+z$; gerçekten de
+De Morgan ile $(x'yz')'=x+y'+z=M_2$.
+
+\subsection{Minterm Toplamı ve Maxterm Çarpımı Simgeleri}
+\label{sec:sigma-pi}
+
+Bir fonksiyonun doğruluk tablosundan yola çıkarak, $F=1$ üreten her satır için bir
+minterm yazıp bunları OR ile birleştirirsek, $F$'i \textbf{minterm toplamı} biçiminde
+elde ederiz. Örnek olarak $F=x+y'z$ fonksiyonunun doğruluk tablosunu inceleyelim:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc|c}
+\toprule
+$x$&$y$&$z$&$F$\\
+\midrule
+0&0&0&0\\
+0&0&1&1\\
+0&1&0&0\\
+0&1&1&0\\
+1&0&0&1\\
+1&0&1&1\\
+1&1&0&1\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\caption{$F=x+y'z$ fonksiyonunun doğruluk tablosu.}
+\label{tab:sigma-pi-ornek}
+\end{table}
+
+$F=1$ olan satırlar $1,4,5,6,7$'dir; bu satırların mintermlerini OR ile birleştirirsek:
+\[
+F=x'y'z+xy'z'+xy'z+xyz'+xyz=m_1+m_4+m_5+m_6+m_7
+\]
+Bu, cebirsel olarak sadeleştirilebilir ($x+x'y'z=(x+x')(x+y'z)=x+y'z$, Postülat 4 ve 5
+ile), ama kanonik biçimde bırakıyoruz çünkü amaç sadelik değil tekliktir. Bu toplamı kısaca yazmak için $\Sigma$ (toplam) simgesi kullanılır: $\Sigma$,
+mintermlerin OR'lanmasını (toplanmasını) temsil eder ve şöyle yazılır:
+\[
+F(x,y,z)=\Sigma(1,4,5,6,7)
+\]
+
+Şimdi aynı fonksiyonun tümleyenini, $F=0$ olan satırlardan ($0,2,3$) okuyalım:
+\[
+F'=x'y'z'+x'yz'+x'yz=m_0+m_2+m_3=\Sigma(0,2,3)
+\]
+$F'$'ye De Morgan uygularsak $F$'i \emph{farklı} bir kanonik biçimde elde ederiz:
+\begin{align*}
+F=(F')'&=(m_0+m_2+m_3)'\\
+       &=m_0'\cdot m_2'\cdot m_3'\\
+       &=M_0\cdot M_2\cdot M_3
+\end{align*}
+Son adım, bir önceki alt bölümde gördüğümüz $m_j'=M_j$ ilişkisinden gelir. Maxtermleri
+okuyup yerine koyarsak (bkz.~Tablo~\ref{tab:minterm-maxterm}):
+\begin{align*}
+F&=(x+y+z)(x+y'+z)\\
+&\quad\cdot(x+y'+z')\\
+&=M_0\cdot M_2\cdot M_3
+\end{align*}
+Bu \textbf{maxterm çarpımı} biçimidir; kısaca yazmak için $\Pi$ (çarpım) simgesi
+kullanılır: $\Pi$, maxtermlerin AND'lenmesini (çarpılmasını) temsil eder ve şöyle
+yazılır:
+\[
+F(x,y,z)=\Pi(0,2,3)
+\]
+
+Dikkat edilirse $\Sigma$ ifadesindeki indisler ($F$'in $1$ olduğu satırlar) ile $\Pi$
+ifadesindeki indisler ($F$'in $0$ olduğu satırlar) birbirini tamamlar: üç değişkenli bir
+fonksiyon için toplam $2^3=8$ minterm/maxterm olduğundan, $\Sigma(1,4,5,6,7)$ ve
+$\Pi(0,2,3)$ aynı fonksiyonun iki farklı ama eşdeğer kanonik anlatımıdır. Özetle:
+$\Sigma$ her zaman mintermlere (OR'lanan AND terimleri), $\Pi$ her zaman maxtermlere
+(AND'lenen OR terimleri) karşılık gelir.
