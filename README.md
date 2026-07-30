@@ -5,7 +5,7 @@
 ![status](https://img.shields.io/badge/durum-aktif%20geli%C5%9Ftirme-yellow)
 ![language](https://img.shields.io/badge/dil-T%C3%BCrk%C3%A7e-red)
 ![engine](https://img.shields.io/badge/-XeLaTeX-008080?logo=latex&logoColor=white)
-![chapters](https://img.shields.io/badge/b%C3%B6l%C3%BCm-1%2F9%20tamam-blue)
+![chapters](https://img.shields.io/badge/b%C3%B6l%C3%BCm-2%2F9%20tamam-blue)
 
 Bool cebri ve temel mantık kapılarından başlayıp kombinasyonel ve ardışık mantık
 devreleri üzerinden ilerleyen, sonlu durum makinelerine (FSM) ve basit bir CPU
@@ -45,8 +45,8 @@ işlenir.
 | # | Bölüm | Durum |
 |---|-------|:---:|
 | 1 | Sayı Sistemleri ve Kodlama | ✅ Tamamlandı |
-| 2 | Bool Cebri ve Mantık Kapıları | 🟨 Devam ediyor |
-| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | ⬜ Planlandı |
+| 2 | Bool Cebri ve Mantık Kapıları | ✅ Tamamlandı |
+| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | 🟨 Devam ediyor |
 | 4 | Kombinasyonel Mantık Devreleri | ⬜ Planlandı |
 | 5 | Senkron Ardışık Mantık | ⬜ Planlandı |
 | 6 | Yazmaçlar ve Sayaçlar | ⬜ Planlandı |

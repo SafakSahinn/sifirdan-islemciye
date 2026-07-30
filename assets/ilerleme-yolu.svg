@@ -12,7 +12,7 @@
   <rect x="40" y="65" width="110" height="60" rx="3" fill="#2ea44f" stroke="#1a7f37" stroke-width="1.5"/>
   <text x="95" y="90" text-anchor="middle" font-size="12" fill="#ffffff">Bölüm 1</text>
   <text x="95" y="105" text-anchor="middle" font-size="12" fill="#ffffff">Sayı Sistemleri</text>
-  <rect x="170" y="65" width="110" height="60" rx="3" fill="#d4a72c" stroke="#9a6700" stroke-width="1.5"/>
+  <rect x="170" y="65" width="110" height="60" rx="3" fill="#2ea44f" stroke="#1a7f37" stroke-width="1.5"/>
   <text x="225" y="84" text-anchor="middle" font-size="11" fill="#ffffff">Bölüm 2</text>
   <text x="225" y="98" text-anchor="middle" font-size="11" fill="#ffffff">Bool Cebri ve</text>
   <text x="225" y="112" text-anchor="middle" font-size="11" fill="#ffffff">Mantık Kapıları</text>
@@ -20,9 +20,9 @@
   <!-- Faz 2 -->
   <rect x="330" y="20" width="280" height="140" rx="4" fill="#FFFFDE" stroke="#AAAA33" stroke-width="1.5"/>
   <text x="470" y="36" text-anchor="middle" font-size="12" fill="#333333">Faz 2 — Kombinasyonel Mantık</text>
-  <rect x="350" y="65" width="110" height="60" rx="3" fill="#e1e4e8" stroke="#8c959f" stroke-width="1.5"/>
-  <text x="405" y="90" text-anchor="middle" font-size="12" fill="#24292f">Bölüm 3</text>
-  <text x="405" y="105" text-anchor="middle" font-size="12" fill="#24292f">K-map</text>
+  <rect x="350" y="65" width="110" height="60" rx="3" fill="#d4a72c" stroke="#9a6700" stroke-width="1.5"/>
+  <text x="405" y="90" text-anchor="middle" font-size="12" fill="#ffffff">Bölüm 3</text>
+  <text x="405" y="105" text-anchor="middle" font-size="12" fill="#ffffff">K-map</text>
   <rect x="480" y="65" width="110" height="60" rx="3" fill="#e1e4e8" stroke="#8c959f" stroke-width="1.5"/>
   <text x="535" y="90" text-anchor="middle" font-size="12" fill="#24292f">Bölüm 4</text>
   <text x="535" y="105" text-anchor="middle" font-size="12" fill="#24292f">Komb. Mantık</text>
@@ -71,7 +71,7 @@
   <line x1="415" y1="315" x2="217" y2="315" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- Faz 3 -> Faz 4 bağlantı oku (aşağı inip sola dönüyor) -->
-  <path d="M 845 160 C 845 225 900 250 900 275 C 900 300 850 300 838 300"
+  <path d="M 845 125 C 845 210 900 240 900 275 C 900 300 850 300 838 300"
         fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- ================= LEJANT ================= -->
