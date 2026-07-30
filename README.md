@@ -13,7 +13,7 @@ mimarisine kadar uzanan, Türkçe yazılmış kapsamlı bir dijital donanım tas
 
 Kitap; lisans/yüksek lisans öncesi teorik temeli sağlamlaştırmayı, gate-level tasarım
 ile fiziksel gerçekleme (silikon/layout) arasındaki köprüyü tam olarak kavratmayı
-hedefler. Her kavram yalnızca tanım düzeyinde bırakılmaz — sezgisi, "neden"i ve elle
+hedefler. Her kavram yalnızca tanım düzeyinde bırakılmaz: sezgisi, "neden"i ve elle
 doğrulanmış örnekleriyle birlikte, başka bir kaynağa ihtiyaç duyurmayacak derinlikte
 işlenir.
 
