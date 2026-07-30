@@ -19,51 +19,7 @@ işlenir.
 
 ## İlerleme Yolu
 
-```mermaid
-flowchart TD
-    subgraph Row1[" "]
-        direction LR
-        subgraph F1["Faz 1 — Temeller"]
-            B1["Bölüm 1<br/>Sayı Sistemleri"]
-            B2["Bölüm 2<br/>Bool Cebri ve<br/>Mantık Kapıları"]
-        end
-        subgraph F2["Faz 2 — Kombinasyonel Mantık"]
-            B3["Bölüm 3<br/>K-map"]
-            B4["Bölüm 4<br/>Komb. Mantık"]
-        end
-        subgraph F3["Faz 3 — Ardışık Mantık"]
-            B5["Bölüm 5<br/>Ardışık Mantık"]
-            B6["Bölüm 6<br/>Yazmaçlar"]
-        end
-        B1 --> B2 --> B3 --> B4 --> B5 --> B6
-    end
-
-    subgraph Row2[" "]
-        direction RL
-        subgraph F6["Faz 6 — CPU"]
-            B9["Bölüm 9<br/>CPU Mimarisi"]
-        end
-        subgraph F5["Faz 5 — RTL"]
-            B8["Bölüm 8<br/>RTL/ASMD"]
-        end
-        subgraph F4["Faz 4 — Bellek"]
-            B7["Bölüm 7<br/>Bellek"]
-        end
-        B7 --> B8 --> B9
-    end
-
-    B6 --> B7
-
-    class B1 done
-    class B2 progress
-    class B3,B4,B5,B6,B7,B8,B9 todo
-
-    classDef done fill:#2ea44f,stroke:#1a7f37,color:#ffffff,stroke-width:2px
-    classDef progress fill:#d4a72c,stroke:#9a6700,color:#ffffff,stroke-width:2px
-    classDef todo fill:#e1e4e8,stroke:#8c959f,color:#24292f,stroke-width:1px
-    style Row1 fill:transparent,stroke:transparent
-    style Row2 fill:transparent,stroke:transparent
-```
+<img src="assets/ilerleme-yolu.svg" alt="İlerleme Yolu" width="100%">
 
 🟩 Tamamlandı &nbsp;&nbsp; 🟨 Devam Ediyor &nbsp;&nbsp; ⬜ Planlandı
 
