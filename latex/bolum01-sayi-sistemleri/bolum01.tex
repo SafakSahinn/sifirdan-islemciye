@@ -1609,7 +1609,7 @@ duyarlıklı ($32$ bit) bir örnek aşağıda verilmiştir.
 NaN kavramı soyut kalmasın; IEEE 754'ün tanımladığı en tuhaf davranışlardan biri, üç yaygın
 programlama dilinde de birebir aynı şekilde karşımıza çıkar: \textbf{NaN, kendisine bile eşit
 değildir} ($x \neq x$). Bu, bir hata değil, standardın kendisinin bilinçli bir tasarım
-kararıdır --- bu yüzden her dil, eşitlik operatörü yerine ayrı bir \texttt{isnan}/\texttt{isNaN}
+kararıdır. Bu yüzden her dil, eşitlik operatörü yerine ayrı bir \texttt{isnan}/\texttt{isNaN}
 fonksiyonu sağlar.
 
 \textbf{C:}
@@ -1822,7 +1822,7 @@ Elde zaten mevcuttu, kalan hane $0111$ (7) --- sonuç "17" (elde$=1$, hane$=7$).
 
 Bu tek haneli kural, çok haneli sayılara şöyle genişler: hanelere sağdan sola, birer birer
 uygulanır ve her hanenin ürettiği elde bir sonraki (daha soldaki) hanenin toplamına dahil
-edilir --- tıpkı okulda öğrendiğimiz elle toplamada olduğu gibi.
+edilir, tıpkı okulda öğrendiğimiz elle toplamada olduğu gibi.
 
 \begin{ornek}[Çok Haneli BCD Toplama: $(184)_{BCD}+(576)_{BCD}$]
 Sağdan sola, hane hane:
@@ -2145,7 +2145,8 @@ Aşağıdaki tablo, $0$'dan $15$'e kadar düz ikili ile Gray kodunu karşılaşt
 Her satırdan bir sonrakine geçerken Gray sütununda yalnızca tek bir bitin değiştiğine
 dikkat edin.
 
-\begin{center}
+\begin{table}[H]
+\centering
 \small
 \begin{tabular}{ccc}
 \toprule
@@ -2169,7 +2170,9 @@ Ondalık & İkili & Gray Kodu \\
 15 & 1111 & 1000 \\
 \bottomrule
 \end{tabular}
-\end{center}
+\caption{0'dan 15'e kadar ikili ve Gray kodu karşılaştırması.}
+\label{tab:gray-kodu}
+\end{table}
 
 \begin{ornek}[$7\to8$ Geçişinde İkili ile Gray Kodunun Karşılaştırılması]
 Düz ikilide $7\to8$ geçişi $0111\to1000$'dir: dört bitin dördü de değişir. Gray kodunda
@@ -2251,8 +2254,9 @@ kontrol karakterlerine (görünmez, yazdırılamaz), sütun $010$-$011$ rakamlar
 noktalamaya, sütun $100$-$101$ büyük harflere, sütun $110$-$111$ küçük harflere ayrılmıştır.
 Yani sütun numarası, karakterin kategorisini anında belli eder.
 
-\begin{center}
-\scriptsize
+\begin{table}[H]
+\centering
+\small
 \begin{tabular}{@{}c|cccccccc@{}}
 \toprule
 $b_3b_2b_1b_0$ \textbackslash\ $b_6b_5b_4$ & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
@@ -2275,7 +2279,9 @@ $b_3b_2b_1b_0$ \textbackslash\ $b_6b_5b_4$ & 000 & 001 & 010 & 011 & 100 & 101 &
 1111 & SI & US & / & ? & O & \_ & o & DEL \\
 \bottomrule
 \end{tabular}
-\end{center}
+\caption{Standart ASCII karakter tablosu (7 bit, $b_6\ldots b_0$).}
+\label{tab:ascii}
+\end{table}
 
 \begin{ornek}[Harf 'A'nın ASCII Kodunun Bulunması]
 Tabloda 'A' harfi, sütun $100$ ve satır $0001$'de yer alır. Yani $b_6b_5b_4=100$,

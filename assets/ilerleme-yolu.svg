@@ -12,7 +12,7 @@
   <rect x="40" y="65" width="110" height="60" rx="3" fill="#2ea44f" stroke="#1a7f37" stroke-width="1.5"/>
   <text x="95" y="90" text-anchor="middle" font-size="12" fill="#ffffff">Bölüm 1</text>
   <text x="95" y="105" text-anchor="middle" font-size="12" fill="#ffffff">Sayı Sistemleri</text>
-  <rect x="170" y="65" width="110" height="60" rx="3" fill="#d4a72c" stroke="#9a6700" stroke-width="1.5"/>
+  <rect x="170" y="65" width="110" height="60" rx="3" fill="#2ea44f" stroke="#1a7f37" stroke-width="1.5"/>
   <text x="225" y="84" text-anchor="middle" font-size="11" fill="#ffffff">Bölüm 2</text>
   <text x="225" y="98" text-anchor="middle" font-size="11" fill="#ffffff">Bool Cebri ve</text>
   <text x="225" y="112" text-anchor="middle" font-size="11" fill="#ffffff">Mantık Kapıları</text>

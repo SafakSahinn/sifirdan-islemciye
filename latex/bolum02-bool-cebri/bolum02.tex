@@ -116,11 +116,13 @@ $V_{OL}$ & Voltage, \textbf{O}utput, \textbf{L}ow & Bir ÇIKIŞIN Lojik $0$ içi
 $V_{OH}$ & Voltage, \textbf{O}utput, \textbf{H}igh & Bir ÇIKIŞIN Lojik $1$ için üreteceği garanti gerilim \\
 \bottomrule
 \end{tabular}
-\caption{Gerilim eşiği simgelerinin açılımı: alt simgenin ilk harfi Giriş ($I$) ya da Çıkış
-($O$) tarafını, ikinci harfi Yüksek ($H$) ya da Düşük ($L$) seviyeyi belirtir. Bu dört simge
-İngilizce ``Input/Output'' ve ``High/Low'' kelimelerinin baş harflerinden gelir.}
+\caption{Gerilim eşiği simgelerinin açılımı.}
 \label{tab:gerilim-esikleri}
 \end{table}
+
+Alt simgenin ilk harfi Giriş ($I$) ya da Çıkış ($O$) tarafını, ikinci harfi Yüksek ($H$) ya
+da Düşük ($L$) seviyeyi belirtir. Bu dört simge İngilizce ``Input/Output'' ve ``High/Low''
+kelimelerinin baş harflerinden gelir.
 
 \begin{table}[h]
 \centering
@@ -189,6 +191,7 @@ ise ikincil bir sonuçtur.
 \end{detaybilgi}
 
 \begin{detaybilgi}[Gürültü Payı (Noise Margin)]
+\label{detay:gurultu-payi}
 Bölüm~\ref{chap:sayi-sistemleri}'de, iki seviyeli gösterimin ``seviyeler arasında büyük bir
 güvenlik payı bırakılabildiği'' için güvenilir olduğunu söylemiştik; şimdi bunu
 netleştirebiliriz. Bir teli, birbirine bağlı iki kapı olarak düşünelim: \textbf{gönderen}
@@ -921,7 +924,8 @@ gördüğümüz düalite ilkesinin bir başka örneğidir.
 Bölüm~\ref{sec:iki-degerli-dogrulama}'da tanıdığımız yöntemle, De Morgan teoreminin ilk
 yarısını ($(x+y)'=x'y'$) bir doğruluk tablosuyla da doğrulayabiliriz:
 
-\begin{center}
+\begin{table}[H]
+\centering
 \begin{tabular}{cc|c|c|cc|c}
 \toprule
 $x$ & $y$ & $x+y$ & $(x+y)'$ & $x'$ & $y'$ & $x'y'$ \\
@@ -932,7 +936,9 @@ $x$ & $y$ & $x+y$ & $(x+y)'$ & $x'$ & $y'$ & $x'y'$ \\
 1&1&1&0&0&0&0\\
 \bottomrule
 \end{tabular}
-\end{center}
+\caption{$(x+y)'=x'y'$ özdeşliğinin doğruluk tablosuyla doğrulanması.}
+\label{tab:demorgan-truth-table}
+\end{table}
 
 Son iki sütun ($(x+y)'$ ve $x'y'$) her satırda birebir aynıdır; özdeşlik doğrulanmıştır.
 
@@ -1373,7 +1379,9 @@ Bu özelliğe \emph{fonksiyonel tamlık} denir.
 \end{bilginot}
 
 \begin{detaybilgi}[CMOS Transistör Düzeyinde NAND ve NOR Neden Daha Az Eleman Gerektirir?]
-Bu "daha az eleman" iddiasını CMOS transistör düzeyinde somutlaştıralım. CMOS'ta her
+\label{detay:cmos-transistor}
+Bu "daha az eleman" iddiasını CMOS (bkz. Bölüm~\ref{sec:dijital-lojik-aileleri}) transistör
+düzeyinde somutlaştıralım. CMOS'ta her
 kapı, girişleri VDD'ye bağlayan bir PMOS ağı ile girişleri toprağa (GND) bağlayan bir NMOS
 ağından oluşur. İki girişli bir NAND, iki PMOS'un \emph{paralel} (VDD'ye bağlı) ve iki
 NMOS'un \emph{seri} bağlanmasıyla doğrudan gerçeklenir; toplam dört transistör yeterlidir:
@@ -1470,7 +1478,8 @@ kapısı gerektirir, dört AND çıkışı da bir OR kapısında birleşir. Ayr�
 için iki tersleyici (NOT) gerekir (şekle dahil edilmedi, ama toplam kapı sayısına
 dahildir):
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \begin{circuitikz}[scale=0.85]
 \node[and port, number inputs=3] (a1) at (2,9) {};
 \draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
@@ -1499,18 +1508,24 @@ dahildir):
 \draw (a4.out) -| (o1.in 4);
 \draw (o1.out) -- ++(0.5,0) node[right] {$F$};
 \end{circuitikz}
-\end{center}
+\caption{Sadeleştirilmemiş devre: $F=x'y'z+xyz+x'yz+xy'z$ (4 AND + 1 OR; 2 NOT şekle
+dahil edilmedi).}
+\label{fig:sadelestirilmemis-devre}
+\end{figure}
 
 \textbf{Toplam:} 2 NOT + 4 AND (3 girişli) + 1 OR (4 girişli) = \textbf{7 kapı}.
 
 \textbf{Sadeleştirilmiş hâl} ise $F=z$ idi: yani $F$, $z$ girişinin \textbf{doğrudan
 kendisi}. Hiçbir kapıya gerek yok:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \begin{circuitikz}[scale=0.85]
 \draw (0,0) node[left] {$z$} -- ++(2,0) node[right] {$F$};
 \end{circuitikz}
-\end{center}
+\caption{Sadeleştirilmiş devre: $F=z$, tek bir tel.}
+\label{fig:sadelestirilmis-devre}
+\end{figure}
 
 \textbf{Toplam: 0 kapı.} Aynı fonksiyonu 7 kapı yerine tek bir telle gerçekliyoruz.
 
@@ -1681,7 +1696,7 @@ z\neq x\downarrow(y\downarrow z)$.}
 \label{fig:nor-birlesmezlik}
 \end{figure}
 
-Bu sorunu aşmak için çok girişli NOR (ya da NAND) kapısı, kaskad bağlantı üzerinden
+Bu sorunu aşmak için çok girişli NOR (ya da NAND) kapısı, ardı ardına bağlantı üzerinden
 değil, \textbf{doğrudan tümlenmiş bir OR (ya da AND) kapısı} olarak tanımlanır:
 \[
 x\downarrow y\downarrow z=(x+y+z)', \qquad x\uparrow y\uparrow z=(xyz)'
@@ -1706,7 +1721,7 @@ x\downarrow y\downarrow z=(x+y+z)', \qquad x\uparrow y\uparrow z=(xyz)'
 \label{fig:nor-nand-3giris}
 \end{figure}
 
-Kaskad bağlı NAND kapılarını yazarken doğru parantezlemeye dikkat etmek gerekir.
+Ardı ardına bağlı NAND kapılarını yazarken doğru parantezlemeye dikkat etmek gerekir.
 Örneğin aşağıdaki devrede:
 
 \begin{figure}[H]
@@ -1726,7 +1741,7 @@ Kaskad bağlı NAND kapılarını yazarken doğru parantezlemeye dikkat etmek ge
 \draw (n2.out) -| (n3.in 2);
 \draw (n3.out) -- ++(0.6,0) node[right] {$F$};
 \end{circuitikz}
-\caption{Kaskad NAND kapılarıyla $F=[(ABC)'(DE)']'=ABC+DE$ gerçeklemesi.}
+\caption{Ardı ardına bağlı NAND kapılarıyla $F=[(ABC)'(DE)']'=ABC+DE$ gerçeklemesi.}
 \label{fig:kaskad-nand}
 \end{figure}
 
@@ -1738,7 +1753,7 @@ XOR ve XNOR hem değişmeli hem birleşmelidir, dolayısıyla çok girişe geni�
 Ama donanımda çok girişli XOR nadirdir; iki girişli hâli bile genelde başka kapı
 türleriyle kurulur. Üstelik çok değişkenli tanımı da değişir: XOR bir
 \textbf{tek sayı fonksiyonudur} (\emph{odd function}): giriş değişkenlerindeki $1$
-sayısı tek olduğunda $1$ üretir. Üç girişli XOR, iki girişli kapıların kaskad
+sayısı tek olduğunda $1$ üretir. Üç girişli XOR, iki girişli kapıların ardı ardına
 bağlanmasıyla ya da tek bir üç girişli kapı sembolüyle gösterilebilir:
 
 \begin{figure}[H]
@@ -1761,8 +1776,8 @@ bağlanmasıyla ya da tek bir üç girişli kapı sembolüyle gösterilebilir:
 \draw (p3.in 3) -- ++(-0.6,0) node[left] {$z$};
 \draw (p3.out) -- ++(0.6,0) node[right] {$F=x\oplus y\oplus z$};
 \end{circuitikz}
-\caption{İki girişli kapıların kaskadı (üstte) ve tek bir üç girişli kapı sembolü
-(altta) ile üç girişli XOR.}
+\caption{Üç girişli XOR'un iki eşdeğer gösterimi (üstte: ardı ardına bağlantı; altta: tek
+kapı sembolü).}
 \label{fig:xor-3giris}
 \end{figure}
 
@@ -1782,10 +1797,12 @@ $x$&$y$&$z$&$F$\\
 1&1&1&1\\
 \bottomrule
 \end{tabular}
-\caption{Üç girişli XOR'un doğruluk tablosu: $F=1$, girişlerdeki $1$ sayısı tek
-olduğunda (yani tam olarak bir tanesi ya da üçü de $1$ olduğunda).}
+\caption{Üç girişli XOR'un doğruluk tablosu.}
 \label{tab:xor-3giris}
 \end{table}
+
+Tablodan görüldüğü gibi $F=1$, girişlerdeki $1$ sayısı tek olduğunda üretilir (yani tam
+olarak bir tanesi ya da üçü de $1$ olduğunda).
 
 \subsection{Pozitif ve Negatif Mantık}
 \label{sec:pozitif-negatif-mantik}
@@ -1830,36 +1847,35 @@ negatif mantık varsayıldığında uçlara küçük bir üçgen (kutupluluk gö
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.9]
-\node at (0,1.6) {\small Mantıksal değer};
-\node at (3.0,1.6) {\small Sinyal değeri};
-\node (a1) at (0,0.9) {$1$};
-\node (a2) at (0,0.1) {$0$};
-\node (b1) at (3.0,0.9) {$H$};
-\node (b2) at (3.0,0.1) {$L$};
-\draw (a1) -- (b1);
-\draw (a2) -- (b2);
+\begin{tikzpicture}[scale=1.0, line width=0.9pt]
 \node[left] at (-1.6,0.5) {(a) Pozitif mantık:};
+\node at (0.3,1.7) {\small Mantıksal değer};
+\node at (3.1,1.7) {\small Sinyal değeri};
+\node at (0,1.0) {$1$};
+\node at (0,0.0) {$0$};
+\draw[cyan!70!blue] (0.5,0.0) -- (1.3,0.0) -- (1.3,1.0) -- (2.6,1.0);
+\node at (3.1,1.0) {$H$};
+\node at (3.1,0.0) {$L$};
 \end{tikzpicture}
 
 \bigskip
-\begin{tikzpicture}[scale=0.9]
-\node at (0,1.6) {\small Mantıksal değer};
-\node at (3.0,1.6) {\small Sinyal değeri};
-\node (c1) at (0,0.9) {$0$};
-\node (c2) at (0,0.1) {$1$};
-\node (d1) at (3.0,0.9) {$H$};
-\node (d2) at (3.0,0.1) {$L$};
-\draw (c1) -- (d1);
-\draw (c2) -- (d2);
+\begin{tikzpicture}[scale=1.0, line width=0.9pt]
 \node[left] at (-1.6,0.5) {(b) Negatif mantık:};
+\node at (0.3,1.7) {\small Mantıksal değer};
+\node at (3.1,1.7) {\small Sinyal değeri};
+\node at (0,1.0) {$0$};
+\node at (0,0.0) {$1$};
+\draw[cyan!70!blue] (0.5,0.0) -- (1.3,0.0) -- (1.3,1.0) -- (2.6,1.0);
+\node at (3.1,1.0) {$H$};
+\node at (3.1,0.0) {$L$};
 \end{tikzpicture}
-\caption{Mantıksal değerin sinyal değerine ataması: pozitif mantıkta $1\to H$, $0\to L$
-(üstte); negatif mantıkta $0\to H$, $1\to L$ (altta).}
+\caption{Mantıksal değerin sinyal değerine ataması.}
 \label{fig:mantik-kutbu-atama}
 \end{figure}
 
-Şimdi aynı atamanın kapı sembollerine nasıl yansıdığını görelim:
+Pozitif mantıkta $1\to H$, $0\to L$ (üstte); negatif mantıkta $0\to H$, $1\to L$ (altta).
+Basamak şeklindeki çizgi, fiziksel sinyalin düşük seviyeden ($L$) yüksek seviyeye ($H$)
+geçişini temsil eder. Şimdi aynı atamanın kapı sembollerine nasıl yansıdığını görelim:
 
 \begin{figure}[H]
 \centering
@@ -1891,10 +1907,12 @@ negatif mantık varsayıldığında uçlara küçük bir üçgen (kutupluluk gö
 \filldraw ($(g2.out)+(0.12,0.08)$) -- ($(g2.out)+(0.32,0)$) -- ($(g2.out)+(0.12,-0.08)$) -- cycle;
 \node[right=2.2cm] at (g2) {\small (negatif mantık: OR)};
 \end{circuitikz}
-\caption{Aynı fiziksel kapı bloğu (üstte), pozitif mantıkta AND sembolüyle (ortada) ve
-negatif mantıkta uçlarındaki kutupluluk üçgenleriyle OR sembolüyle (altta) gösterilir.}
+\caption{Aynı fiziksel kapının pozitif ve negatif mantıktaki sembolleri.}
 \label{fig:pozitif-negatif-sembol}
 \end{figure}
+
+Aynı fiziksel kapı bloğu (üstte), pozitif mantıkta AND sembolüyle (ortada) ve negatif
+mantıkta uçlarındaki kutupluluk üçgenleriyle OR sembolüyle (altta) gösterilir.
 
 Pozitif mantıktan negatif mantığa (ya da tersine) geçmek, girişlerin ve çıkışın hepsinde
 $1$'leri $0$'a, $0$'ları $1$'e çevirmek anlamına gelir; bu da fonksiyonun \emph{dualini}
@@ -2042,3 +2060,81 @@ fonksiyon için toplam $2^3=8$ minterm/maxterm olduğundan, $\Sigma(1,4,5,6,7)$ 
 $\Pi(0,2,3)$ aynı fonksiyonun iki farklı ama eşdeğer kanonik anlatımıdır. Özetle:
 $\Sigma$ her zaman mintermlere (OR'lanan AND terimleri), $\Pi$ her zaman maxtermlere
 (AND'lenen OR terimleri) karşılık gelir.
+
+\section{Entegre Devreler}
+\label{sec:entegre-devreler}
+
+Şimdiye kadar mantık kapılarını soyut sembollerle ele aldık. Ama gerçekte bu kapılar,
+silikon bir yarı iletken kristal üzerine üretilen \textbf{entegre devre} (\emph{integrated
+circuit}, IC) adı verilen bir \emph{çip} üzerinde gerçeklenir. Çip üzerindeki kapılar
+istenen devreyi oluşturacak şekilde birbirine bağlanır; çip seramik ya da plastik bir
+kılıfa yerleştirilir ve dış bacaklara (pinlere) kaynaklanan bağlantılarla entegre devre
+tamamlanır. Bacak sayısı, küçük bir kılıftaki 14'ten büyük kılıflardaki binlerce bacağa
+kadar değişebilir; her IC, tanımlanması için üzerine basılmış sayısal bir koda sahiptir.
+
+\subsection{Entegrasyon Seviyeleri}
+\label{sec:entegrasyon-seviyeleri}
+
+Sayısal IC'ler, tek bir kılıftaki kapı sayısına göre sınıflandırılır:
+
+\begin{itemize}[nosep]
+    \item \textbf{SSI} (\emph{small-scale integration}, küçük ölçekli entegrasyon):
+    tek bir kılıfta birkaç bağımsız kapı bulunur; kapıların girişleri ve çıkışları
+    doğrudan kılıfın bacaklarına bağlıdır. Kapı sayısı genellikle $10$'dan azdır ve
+    kılıftaki bacak sayısıyla sınırlıdır.
+    \item \textbf{MSI} (\emph{medium-scale integration}, orta ölçekli entegrasyon):
+    tek bir kılıfta yaklaşık $10$ ile $1000$ arası kapı bulunur; genellikle kod
+    çözücü, toplayıcı, çoklayıcı gibi temel sayısal işlemleri gerçekler (ilerleyen
+    bölümlerde göreceğimiz yazmaç ve sayaçlar da bu sınıftandır).
+    \item \textbf{LSI} (\emph{large-scale integration}, büyük ölçekli entegrasyon):
+    tek bir kılıfta binlerce kapı bulunur; işlemciler, bellek çipleri ve
+    programlanabilir mantık aygıtları gibi sayısal sistemleri içerir.
+    \item \textbf{VLSI} ve \textbf{ULSI} (\emph{very/ultra large-scale integration},
+    çok/aşırı büyük ölçekli entegrasyon): tek bir kılıfta milyonlarca kapı bulunur;
+    ULSI devreleri bir milyondan fazla transistör içerir. Büyük bellek dizileri ve
+    karmaşık mikroişlemci çipleri örnektir. Küçük boyutları ve düşük maliyetleri
+    sayesinde VLSI aygıtları, daha önce üretilmesi ekonomik olmayan yapıların
+    tasarlanabilmesini sağlayarak sayısal sistem tasarımını dönüştürmüştür.
+\end{itemize}
+
+\subsection{Dijital Lojik Aileleri}
+\label{sec:dijital-lojik-aileleri}
+
+Sayısal entegre devreler yalnızca karmaşıklıklarına göre değil, ait oldukları devre
+teknolojisine göre de sınıflandırılır; bu teknolojiye \textbf{lojik ailesi} denir. Her
+ailenin daha karmaşık devrelerin üzerine kurulduğu temel bir devresi vardır ve bu temel
+devre her zaman bir NAND, NOR ya da tersleyicidir. En yaygın dört aile şunlardır:
+
+\begin{itemize}[nosep]
+    \item \textbf{TTL} (\emph{transistor-transistor logic}, transistör-transistör
+    lojik): 50 yılı aşkın süredir kullanılan, standart kabul edilen bir aile.
+    \item \textbf{ECL} (\emph{emitter-coupled logic}, emiter-bağlaşımlı lojik):
+    yüksek hız gerektiren sistemlerde avantajlıdır.
+    \item \textbf{MOS} (\emph{metal-oxide semiconductor}, metal-oksit yarı iletken):
+    yüksek bileşen yoğunluğu gerektiren devrelerde tercih edilir.
+    \item \textbf{CMOS} (\emph{complementary metal-oxide semiconductor}, tümleyen
+    metal-oksit yarı iletken): düşük güç tüketimi gerektiren sistemlerde (dijital
+    kameralar, taşınabilir medya oynatıcılar gibi) tercih edilir. CMOS'un bir NAND
+    kapısını PMOS/NMOS transistörleriyle nasıl gerçeklediğini Detaylı
+    Bilgi~\ref{detay:cmos-transistor}'te zaten görmüştük. Düşük güç tüketimi VLSI
+    tasarımı için kritik olduğundan, CMOS günümüzde baskın lojik ailesi hâline
+    gelmiştir; TTL ve ECL kullanımı giderek azalmaktadır.
+\end{itemize}
+
+Lojik aileleri birbirinden ayıran en önemli parametreler şunlardır:
+
+\begin{itemize}[nosep]
+    \item \textbf{Fan-out (çıkış yükü):} bir kapının çıkışının, normal çalışmasını
+    bozmadan sürebileceği standart yük sayısı. Standart yük, genellikle aynı ailedeki
+    başka bir kapının girişinin çektiği akım olarak tanımlanır.
+    \item \textbf{Fan-in (giriş sayısı):} bir kapıdaki giriş sayısı.
+    \item \textbf{Güç tüketimi:} kapının çalışması için güç kaynağından çekilmesi
+    gereken güç.
+    \item \textbf{Yayılma gecikmesi (propagation delay):} bir sinyalin girişten
+    çıkışa ulaşması için geçen ortalama süre. Örneğin bir tersleyicinin girişi
+    $0$'dan $1$'e geçtiğinde, çıkış $1$'den $0$'a bir gecikmeyle geçer; çalışma hızı
+    bu gecikmeyle ters orantılıdır.
+    \item \textbf{Gürültü payı:} bir giriş sinyaline eklenen ve devrenin çıkışında
+    istenmeyen bir değişikliğe yol açmayan en büyük dış gürültü gerilimi (bkz.
+    Detaylı Bilgi~\ref{detay:gurultu-payi}).
+\end{itemize}
