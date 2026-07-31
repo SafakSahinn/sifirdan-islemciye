@@ -35,3 +35,67 @@ $127$); negatif üsleri de işaretsiz tam sayı olarak karşılaştırılabilir 
 
 \textbf{Mantık Kapısı} --- Bir veya birden çok ikili girişten tek bir ikili çıkış üreten
 temel devre elemanı.
+
+\textbf{Gerilim Eşiği (Threshold)} --- Bir girişin ya da çıkışın Lojik $0$ veya Lojik $1$
+sayılacağı sınır gerilim değeri; $V_{IL}$, $V_{IH}$, $V_{OL}$, $V_{OH}$ simgeleriyle
+gösterilir.
+
+\textbf{Gürültü Payı (Noise Margin)} --- Bir giriş sinyaline eklenen ve devrenin çıkışında
+istenmeyen bir değişikliğe yol açmayan en büyük dış gürültü gerilimi.
+
+\textbf{Bool Cebiri (Boolean Algebra)} --- Kapalılık, birim eleman, değişme, dağılma,
+tümleme ve farklılık postülatlarını sağlayan bir küme ve iki ikili işlemden oluşan
+cebirsel yapı.
+
+\textbf{Postülat (Postulate)} --- Bir cebirsel yapının ispatsız kabul edilen, diğer tüm
+teoremlerin üzerine kurulduğu temel özdeşliği.
+
+\textbf{Düalite İlkesi (Principle of Duality)} --- Bool cebirinde geçerli olan her
+özdeşliğin, AND ile OR'un ve $0$ ile $1$'in yerleri değiştirilerek elde edilen dualinin de
+geçerli olması ilkesi.
+
+\textbf{De Morgan Teoremi} --- $(x+y)'=x'y'$ ve $(xy)'=x'+y'$ özdeşlikleri; bir toplamın
+(çarpımın) tümleyenini, terimlerin tümleyenlerinin çarpımı (toplamı) olarak ifade eder.
+
+\textbf{NAND} --- AND işleminin tümleyeni: $F=(xy)'$.
+
+\textbf{NOR} --- OR işleminin tümleyeni: $F=(x+y)'$.
+
+\textbf{XOR (Özel-VEYA, Exclusive-OR)} --- $F=xy'+x'y=x\oplus y$; girişleri birbirinden
+farklı olduğunda $1$ üreten kapı. Çok girişli hâli bir \emph{tek sayı fonksiyonudur}: girişlerdeki
+$1$ sayısı tek olduğunda $1$ üretir.
+
+\textbf{XNOR (Denklik, Equivalence)} --- XOR'un tümleyeni: $F=xy+x'y'=(x\oplus y)'$;
+girişleri birbirine eşit olduğunda $1$ üreten kapı.
+
+\textbf{Fonksiyonel Tamlık (Functional Completeness)} --- Tek başına NAND ya da tek başına
+NOR kapısı kullanılarak herhangi bir Bool fonksiyonunun gerçeklenebilmesi özelliği.
+
+\textbf{Pozitif/Negatif Mantık} --- Yüksek sinyal seviyesinin ($H$) mantıksal $1$ sayılması
+pozitif mantığı, alçak seviyenin ($L$) mantıksal $1$ sayılması negatif mantığı tanımlar; aynı
+fiziksel kapı, atamaya bağlı olarak farklı bir işlemi gerçekleştiriyormuş gibi yorumlanabilir.
+
+\textbf{Minterm} --- $n$ ikili değişkenin her birinin (normal ya da tümlü biçimde) tam
+olarak bir kez AND ile çarpılmasından oluşan terim; $m_j$ ile gösterilir.
+
+\textbf{Maxterm} --- $n$ ikili değişkenin her birinin (normal ya da tümlü biçimde) tam
+olarak bir kez OR ile toplanmasından oluşan terim; $M_j$ ile gösterilir.
+
+\textbf{Kanonik Form (Canonical Form)} --- Bir Bool fonksiyonunu ifade etmenin standart ve
+tek (unique) yolu; minterm toplamı ($\Sigma$) ya da maxterm çarpımı ($\Pi$) biçiminde olur.
+
+\textbf{Entegre Devre (Integrated Circuit, IC)} --- Silikon bir yarı iletken kristal
+üzerine üretilen, birbirine bağlı mantık kapılarını içeren ve bir kılıfa yerleştirilen çip.
+
+\textbf{Lojik Ailesi (Logic Family)} --- Bir entegre devrenin ait olduğu, temel devresi her
+zaman bir NAND, NOR ya da tersleyici olan devre teknolojisi (ör. TTL, ECL, MOS, CMOS).
+
+\textbf{CMOS (Complementary Metal-Oxide Semiconductor)} --- PMOS ve NMOS transistör
+ağlarının birlikte kullanıldığı, düşük güç tüketimiyle bilinen ve VLSI tasarımında baskın
+olan lojik ailesi.
+
+\textbf{Fan-out (Çıkış Yükü)} --- Bir kapının çıkışının, normal çalışmasını bozmadan
+sürebileceği standart yük sayısı.
+
+\textbf{Yayılma Gecikmesi (Propagation Delay)} --- Bir sinyalin girişten çıkışa ulaşması
+için geçen ortalama süre; çalışma hızı bu gecikmeyle ters orantılıdır.
