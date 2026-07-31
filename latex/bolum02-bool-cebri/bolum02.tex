@@ -2061,6 +2061,178 @@ $\Pi(0,2,3)$ aynı fonksiyonun iki farklı ama eşdeğer kanonik anlatımıdır.
 $\Sigma$ her zaman mintermlere (OR'lanan AND terimleri), $\Pi$ her zaman maxtermlere
 (AND'lenen OR terimleri) karşılık gelir.
 
+Bu gözlem genel bir kurala genişler: \textbf{bir kanonik formu diğerine çevirmek için
+$\Sigma$ ile $\Pi$ sembolleri yer değiştirilir ve orijinal formda yer almayan indisler
+listelenir.} $n$ değişkenli bir fonksiyon için toplam minterm/maxterm sayısı $2^n$'dir.
+
+\subsection{Cebirsel İfadeyi Minterm Toplamına Genişletme}
+\label{sec:cebirsel-genisletme}
+
+Bir Bool fonksiyonu elimize doğruluk tablosu olarak değil, cebirsel bir ifade olarak
+gelmişse, mintermlerini okumak için önce ifadeyi minterm toplamı biçimine
+\textbf{genişletmek} gerekir. Yöntem şöyledir: ifade önce çarpım terimlerinin toplamı
+hâline getirilir (gerekirse dağılma özelliğiyle parantezler açılır); sonra her terim
+incelenir, eğer bir değişken eksikse terim $(x+x')=1$ ile çarpılıp o değişken hem normal
+hem tümlü biçimde eklenir.
+
+\begin{ornek}[$F=x+y'z'$ İfadesini Minterm Toplamına Genişletme]
+Fonksiyonun üç değişkeni var: $x,y,z$. İlk terim $x$, iki değişken eksik:
+\begin{align*}
+x &= x(y+y') = xy+xy'\\
+  &= xy(z+z')+xy'(z+z') = xyz+xyz'+xy'z+xy'z'
+\end{align*}
+İkinci terim $y'z'$, bir değişken eksik:
+\[
+y'z' = y'z'(x+x') = xy'z'+x'y'z'
+\]
+Tüm terimleri birleştirirsek:
+\[
+F = xyz+xyz'+xy'z+xy'z'+xy'z'+x'y'z'
+\]
+$xy'z'$ iki kez göründüğünden (Teorem 1: $x+x=x$ ile) bir tekrar silinir. İndis sırasına
+göre düzenlersek:
+\[
+F = x'y'z'+xy'z'+xy'z+xyz'+xyz = m_0+m_4+m_5+m_6+m_7 = \Sigma(0,4,5,6,7)
+\]
+\end{ornek}
+
+\subsection{Standart Formlar: Çarpımların Toplamı ve Toplamların Çarpımı}
+\label{sec:standart-formlar}
+
+Kanonik formlar (minterm toplamı, maxterm çarpımı) genellikle \textbf{en az literalli}
+biçim değildir, çünkü tanım gereği her minterm/maxterm, değişkenlerin tümünü (normal ya da
+tümlü) içermek zorundadır. \textbf{Standart form} adı verilen başka bir gösterimde ise
+terimler bir, iki ya da istenilen sayıda literal içerebilir. İki standart form türü vardır:
+çarpımların toplamı ve toplamların çarpımı.
+
+\begin{tanim}{Çarpımların Toplamı (Sum of Products, SOP):}
+Bir ya da daha çok literal içeren AND terimlerinin (\emph{çarpım terimi}) OR ile
+birleştirilmesinden oluşan ifadeye çarpımların toplamı denir.
+\end{tanim}
+
+Örneğin $F_1=z+xy+x'y'z'$ üç çarpım terimi içerir (bir, iki ve üç literalli). Devre
+şeması bir grup AND kapısının ardından tek bir OR kapısından oluşur; tek literalli
+terimler doğrudan OR kapısına bağlanır, ayrı bir AND kapısı gerektirmez. Bu yapıya
+\textbf{iki-seviyeli devre} denir, çünkü girişten çıkışa giden herhangi bir yolda en
+fazla iki kapı vardır.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[and port] (a1) at (2,6) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left] {$y$};
+
+\node[and port, number inputs=3] (a2) at (2,0) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left] {$x'$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left] {$y'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left] {$z'$};
+
+\node[or port, number inputs=3] (o1) at (6,3) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (o1.in 2) -- ++(-0.6,0) node[left] {$z$};
+\draw (a2.out) -| (o1.in 3);
+\draw (o1.out) -- ++(0.6,0) node[right] {$F_1$};
+\end{circuitikz}
+\caption{$F_1=z+xy+x'y'z'$ ifadesinin çarpımların toplamı (SOP) biçiminde, iki-seviyeli
+gerçeklemesi.}
+\label{fig:sop-ornek}
+\end{figure}
+
+\begin{tanim}{Toplamların Çarpımı (Product of Sums, POS):}
+Bir ya da daha çok literal içeren OR terimlerinin (\emph{toplam terimi}) AND ile
+birleştirilmesinden oluşan ifadeye toplamların çarpımı denir.
+\end{tanim}
+
+Örneğin $F_2=x(y+z')(x'+y'+z)$ üç toplam terimi içerir. Devre şeması bir grup OR
+kapısının ardından tek bir AND kapısından oluşur; bu da iki-seviyeli bir devredir.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[or port] (r1) at (2,6) {};
+\draw (r1.in 1) -- ++(-0.6,0) node[left] {$y$};
+\draw (r1.in 2) -- ++(-0.6,0) node[left] {$z'$};
+
+\node[or port, number inputs=3] (r2) at (2,0) {};
+\draw (r2.in 1) -- ++(-0.6,0) node[left] {$x'$};
+\draw (r2.in 2) -- ++(-0.6,0) node[left] {$y'$};
+\draw (r2.in 3) -- ++(-0.6,0) node[left] {$z$};
+
+\node[and port, number inputs=3] (n1) at (6,3) {};
+\draw (r1.out) -| (n1.in 1);
+\draw (n1.in 2) -- ++(-0.6,0) node[left] {$x$};
+\draw (r2.out) -| (n1.in 3);
+\draw (n1.out) -- ++(0.6,0) node[right] {$F_2$};
+\end{circuitikz}
+\caption{$F_2=x(y+z')(x'+y'+z)$ ifadesinin toplamların çarpımı (POS) biçiminde,
+iki-seviyeli gerçeklemesi.}
+\label{fig:pos-ornek}
+\end{figure}
+
+Her fonksiyon standart formda gelmeyebilir. Örneğin $F_3=A(B+C)+DE$ ne SOP ne POS'tur;
+gerçeklemesi üç seviyeli bir devre gerektirir. Girişten çıkışa en uzun yol OR, AND, OR
+sırasıyla üç kapıdan geçer:
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[or port] (b1) at (0,2) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left] {$B$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left] {$C$};
+
+\node[and port] (a1) at (3,3.5) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (b1.out) -| (a1.in 2);
+
+\node[and port] (a2) at (3,0) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left] {$D$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left] {$E$};
+
+\node[or port] (o1) at (6.5,1.75) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (o1.out) -- ++(0.6,0) node[right] {$F_3$};
+\end{circuitikz}
+\caption{$F_3=A(B+C)+DE$: standart olmayan, üç seviyeli devre.}
+\label{fig:nonstandart-3seviye}
+\end{figure}
+
+Dağılma özelliğiyle parantezler açılırsa standart (SOP) forma indirgenir:
+\[
+F_3=A(B+C)+DE=AB+AC+DE
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85]
+\node[and port] (p1) at (2,6) {};
+\draw (p1.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (p1.in 2) -- ++(-0.6,0) node[left] {$B$};
+
+\node[and port] (p2) at (2,3) {};
+\draw (p2.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (p2.in 2) -- ++(-0.6,0) node[left] {$C$};
+
+\node[and port] (p3) at (2,0) {};
+\draw (p3.in 1) -- ++(-0.6,0) node[left] {$D$};
+\draw (p3.in 2) -- ++(-0.6,0) node[left] {$E$};
+
+\node[or port, number inputs=3] (o2) at (6,3) {};
+\draw (p1.out) -| (o2.in 1);
+\draw (p2.out) -| (o2.in 2);
+\draw (p3.out) -| (o2.in 3);
+\draw (o2.out) -- ++(0.6,0) node[right] {$F_3$};
+\end{circuitikz}
+\caption{$F_3=AB+AC+DE$: aynı fonksiyonun standart (SOP), iki seviyeli gerçeklemesi.}
+\label{fig:standart-2seviye}
+\end{figure}
+
+Genel olarak iki-seviyeli bir gerçekleme tercih edilir, çünkü girişten çıkışa sinyalin
+geçtiği kapı sayısı (ve dolayısıyla toplam yayılma gecikmesi) en azdır. Ancak bir kapının
+girebileceği giriş sayısının (fan-in) fiziksel bir sınırı olduğundan, çok sayıda terimli
+gerçek tasarımlarda çok seviyeli devrelerden kaçınılamayabilir.
+
 \section{Entegre Devreler}
 \label{sec:entegre-devreler}
 
