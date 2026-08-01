@@ -1,6 +1,6 @@
 # Sıfırdan İşlemciye — Sayısal Donanım Tasarımı
 
-**Yazarlar:** Şafak Şahin · Batuhan Hangün
+**Yazarlar:** Şafak Şahin · Dr. Batuhan Hangün
 
 ![status](https://img.shields.io/badge/durum-aktif%20geli%C5%9Ftirme-yellow)
 ![language](https://img.shields.io/badge/dil-T%C3%BCrk%C3%A7e-red)

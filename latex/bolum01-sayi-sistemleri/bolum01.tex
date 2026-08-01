@@ -1512,6 +1512,38 @@ $-1$ ise, saklanan biaslı üs $-1+127=126$ olur. Bu tercihin mühendislik gerek
 Bölüm~\ref{sec:ieee754-format}'te göreceğiz; şimdilik terimin ne anlama geldiğini bilmemiz
 yeterlidir.
 
+\begin{bilginot}[Üç Terimin Kökeni: Mantissa, Bias, Üs]
+Bu üç terimin öyküsü, birbirinden bağımsız üç dilden gelip burada bir araya geliyor.
+
+\textbf{Mantissa}, Etrüsk kökenli bir Latince sözcüktür; aslında "önemsiz bir ek, kefeyi
+tamamlamak için eklenen ıvır zıvır" anlamına gelir. 17. yüzyılda logaritma cetvelleri
+hazırlanırken, bir logaritmanın tam sayı kısmına ("karakteristik", ondalık noktanın
+konumunu belirler) karşılık, ondalık kısmına bu ad verilmişti; çünkü tam sayı kısmının
+yanında önemsiz bir "ek" gibi görünüyordu. Oysa asıl anlamlı basamaklar tam da o
+kısımdaydı: en önemli parça, en önemsiz görünen adı almış oldu. Bu köken uyuşmazlığı
+yüzünden IEEE 754 standardının kendisi bile "mantissa" yerine "significand" (anlamlı
+kısım) terimini önerir; çünkü mantissa tarihsel olarak bir logaritmanın ondalık kısmı
+içindi, kayan nokta gösterimi ise logaritmik değildir.
+
+\textbf{Bias}, Eski Fransızca "biais" (eğik, çapraz) sözcüğünden İngilizceye geçmiştir;
+bilye oyunlarında topun içine kasıtlı asimetrik ağırlık konarak düz değil eğri gitmesini
+sağlamak anlamında kullanılıyordu. IEEE 754'teki kullanımı bu köke tam uyar: gerçek üs
+değeri bir sabitle "eğilir" (kaydırılır), böylece işaretsiz tam sayı gibi
+karşılaştırılabilir hâle gelir.
+
+\textbf{Üs} ise üçünün en şaşırtıcısıdır. Sözcük Arapça "ˀuss" kökünden gelir ve
+doğrudan "temel, taban, esas" anlamına gelir (Aramice/Süryanice "Awş" ve Akatça "uşşu"
+ile aynı kökten; her ikisi de "temel" demektir); Türkçedeki ilk yazılı kaydı 1680
+tarihlidir. Askeri "üs" (karargâh, temel nokta) ile matematikteki "üs" tam olarak aynı
+kelimedir. İlginç olan şudur: Türkçe matematik terminolojisinde "taban" zaten ayrı bir
+terim olarak $2^3$'teki $2$'yi karşılarken, "üs" kelimesinin kendisi etimolojik olarak
+neredeyse tam bu anlamı taşır, yani kuvveti değil "temel/taban" anlamını. Ayrıca "üs"
+ile "üst" (yukarı, üzerinde) sıkça karıştırılır, ama bu ikisinin kökeni bile ortak
+değildir: "üst" muhtemelen Eski Türkçe "üze" (üzerinde) kökünden gelir, "üs" ise
+yukarıda anlatıldığı gibi tamamen ayrı, Arapça kökenli bir sözcüktür. Benzerlik yalnızca
+yazılıştan kaynaklanır.
+\end{bilginot}
+
 \subsection{Neden Sabit Nokta Yetmez?}
 \label{sec:neden-kayan-nokta}
 
@@ -1526,10 +1558,13 @@ sabit, değiştirilemez bir ödünleşim} vardır.
 Kayan noktalı gösterim bu sorunu, bilimsel gösterimden ödünç alınan bir fikirle çözer: çok
 büyük bir sayıyı $1.234\times10^5$ olarak, çok küçük bir sayıyı da $6.02\times10^{-23}$
 olarak yazabildiğimiz gibi, sayıyı doğrudan saklamak yerine \textbf{üç parçaya ayırıp}
-saklarız --- işaret, normalize edilmiş anlamlı kısım ve üs. Aynı sayıda bit ile, üs sayesinde
-nokta gerektiğinde çok sola kayarak çok küçük sayıları, gerektiğinde çok sağa kayarak çok
-büyük sayıları temsil edebilir. Noktanın konumu artık sabit değildir; üs sayesinde "yüzer".
-Gösterimin adı da buradan gelir.
+saklarız: işaret, normalize edilmiş anlamlı kısım ve üs. Aynı sayıda bit ile, üs değeri
+gerektiğinde noktayı çok sola kaydırarak çok küçük sayıları, gerektiğinde çok sağa
+kaydırarak çok büyük sayıları temsil etmemizi sağlar. Sabit noktalı gösterimden farklı
+olarak, noktanın sayı içindeki gerçek konumu artık tek bir yere sabitlenmemiştir: hangi
+basamağın önünde durduğu, her sayı için üs değerine göre değişir, yani noktanın konumu
+sayıdan sayıya hareket eder. Gösterimin adı da buradan gelir: nokta tek bir yerde sabit
+durmaz, "kayar" (yani İngilizcesiyle "float"lar).
 
 \begin{tanim}{Kayan Noktalı Sayının Genel Formu:}
 \[
@@ -1543,14 +1578,39 @@ tanımladığımız sabit kaydırma değeridir.
 \subsection{Normalizasyon: Bedava Bir Bit}
 \label{sec:normalizasyon}
 
+Normalizasyon, bir sayıyı $1.xxxx\times2^k$ biçimine getirmek için ikili noktayı
+kaydırma işlemidir. Kaydırma yönü tek bir kurala bağlıdır: amaç, noktayı her zaman
+sayının \textbf{ilk} (en soldaki) $1$'inin hemen sağına getirmektir; nokta hangi yönde
+bu konuma daha yakınsa o yöne kaydırılır.
+\begin{itemize}[nosep, leftmargin=*]
+    \item Sayının tam kısmında birden fazla basamak varsa (yani sayı $2$'ye eşit ya da
+    ondan büyükse), ilk $1$ noktanın \textbf{solundadır}. Nokta, bu $1$'in hemen sağına
+    gelene kadar \textbf{sola} kaydırılır. Kaydırılan basamak sayısı, üsse
+    \textbf{pozitif} olarak yansır (çünkü sayıyı eski hâline getirmek için sonradan
+    $2$'nin o kadar kuvvetiyle çarpmamız gerekir).
+    \item Sayı $1$'den küçükse (yani $0.xxxx$ biçimindeyse), ilk $1$ noktanın
+    \textbf{sağında}, bir veya daha fazla sıfırdan sonra gelir. Nokta, bu $1$'in hemen
+    sağına gelene kadar \textbf{sağa} kaydırılır. Kaydırılan basamak sayısı, üsse
+    \textbf{negatif} olarak yansır.
+\end{itemize}
+Her iki durumda da üs, noktanın kaç basamak ve hangi yönde kaydırıldığının bir kaydıdır;
+aşağıdaki örnekte bu iki durumu da (biri sola, biri sağa kaydırma gerektiren) ayrı ayrı
+göreceğiz.
+
 \begin{bilginot}[Örtük Baştaki $1$]
 İkilide (sıfır hariç) her sayı, tek bir şekilde $1.xxxx\times2^k$ biçiminde normalize
 edilebilir; çünkü ikili sistemde ilk anlamlı basamak için tek bir seçenek vardır: ondalıkta
 ilk basamak $1$'den $9$'a kadar herhangi bir değer olabilirken, ikilide $0$'dan farklı tek
 rakam $1$'dir. Bu evrensel gerçek sayesinde, IEEE 754 formatında baştaki bu $1$ hiçbir zaman
-saklanmaz. $M$ (mantissa) alanına yalnızca $1$'den sonraki basamaklar yazılır. Sonuçta,
-tek duyarlıkta fiilen $24$ bitlik bir hassasiyete sahip oluruz ama yalnızca $23$ bit
-harcarız: baştaki $1$ "örtük" (implicit) olduğu için bedavadan kazanılmış bir bit budur.
+saklanmaz. $M$ (mantissa) alanına yalnızca $1$'den sonraki basamaklar yazılır. IEEE 754
+standardının kendisi tek duyarlıklı formatta bu $M$ alanına tam olarak $23$ bit ayırır
+(Tablo~\ref{tab:ieee754-format}); standardın doğrudan belirttiği sayı budur, $24$ değil.
+$24$, bizim buradan türettiğimiz bir sonuçtur: saklanan $23$ bite, saklanmayan ama
+normalizasyon sayesinde her zaman var olduğunu bildiğimiz baştaki $1$'i (yani $1$ bit
+daha) eklersek, anlamlı kısmın \emph{gerçek} hassasiyeti $23+1=24$ bit olur. Yani
+donanımda yalnızca $23$ bit harcayarak $24$ bitlik bir hassasiyete sahip oluruz: baştaki
+$1$ "örtük" (implicit) olduğu için bedavadan kazanılmış bir bit budur. (Aynı mantıkla,
+çift duyarlıkta $M$ alanı $52$ bit olduğundan gerçek hassasiyet $52+1=53$ bittir.)
 \end{bilginot}
 
 \begin{ornek}[İki Normalizasyon Örneği: Büyük ve Küçük Bir Sayı]
@@ -1559,7 +1619,25 @@ harcarız: baştaki $1$ "örtük" (implicit) olduğu için bedavadan kazanılmı
 \[
 (1101.011)_2 = 1.101011 \times 2^{3}
 \]
-Kontrol: $1.101011\times8=1101.011$, doğru.
+Kontrol: $2^3=8$ ile çarpmak, ikili noktayı $3$ basamak sağa kaydırmakla aynı şeydir
+(tıpkı onlukta bir sayıyı $10^3$ ile çarpmanın, ondalık noktayı $3$ basamak sağa
+kaydırmasına benzer şekilde). $1.101011\times2^3$ işleminde nokta $3$ basamak sağa
+kayar:
+\[
+1.101011 \;\xrightarrow{3\text{ basamak sağa}}\; 1101.011
+\]
+Bu, normalize etmeden önceki orijinal sayıyla birebir eşleşir. Aynı sonucu ondalık
+tabanda çarparak da doğrulayabiliriz:
+\[
+1.101011_2=1+0.5+0.125+0.03125+0.015625=1.671875
+\]
+\[
+1.671875\times8=13.375
+\]
+\[
+1101.011_2=8+4+1+0.25+0.125=13.375
+\]
+İki taraf da eşit çıktığından doğrulanmış olur. \checkmark
 
 \textbf{Küçük bir sayı:} $(0.000101)_2$'yi normalize edelim. Nokta $4$ basamak sağa
 kaydırılır (ilk $1$'in hemen sağına gelene kadar):
@@ -1577,7 +1655,42 @@ her iki uca da uzanabilir.
 \subsection{IEEE 754 Formatları ve Bias}
 \label{sec:ieee754-format}
 
-\begin{table}[h]
+\begin{bilginot}[Neden İşaretli Değil, Biaslı Üs?]
+Üs için 2'nin tümleyeni yerine biaslı gösterim kullanılmasının mühendislik gerekçesi
+şudur: bu sayede iki kayan noktalı sayı, \textbf{sıradan işaretsiz tam sayı
+karşılaştırıcısıyla} karşılaştırılabilir. Biaslı gösterimde büyüklük sıralaması korunur.
+2'nin tümleyeni kullanılsaydı, negatif üsler (en soldaki bit $1$) pozitif üslerden büyükmüş
+gibi görünürdü ve karşılaştırma devresi ek mantık gerektirirdi. Bias değeri, $n$ bitlik üs
+alanı için $2^{n-1}-1$ formülüyle seçilir; tek duyarlıkta bu $2^7-1=127$ değerini verir.
+\end{bilginot}
+
+\begin{ornek}[Biaslı Üsün Karşılaştırmadaki Avantajı: $e=-2$ ile $e=+3$]
+İki kayan noktalı sayının gerçek üsleri $e_1=-2$ ve $e_2=+3$ olsun ($e_2>e_1$, yani ikinci
+sayının büyüklük mertebesi daha yüksektir). Tek duyarlıkta $8$ bitlik üs alanı ve
+$\text{bias}=127$ kullanarak saklanan biaslı üsleri bulalım:
+\[
+E_1 = e_1+127 = -2+127 = 125 = (01111101)_2
+\]
+\[
+E_2 = e_2+127 = 3+127 = 130 = (10000010)_2
+\]
+Bu iki bit dizisi \textbf{sıradan işaretsiz tam sayı} olarak karşılaştırılır: $130>125$,
+yani $E_2>E_1$; bu da gerçek üsler arasındaki $e_2>e_1$ ilişkisiyle birebir uyuşur.
+\checkmark
+
+Şimdi aynı üsleri, bias \textbf{kullanmadan}, doğrudan $8$ bitlik $2$'nin tümleyeniyle
+saklasaydık ne olacağını görelim:
+\[
+e_1=-2 \;\Rightarrow\; (11111110)_2, \qquad e_2=+3 \;\Rightarrow\; (00000011)_2
+\]
+Bu iki diziyi işaretsiz tam sayı olarak karşılaştırırsak: $(11111110)_2=254$ ve
+$(00000011)_2=3$; $254>3$ görünür, yani $e_1>e_2$ sonucuna varılır. Ama gerçekte
+$e_2>e_1$'dir ($3>-2$). İşaretsiz karşılaştırıcı, $2$'nin tümleyeninde yanlış sonuç
+verir; bilgi notunda anlatılan sorun tam olarak budur. Bias, üsleri işaretsiz tam sayı
+uzayına kaydırarak bu sorunu ortadan kaldırır.
+\end{ornek}
+
+\begin{table}[H]
 \centering
 \begin{tabular}{lccc}
 \toprule
@@ -1590,15 +1703,6 @@ Tek duyarlık (32 bit) & 1 bit & 8 bit (bias $=127$) & 23 bit \\
 \caption{IEEE 754 Tek ve Çift Duyarlıklı Formatlar}
 \label{tab:ieee754-format}
 \end{table}
-
-\begin{bilginot}[Neden İşaretli Değil, Biaslı Üs?]
-Üs için 2'nin tümleyeni yerine biaslı gösterim kullanılmasının mühendislik gerekçesi
-şudur: bu sayede iki kayan noktalı sayı, \textbf{sıradan işaretsiz tam sayı
-karşılaştırıcısıyla} karşılaştırılabilir. Biaslı gösterimde büyüklük sıralaması korunur.
-2'nin tümleyeni kullanılsaydı, negatif üsler (en soldaki bit $1$) pozitif üslerden büyükmüş
-gibi görünürdü ve karşılaştırma devresi ek mantık gerektirirdi. Bias değeri, $n$ bitlik üs
-alanı için $2^{n-1}-1$ formülüyle seçilir; tek duyarlıkta bu $2^7-1=127$ değerini verir.
-\end{bilginot}
 
 \subsection{Ondalıktan IEEE 754'e Dönüşüm}
 \label{sec:ondalik-ieee754}
@@ -1631,28 +1735,60 @@ alınır, $23$ bite tamamlanana kadar sıfırla doldurulur: $0110000000000000000
 $(2.5)_{10}$'un tek duyarlıklı IEEE 754 gösterimini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} Tam kısım $2=(10)_2$, kesirli kısım $0.5=(0.1)_2$ olduğundan
-$2.5=(10.1)_2$ olarak yazılır. Normalize edilince $10.1=1.01\times2^{1}$ elde edilir.
-İşaret biti $S=0$'dır (sayı pozitif). Gerçek üs $1$ olduğundan biaslı üs
-$1+127=128=(10000000)_2$ olarak bulunur. Mantissa, "$01$" basamaklarının $21$ sıfırla
-tamamlanmasıyla $01000000000000000000000$ olur. Üç alan birleştirilince:
+\noindent\textbf{Çözüm:}
+
+\noindent\textbf{Adım 1 (ondalığı ikiliye çevirin):} Tam kısım $2=(10)_2$, kesirli kısım
+$0.5=(0.1)_2$; birleştirilince $2.5=(10.1)_2$.
+
+\noindent\textbf{Adım 2 (normalize edin):} Nokta $1$ basamak sola kaydırılır:
+$10.1=1.01\times2^{1}$.
+
+\noindent\textbf{Adım 3 (işaret bitini belirleyin):} Sayı pozitif olduğundan $S=0$.
+
+\noindent\textbf{Adım 4 (biaslı üsü hesaplayın):} Gerçek üs $1$'dir; biaslı üs
+$1+127=128=(10000000)_2$'dir.
+
+\noindent\textbf{Adım 5 (mantissa alanını doldurun):} Normalize edilmiş anlamlı kısmın
+noktadan sonraki basamakları ("$01$"), $23$ bite tamamlanana kadar sağdan sıfırla
+doldurulur:
+\[
+M = 01000000000000000000000
+\]
+
+\noindent\textbf{Adım 6 (üç alanı birleştirin):} $S=0$, $E=10000000$, $M$ yukarıdaki
+gibidir.
 \[
 0 \;\; 10000000 \;\; 01000000000000000000000
 \]
-sonucuna ulaşılır.
 
 \begin{alistirma}[\zor]
 $(-1.5)_{10}$'un tek duyarlıklı IEEE 754 gösterimini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} Büyüklüğü $1.5=(1.1)_2$'dir ve zaten normalize edilmiş durumdadır
-($1.1\times2^{0}$). Sayı negatif olduğundan işaret biti $S=1$ olarak belirlenir. Gerçek üs
-$0$ olduğundan biaslı üs $0+127=127=(01111111)_2$ olarak bulunur. Mantissa, "$1$" basamağının
-$22$ sıfırla tamamlanmasıyla $10000000000000000000000$ olur. Üç alan birleştirilince:
+\noindent\textbf{Çözüm:}
+
+\noindent\textbf{Adım 1 (büyüklüğü ikiliye çevirin):} $|-1.5|=1.5=(1.1)_2$.
+
+\noindent\textbf{Adım 2 (normalize edin):} Sayı zaten $1.1\times2^{0}$ biçimindedir; ek
+bir kaydırma gerekmez.
+
+\noindent\textbf{Adım 3 (işaret bitini belirleyin):} Sayı negatif olduğundan $S=1$.
+
+\noindent\textbf{Adım 4 (biaslı üsü hesaplayın):} Gerçek üs $0$'dır; biaslı üs
+$0+127=127=(01111111)_2$'dir.
+
+\noindent\textbf{Adım 5 (mantissa alanını doldurun):} Normalize edilmiş anlamlı kısmın
+noktadan sonraki tek basamağı ("$1$"), $23$ bite tamamlanana kadar sağdan sıfırla
+doldurulur:
+\[
+M = 10000000000000000000000
+\]
+
+\noindent\textbf{Adım 6 (üç alanı birleştirin):} $S=1$, $E=01111111$, $M$ yukarıdaki
+gibidir.
 \[
 1 \;\; 01111111 \;\; 10000000000000000000000
 \]
-sonucuna ulaşılır.
 
 \subsection{IEEE 754'ten Ondalığa Dönüşüm}
 \label{sec:ieee754-ondalik}
@@ -1677,10 +1813,17 @@ Bu üç alan birleştirildiğinde değer şu şekilde hesaplanır:
 $0\ 10000010\ 11000000000000000000000$ dizisini çözümleyip ondalık değerini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} İşaret biti $S=0$ olduğundan sayı pozitiftir. Biaslı üs
-$(10000010)_2=130$'dur; buradan gerçek üs $130-127=3$ olarak bulunur. Mantissa $M=11\ldots0$
-olduğundan, örtük baştaki $1$ ile birlikte anlamlı kısım $1.11$ olarak okunur. Bu üç alan
-birleştirildiğinde değer şu şekilde hesaplanır:
+\noindent\textbf{Çözüm:}
+
+\noindent\textbf{İşaret:} $S=0$ olduğundan sayı pozitiftir.
+
+\noindent\textbf{Üs:} Biaslı üs $(10000010)_2=130$'dur; buradan gerçek üs $130-127=3$
+olarak bulunur.
+
+\noindent\textbf{Mantissa:} $M=11\ldots0$'dır; örtük baştaki $1$ ile birlikte anlamlı
+kısım $1.11$ olarak okunur.
+
+\noindent Bu üç alan birleştirildiğinde değer şu şekilde hesaplanır:
 \[
 (-1)^0\times1.11_2\times2^3 = (1110)_2 = 14
 \]
@@ -1717,7 +1860,7 @@ kararıdır. Bu yüzden her dil, eşitlik operatörü yerine ayrı bir \texttt{i
 fonksiyonu sağlar.
 
 \textbf{C:}
-\begin{lstlisting}[language=C, caption={C'de NaN üretimi ve $x\neq x$}]
+\begin{lstlisting}[language=C]
 #include <stdio.h>
 #include <math.h>
 
@@ -1729,9 +1872,16 @@ int main(void) {
     return 0;
 }
 \end{lstlisting}
+\noindent\textbf{Çıktı:}
+\begin{lstlisting}[style=cikti]
+x = nan
+x == x: 0
+isnan(x): 1
+\end{lstlisting}
+\captionof{lstlisting}{C'de NaN üretimi ve $x\neq x$}
 
 \textbf{C++:}
-\begin{lstlisting}[language=C++, caption={C++'ta NaN üretimi ve $x\neq x$}]
+\begin{lstlisting}[language=C++]
 #include <iostream>
 #include <cmath>
 #include <limits>
@@ -1744,9 +1894,16 @@ int main() {
     return 0;
 }
 \end{lstlisting}
+\noindent\textbf{Çıktı:}
+\begin{lstlisting}[style=cikti]
+x = nan
+x == x: 0
+isnan(x): 1
+\end{lstlisting}
+\captionof{lstlisting}{C++'ta NaN üretimi ve $x\neq x$}
 
 \textbf{Java:}
-\begin{lstlisting}[language=Java, caption={Java'da NaN üretimi ve $x\neq x$}]
+\begin{lstlisting}[language=Java]
 public class NanOrnegi {
     public static void main(String[] args) {
         double x = 0.0 / 0.0;                                  // NaN uretir
@@ -1756,6 +1913,13 @@ public class NanOrnegi {
     }
 }
 \end{lstlisting}
+\noindent\textbf{Çıktı:}
+\begin{lstlisting}[style=cikti]
+x = NaN
+x == x: false
+Double.isNaN(x): true
+\end{lstlisting}
+\captionof{lstlisting}{Java'da NaN üretimi ve $x\neq x$}
 
 Üçünde de aynı sonuç: $x==x$ karşılaştırması \texttt{false}/$0$ döner, oysa her tür sağduyu
 bize bir sayının kendisine eşit olması gerektiğini söyler. Bunun nedeni, IEEE 754
@@ -1769,7 +1933,7 @@ zorunlu kılmasıdır. $\neq$ operatörü bu kuralın tek istisnasıdır ve NaN 
 \begin{bilginot}[Artık Biliyoruz: $0.1+0.2\neq0.3$]
 Daha önce (Bölüm~\ref{sec:kesirli-donusum}) $(0.1)_{10}$'un ikilide hiç sonlanmadığını
 görmüştük. IEEE 754'te mantissa \textbf{sonlu} ($23$ ya da $52$ bit) olduğundan, sonlanmayan
-bu sayı en yakın temsil edilebilir değere \textbf{yuvarlanır} --- gerçek $0.1$'den son derece
+bu sayı en yakın temsil edilebilir değere \textbf{yuvarlanır}; gerçek $0.1$'den son derece
 küçük ama sıfır olmayan bir farkla. $0.1$ ve $0.2$ ayrı ayrı yuvarlandıktan sonra toplanınca,
 bu küçük yuvarlama hataları birikir ve sonuç tam olarak $0.3$'ün temsiline eşit çıkmaz. Bu,
 bir yazılım hatası değil, sonlu bit genişliğinin kaçınılmaz bir sonucudur.
