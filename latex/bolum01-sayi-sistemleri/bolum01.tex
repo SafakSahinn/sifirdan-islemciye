@@ -37,8 +37,8 @@ Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
 \section{Giriş}
 \label{sec:sayi-sistemleri-giris}
 
-Bir bilgisayarın belleğinde tuttuğu her şey --- bir tam sayı, bir metin karakteri, bir
-fotoğrafın bir pikseli, bir ses örneği --- sonunda aynı hammaddeye indirgenir: $0$ ve $1$'lerden
+Bir bilgisayarın belleğinde tuttuğu her şey (bir tam sayı, bir metin karakteri, bir
+fotoğrafın bir pikseli, bir ses örneği) sonunda aynı hammaddeye indirgenir: $0$ ve $1$'lerden
 oluşan bir dizi. Bu indirgemenin nasıl yapıldığını, yani sayıların ve sembollerin ikili
 düzende nasıl \emph{kodlandığını} anlamadan, bu bitleri işleyecek devreleri tasarlamaya
 başlayamayız. Bu yüzden yolculuğumuza, tüm sayısal donanım tasarımının en alt katmanı olan
@@ -123,12 +123,12 @@ Kalanlar aşağıdan yukarı okunduğunda: $(6)_{10} = (110)_2$.
 
 \begin{bilginot}[Neden Kalan, Bölüm Değil?]
 $N = d_n r^n+\ldots+d_1 r+d_0$ olsun. $d_0$ dışındaki her terim $r$'nin katı olduğundan,
-$N \bmod r = d_0$ --- yani \textbf{kalan, her zaman tam olarak en düşük anlamlı basamaktır}.
+$N \bmod r = d_0$; yani \textbf{kalan, her zaman tam olarak en düşük anlamlı basamaktır}.
 Buna karşılık $\lfloor N/r\rfloor = d_n r^{n-1}+\ldots+d_1$: \textbf{bölüm, aynı sayının son
 basamağı silinmiş hâlidir}, kendisi asla bir basamak değildir. İşlemi bölüm $0$'a düşene kadar
 tekrarlarız ($0$'ı basamak olarak yazmayız); her adımda yazılan basamak o adımın
 \emph{kalanı}dır, bölümü değil. Yukarıdaki örneğin ikinci satırında ($3\div2=1$ kalan $1$)
-bölüm ($1$) ile kalan ($1$) aynı değeri taşıyor --- bu, satırı yanlış okuyup bölümü basamak
+bölüm ($1$) ile kalan ($1$) aynı değeri taşıyor; bu, satırı yanlış okuyup bölümü basamak
 sanmanın fark edilmeyeceği bir durum yaratır. Aşağıdaki iki örnekte bölüm ve kalanın genelde
 \emph{birbirinden bağımsız, farklı} sayılar olduğunu göreceğiz.
 \end{bilginot}
@@ -173,12 +173,12 @@ $32+8+4+1=45$. \checkmark
 \label{sec:sekizlik-onaltilik}
 
 Onluk sistemde tam $10$ rakam sembolümüz vardır: $0,1,\ldots,9$. Bu, $r\le10$ olan her taban
-için yeterlidir --- sekizlik sistemde yalnızca $0$-$7$ kullanılır, $8$ ve $9$'a hiç
+için yeterlidir. Sekizlik sistemde yalnızca $0$-$7$ kullanılır, $8$ ve $9$'a hiç
 dokunulmaz. Ama $r=16$ olduğunda her basamak $0$'dan $15$'e kadar \textbf{16 farklı değer}
 alabilmelidir; elimizdeki $10$ rakam sembolü $6$ değer için ($10,11,\ldots,15$) yetersiz kalır.
 
 \begin{bilginot}[Neden "10" Değil de Yeni Bir Sembol?]
-Akla gelen ilk çözüm, $10$'u iki karakterle ("10") yazmak gibi görünebilir --- ama bu,
+Akla gelen ilk çözüm, $10$'u iki karakterle ("10") yazmak gibi görünebilir; ama bu,
 pozisyonel gösterimin temel kuralını bozar: \textbf{her basamak tek bir karakter olmalıdır},
 yoksa gösterim belirsizleşir. $(110)_{16}$ dizisini gördüğünüzde bunun "1, 1, 0" mı yoksa
 "1, 10" mı olduğunu ayırt edemezsiniz. Çözüm, onluk rakamların bittiği yerden alfabeyle
@@ -339,7 +339,7 @@ değiştirilir. $(CA)_{16}$'yı ikiliye açalım:
 \[
 \underbrace{\text{C}}_{1100} \; \underbrace{\text{A}}_{1010} \;\Rightarrow\; (11001010)_2
 \]
-Bu, bir önceki örneğin tam tersi --- aynı sayı çifti arasında gidip gelebildiğimizi gösterir.
+Bu, bir önceki örneğin tam tersidir; aynı sayı çifti arasında gidip gelebildiğimizi gösterir.
 \end{ornek}
 
 \begin{ornek}[İkiliden Sekizliğe Gruplama]
@@ -348,8 +348,10 @@ bölündüğü için baştan sıfır eklemeye gerek yok, doğrudan sağdan 3'erl
 \[
 \underbrace{101}_{5} \; \underbrace{101}_{5} \; \underbrace{110}_{6} \;\Rightarrow\; (556)_8
 \]
-Doğrulama: $5\cdot8^2+5\cdot8^1+6\cdot8^0=320+40+6=366$, ve
-$(101101110)_2=1\cdot256+1\cdot64+1\cdot32+1\cdot8+1\cdot4+1\cdot2=366$. \checkmark
+Doğrulama, her iki tarafı da onluk tabana çevirip karşılaştırarak yapılır:
+$(556)_8 = 5\cdot8^2+5\cdot8^1+6\cdot8^0=320+40+6=(366)_{10}$, ve
+$(101101110)_2=1\cdot256+1\cdot64+1\cdot32+1\cdot8+1\cdot4+1\cdot2=(366)_{10}$. İki taraf da
+aynı onluk değere ($366$) eşit olduğundan sonuç doğrulanmış olur. \checkmark
 \end{ornek}
 
 \begin{alistirma}[\kolay]
@@ -373,7 +375,7 @@ $(11001010)_2=(202)_{10}$ --- iki sonuç örtüşüyor.
 çevireceğiz: pozisyonel sistem tanımındaki ağırlıklı toplam formülünü ($\sum d_i r^i$),
 tabanın kendisini \textbf{bilinmeyen} kabul ederek bir denklem olarak kuracak ve $r$ için
 çözeceğiz. Tek kısıtlama akılda tutulmalı: bir ifadede kullanılan her basamak, tabandan
-\emph{küçük} olmak zorundadır ($d_i < r$) --- bulunan çözüm bu kısıtla sınanmalıdır.
+\emph{küçük} olmak zorundadır ($d_i < r$); bulunan çözüm bu kısıtla sınanmalıdır.
 
 \begin{ornek}[$(23)_x$ Sayısının Ondalık Karşılığı $19$ İse $x$ Nedir?]
 Ağırlıklı toplam formülü, üsler açık yazılarak kurulur; $x^0=1$ olduğu için birler basamağı
@@ -404,7 +406,8 @@ $30=(105)_5$.
 \end{ornek}
 
 \begin{ornek}[$(32)_x+(24)_x=(100)_x$ İse $x$ Nedir?]
-Bu kez RHS üç basamaklı olduğu için denklem \emph{ikinci dereceden} çıkar. Üsler açık:
+Bu kez eşitliğin sağ tarafı (right-hand side, RHS) üç basamaklı olduğu için denklem
+\emph{ikinci dereceden} çıkar. Üsler açık:
 \[
 (3\cdot x^1+2\cdot x^0)+(2\cdot x^1+4\cdot x^0) = 1\cdot x^2+0\cdot x^1+0\cdot x^0
 \]
@@ -425,7 +428,7 @@ Pozisyonel gösterim yalnızca tam sayılarla sınırlı değildir; noktadan son
 \[
 (0.d_{-1}d_{-2}\ldots d_{-m})_r = \sum_{i=1}^{m} d_{-i}\cdot r^{-i}
 \]
-Tabandan ondalığa dönüşüm yine doğrudan bu toplamla yapılır --- ör.
+Tabandan ondalığa dönüşüm yine doğrudan bu toplamla yapılır; örneğin
 $(0.101)_2 = 1\cdot2^{-1}+0\cdot2^{-2}+1\cdot2^{-3} = 0.5+0+0.125 = (0.625)_{10}$. Ondalıktan
 bir tabana geçiş ise, tam sayı kısmından \textbf{farklı ve ters işleyen} bir yöntem gerektirir.
 
@@ -457,11 +460,30 @@ yönde birleştirmeyi unutmayın.
 \end{bilginot}
 
 \begin{bilginot}[Her Kesir Sonlanmaz]
-Her ondalık kesir, hedef tabanda sonlu basamakla ifade edilemez. Örneğin $(0.1)_{10}$'u
-ikiliye çevirmeye çalışırsanız ardışık çarpma işlemi hiçbir zaman kesri $0$'a düşürmez;
-sonuç sonsuz tekrar eden bir ikili dizidir ($0.000110011\ldots$). Bu olgu, kayan noktalı
-sayı gösteriminde karşılaşılan $0.1+0.2\neq0.3$ gibi tanıdık tuhaflıkların temel nedenidir.
-Konuya kayan nokta gösterimini işlerken geri döneceğiz.
+Her ondalık kesir, hedef tabanda sonlu basamakla ifade edilemez. Bunu somut görmek için
+$(0.1)_{10}$'u ardışık çarpma yöntemiyle ikiliye çevirmeyi deneyelim:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+İşlem & Sonuç & Taşan Basamak \\
+\midrule
+$0.1\times2$ & $0.2$ & $0$ \\
+$0.2\times2$ & $0.4$ & $0$ \\
+$0.4\times2$ & $0.8$ & $0$ \\
+$0.8\times2$ & $1.6$ & $1$ \\
+$0.6\times2$ & $1.2$ & $1$ \\
+$0.2\times2$ & $0.4$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Altıncı satırda kesir tekrar $0.2$'ye döner; bu değeri ikinci satırda zaten görmüştük.
+Yani işlem hiçbir zaman $0$'a düşmeyen bir \textbf{döngüye} girmiştir: kesir sonsuza kadar
+$0.2\to0.4\to0.8\to0.6\to0.2\to\ldots$ sırasını tekrar eder ve her turda aynı $0,0,1,1$
+basamak dörtlüsünü üretir. Sonuç, sonsuz tekrar eden bir ikili dizidir:
+$(0.1)_{10}=(0.0001100110011\ldots)_2$. Bu olgu, kayan noktalı sayı gösteriminde
+karşılaşılan $0.1+0.2\neq0.3$ gibi tanıdık tuhaflıkların temel nedenidir: sonlu bit
+genişliğinde bu sonsuz dizi bir yerde kesilmek zorunda kalır, ve kesilen kısım küçük bir
+yuvarlama hatası olarak kalır. Konuya kayan nokta gösterimini işlerken geri döneceğiz.
 \end{bilginot}
 
 \begin{alistirma}[\kolay]
@@ -484,7 +506,8 @@ Yukarıdan aşağı okunduğunda: $(0.375)_{10}=(0.011)_2$. Doğrulama:
 $0\cdot2^{-1}+1\cdot2^{-2}+1\cdot2^{-3}=0.25+0.125=0.375$. \checkmark
 
 \begin{ornek}[Sekizlik Kesir Dönüşümü]
-Ardışık çarpma yöntemi herhangi bir tabana genelleşir; $8$ ile çarpılır. $(0.513)_{10}$'u
+Ardışık çarpma yöntemi herhangi bir tabana genelleşir; $8$'lik tabana dönüşümde kesirli
+kısım $2$ yerine $8$ ile çarpılır. $(0.513)_{10}$'u
 sekizliğe çevirelim:
 \begin{center}
 \begin{tabular}{lll}
@@ -506,7 +529,7 @@ kesersek: $(0.513)_{10} \approx (0.406517)_8$.
 
 \begin{ornek}[Karma Sayı Dönüşümü: Tam ve Kesirli Kısım Birlikte]
 Hem tam sayı hem kesir içeren bir sayıyı çevirirken, \textbf{iki kısım ayrı ayrı çevrilip
-sonra birleştirilir} --- tam kısım için ardışık bölme, kesirli kısım için ardışık çarpma.
+sonra birleştirilir}; tam kısım için ardışık bölme, kesirli kısım için ardışık çarpma.
 $(41.6875)_{10}$'u ikiliye çevirelim.
 
 Tam kısım ($41$), ardışık bölme ile:
@@ -526,7 +549,7 @@ $1 \div 2$ & $0$ & $1$ (en yüksek anlamlı bit) \\
 \end{center}
 Kalanlar aşağıdan yukarı: $(41)_{10}=(101001)_2$.
 
-Kesirli kısım ($0.6875$), ardışık çarpma ile --- bunu daha önce hesaplamıştık:
+Kesirli kısım ($0.6875$), ardışık çarpma ile bulunur (bunu daha önce hesaplamıştık):
 $(0.6875)_{10}=(0.1011)_2$.
 
 İki sonuç birleştirilir:
@@ -539,13 +562,13 @@ $(0.6875)_{10}=(0.1011)_2$.
 \label{sec:ikili-aritmetik}
 
 Şimdiye kadar sayıları temsil etmeyi ve tabanlar arasında çevirmeyi öğrendik. Bu bölümde bu
-sayılar üzerinde temel aritmetik işlemleri --- toplama, çıkarma, çarpma, bölme --- nasıl
+sayılar üzerinde temel aritmetik işlemleri (toplama, çıkarma, çarpma, bölme) nasıl
 yapacağımızı ele alıyoruz. $r$ tabanındaki aritmetik işlemler, ilkokulda öğrendiğimiz ondalık
 kurallarla \textbf{birebir aynı mantıkla} işler; tek fark, her basamağın $0$'dan $r{-}1$'e kadar
 sınırlı olması ve elde/borç eşiğinin $10$ değil $r$ olmasıdır. Bir sonraki bölümde (Tümleyenler)
-çıkarmayı toplamaya çeviren bir "trik" öğreneceğiz --- ama önce, optimize edeceğimiz ham
+çıkarmayı toplamaya çeviren bir "trik" öğreneceğiz. Ama önce, optimize edeceğimiz ham
 işlemi elle nasıl yaptığımızı bilmemiz gerekiyor. Her işlem için önce genel $r$-tabanlı
-matematiksel formülü kuracağız, sonra $r=2$ özel durumunu (ikili) örneklerle pekiştireceğiz ---
+matematiksel formülü kuracağız, sonra $r=2$ özel durumunu (ikili) örneklerle pekiştireceğiz;
 bu formüller, ileride mantık kapılarıyla gerçek toplayıcı/çarpıcı/bölücü \emph{devreleri}
 tasarlarken birebir kullanılacak.
 
@@ -564,7 +587,7 @@ Hiçbir zaman $2$ veya daha büyük bir elde oluşmaz.
 \end{tanim}
 
 İkilide ($r{=}2$) bu formül $s_i=(a_i+b_i+c_i)\bmod2$, $c_{i+1}=\lfloor(a_i+b_i+c_i)/2\rfloor$'ye
-indirgenir --- ve bu, ileride kuracağımız bir "tam toplayıcı" (full adder) mantık kapısı
+indirgenir; bu, ileride kuracağımız bir "tam toplayıcı" (full adder) mantık kapısı
 devresinin giriş-çıkış ilişkisinin ta kendisidir. Ondalıkta iki basamağın toplamı $10$'u geçince
 elde doğar; ikilide eşik $r{=}2$'dir: $1+1=(10)_2$ --- yani bu basamağa $0$ yazılır, bir üst
 basamağa $1$ elde gider.
@@ -731,16 +754,40 @@ $R$ ($0$'dan başlar) her adımda önce tabana göre kaydırılıp bir sonraki b
 sonra bölenle karşılaştırılır:
 \[
 R \leftarrow r\cdot R + a_i \qquad\text{ardından}\qquad
-\begin{cases}
-q_i=1,\ R \leftarrow R-B & \text{eğer } R \ge B \\
-q_i=0 & \text{eğer } R < B
-\end{cases}
+q_i = \max\{\,q \in \{0,1,\ldots,r{-}1\} : q\cdot B \le R\,\}, \qquad R \leftarrow R - q_i\cdot B
 \]
-İkilide ($r{=}2$) bu, her basamakta yalnızca tek bir soruya indirgenir: \textbf{"şu anki $R$,
-bölenden büyük veya eşit mi?"} Cevap evetse bölüm biti $1$ ve $B$ çıkarılır, hayırsa
-bölüm biti $0$. Bu basitlik (kaydır, karşılaştır, gerekirse çıkar), donanımda \emph{ardışık
-bölücü} devrelerinin temelini oluşturur.
+Yani her adımda, $B$'nin kaydırılmış $R$'yi aşmayan en büyük katı bulunur; bu katın kaç
+kez alındığı ($q_i$) o adımın bölüm basamağıdır, ve o kat $R$'den çıkarılır. Onluk gibi
+$r>2$ tabanlarda $q_i$ genelde $0$ ile $r{-}1$ arasında herhangi bir değer olabileceği için
+bu en büyük katı bulmak bir miktar deneme gerektirir (aşağıda somut bir örnekle göreceğiz).
+İkilide ($r{=}2$) ise $q_i$ yalnızca $0$ veya $1$ olabileceğinden bu arayış tek bir soruya
+indirgenir: \textbf{"şu anki $R$, bölenden büyük veya eşit mi?"} Cevap evetse bölüm biti
+$1$ ve $B$ çıkarılır, hayırsa bölüm biti $0$. Bu basitlik (kaydır, karşılaştır, gerekirse
+çıkar), donanımda \emph{ardışık bölücü} devrelerinin temelini oluşturur.
 \end{tanim}
+
+Önce genel algoritmayı, alışık olduğumuz onluk tabanda (uzun bölme) somutlaştıralım.
+
+\begin{ornek}[$(138)_{10} \div (6)_{10}$: Genel Algoritma Onluk Tabanda]
+$A=138$, $B=6$. Basamaklar soldan sağa ($1,3,8$) tek tek işlenir; her adımda $q_i$, $q_i\cdot6$
+$R$'yi aşmayacak şekilde \emph{deneme yoluyla} bulunur:
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Adım & Basamak & $R\leftarrow10R+a_i$ & En büyük $q\cdot6\le R$ & Bölüm biti, yeni $R$ \\
+\midrule
+1 & $1$ & $1$ & $0\cdot6\le1$ & $q{=}0$, $R{=}1$ \\
+2 & $3$ & $13$ & $2\cdot6\le13$ & $q{=}2$, $R{=}1$ \\
+3 & $8$ & $18$ & $3\cdot6\le18$ & $q{=}3$, $R{=}0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Bölüm basamakları sırayla $0,2,3$: $Q=(023)_{10}=23$. Son $R=0$, kalan yok. Doğrulama:
+$23\times6=138$. \checkmark
+\end{ornek}
+
+Şimdi aynı algoritmayı, karşılaştırmanın tek bir soruya indirgendiği $r=2$ özel durumunda
+uygulayalım:
 
 \begin{ornek}[$(1011)_2 \div (11)_2$]
 $A=1011$ ($11$), $B=11$ ($3$). Bitler soldan sağa işlenir:
@@ -788,10 +835,10 @@ bir araç kuracağız: \emph{tümleyenler}.
 \begin{bilginot}[Neden Çıkarmayı Toplamaya Çeviriyoruz?]
 Bir bilgisayarın işlemcisi, aslında milyonlarca küçük anahtardan (transistörden) örülmüş bir
 ağdır. Bu transistörler, ikili girişlerden ikili çıkış üreten \emph{mantık kapıları}na (AND,
-OR, NOT vb.) --- Bölüm~\ref{chap:bool-cebri}'de göreceğimiz kapılara --- gruplanır, kapılar da
+OR, NOT vb.; Bölüm~\ref{sec:mantik-kapilari}'de göreceğimiz kapılara) gruplanır, kapılar da
 bir araya gelerek \emph{toplayıcı} (adder) gibi aritmetik devreleri oluşturur. Sorun şu:
 toplama işlemini yapan bir devre ile çıkarma işlemini yapan bir devre, \textbf{birbirinden
-farklı} kapı düzenlemeleri gerektirir --- yani ikisini de donanımda gerçeklemek isterseniz iki
+farklı} kapı düzenlemeleri gerektirir; yani ikisini de donanımda gerçeklemek isterseniz iki
 ayrı devre kurmanız, dolayısıyla iki katı transistör harcamanız gerekir. Ama eğer $M-N$
 işlemini $M+(\text{tümleyen}(N))$ olarak yeniden yazabilirsek, çıkarma işlemi de aynı toplayıcı
 devre üzerinden yürür. Ayrı bir "çıkarıcı" devre tasarlamaya hiç gerek kalmaz. Tümleyenlerin
@@ -827,7 +874,7 @@ bulunur.
 
 Kavramı önce aşina olduğumuz ondalık sistemde (r=10) somutlaştıralım. $(r{-}1)$'in
 tümleyenini, yani $9$'un tümleyenini, hesaplamanın pratik yolu: \textbf{her basamağı $9$'dan
-çıkarmaktır} --- çünkü $(10^n-1)$ sayısı $n$ tane $9$'dan oluşur ($999\ldots9$), ve
+çıkarmaktır}; çünkü $(10^n-1)$ sayısı $n$ tane $9$'dan oluşur ($999\ldots9$), ve
 basamak basamak çıkarma hiçbir borç gerektirmez.
 
 \begin{ornek}[$546700$'ün 9'un ve 10'un Tümleyeni]
@@ -870,15 +917,15 @@ Sondaki iki $0$ aynı kalır; ilk sıfır olmayan basamak ($7$) $10$'dan çıkar
 Doğrulama: $10^6-246700=753300$. \checkmark
 \end{ornek}
 
-\begin{bilginot}[Kısayol Neden İşliyor? --- Borç Yayılımı İspatı]
+\begin{bilginot}[Kısayol Neden İşliyor? Borç Yayılımı İspatı]
 $r$'nin tümleyeni, $r^n$ (yani $n$ basamaklı $1\underbrace{00\ldots0}_{n}$ sayısı) ile $N$
 arasındaki farktır: $r^n-N$. Bu çıkarmayı elle, sağdan sola borç alarak yapalım. $N$'nin
 sondan itibaren $k$ tane sıfırı olsun. İlk $k$ basamakta $0-0$ işlemi yapılır. Borca hiç
 gerek yoktur, sonuç $0$ kalır. Basamak $k$'de (sondan itibaren ilk sıfır-olmayan basamak,
-değeri $d$) işlem $0-d$'dir; bu borç gerektirir, sonuçta $(r-d)$ elde edilir ve bir borç sola
---- basamak $k{+}1$'e --- yayılır. Basamak $k{+}1$'de $r^n$'nin kendi basamağı da $0$
+değeri $d$) işlem $0-d$'dir; bu borç gerektirir, sonuçta $(r-d)$ elde edilir ve bir borç sola,
+basamak $k{+}1$'e, yayılır. Basamak $k{+}1$'de $r^n$'nin kendi basamağı da $0$
 olduğundan, gelen borç yüzünden işlem aslında $(0-1)-d_{k+1} = (r-1)-d_{k+1}$'dir (yine bir
-borç daha sola yayılarak) --- ve bu, en soldaki basamağa kadar devam eder. Yani ilk
+borç daha sola yayılarak); bu, en soldaki basamağa kadar devam eder. Yani ilk
 sıfır-olmayan basamağın solundaki \textbf{her} basamak, gelen borç nedeniyle otomatik olarak
 $(r{-}1)$'den çıkarılmış olur. Kısayol, bu borç yayılımının doğrudan bir sonucudur.
 \end{bilginot}
@@ -887,7 +934,7 @@ $(r{-}1)$'den çıkarılmış olur. Kısayol, bu borç yayılımının doğrudan
 \label{sec:tumleyen-ikili}
 
 Aynı tanımlar $r=2$ için doğrudan uygulanır. $(r{-}1)=1$ olduğundan, \textbf{1'in tümleyeni,
-her biti ters çevirmektir} (NOT) --- çünkü $1-d_i$ işlemi tam olarak biti tersine çevirir
+her biti ters çevirmektir} (NOT); çünkü $1-d_i$ işlemi tam olarak biti tersine çevirir
 ($1-0=1$, $1-1=0$). \textbf{2'nin tümleyeni} ise 1'in tümleyenine $1$ eklenerek bulunur.
 
 \begin{ornek}[$(1011000)_2$'nin 1'in ve 2'nin Tümleyeni]
@@ -970,7 +1017,7 @@ tümleyenini almak
 \[
 r^n-(r^n-N) = N
 \]
-verir --- yani \textbf{tümleyenin tümleyeni, sayının kendisini geri verir}. Bu, ilerideki
+verir; yani \textbf{tümleyenin tümleyeni, sayının kendisini geri verir}. Bu, ilerideki
 çıkarma prosedüründe "sonuç negatifse, bulduğunuz değerin bir kez daha tümleyenini alıp
 başına eksi koyun" adımının neden doğru sonucu verdiğini açıklar: negatif durumda elde
 ettiğimiz ara sonuç, aslında gerçek büyüklüğün tümleyenidir; tümleyenini tekrar almak bizi
@@ -994,6 +1041,27 @@ $M$ ve $N$ için kural şöyledir:
     sonucun bir kez daha $r$'nin tümleyenini alın ve başına eksi işareti koyun.
 \end{enumerate}
 \end{tanim}
+
+\begin{ornek}[Kuralın Doğrudan Uygulanışı: $(48)_{10}-(25)_{10}$]
+$n=2$ basamak, $M=48$, $N=25$.
+
+\noindent\textbf{Adım 1:} $M+[10\text{'un tümleyeni}(N)]$ toplamını hesaplayın.
+\[
+10\text{'un tümleyeni}(25) = 100-25=75
+\]
+\[
+M+\text{tümleyen}(N) = 48+75=123
+\]
+
+\noindent\textbf{Adım 2:} Sonuç $2$ basamaktan taşıyor mu diye bakın. $123$'ün en soldaki
+$1$'i bir "uç elde"dir, yani sonuç $2$ basamaktan taşmıştır.
+
+\noindent\textbf{Adım 3:} Taştığı için, taşan basamak atılır. Kalan $23$ doğrudan
+$M-N$'dir:
+\[
+48-25=23 \quad \checkmark
+\]
+\end{ornek}
 
 \begin{bilginot}[Önce Basamak Sayılarını Eşitleyin]
 Bu kural, $M$ ve $N$'nin \textbf{aynı sayıda basamağa ($n$)} sahip olmasını varsayar. Tümleyen
@@ -1095,7 +1163,7 @@ $-17$. Doğrulama: $67-84=-17$. \checkmark
 \section{İşaretli İkili Sayılar}
 \label{sec:isaretli-sayilar}
 
-Şimdiye kadar gördüğümüz her sayı \emph{işaretsizdi} --- yalnızca sıfır ve pozitif değerleri
+Şimdiye kadar gördüğümüz her sayı \emph{işaretsizdi}; yalnızca sıfır ve pozitif değerleri
 temsil ediyordu. Ama gerçek dünyada negatif sayılara da ihtiyacımız var. Sıradan
 aritmetikte bunu bir "$-$" sembolüyle çözeriz; donanımda ise elimizde yalnızca bitler var,
 sembol diye bir şey yok. Bu bölümde, bir önceki bölümde kurduğumuz tümleyen aracını
@@ -1111,7 +1179,7 @@ gibi farklı bir şeyi) temsil eder.
 \end{tanim}
 
 \begin{bilginot}[Aynı Bitler, Farklı Anlam]
-Bir bit dizisinin işaretli mi işaretsiz mi olduğu, dizinin kendisinde yazılı değildir ---
+Bir bit dizisinin işaretli mi işaretsiz mi olduğu, dizinin kendisinde yazılı değildir;
 \textbf{yorumlayan tarafından bilinmesi gerekir}. Örneğin $01001$: işaretsiz okunursa $9$,
 işaretli okunursa $+9$'dur (soldaki bit $0$ olduğu için ikisi de aynı büyüklüğü verir). Ama
 $11001$: işaretsiz okunursa $25$, işaretli okunursa $-9$'dur. En soldaki $1$ işaret biti
@@ -1135,7 +1203,7 @@ $+5=00000101$. İşaret-büyüklükte $-5$, sadece işaret bitini $1$ yaparak el
 \label{sec:isaretli-tumleyen}
 
 İşaret-büyüklük sezgisel olsa da, donanımda kullanılan asıl yöntem farklıdır: negatif
-sayı, pozitif sayının \textbf{tümleyeni} alınarak elde edilir --- işaret biti dahil,
+sayı, pozitif sayının \textbf{tümleyeni} alınarak elde edilir; işaret biti dahil,
 \textbf{sayının tamamının} tümleyeni.
 
 \begin{ornek}[$-9$'un 8 Bitte Üç Gösterimi]
@@ -1151,6 +1219,13 @@ Gösterim & $-9$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+Tablonun ikinci ve üçüncü satırı arasında dikkat edilmesi gereken bir nokta var: 1'in
+tümleyenine ($11110110$) eklenen $+1$, işaret bitini değiştirmemiştir; her iki satırda da
+en soldaki bit $1$'dir. Bunun nedeni, $+1$ eklemenin sağdan başlayan bir elde zinciri
+üretmesi ve bu zincirin (burada $0\to1$ dönüşümüyle) daha ilk basamakta sönmesidir; işaret
+bitine hiç ulaşmaz. Sayının negatif olduğunu gösteren işaret zaten bir önceki adımda, tüm
+bitlerin (işaret biti dahil) ters çevrilmesiyle oluşmuştu; $+1$ eklemek yalnızca büyüklüğü
+küçük bir miktar düzeltir, işareti bozmaz.
 \end{ornek}
 
 \begin{bilginot}[İpucu: Ağırlıklı Toplamla Doğrudan Değer Okuma]
@@ -1200,8 +1275,24 @@ Doğrulandı.
 Kısayolu kullanarak $(10101)_2$'nin ($5$-bit $2$'nin tümleyeni) değerini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $-1\times2^4+0\times2^3+1\times2^2+0\times2^1+1\times2^0=
--16+0+4+0+1=-11$.
+\noindent\textbf{Çözüm:} Bitler soldan sağa $b_4b_3b_2b_1b_0=10101$, yani
+$b_4{=}1,\,b_3{=}0,\,b_2{=}1,\,b_1{=}0,\,b_0{=}1$. En soldaki (işaret) bit $b_4$ negatif
+ağırlıklı sayılarak kısayol formülü kurulur:
+\[
+V = -b_4\cdot2^4+b_3\cdot2^3+b_2\cdot2^2+b_1\cdot2^1+b_0\cdot2^0
+\]
+Bit değerleri yerine konur:
+\[
+V = -1\times2^4+0\times2^3+1\times2^2+0\times2^1+1\times2^0
+\]
+Her terim ayrı ayrı hesaplanır:
+\[
+V = -16+0+4+0+1
+\]
+Toplanır:
+\[
+V = -11
+\]
 
 \subsection{Neden 2'nin Tümleyeni Tercih Edilir}
 \label{sec:neden-2-tumleyeni}
@@ -1264,7 +1355,7 @@ basamağından taşan bir uç elde oluşursa, \textbf{atılır}.
 
 \begin{ornek}[Dört Durum, 8 Bit Üzerinde]
 Aşağıdaki tabloda negatif sayılar (\emph{$-6$} ve \emph{$-13$}) zaten kendi \textbf{2'nin
-tümleyeni} gösterimleriyle verilmiştir --- yani $11111010$, $-6$'nın bit dizisidir (bir önceki
+tümleyeni} gösterimleriyle verilmiştir; yani $11111010$, $-6$'nın bit dizisidir (bir önceki
 alt bölümde gördüğümüz yöntemle hesaplanmıştır), rastgele bir dizi değildir. Yeni başlayan
 biri için bu netleştirme önemlidir: tabloya bakarken "bu $1$'lerle dolu dizi nereden çıktı"
 diye düşünmeyin. Her zaman önce pozitif sayının ikili karşılığını yazıp sonra (gerekiyorsa)
@@ -1287,10 +1378,10 @@ mi olduğu, sonucun kendi işaret bitinden ($0$/$1$) doğrudan okunur.
 
 \begin{bilginot}[Taşma (Overflow)]
 $n$ bitlik iki sayının toplamı, $n$ bite sığmayan (yani $n{+}1$ bit gerektiren) bir sonuç
-üretirse \textbf{taşma} oluşur. Kağıt üzerinde sorun değildir --- sınırsız genişletebilirsiniz
---- ama donanımda bit genişliği sabittir, taşan sonuç kayba uğrar. Örneğin $4$ bitlik
+üretirse \textbf{taşma} oluşur. Kağıt üzerinde sorun değildir (sınırsız genişletebilirsiniz),
+ama donanımda bit genişliği sabittir, taşan sonuç kayba uğrar. Örneğin $4$ bitlik
 (aralık $-8$ ile $+7$) bir sistemde $(+5)+(+4)=0101+0100=1001$ işlemini yapalım: sonuç
-$1001$, işaret biti $1$ olduğu için \emph{negatif} okunur --- $2$'nin tümleyeninde
+$1001$, işaret biti $1$ olduğu için \emph{negatif} okunur; $2$'nin tümleyeninde
 $1001=-7$. Ama $5+4=9$ pozitif olmalıydı! Sonuç $4$ bite sığmadığı ($9>7$, aralığın üst
 sınırını aştığı) için taşma oluştu ve anlamsız bir işaret üretti. Taşmanın devrede nasıl
 otomatik tespit edildiğini, toplayıcı devresini kurduğumuzda göreceğiz.
@@ -1300,13 +1391,26 @@ otomatik tespit edildiğini, toplayıcı devresini kurduğumuzda göreceğiz.
 $4$ bit üzerinde $(+3)+(-5)$ işlemini 2'nin tümleyeni kuralıyla yapınız.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $+3=0011$. $-5$'in 2'nin tümleyeni: $+5=0101$, 1'in tümleyeni
-$1010$, $+1=1011$.
+\noindent\textbf{Çözüm:}
+
+\noindent\textbf{Adım 1 (her iki sayıyı da $4$ bitte, işaretli biçimde yazın):} $+3=0011$.
+$-5$ için önce $+5=0101$ yazılır, sonra $2$'nin tümleyeni alınır: $1$'in tümleyeni
+$1010$, buna $+1$ eklenir, $-5=1011$.
+
+\noindent\textbf{Adım 2 (işaret bitleri dahil sıradan ikili toplama yapın):}
 \[
 0011+1011=1110
 \]
-$4$ bite sığıyor, uç elde yok. İşaret biti $1$, yani negatif: $1110$'nin 2'nin tümleyeni
-$0010=2$, sonuç $-2$. Doğrulama: $3-5=-2$. \checkmark
+
+\noindent\textbf{Adım 3 (uç elde var mı kontrol edin):} Sonuç ($1110$) $4$ bite sığıyor,
+uç elde \textbf{yok}.
+
+\noindent\textbf{Adım 4 (sonucu yorumlayın):} İşaret biti $1$ olduğu için sonuç negatif;
+bu durumda bit dizisi doğrudan büyüklüğü göstermez, kendisi bir $2$'nin tümleyeni
+gösterimidir. Gerçek büyüklüğü bulmak için $1110$'nin $2$'nin tümleyenini alırız: $1$'in
+tümleyeni $0001$, buna $+1$ eklenir, $0010=2$. Dolayısıyla sonuç $-2$'dir.
+
+Doğrulama: $3-5=-2$. \checkmark
 
 \begin{alistirma}[\orta]
 $4$ bit üzerinde $(-3)+(+5)$ işlemini yapınız. Bu kez sonuçta gerçek bir \textbf{uç elde}
@@ -1349,7 +1453,7 @@ $11110011$. Eksilene ($+9$) eklenir:
 \[
 00001001+11110011 = 11111100
 \]
-Bu kez $8$ bite sığıyor, uç elde \textbf{yok} --- ama bu, bir önceki bölümdeki işaretsiz
+Bu kez $8$ bite sığıyor, uç elde \textbf{yok}; ama bu, bir önceki bölümdeki işaretsiz
 tümleyen çıkarmasından farklı olarak burada bir sorun \textbf{değildir}: işaretli çıkarmada
 kural her zaman aynıdır (varsa uç eldeyi at), uç eldenin olup olmaması sonucun işaretini
 etkilemez, sonuç zaten kendi işaret bitiyle doğru okunur. $11111100$'ün işaret biti $1$,
