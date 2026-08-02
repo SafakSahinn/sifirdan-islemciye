@@ -2486,9 +2486,9 @@ Alman-Avusturyalı Otto Schäffler de 1874'te benzer bir düzeni göstermişti. 
 darbe kodu modülasyonu ile yapılan analog-sayısal dönüşüm) uygulayan ve patentleyen
 kişinin Gray olmasından geliyor.
 
-Aşağıdaki tablo, $0$'dan $15$'e kadar düz ikili ile Gray kodunu karşılaştırmalı gösterir.
-Her satırdan bir sonrakine geçerken Gray sütununda yalnızca tek bir bitin değiştiğine
-dikkat edin.
+Tablo~\ref{tab:gray-kodu}, $0$'dan $15$'e kadar düz ikili ile Gray kodunu karşılaştırmalı
+gösterir. Her satırdan bir sonrakine geçerken Gray sütununda yalnızca tek bir bitin
+değiştiğine dikkat edin.
 
 \begin{table}[H]
 \centering
@@ -2559,9 +2559,14 @@ Yukarıdaki formülü kullanarak $(1010)_2$'nin ($10$'un ikili karşılığı) G
 bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $b_3b_2b_1b_0=1010$. $g_3=b_3=1$. $g_2=b_3\oplus b_2=1\oplus0=1$.
-$g_1=b_2\oplus b_1=0\oplus1=1$. $g_0=b_1\oplus b_0=1\oplus0=1$. Sonuç: $(1111)_2$. Tabloda
-$10$ satırına bakıldığında Gray kodu $1111$'dir. Doğrulandı.
+\noindent\textbf{Çözüm:} $b_3b_2b_1b_0=1010$ için:
+\[
+g_3=b_3=1,\qquad g_2=b_3\oplus b_2=1\oplus0=1
+\]
+\[
+g_1=b_2\oplus b_1=0\oplus1=1,\qquad g_0=b_1\oplus b_0=1\oplus0=1
+\]
+Sonuç: $(1111)_2$. Tabloda $10$ satırına bakıldığında Gray kodu $1111$'dir. Doğrulandı.
 
 \subsection{ASCII Karakter Kodu}
 \label{sec:ascii}
