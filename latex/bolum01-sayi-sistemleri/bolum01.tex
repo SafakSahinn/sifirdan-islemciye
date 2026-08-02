@@ -1968,7 +1968,7 @@ göreceğimiz BCD kodu tam olarak bu stratejiyi izler.
 En yaygın kullanılan ondalık kod, her ondalık rakamı \textbf{ayrı ayrı} 4 bitlik ikili
 karşılığına çevirip bu grupları yan yana dizen \textbf{BCD} (Binary-Coded Decimal,
 ikili-kodlanmış ondalık) kodudur. BCD'ye bazen \textbf{8421 kodu} da denir, çünkü her bitin
-ağırlığı sırasıyla $8,4,2,1$'dir --- yani her 4-bitlik grup, doğrudan o rakamın kendi ikili
+ağırlığı sırasıyla $8,4,2,1$'dir; yani her 4-bitlik grup, doğrudan o rakamın kendi ikili
 karşılığıdır.
 
 \begin{tanim}{BCD Kodu:}
@@ -1989,7 +1989,7 @@ BCD karşılık ise her haneyi \textbf{ayrı ayrı} kodlayıp yan yana dizerek b
 \[
 1\to0001,\quad 8\to1000,\quad 5\to0101 \quad\Rightarrow\quad (185)_{10}=(0001\ 1000\ 0101)_{BCD}
 \]
-BCD karşılık 12 bit gerektirirken gerçek ikili karşılık yalnızca 8 bit yeterlidir --- aynı
+BCD karşılık 12 bit gerektirirken gerçek ikili karşılık yalnızca 8 bit yeterlidir; aynı
 sayı için iki tamamen farklı bit deseni.
 \end{ornek}
 
@@ -2109,7 +2109,7 @@ Yüzler & $0001+0101+0001=0111$ & $\le1001$, gerekmez & $0111$ / $0$ \\
 Elde zincirinin izlenmesi önemlidir: birler hanesinin ürettiği elde ($1$), onlar hanesinin
 toplamına üçüncü terim olarak girmiştir ($1000+0111+0001$); onlar hanesinin ürettiği elde
 ($1$) de aynı şekilde yüzler hanesinin toplamına girmiştir ($0001+0101+0001$). Yüzler
-hanesinde üretilen elde $0$ olduğundan zincir burada sona erer --- eğer $1$ olsaydı, dördüncü
+hanesinde üretilen elde $0$ olduğundan zincir burada sona erer. Eğer $1$ olsaydı, dördüncü
 bir (binler) haneye taşınacaktı. Sağdan sola haneler birleştirilince: $(0111\ 0110\
 0000)_{BCD}=(760)_{10}$. Doğrulama: $184+576=760$. \checkmark
 \end{ornek}
@@ -2119,13 +2119,13 @@ $4+6$ toplamının BCD karşılığını (gerekiyorsa düzeltme dahil) bulunuz.
 \end{alistirma}
 
 \noindent\textbf{Çözüm:} $0100+0110=1010$ (10), $\ge1010$ olduğundan $0110$ eklenir:
-$1010+0110=1\,0000$. Sonuç: hane $0000$ (0), elde $1$ --- yani BCD toplamı
+$1010+0110=1\,0000$. Sonuç: hane $0000$ (0), elde $1$; yani BCD toplamı
 $(1\,0000)_{BCD}$, ondalıkta $10$.
 
 \subsection{Diğer Ondalık Kodlar}
 \label{sec:diger-ondalik-kodlar}
 
-BCD, dört bitle on rakamı kodlamanın \textbf{tek} yolu değildir --- sadece en yaygın
+BCD, dört bitle on rakamı kodlamanın \textbf{tek} yolu değildir; sadece en yaygın
 olanıdır. Aynı 4 bitten 10 farklı kombinasyon seçmenin başka yolları da vardır, ve her seçim
 farklı bir mühendislik avantajı sağlar.
 
@@ -2137,12 +2137,23 @@ gerekmez.
 \end{tanim}
 
 \begin{ornek}[2421 Kodu: Aynı Rakam İçin İki Geçerli Kodlama]
-2421 kodunda ağırlıklar $2,4,2,1$'dir. $0100$ bit kalıbını değerlendirelim:
-$2\cdot0+4\cdot1+2\cdot0+1\cdot0=4$. Şimdi $1010$'u değerlendirelim:
-$2\cdot1+4\cdot0+2\cdot1+1\cdot0=4$. \textbf{Aynı değer, iki farklı bit kalıbı!} 2421
-kodunda bazı rakamlar için birden fazla geçerli kodlama vardır; bu seçim özgürlüğü rastgele
-değildir --- birazdan göreceğimiz \emph{öz-tümleyen} özelliğini sağlamak için kasıtlı olarak
-kullanılır.
+2421 kodunda ağırlıklar $2,4,2,1$'dir; bir bit kalıbının değeri, $1$ olan bitlerin
+ağırlıklarını toplayarak bulunur.
+
+\noindent\textbf{Birinci kalıp:} $0100$ bit kalıbını değerlendirelim:
+\[
+2\cdot0+4\cdot1+2\cdot0+1\cdot0=4
+\]
+
+\noindent\textbf{İkinci kalıp:} Şimdi $1010$'u değerlendirelim:
+\[
+2\cdot1+4\cdot0+2\cdot1+1\cdot0=4
+\]
+
+\textbf{Aynı değer, iki farklı bit kalıbı!} Rakam $4$, hem $0100$ hem de $1010$ ile
+kodlanabilir. 2421 kodunda bazı rakamlar için birden fazla geçerli kodlama vardır; bu seçim
+özgürlüğü rastgele değildir. Birazdan göreceğimiz \emph{öz-tümleyen} özelliğini sağlamak için
+kasıtlı olarak kullanılır.
 \end{ornek}
 
 Ağırlıklı olmayan bir kod da mümkündür: \textbf{Excess-3} (fazla-3) kodunda hiçbir ağırlık
@@ -2151,9 +2162,10 @@ yorumu yoktur, kural yalnızca şudur: \emph{her rakamın düz ikili karşılı�
 
 Aşağıdaki tablo, dört farklı ondalık kodu karşılaştırmalı olarak gösterir.
 
-\begin{center}
-\small
-\begin{tabular}{ccccc}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c@{\hspace{1.4em}}c@{\hspace{1.4em}}c@{\hspace{1.4em}}c@{\hspace{1.4em}}c}
 \toprule
 Rakam & BCD ($8421$) & $2421$ & Excess-3 & $8,4,-2,-1$ \\
 \midrule
@@ -2169,13 +2181,14 @@ Rakam & BCD ($8421$) & $2421$ & Excess-3 & $8,4,-2,-1$ \\
 9 & 1001 & 1111 & 1100 & 1111 \\
 \bottomrule
 \end{tabular}
-\end{center}
+\caption{Dört Farklı Ondalık Kodun Karşılaştırılması}
+\label{tab:ondalik-kodlar}
+\end{table}
 
 Bu özelliğin neye yaradığını anlamak için önce nereden geldiğini hatırlayalım:
-Bölüm~\ref{sec:tumleyenler}'de çıkarmayı toplamaya çevirmek için tümleyen almıştık; aynı
-numarayı bir sonraki alt bölümde \emph{ondalık} sayılar için de yapacağız, ve bu her
-seferinde bir rakamın $9$'un tümleyenini ($9-d$) hesaplamayı gerektirecek. Bunu donanımda
-hesaplamanın iki yolu var:
+Bölüm~\ref{sec:tumleyenler}'de çıkarmayı toplamaya çevirmek için tümleyen almıştık. Aynı
+fikri şimdi \emph{ondalık} sayılar için uygulayacağız; bu da her seferinde bir rakamın
+$9$'un tümleyenini ($9-d$) hesaplamayı gerektirir. Bunu donanımda hesaplamanın iki yolu var:
 \begin{itemize}[nosep, leftmargin=*]
     \item \textbf{Aritmetik yoldan:} Girdisi $d$, çıktısı $9-d$ olan gerçek bir çıkarma
     devresi (subtractor) kurulur. Bu yol, kapı sayısı bakımından pahalı ve gecikme
@@ -2197,7 +2210,21 @@ kalıbı, tam olarak $9-d$ rakamına atanmış bit kalıbıyla aynı oluyorsa \e
 olarak adlandırılır.
 \end{tanim}
 
-Bunun gerçekten çalıştığını Excess-3 üzerinden, adım adım görelim. Ama önce, bu kodun
+\begin{ornek}[Tanımın Somut Bir Kontrolü: 2421 Kodunda Rakam $4$]
+Tanımı, elimizde zaten olan Tablo~\ref{tab:ondalik-kodlar}'daki 2421 kodu üzerinden tek bir
+rakamla sınayalım. Rakam $4$'ün 2421 kodundaki bit kalıbı $0100$'dür. Bitlerini tek tek
+tersine çevirelim:
+\[
+0100 \quad\Rightarrow\quad 1011
+\]
+Şimdi $9-4=5$'in 2421 kodundaki bit kalıbına bakalım: yine Tablo~\ref{tab:ondalik-kodlar}'a
+göre $1011$'dir. İki sonuç birebir aynı ($1011=1011$); yani rakam $4$'ün bit kalıbını
+çevirmek, bize doğrudan rakam $5$'in bit kalıbını verdi. 2421 kodu, en azından bu rakam
+için, tanımdaki öz-tümleyen koşulunu sağlıyor.
+\end{ornek}
+
+Tek bir rakam için doğrulamak fikri somutlaştırır, ama genel olarak geçerli olduğunu
+kanıtlamaz. Bunu Excess-3 üzerinden, adım adım görelim. Ama önce, bu kodun
 tanımında ilk bakışta kafa karıştırabilecek bir noktayı vurgulayalım: Excess-3 kuralı,
 \emph{"rakam $d$'nin bit kalıbı, $d+3$ sayısının düz ikili karşılığıdır"} der. Yani bir bit
 kalıbının \textbf{sayısal değeri} ile o kalıbın \textbf{temsil ettiği rakam}, aralarında
@@ -2205,34 +2232,37 @@ sabit bir $+3$ fark olacak şekilde, birbirinden farklıdır. Kodun adındaki "e
 ("fazlalık") kelimesi tam olarak bu farkı anlatır.
 
 \begin{ornek}[Excess-3'ün Öz-Tümleyen Özelliği]
-\textbf{Adım 1 --- rakam $3$'ün bit kalıbını bulalım:} Rakam $3$'ün düz ikili karşılığı
+Amacımız şunu göstermek: rakam $3$'ün Excess-3 bit kalıbının bitlerini tersine çevirdiğimizde
+elde ettiğimiz yeni kalıbın, rakam $9-3=6$'nın Excess-3 bit kalıbıyla birebir aynı çıktığını
+görmek. Bunu dört adımda yapalım.
+
+\noindent\textbf{Adım 1 (rakam $3$'ün bit kalıbını bulalım):} Rakam $3$'ün düz ikili karşılığı
 $0011$'dir. Excess-3 kuralı gereği buna $3$ eklenir (yani $0011+0011$):
 \[
 0011+0011=0110
 \]
 Burada dikkat edilmesi gereken can alıcı nokta şudur: $0110$'nın \textbf{sayısal değeri}
 $6$'dır ($4+2=6$). Ama bu bit kalıbı, rakam $6$'yı değil, \textbf{rakam $3$'ü} temsil etmek
-üzere atanmıştır --- çünkü kuralımız "$d+3$" idi ve $3+3=6$. Yani rakam $3$'ün bit kalıbı,
+üzere atanmıştır, çünkü kuralımız "$d+3$" idi ve $3+3=6$. Yani rakam $3$'ün bit kalıbı,
 sayısal değeri $6$ olan $0110$'dır; bu bir çelişki değil, kodun tanımının doğal bir
 sonucudur.
 
-\textbf{Adım 2 --- aynı kuralı rakam $6$'ya uygulayalım:} Rakam $6$'nın düz ikili karşılığı
-$0110$'dır. Buna $3$ eklenir: $0110+0011=1001$. $1001$'in sayısal değeri $9$'dur, ama bu
-bit kalıbı \textbf{rakam $6$'yı} temsil eder (yine $+3$ farkla: $6+3=9$).
+\noindent\textbf{Adım 2 (aynı kuralı rakam $6$'ya uygulayalım):} Rakam $6$'nın düz ikili
+karşılığı $0110$'dır. Buna $3$ eklenir: $0110+0011=1001$. $1001$'in sayısal değeri $9$'dur,
+ama bu bit kalıbı \textbf{rakam $6$'yı} temsil eder (yine $+3$ farkla: $6+3=9$).
 
-\textbf{Adım 3 --- şimdi hiç toplama yapmadan, sadece Adım 1'in bit kalıbının bitlerini
-çevirelim:} Rakam $3$'ün bit kalıbı $0110$'ı ele alalım, her bitini tek tek tersine
-çevirelim:
+\noindent\textbf{Adım 3 (Adım 1'in kalıbının bitlerini çevirelim, hiç toplama yapmadan):}
+Rakam $3$'ün bit kalıbı olan $0110$'ı ele alalım ve her bitini tek tek tersine çevirelim:
 \[
 \underbrace{0}_{\to1}\ \underbrace{1}_{\to0}\ \underbrace{1}_{\to0}\ \underbrace{0}_{\to1}
 \quad\Rightarrow\quad 1001
 \]
 
-\textbf{Adım 4 --- karşılaştırma:} Adım 2'de toplama yaparak bulduğumuz rakam $6$'nın bit
-kalıbı ($1001$), Adım 3'te hiç toplama yapmadan, sadece rakam $3$'ün bit kalıbının bitlerini
-çevirerek bulduğumuz sonuçla ($1001$) birebir aynıdır. Yani: rakam $3$'ün bit kalıbının
-bitlerini çevirmek, bize doğrudan rakam $9-3=6$'nın bit kalıbını verdi --- hiçbir
-toplama/çıkarma yapmadan.
+\noindent\textbf{Adım 4 (sonuçları karşılaştıralım):} Adım 2'de toplama yaparak bulduğumuz
+rakam $6$'nın bit kalıbı ($1001$) ile Adım 3'te hiç toplama yapmadan, sadece rakam $3$'ün
+bit kalıbının bitlerini çevirerek bulduğumuz sonuç ($1001$) birebir aynıdır. Yani rakam
+$3$'ün bit kalıbının bitlerini çevirmek, bize doğrudan rakam $9-3=6$'nın bit kalıbını verdi,
+hiçbir toplama veya çıkarma yapmadan.
 \end{ornek}
 
 Bu bir rastlantı değildir; "$3$" sayısının seçimi de rastgele değildir --- kanıtlayalım.
