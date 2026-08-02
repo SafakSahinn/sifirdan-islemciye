@@ -2459,7 +2459,7 @@ televizyon sisteminin geliştirilmesine katkıda bulundu.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55\textwidth,keepaspectratio]{frank_gray.png}
+\includegraphics[width=0.4\textwidth,keepaspectratio]{frank_gray.png}
 \caption{Frank Gray, 1930'da geliştirdiği mekanik televizyon aygıtını incelerken.}
 \label{fig:frank-gray}
 \end{figure}
@@ -2482,8 +2482,9 @@ kodu taşıyan plakayı (15) içeren PCM tüpü (10) görülüyor.}
 Kodun kendisi aslında Gray'den çok önce de kullanılmıştı: Fransız mühendis Émile Baudot,
 1870'lerde telgraf makinesinin harf çarkını sıralarken benzer bir kod düzeni kullanmış,
 Alman-Avusturyalı Otto Schäffler de 1874'te benzer bir düzeni göstermişti. Ama kodun bugünkü
-"Gray kodu" adı, onu titizlikle tanımlayıp somut bir mühendislik problemine (PCM ile
-analog-sayısal dönüşüm) uygulayan ve patentleyen kişinin Gray olmasından geliyor.
+"Gray kodu" adı, onu titizlikle tanımlayıp somut bir mühendislik problemine (PCM, yani
+darbe kodu modülasyonu ile yapılan analog-sayısal dönüşüm) uygulayan ve patentleyen
+kişinin Gray olmasından geliyor.
 
 Aşağıdaki tablo, $0$'dan $15$'e kadar düz ikili ile Gray kodunu karşılaştırmalı gösterir.
 Her satırdan bir sonrakine geçerken Gray sütununda yalnızca tek bir bitin değiştiğine
@@ -2491,8 +2492,8 @@ dikkat edin.
 
 \begin{table}[H]
 \centering
-\small
-\begin{tabular}{ccc}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c@{\hspace{2em}}c@{\hspace{2em}}c}
 \toprule
 Ondalık & İkili & Gray Kodu \\
 \midrule
