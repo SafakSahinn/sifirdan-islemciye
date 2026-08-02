@@ -2265,21 +2265,21 @@ $3$'ün bit kalıbının bitlerini çevirmek, bize doğrudan rakam $9-3=6$'nın 
 hiçbir toplama veya çıkarma yapmadan.
 \end{ornek}
 
-Bu bir rastlantı değildir; "$3$" sayısının seçimi de rastgele değildir --- kanıtlayalım.
+Bu bir rastlantı değildir; "$3$" sayısının seçimi de rastgele değildir. Kanıtlayalım.
 Bir $4$-bitlik sayının bitlerini tek tek çevirmek, matematiksel olarak $15-x$ işlemine
 eşittir (çünkü $4$ bit $0$'dan $15$'e kadar sayar, ve her biti çevirmek sayıyı $15$'e göre
 "aynalar": $0000\to1111$ yani $0\to15$, $0001\to1110$ yani $1\to14$, ve genel olarak
 $x\to15-x$). Rakam $d$'nin bit kalıbının sayısal değeri $d+3$ olduğundan, bu bit kalıbının
 bitlerini çevirmek bize $15-(d+3)=12-d$ değerinde bir bit kalıbı verir. Öte yandan, bizim
 aslında elde etmek istediğimiz şey, rakam $9-d$'ye atanmış bit kalıbıdır; bu kalıbın
-sayısal değeri de $(9-d)+3=12-d$'dir. \textbf{İkisi de $12-d$ --- birebir eşit!} Bu sabit
+sayısal değeri de $(9-d)+3=12-d$'dir. \textbf{İkisi de $12-d$; birebir eşit!} Bu sabit
 ekleme miktarına (Excess-3'te $3$, BCD'de $0$) kodun \textbf{ofseti} denir. Ofset, bir
 bit kalıbının sayısal değeri ile o kalıbın temsil ettiği rakam arasındaki sabit farktır.
 İşte Excess-3'ün ofseti olan "$3$", tam olarak yukarıdaki eşitliği ($15-3=9+3$) sağlayacak
 şekilde seçilmiştir; rastgele bir tercih değildir.
 
 Bu özellik neden önemlidir? Çünkü ondalık çıkarmada (bir sonraki alt bölümde göreceğimiz
-gibi) bir tümleyen alma işlemi normalde ayrı bir çıkarma devresi gerektirir --- ama
+gibi) bir tümleyen alma işlemi normalde ayrı bir çıkarma devresi gerektirir; ama
 öz-tümleyen bir kodda bu işlem tek bir NOT kapısı katmanına indirgenir, ekstra donanıma hiç
 gerek kalmaz.
 
@@ -2288,16 +2288,27 @@ BCD (\emph{8421}) kodunun öz-tümleyen olmadığını, yukarıdaki kanıtla ayn
 kullanarak gösteriniz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} BCD'nin ofseti $0$'dır, yani bit kalıbının sayısal değeri rakamın
-kendisine eşittir ($d+0=d$). Excess-3'teki "$+3$" yerine burada "$+0$" vardır. Bit
-çevirme yine $15-x$ işlemine eşittir; BCD kodunu çevirirsek $15-d$ elde ederiz. Ama bizim
-istediğimiz, $9-d$'nin BCD kodu, yani sadece $9-d$'nin kendisi (ofset $0$ olduğu için).
-Öz-tümleyen olması için $15-d=9-d$ eşitliğinin sağlanması gerekirdi --- bu ise $d$'den
-bağımsız olarak asla doğru olamaz ($15\neq9$). Somut bir örnekle doğrulayalım: $0$'ın BCD
-kodu $0000$'dır; bitleri çevirirsek $1111$ (15) elde ederiz. Ama $9-0=9$'un BCD kodu
-$1001$'dir; $1111\neq1001$. Demek ki BCD'nin öz-tümleyen olmaması tek bir rakama özgü bir
-tesadüf değil, BCD'nin ofsetinin ($0$) Excess-3'ün gerektirdiği değere ($3$) eşit
-olmamasından kaynaklanan \textbf{yapısal bir imkansızlıktır}.
+\noindent\textbf{Çözüm:}
+
+\noindent\textbf{Adım 1 (BCD'nin ofsetini belirleyin):} BCD'nin ofseti $0$'dır, yani bit
+kalıbının sayısal değeri rakamın kendisine eşittir ($d+0=d$). Excess-3'teki "$+3$" yerine
+burada "$+0$" vardır.
+
+\noindent\textbf{Adım 2 (bit çevirmenin verdiği değeri hesaplayın):} Bit çevirme yine
+$15-x$ işlemine eşittir; BCD kodunu çevirirsek $15-d$ elde ederiz.
+
+\noindent\textbf{Adım 3 (elde etmek istediğimiz değerle karşılaştırın):} Bizim istediğimiz,
+$9-d$'nin BCD kodu, yani sadece $9-d$'nin kendisidir (ofset $0$ olduğu için). Öz-tümleyen
+olması için $15-d=9-d$ eşitliğinin sağlanması gerekirdi; bu ise $d$'den bağımsız olarak
+asla doğru olamaz ($15\neq9$).
+
+\noindent\textbf{Adım 4 (somut bir örnekle doğrulayın):} $0$'ın BCD kodu $0000$'dır;
+bitleri çevirirsek $1111$ (15) elde ederiz. Ama $9-0=9$'un BCD kodu $1001$'dir;
+$1111\neq1001$.
+
+Demek ki BCD'nin öz-tümleyen olmaması tek bir rakama özgü bir tesadüf değil, BCD'nin
+ofsetinin ($0$) Excess-3'ün gerektirdiği değere ($3$) eşit olmamasından kaynaklanan
+\textbf{yapısal bir imkansızlıktır}.
 
 Son olarak, yukarıdaki tablonun son sütunu bir \textbf{negatif ağırlıklı kod}
 örneğidir: $8,4,-2,-1$ kodunda ağırlıkların hepsi pozitif olmak zorunda değildir. Örneğin
