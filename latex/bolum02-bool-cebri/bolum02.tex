@@ -2281,15 +2281,16 @@ değişebilir; her IC, tanımlanması için üzerine basılmış sayısal bir ko
 Bunu soyut kalmadan, gerçek ve klasik bir örnek üzerinden somutlaştıralım: 74 serisinin ilk
 üyesi olan \textbf{7400}, birbirinden tamamen bağımsız \textbf{dört adet 2-girişli NAND
 kapısı} içeren 14 bacaklı bir DIP paketidir. Şekil~\ref{fig:7400-pin}, çipin fiziksel pin
-diyagramını gösterir: çentik, paketin üstten bakıldığındaki yönünü işaret eder; bacak
-numaraları çentiğin hemen solundaki bacaktan ($1$) başlayıp saat yönünün tersine, kılıfın
-etrafında ilerler.
+diyagramını gösterir: kılıfın üst kenarına içe doğru kesilmiş yarım daire biçimindeki çentik,
+gerçek çiplerde olduğu gibi paketin üstten bakıldığındaki yönünü ve başlangıç noktasını işaret
+eder; bacak numaraları çentiğin hemen solundaki bacaktan ($1$) başlayıp saat yönünün tersine,
+kılıfın etrafında ilerler.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[every node/.style={font=\footnotesize}]
 \draw[thick] (0,0) rectangle (2,5.6);
-\draw[thick] (0.8,5.6) arc (180:0:0.2);
+\draw[thick] (0.8,5.6) arc (180:360:0.2);
 
 \draw[thick] (-0.4,5.2) -- (0,5.2); \node[anchor=east] at (-0.45,5.2) {1A}; \node[anchor=west] at (0.05,5.2) {1};
 \draw[thick] (-0.4,4.4) -- (0,4.4); \node[anchor=east] at (-0.45,4.4) {1B}; \node[anchor=west] at (0.05,4.4) {2};
