@@ -27,7 +27,7 @@ Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
 \label{sec:bool-giris}
 
 Önceki bölümde gördüğümüz ikili sayılar, bir bilgisayarın belleğinde \emph{durağan} veriyi
-temsil eder: bir sayı, bir karakter, bir renk kodu. Ama bir işlemci sadece veri saklamaz ---
+temsil eder: bir sayı, bir karakter, bir renk kodu. Ama bir işlemci sadece veri saklamaz;
 toplama yapar, karşılaştırır, dallanma kararı verir. Yani veriyi \emph{işleyen} bir mekanizmaya
 ihtiyacımız var; bu mekanizma da yine $0$ ve $1$'lerle, ama bu kez statik değil, girişe bağlı
 olarak çıkış üreten devrelerle kurulur. İşte bu devrelerin arkasındaki matematik, konumuz olan
@@ -40,7 +40,8 @@ Bool cebirinin hikayesi, matematiğin soyut bir kolunun onlarca yıl sonra mühe
 taşı hâline gelişinin klasik bir örneğidir.
 
 1815-1864 yılları arasında yaşayan, büyük ölçüde kendi kendini yetiştirmiş İngiliz matematikçi
-George Boole, 1854'te yayımladığı \emph{An Investigation of the Laws of Thought} adlı eserinde,
+George Boole, 1854'te yayımladığı \emph{An Investigation of the Laws of Thought} (Düşüncenin
+Yasaları Üzerine Bir Araştırma) adlı eserinde,
 mantıksal önermeleri $0$ ve $1$ değerleriyle simgeleyen, toplama ve çarpmaya benzeyen
 işlemlerle işleyen cebirsel bir sistem kurdu. Bugün kullandığımız ``Bool cebiri''
 (Boolean algebra) adı doğrudan onun soyadından gelir. Bu adlandırma kendisinden sonraki
@@ -56,7 +57,8 @@ seksen yıl boyunca saf matematiğin/mantık felsefesinin bir parçası olarak k
 \end{figure}
 
 Bu boşluğu, 1937'de MIT'de yüksek lisans öğrencisi olan Claude Shannon doldurdu.
-\emph{A Symbolic Analysis of Relay and Switching Circuits} başlıklı tezinde (1938'de
+\emph{A Symbolic Analysis of Relay and Switching Circuits} (Röle ve Anahtarlama Devrelerinin
+Sembolik Bir Analizi) başlıklı tezinde (1938'de
 yayımlandı), Boole'un $0/1$ cebirinin, elektromekanik röle ve anahtarlama devrelerini
 tasarlamak ve analiz etmek için birebir kullanılabileceğini gösterdi. Bu çalışma sık sık
 ``20. yüzyılın en önemli yüksek lisans tezi'' olarak anılır ve sayısal devre tasarımının
@@ -64,7 +66,8 @@ tasarlamak ve analiz etmek için birebir kullanılabileceğini gösterdi. Bu ça
 bir mühendislik aracına dönüştürdü.
 
 Shannon'ın bilim tarihindeki ikinci büyük katkısı, bundan on yıl kadar sonra, 1948'de
-yayımladığı \emph{A Mathematical Theory of Communication} makalesiyle geldi; bu çalışmayla
+yayımladığı \emph{A Mathematical Theory of Communication} (Haberleşmenin Matematiksel Bir
+Teorisi) makalesiyle geldi; bu çalışmayla
 \textbf{bilgi teorisinin (information theory) kurucusu} kabul edilir. Bilginin nasıl
 ölçülebileceğini ve gürültülü bir kanaldan ne kadar güvenilir şekilde iletilebileceğini
 matematiksel olarak formülleştiren bu alan, bugünkü tüm sayısal iletişim (internet, cep
@@ -75,7 +78,7 @@ mimarlarından biri kabul edilir.
 \begin{figure}[H]
 \centering
 \includegraphics[height=4cm,keepaspectratio]{claude_shannon.jpg}
-\caption{Claude Shannon, y. 1950'ler (Tekniska Museet).}
+\caption{Claude Shannon, yaklaşık 1950'ler (Tekniska Museet).}
 \label{fig:claude-shannon}
 \end{figure}
 
@@ -181,13 +184,16 @@ Yasak bölgenin asıl tehlikesi cihaza zarar vermesi değil, sinyalin anlamını
 belirsizleşmesidir: gerilim bu aralıkta kalırsa devre onu güvenilir şekilde $0$ ya da $1$
 olarak sınıflandıramaz, sonuç üreticiye, sıcaklığa, hatta zamana göre değişebilir ve bu
 doğrudan bir mantık hatasına yol açar. Buna ek olarak gerçek bir fiziksel risk de vardır:
-özellikle CMOS teknolojisinde, giriş gerilimi bu ara bölgede kalırsa kapının içindeki hem
-$p$-tipi hem $n$-tipi transistörler aynı anda kısmen iletken hâle gelir ve besleme
-geriliminden toprağa doğrudan bir ``şönt akımı'' akar. Hızlı ve kısa geçişlerde (normal
-anahtarlamada) bu kaçınılmazdır ve zararsızdır. Ama bir sinyal bu bölgede beklenenden uzun
-süre kalırsa (ör. çok yavaş yükselen/düşen bir kenar), bu şönt akımı gereksiz güç tüketimine
-ve ısınmaya yol açabilir. Özetle: tanımlayıcı/asıl sebep mantıksal belirsizlik, ısınma riski
-ise ikincil bir sonuçtur.
+özellikle CMOS (Complementary Metal-Oxide-Semiconductor, tümleyen metal-oksit-yarıiletken;
+günümüzün baskın dijital devre ailesi) teknolojisinde, giriş gerilimi bu ara bölgede kalırsa
+kapının içindeki hem $p$-tipi hem $n$-tipi transistörler aynı anda kısmen iletken hâle gelir
+ve besleme geriliminden toprağa doğrudan bir ``şönt akımı'' (İngilizcesi \emph{shoot-through
+current}; besleme ile toprak arasında transistörler üzerinden kısa devre gibi akan, hiçbir
+faydalı iş yapmayan akım) akar. Hızlı ve kısa geçişlerde (normal anahtarlamada) bu
+kaçınılmazdır ve zararsızdır. Ama bir sinyal bu bölgede beklenenden uzun süre kalırsa (ör. çok
+yavaş yükselen/düşen bir kenar), bu şönt akımı gereksiz güç tüketimine ve ısınmaya yol
+açabilir. Özetle: tanımlayıcı/asıl sebep mantıksal belirsizlik, ısınma riski ise ikincil bir
+sonuçtur.
 \end{detaybilgi}
 
 \begin{detaybilgi}[Gürültü Payı (Noise Margin)]
