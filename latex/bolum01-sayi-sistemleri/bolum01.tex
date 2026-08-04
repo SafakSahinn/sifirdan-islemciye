@@ -141,11 +141,7 @@ zaman noktalarında ölçüp bir grafiğe döktüğümüzde ne olur?
 
 Sürekli bir büyüklüğün (örneğin sıcaklığın) zaman içindeki grafiği kesintisiz bir eğridir;
 bu eğrinin illa bir parabol ya da başka özel bir şekil olması gerekmez, tek gereken zamanın
-her anında bir değerin tanımlı olmasıdır. Şekil~\ref{fig:termometre-zaman} bunu, aynı gerçek
-eğriyi (gri kesikli çizgi) farklı örnekleme sıklıklarıyla yaklaşık olarak yeniden çizerek
-gösterir: az sayıda örnek alındığında (sol panel) eğrinin tepe ve çukur noktaları kaçırılır,
-gerçek eğriden belirgin biçimde sapılır; örnek sayısı arttıkça (sağ panel) kesikli yaklaşım
-gerçek eğriye gitgide daha çok yaklaşır.
+her anında bir değerin tanımlı olmasıdır.
 
 \begin{figure}[H]
 \centering
@@ -171,18 +167,17 @@ gerçek eğriye gitgide daha çok yaklaşır.
 \node[below] at (3,-0.7) {\small Çok örnekleme};
 \end{scope}
 \end{tikzpicture}
-\caption{Sürekli bir büyüklüğün (sıcaklık) zaman içindeki değişimi: örnekleme sıklığı
-arttıkça kesikli yaklaşım gerçek eğriye (gri kesikli çizgi) daha çok yaklaşır.}
+\caption{Sürekli bir büyüklüğün (sıcaklık) zaman içindeki değişimi.}
 \label{fig:termometre-zaman}
 \end{figure}
 
+Şekil~\ref{fig:termometre-zaman}, aynı gerçek eğriyi (gri kesikli çizgi) farklı örnekleme
+sıklıklarıyla yaklaşık olarak yeniden çizer: az sayıda örnek alındığında (sol panel) eğrinin
+tepe ve çukur noktaları kaçırılır, gerçek eğriden belirgin biçimde sapılır; örnek sayısı
+arttıkça (sağ panel) kesikli yaklaşım gerçek eğriye gitgide daha çok yaklaşır.
+
 Kesikli bir büyüklüğün (örneğin ardışık zar atışlarının) zaman içindeki grafiği ise tam
-tersi bir karaktere sahiptir. Şekil~\ref{fig:zar-zaman}'da görüldüğü gibi noktalar arasında
-hiçbir eğilim ya da bağlantı çizgisi yoktur, çünkü art arda gelen iki atış birbirinden
-tamamen bağımsızdır. Üçüncü atıştan dördüncü atışa ``geçiş'' diye bir şey söz konusu değildir;
-her biri kendi başına, bağımsız bir sonuçtur. Bu izole nokta görünümü, kesikliliğin hem yatay
-eksende (yalnızca tam sayılı atış numaraları vardır, ``$2.5$. atış'' yoktur) hem dikey eksende
-(yalnızca $1$-$6$ arası tam sayı sonuçlar vardır) geçerli olduğunu gösterir.
+tersi bir karaktere sahiptir; çünkü art arda gelen iki atış birbirinden tamamen bağımsızdır.
 
 \begin{figure}[H]
 \centering
@@ -196,12 +191,17 @@ eksende (yalnızca tam sayılı atış numaraları vardır, ``$2.5$. atış'' yo
     \fill (\x,\y) circle (2.5pt);
 }
 \end{tikzpicture}
-\caption{Kesikli bir büyüklüğün (zar atışları) zaman içindeki değişimi: ardışık atışlar
-arasında bağlantı çizgisi yoktur, yalnızca izole noktalar vardır.}
+\caption{Kesikli bir büyüklüğün (zar atışları) zaman içindeki değişimi.}
 \label{fig:zar-zaman}
 \end{figure}
 
-Peki gerçek dünyadaki sürekli bir büyüklüğü (mesela bir mikrofonun yakaladığı ses basıncını)
+Şekil~\ref{fig:zar-zaman}'da görüldüğü gibi noktalar arasında hiçbir eğilim ya da bağlantı
+çizgisi yoktur. Üçüncü atıştan dördüncü atışa ``geçiş'' diye bir şey söz konusu değildir; her
+biri kendi başına, bağımsız bir sonuçtur. Bu izole nokta görünümü, kesikliliğin hem yatay
+eksende (yalnızca tam sayılı atış numaraları vardır, ``$2.5$. atış'' yoktur) hem dikey eksende
+(yalnızca $1$-$6$ arası tam sayı sonuçlar vardır) geçerli olduğunu gösterir.
+
+Peki gerçek dünyadaki sürekli bir büyüklüğü (mesela bir mikrofonun yakaladığı ses dalgasını)
 nasıl dijital hâle getiriyoruz? Şekil~\ref{fig:termometre-zaman}'da sezgisel olarak gördüğümüz
 ``sık örnekleme, gerçeğe daha yakın sonuç verir'' fikrini şimdi adlandıralım. Bu işe
 \textbf{niceleme}\index{niceleme (quantization)}
