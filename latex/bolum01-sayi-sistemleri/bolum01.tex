@@ -67,8 +67,8 @@ kökünden gelir; parmakla sayma, yani ayrık birimlerle sayma fikrini taşır.
 \centering
 \begin{tikzpicture}[every node/.style={font=\footnotesize}]
 \path[use as bounding box] (-0.5,-0.1) rectangle (0.5,5.6);
-\fill[yanilgirenk!65] (-0.3,0.5) rectangle (0.3,3.4);
-\fill[yanilgirenk!65] (0,0.4) circle (0.5);
+\fill[yanilgirenk] (-0.3,0.5) rectangle (0.3,3.4);
+\fill[yanilgirenk] (0,0.4) circle (0.5);
 \draw[thick, rounded corners=4pt] (-0.3,0.8) -- (-0.3,5.6) -- (0.3,5.6) -- (0.3,0.8);
 \draw[thick] (0,0.4) circle (0.5);
 \foreach \y/\lbl in {1/18, 2/19, 3/20, 4/21, 5/22} {
@@ -151,6 +151,59 @@ zaten kesikli/ikili sinyaller bekleyecek. Gerçek dünyadan gelen sürekli bir b
 istersek, önce bir ADC'den geçirip onu bizim anlayacağımız dile çevirmemiz gerekir. Bu
 kitabın konusu tam olarak o çeviriden \emph{sonraki} dünyadır. Şimdi bu kesikli değerlerin
 fiziksel dünyada nasıl taşındığını, yani sinyal kavramını inceleyelim.
+
+\subsection{Sinyaller: Bilginin Fiziksel Taşıyıcısı}
+\label{sec:sinyaller}
+
+``Kesikli değer'' dediğimiz şey bir devrede soyut kalamaz; fiziksel olarak var olması gerekir.
+Bunu sağlayan şeye \textbf{sinyal}\index{sinyal} denir: bir dijital sistemde bilgi, gerilim ya
+da akım gibi ölçülebilir bir fiziksel büyüklükle taşınır. Yani ``$0$'' ve ``$1$'' aslında birer
+sayı değil, iki farklı \textbf{gerilim seviyesi}\index{gerilim seviyesi}dir; örneğin $0\,$V
+civarı \emph{düşük} ($0$), $5\,$V civarı \emph{yüksek} ($1$) sayılabilir.
+
+Bu gerilim seviyelerini fiziksel olarak üreten temel eleman \textbf{transistördür}\index{transistör}:
+akımın geçişini bir kontrol sinyaliyle açıp kapatan elektronik bir anahtar. Milyonlarca
+transistörün bir araya gelmesiyle, gerilim seviyelerini okuyup yeni gerilim seviyeleri üreten
+mantık devreleri (kapılar) oluşur; bunu Bölüm~\ref{chap:bool-cebri}'de ayrıntılı işleyeceğiz,
+burada yalnızca ``bir bitin fiziksel karşılığı gerilimdir, gerilimi de transistörler işler''
+bağlantısını kurmamız yeterli.
+
+Burada ince ama kritik bir nokta var: gerilimin kendisi aslında \textbf{sürekli (analog)} bir
+büyüklüktür, $0$ ile $5\,$V arasında (tıpkı termometredeki sıcaklık gibi) sonsuz ara değer
+alabilir. Ama bir dijital devre bu sürekli gerilimi \emph{yorumlarken} onu bilinçli olarak
+yalnızca iki bölgeye ayırır: belirli bir eşiğin altını $0$, üstünü $1$ sayar; ortadaki dar bir
+\textbf{yasak bölgeyi}\index{yasak bölge} kullanmaz.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.85cm,y=0.75cm]
+\fill[blokgri] (0,1.8) rectangle (8,3.2);
+\draw[dashed] (0,1.8) -- (8,1.8);
+\draw[dashed] (0,3.2) -- (8,3.2);
+\node[left] at (-0.1,1.8) {\small $V_{IL}$};
+\node[left] at (-0.1,3.2) {\small $V_{IH}$};
+\node[right] at (8.1,2.5) {\small Yasak Bölge};
+\draw[thick,->] (0,0) -- (8.6,0) node[right] {\small $t$};
+\draw[thick,->] (0,-0.1) -- (0,5.3) node[above] {\small $V$};
+\draw[very thick] (0,0.6) -- (1.5,0.6) -- (1.9,4.4) -- (4,4.4) -- (4.4,0.6)
+    -- (6.5,0.6) -- (6.9,4.4) -- (8,4.4);
+\node[above] at (0.7,0.6) {\small $0$};
+\node[above] at (2.9,4.4) {\small $1$};
+\node[above] at (5.4,0.6) {\small $0$};
+\node[above] at (7.4,4.4) {\small $1$};
+\end{tikzpicture}
+\caption{Zamanla değişen bir dijital sinyal: yüksek/düşük seviyeler ve aradaki yasak bölge.}
+\label{fig:sinyal-zaman}
+\end{figure}
+
+Şekil~\ref{fig:sinyal-zaman}'da yatay eksen zamanı, dikey eksen gerilimi gösterir. Sinyal
+zamanının büyük kısmını iki düz bölgeden birinde (düşük veya yüksek) geçirir; iki bölge
+arasındaki geçiş mümkün olduğunca hızlı yapılır, çünkü aradaki gri şeritte (yasak bölge)
+geçirilen her an, devrenin sinyali güvenilir biçimde $0$ ya da $1$ olarak okuyamayacağı bir
+belirsizlik anıdır. Bu eşiklerin ($V_{IL}$, $V_{IH}$) tam olarak neyi ifade ettiğini ve yasak
+bölgenin neden tehlikeli olduğunu Bölüm~\ref{chap:bool-cebri}'de derinlemesine işleyeceğiz;
+şimdilik önemli olan şudur: \textbf{dijital sistem, aslında analog bir dünyanın üstüne
+bilinçli olarak kurulmuş, gürültüye karşı dayanıklı bir soyutlamadır.}
 
 \section{Sayı Tabanları ve Dönüşümler}
 \label{sec:sayi-tabanlari}
