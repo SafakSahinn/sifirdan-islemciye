@@ -39,12 +39,117 @@ Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
 
 Bir bilgisayarın belleğinde tuttuğu her şey (bir tam sayı, bir metin karakteri, bir
 fotoğrafın bir pikseli, bir ses örneği) sonunda aynı hammaddeye indirgenir: $0$ ve $1$'lerden
-oluşan bir dizi. Bu indirgemenin nasıl yapıldığını, yani sayıların ve sembollerin ikili
-düzende nasıl \emph{kodlandığını} anlamadan, bu bitleri işleyecek devreleri tasarlamaya
-başlayamayız. Bu yüzden yolculuğumuza, tüm sayısal donanım tasarımının en alt katmanı olan
-sayı sistemleriyle başlıyoruz: önce herhangi bir tabandaki bir sayıyı nasıl okuyup
-dönüştüreceğimizi, ardından negatif sayıları ve metni/sembolleri ikili düzende nasıl
-temsil edeceğimizi göreceğiz.
+oluşan bir dizi. Bu bölümde önce bu indirgemenin \emph{neden} mümkün olduğunu, sonra
+\emph{nasıl} yapıldığını göreceğiz.
+
+\subsection{Kesikli ve Sürekli Büyüklükler}
+\label{sec:kesikli-surekli}
+
+Bir büyüklüğü ölçtüğümüzde iki ayrı karakterde karşımıza çıkabilir. \textbf{Sürekli
+(analog)}\index{sürekli büyüklük (analog)} bir büyüklük, iki değer arasında sonsuz sayıda ara
+değer alabilir: sıcaklık böyledir, $20^\circ$C ile $21^\circ$C arasında $20.1^\circ$,
+$20.01^\circ$, $20.001^\circ$ diye istenildiği kadar ara nokta vardır, bu dizi hiçbir zaman
+``bitmez''. Ses basıncı, gerilim ve zaman da aynı karakterdedir.
+
+\textbf{Kesikli (discrete)}\index{kesikli büyüklük (discrete)} bir büyüklük ise yalnızca
+\emph{sonlu} sayıda, birbirinden ayrık değer alabilir. Bir zar $1$'den $6$'ya kadar sadece
+altı değer alır; ``$3.5$ geldi'' diye bir durum söz konusu değildir. Alfabedeki $26$ harf, bir
+deste kağıttaki $52$ kart, bir satranç tahtasının $64$ karesi de aynı şekilde kesikli
+kümelerdir.
+
+\begin{tanim}{Dijital Sistem:}
+Bilgiyi kesikli (ayrık) elemanlarla temsil edip işleyen bir sisteme \emph{dijital
+sistem}\index{dijital sistem} denir. ``Dijital'' sözcüğü Latince \emph{digitus} (parmak)
+kökünden gelir; parmakla sayma, yani ayrık birimlerle sayma fikrini taşır.
+\end{tanim}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[every node/.style={font=\footnotesize}]
+\fill[blokmavi] (-0.3,0.5) rectangle (0.3,3.4);
+\fill[blokmavi] (0,0.4) circle (0.5);
+\draw[thick, rounded corners=4pt] (-0.3,0.5) rectangle (0.3,5.6);
+\draw[thick] (0,0.4) circle (0.5);
+\foreach \y/\lbl in {1/18, 2/19, 3/20, 4/21, 5/22} {
+    \draw (0.3,\y) -- (0.5,\y);
+    \node[anchor=west] at (0.55,\y) {$\lbl^\circ$};
+}
+\draw[->, thick] (0.65,3.4) -- (1.6,3.4);
+\node[anchor=west, align=left] at (1.65,3.75) {$20.4^\circ$, $20.41^\circ$,\\[2pt]
+$20.414^\circ,\ldots$};
+\end{tikzpicture}
+\caption{Sürekli bir büyüklüğe örnek: cıvalı bir termometre.}
+\label{fig:termometre-surekli}
+\end{figure}
+
+Şekil~\ref{fig:termometre-surekli}'deki termometrede cıva sütunu iki tik işareti arasındaki
+\emph{herhangi} bir yükseklikte durabilir; ölçüm aracının ve gözlemcinin hassasiyeti dışında
+hiçbir fiziksel sınır yoktur. Buna karşılık Şekil~\ref{fig:zar-kesikli}'deki zar yalnızca altı
+ayrık durumdan birine ``düşebilir''; üç ile dört arasında bir sonuç fiziksel olarak mümkün
+değildir.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[pip/.style={circle, fill=black, minimum size=3.2pt, inner sep=0pt}]
+\begin{scope}
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.5,0.5) {};
+\end{scope}
+\begin{scope}[shift={(1.3,0)}]
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.25,0.75) {};
+\node[pip] at (0.75,0.25) {};
+\end{scope}
+\begin{scope}[shift={(2.6,0)}]
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.25,0.75) {};
+\node[pip] at (0.5,0.5) {};
+\node[pip] at (0.75,0.25) {};
+\end{scope}
+\begin{scope}[shift={(3.9,0)}]
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.25,0.75) {};
+\node[pip] at (0.75,0.75) {};
+\node[pip] at (0.25,0.25) {};
+\node[pip] at (0.75,0.25) {};
+\end{scope}
+\begin{scope}[shift={(5.2,0)}]
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.25,0.75) {};
+\node[pip] at (0.75,0.75) {};
+\node[pip] at (0.5,0.5) {};
+\node[pip] at (0.25,0.25) {};
+\node[pip] at (0.75,0.25) {};
+\end{scope}
+\begin{scope}[shift={(6.5,0)}]
+\draw[thick, rounded corners=2pt, fill=blokgri] (0,0) rectangle (1,1);
+\node[pip] at (0.25,0.75) {};
+\node[pip] at (0.75,0.75) {};
+\node[pip] at (0.25,0.5) {};
+\node[pip] at (0.75,0.5) {};
+\node[pip] at (0.25,0.25) {};
+\node[pip] at (0.75,0.25) {};
+\end{scope}
+\end{tikzpicture}
+\caption{Kesikli bir büyüklüğe örnek: bir zarın altı yüzü.}
+\label{fig:zar-kesikli}
+\end{figure}
+
+Peki gerçek dünyadaki sürekli bir büyüklüğü (mesela bir mikrofonun yakaladığı ses basıncını)
+nasıl dijital hâle getiriyoruz? Bu işe \textbf{niceleme}\index{niceleme (quantization)}
+(\emph{quantization}) denir: sürekli sinyal belirli aralıklarla (ör. CD ses kalitesinde
+saniyede $44{.}100$ kez) örneklenir ve her örnek en yakın ayrık seviyeye yuvarlanır. Bu
+işlemi gerçekleştiren devreye \textbf{analog-dijital çevirici}\index{analog-dijital çevirici
+(ADC)} (\emph{Analog-to-Digital Converter}, ADC) denir. Sonuç kesinlikle orijinalin birebir
+aynısı değildir; bir miktar bilgi kaybı (\emph{niceleme hatası}, quantization error)
+kaçınılmazdır, ama yeterince sık ve yeterince ince örneklenirse fark insan kulağı/gözü için
+ayırt edilemez hâle gelir.
+
+Bu ayrım bizim için önemlidir: bu kitap boyunca tasarlayacağımız her devre, girdisi olarak
+zaten kesikli/ikili sinyaller bekleyecek. Gerçek dünyadan gelen sürekli bir büyüklüğü işlemek
+istersek, önce bir ADC'den geçirip onu bizim anlayacağımız dile çevirmemiz gerekir. Bu
+kitabın konusu tam olarak o çeviriden \emph{sonraki} dünyadır. Şimdi bu kesikli değerlerin
+fiziksel dünyada nasıl taşındığını, yani sinyal kavramını inceleyelim.
 
 \section{Sayı Tabanları ve Dönüşümler}
 \label{sec:sayi-tabanlari}
