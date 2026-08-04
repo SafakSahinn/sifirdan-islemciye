@@ -272,6 +272,59 @@ bölgenin neden tehlikeli olduğunu Bölüm~\ref{chap:bool-cebri}'de derinlemesi
 şimdilik önemli olan şudur: \textbf{dijital sistem, aslında analog bir dünyanın üstüne
 bilinçli olarak kurulmuş, gürültüye karşı dayanıklı bir soyutlamadır.}
 
+\subsection{Neden Dijital Tercih Edilir?}
+\label{sec:neden-dijital}
+
+Şimdiye kadar dijital bir sistemin \emph{ne} olduğunu (kesikli değerler, sinyal, eşiklerle
+yorumlama) gördük. Peki mühendisler neden sürekli/analog yerine bilinçli olarak dijitali
+seçiyor? Dört temel neden vardır.
+
+\textbf{Programlanabilirlik.} Analog bir devre genellikle tek bir işe adanmıştır; devresi
+değiştirilmeden farklı bir görev yaptırılamaz. Dijital bir sistem ise aynı donanım üzerinde,
+yalnızca \emph{programı} (komut dizisini) değiştirerek tamamen farklı işler yapabilir. Bu
+yüzden aynı temel donanım (bir işlemci) milyonlarca farklı uygulamada kullanılabilir;
+geliştirme maliyeti geniş bir müşteri tabanına yayılır.
+
+\textbf{Maliyet.} Entegre devre (IC) teknolojisi sayesinde bir yongaya (chip) sığdırılan
+transistör sayısı arttıkça, transistör başına maliyet düşer.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.3cm,y=0.9cm, every node/.style={font=\footnotesize}]
+\draw[thick,->] (0,0) -- (6.4,0) node[right] {\small Transistör Sayısı};
+\draw[thick,->] (0,0) -- (0,5.3) node[above] {\small Birim Maliyet};
+\draw[very thick, smooth] plot coordinates
+    {(0.4,4.6) (0.9,3.3) (1.4,2.35) (1.9,1.65) (2.4,1.2) (2.9,0.9) (3.4,0.7) (3.9,0.55)
+     (4.4,0.45) (4.9,0.38) (5.4,0.33)};
+\draw[dashed, gray] (0,0.2) -- (5.8,0.2);
+\end{tikzpicture}
+\caption{Yonga başına transistör sayısı ile transistör başına maliyet arasındaki ilişki
+(şematik, ölçekli değildir).}
+\label{fig:transistor-maliyet}
+\end{figure}
+
+Şekil~\ref{fig:transistor-maliyet} bu ilişkiyi şematik olarak gösterir: yonga başına
+transistör sayısı arttıkça, birim (transistör başına) maliyet önce hızla, sonra gitgide
+yavaşlayarak azalır ama hiçbir zaman sıfıra inmez (üretim sürecinin kendi maliyeti bir
+taban oluşturur). Bu, dijital devrelerin zaman içinde hem ucuzlamasını hem karmaşıklaşmasını
+aynı anda mümkün kılan asıl itici güçtür; konuyu Bölüm~\ref{chap:bool-cebri}'nin Entegre
+Devreler kısmında biraz daha derinleştireceğiz.
+
+\textbf{Hız.} Modern dijital devreler saniyede yüzlerce milyonlarca işlem yapabilir; bu,
+gerilim seviyelerinin (bkz. Alt Bölüm~\ref{sec:sinyaller}) çok hızlı anahtarlanabilmesinin
+doğrudan bir sonucudur.
+
+\textbf{Güvenilirlik (ama farklı bir türü).} Alt Bölüm~\ref{sec:sinyaller}'de sinyal
+düzeyinde bir güvenilirlikten (gürültü payı, yasak bölge) söz etmiştik; bu, \emph{anlık} bir
+sinyalin yanlış okunmasını önlüyordu. Burada söz konusu olan ise veri düzeyinde bir
+güvenilirliktir: dijital veri, \textbf{hata düzeltme kodlarıyla} (error-correcting codes)
+fazladan yedeklilik (redundancy) taşıyarak saklanabilir ya da iletilebilir. Klasik bir örnek:
+bir DVD'deki dijital veri, üzerinde çizik ya da toz olsa bile bu kodlar sayesinde hatasız
+okunabilir, çünkü kayıp ya da bozulan bitler geri kalan yedek bilgiden yeniden hesaplanabilir.
+Analog bir kayıtta (plak, kaset) böyle bir ``kendini onarma'' imkânı yoktur; bozulma
+kalıcıdır. Bu kitapta ilerleyen bir alt bölümde (parity/eşlik biti) bunun en basit hâlini elle
+uygulayacağız.
+
 \section{Sayı Tabanları ve Dönüşümler}
 \label{sec:sayi-tabanlari}
 
