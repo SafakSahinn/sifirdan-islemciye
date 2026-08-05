@@ -3002,7 +3002,7 @@ protokolleri) checksum, CRC (döngüsel artıklık denetimi) veya Hamming kodu g
 gelişmiş yöntemler kullanılır; bunlar bu kitabın kapsamı dışındadır.
 \end{bilginot}
 
-\begin{bilginot}[Parity Fikri Günümüzde: ECC Bellek]
+\begin{detaybilgi}[Parity Fikri Günümüzde: ECC Bellek]
 Parity'nin sınırları (çift sayıdaki hataları kaçırması, hiçbir hatayı düzeltememesi, sadece
 sezebilmesi) onu ilkel bir yöntem gibi gösterse de, ardındaki temel fikir --- veriye fazladan
 kontrol bitleri ekleyerek hatayı yakalamak --- hâlâ günümüz işlemci ve bellek sistemlerinin
@@ -3014,12 +3014,13 @@ ECC bellek tipik olarak bir \textbf{Hamming kodu}\index{Hamming kodu} varyantı 
 çift hatayı sezme). Basit parity gibi tek bir kontrol biti yerine, her $64$ bitlik veri
 grubuna genellikle $8$ fazladan kontrol biti eklenir (toplam $72$ bit); bu bitler sadece
 ``hata var mı'' sorusuna değil, ``hata \emph{hangi} bitte'' sorusuna da cevap verecek şekilde
-hesaplanır --- tek bitlik bir hata sadece sezilmekle kalmaz, otomatik olarak düzeltilir de.
+hesaplanır. Böylece tek bitlik bir hata sadece sezilmekle kalmaz, otomatik olarak düzeltilir
+de.
 
 Bunun önemi şuradan gelir: DRAM bellek hücreleri, kozmik ışınlar ya da çip paketindeki eser
 miktarda radyoaktif malzemeden kaynaklanan alfa parçacıkları gibi rastgele fiziksel etkilerle
 zaman zaman kendiliğinden bit değiştirebilir (buna \textbf{soft error}\index{soft error}
-denir --- donanım fiziksel olarak bozulmaz, sadece bir bitin değeri anlık olarak değişir).
+denir. Donanım fiziksel olarak bozulmaz, sadece bir bitin değeri anlık olarak değişir).
 Tek bir kişisel bilgisayarda bu son derece nadir bir olaydır; ama binlerce sunucunun 7/24
 çalıştığı bir veri merkezinde toplam bellek terabaytları bulunca, istatistiksel olarak günde
 onlarca kez gerçekleşebilir. Sezilip düzeltilmeyen tek bir bit hatası bile bir bankacılık
@@ -3036,7 +3037,7 @@ Aynı koruma fikri işlemcinin içine de taşınmıştır: modern işlemcilerin 
 korunur. Yani bu bölümde gördüğümüz ``veriye fazladan bit ekleyip hatayı yakalama'' fikri,
 elli yıl önceki basit haberleşme protokollerinden bugünün veri merkezlerindeki çiplere kadar,
 temelde değişmeden taşınmış bir mühendislik ilkesidir.
-\end{bilginot}
+\end{detaybilgi}
 
 \begin{alistirma}[\kolay]
 $A=0101100$ (7 bit) için çift parity bitini bulunuz.
