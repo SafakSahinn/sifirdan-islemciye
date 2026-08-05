@@ -3017,6 +3017,36 @@ grubuna genellikle $8$ fazladan kontrol biti eklenir (toplam $72$ bit); bu bitle
 hesaplanır. Böylece tek bitlik bir hata sadece sezilmekle kalmaz, otomatik olarak düzeltilir
 de.
 
+\begin{center}
+\begin{tikzpicture}[font=\scriptsize]
+\foreach \i/\b in {0/1,1/0,2/1,3/1,4/0,5/0,6/1,7/0,8/1,9/1,10/0,11/1} {
+    \draw[thick, rounded corners=2pt, fill=blokgri] (\i,0) rectangle ++(1,1);
+    \node at (\i+0.5,0.5) {$\b$};
+}
+\node[anchor=west] at (12.15,0.5) {$\cdots$};
+\node[below, anchor=west] at (0,-0.5) {\small Veri Bitleri (64 bit)};
+
+\draw[thick, rounded corners=2pt, fill=yanilgirenk] (5,0) rectangle ++(1,1);
+\node[white] at (5.5,0.5) {$0$};
+\node[align=center, text=yanilgirenk, anchor=south] at (5.5,1.7) {soft error\\[-1pt]($1\!\to\!0$)};
+\draw[->, thick, yanilgirenk] (5.5,1.45) -- (5.5,1.05);
+
+\begin{scope}[shift={(2,-2.6)}]
+\foreach \i/\b in {0/1,1/0,2/1,3/0,4/1,5/1,6/0,7/1} {
+    \draw[thick, rounded corners=2pt, fill=bloksari] (\i,0) rectangle ++(1,1);
+    \node at (\i+0.5,0.5) {$\b$};
+}
+\node[below] at (4,-0.5) {\small ECC Kontrol Bitleri (8 bit)};
+\end{scope}
+
+\draw[->, thick, dashed] (6,-1.6) to[bend right=15]
+    node[right, align=left] {hatalı biti\\sezer ve\\düzeltir} (5.5,-0.05);
+\end{tikzpicture}
+\captionof{figure}{ECC korumalı bir bellek sözcüğü: veri bitleri, kontrol bitleri ve
+soft error'la bozulan bir bitin düzeltilmesi (şematik, gerçek bit düzenini temsil etmez).}
+\label{fig:ecc-bellek}
+\end{center}
+
 Bunun önemi şuradan gelir: DRAM bellek hücreleri, kozmik ışınlar ya da çip paketindeki eser
 miktarda radyoaktif malzemeden kaynaklanan alfa parçacıkları gibi rastgele fiziksel etkilerle
 zaman zaman kendiliğinden bit değiştirebilir (buna \textbf{soft error}\index{soft error}
