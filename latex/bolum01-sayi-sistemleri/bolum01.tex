@@ -3070,12 +3070,15 @@ temelde değişmeden taşınmış bir mühendislik ilkesidir.
 \end{detaybilgi}
 
 \begin{alistirma}[\kolay]
-$A=0101100$ (7 bit) için çift parity bitini bulunuz.
+$A=0101100$ (7 bit) için çift parity bitini bulunuz ve oluşan tam byte'ı yazınız.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $0101100$ içindeki $1$ sayısı: $3$ tanedir (tek). Çift parity
-istediğimiz için, toplamı çift yapacak parity biti gerekir: $3+1=4$ (çift), yani parity
-biti $1$'dir.
+\noindent\textbf{Çözüm:} Önce $A$'nın içindeki $1$'leri sayalım: $0\mathbf{1}0\mathbf{1}\mathbf{1}00$,
+yani toplam $3$ tane $1$ var (tek bir sayı). Çift parity istediğimiz için toplam $1$
+sayısının çift olmasını sağlamalıyız; şu anki toplam ($3$) tek olduğundan, parity bitini
+$1$ seçip toplamı $3+1=4$'e (çift) tamamlarız. Bu bölümün başında gördüğümüz gibi parity
+biti $b_7$ konumuna, yani en başa eklenir; bu yüzden oluşan tam byte (parity biti kalın
+gösterilmiştir) $\mathbf{1}0101100$'dır.
 
 Bu, Bölüm~\ref{sec:ikili-kodlar}'da başladığımız §1.7'nin son alt bölümüdür: BCD'den
 Gray koduna, ASCII'den parity'ye kadar, sayıların ve sembollerin ikili düzende nasıl
