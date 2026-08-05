@@ -863,6 +863,63 @@ $x$ & $y$ & $z$ & $F$ \\
 $F$ yalnızca $x=0$, $y=0$, $z=1$ olduğunda $1$'dir, çünkü ancak bu durumda $x'=1$,
 $y'=1$ ve $z=1$ olup üçünün çarpımı $1$ olur.
 
+\subsection{Konsensüs Teoremi}
+\label{sec:konsensus}
+
+Bazen bir Bool ifadesinde, diğer terimlerin zaten kapsadığı ve hiçbir yeni bilgi
+eklemeyen fazladan bir çarpım terimi bulunur; bu terim ifadeden çıkarılsa da
+fonksiyonun değeri değişmez. Bu durumu tanıyıp sadeleştirmeyi sistematik hâle
+getiren kurala \textbf{Konsensüs Teoremi}\index{Konsensüs Teoremi (Consensus
+Theorem)} denir.
+
+\begin{tanim}{Konsensüs Teoremi:}
+$$xy + x'z + yz = xy + x'z$$
+Burada $yz$ terimine \textbf{konsensüs terimi} denir: $xy$ ve $x'z$ terimlerinde
+birbirinin tümleyeni olarak görünen değişken ($x$ ve $x'$) atılıp, geri kalan
+değişkenler ($y$ ve $z$) çarpılarak elde edilir. Konsensüs terimi ilk iki terim
+tarafından zaten kapsandığından fazladandır (redundant) ve ifadeden atılabilir.
+Yukarıda gördüğümüz düalite ilkesiyle bu teoremin çarpımların toplamı biçimindeki
+düali de geçerlidir:
+$$(x+y)(x'+z)(y+z) = (x+y)(x'+z)$$
+\end{tanim}
+
+\begin{ornek}[Konsensüs Teoreminin İspatı]
+Sol taraftan başlayıp yalnızca postülatları ve daha önce kanıtladığımız
+teoremleri kullanarak sağ tarafa ulaşalım:
+\begin{align*}
+xy + x'z + yz &= xy + x'z + yz\cdot 1 & &\text{[Postülat 2: } x\cdot 1=x \text{]}\\
+    &= xy + x'z + yz(x+x') & &\text{[Postülat 5: } x+x'=1 \text{]}\\
+    &= xy + x'z + xyz + x'yz & &\text{[Postülat 4: dağılma]}\\
+    &= (xy+xyz) + (x'z+x'yz) & &\text{[yeniden gruplama]}\\
+    &= xy(1+z) + x'z(1+y) & &\text{[Postülat 4: dağılma]}\\
+    &= xy\cdot 1 + x'z\cdot 1 & &\text{[Teorem 2: } 1+y=1 \text{]}\\
+    &= xy + x'z & &\text{[Postülat 2: } x\cdot 1=x \text{]}
+\end{align*}
+Üçüncü satırda dikkat edilmesi gereken adım, $yz$ teriminin $x+x'=1$ ile
+çarpılarak suni biçimde ikiye bölünmesidir; bu, ilk iki terimle birleşip onlar
+tarafından yutulmasını sağlayan asıl hamledir.
+\end{ornek}
+
+\begin{bilginot}[Konsensüs Terimini Tanımak]
+Bir ifadede konsensüs teoremini uygulayabilmek için iki çarpım terimi arayın:
+biri bir değişkeni düz ($x$), diğeri aynı değişkeni tümlü ($x'$) içersin. Bu iki
+terimin geri kalan (o değişken dışındaki) kısımlarının çarpımı, ifadede üçüncü
+bir terim olarak duruyorsa, o terim fazladandır ve atılabilir. İfadenin değeri
+değişmez, ama terim ve literal sayısı azalır. Bu teknik, ileride kapı seviyesinde
+sadeleştirme yöntemleriyle (Karnaugh haritaları ve benzeri) çalışırken fazladan
+terimleri elemek için sistematik olarak yeniden karşımıza çıkacak.
+\end{bilginot}
+
+\begin{alistirma}[\orta]
+Konsensüs teoremini kullanarak $F=pq+p'r+qr$ ifadesindeki fazladan terimi
+bulup atınız.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} İfadede $p$ değişkeni düz hâlde $pq$ teriminde, tümlü
+hâlde $p'r$ teriminde geçiyor. Bu iki terimin geri kalan kısımlarının ($q$ ve
+$r$) çarpımı $qr$, tam olarak ifadedeki üçüncü terim. Demek ki $qr$ konsensüs
+terimidir ve atılabilir: $F=pq+p'r+qr=pq+p'r$.
+
 \section{De Morgan Teoremi}
 \label{sec:demorgan}
 
