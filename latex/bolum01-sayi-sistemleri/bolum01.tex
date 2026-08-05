@@ -3002,6 +3002,42 @@ protokolleri) checksum, CRC (döngüsel artıklık denetimi) veya Hamming kodu g
 gelişmiş yöntemler kullanılır; bunlar bu kitabın kapsamı dışındadır.
 \end{bilginot}
 
+\begin{bilginot}[Parity Fikri Günümüzde: ECC Bellek]
+Parity'nin sınırları (çift sayıdaki hataları kaçırması, hiçbir hatayı düzeltememesi, sadece
+sezebilmesi) onu ilkel bir yöntem gibi gösterse de, ardındaki temel fikir --- veriye fazladan
+kontrol bitleri ekleyerek hatayı yakalamak --- hâlâ günümüz işlemci ve bellek sistemlerinin
+merkezinde yer alır. Bugün kullanılan gelişmiş yönteme \textbf{ECC}\index{ECC (Error-
+Correcting Code)} (\emph{Error-Correcting Code}, hata düzeltici kod) denir.
+
+ECC bellek tipik olarak bir \textbf{Hamming kodu}\index{Hamming kodu} varyantı kullanır
+(SEC-DED: \emph{Single Error Correction, Double Error Detection} --- tek hatayı düzeltme,
+çift hatayı sezme). Basit parity gibi tek bir kontrol biti yerine, her $64$ bitlik veri
+grubuna genellikle $8$ fazladan kontrol biti eklenir (toplam $72$ bit); bu bitler sadece
+``hata var mı'' sorusuna değil, ``hata \emph{hangi} bitte'' sorusuna da cevap verecek şekilde
+hesaplanır --- tek bitlik bir hata sadece sezilmekle kalmaz, otomatik olarak düzeltilir de.
+
+Bunun önemi şuradan gelir: DRAM bellek hücreleri, kozmik ışınlar ya da çip paketindeki eser
+miktarda radyoaktif malzemeden kaynaklanan alfa parçacıkları gibi rastgele fiziksel etkilerle
+zaman zaman kendiliğinden bit değiştirebilir (buna \textbf{soft error}\index{soft error}
+denir --- donanım fiziksel olarak bozulmaz, sadece bir bitin değeri anlık olarak değişir).
+Tek bir kişisel bilgisayarda bu son derece nadir bir olaydır; ama binlerce sunucunun 7/24
+çalıştığı bir veri merkezinde toplam bellek terabaytları bulunca, istatistiksel olarak günde
+onlarca kez gerçekleşebilir. Sezilip düzeltilmeyen tek bir bit hatası bile bir bankacılık
+işleminde yanlış bir rakama ya da bilimsel bir hesaplamada sessizce yanlış bir sonuca yol
+açabilir.
+
+Bu yüzden sunucu sınıfı işlemciler (Intel Xeon, AMD EPYC gibi) ve iş istasyonu anakartları
+ECC destekli RAM ile çalışacak şekilde tasarlanır; bellek denetleyicisi her okuma/yazmada
+Hamming kodu hesaplamasını donanımsal olarak, otomatik ve saydam biçimde yapar. Sıradan
+tüketici bilgisayarlarında (masaüstü, dizüstü) maliyet ve hız kaygısıyla genellikle ECC'siz
+bellek kullanılır; günlük kullanımda bu kabul edilebilir bir risktir, sunucularda değildir.
+Aynı koruma fikri işlemcinin içine de taşınmıştır: modern işlemcilerin önbellek katmanları
+(L1/L2/L3 \emph{cache}) da soft error'a açık olduğundan sıklıkla parity ya da ECC ile
+korunur. Yani bu bölümde gördüğümüz ``veriye fazladan bit ekleyip hatayı yakalama'' fikri,
+elli yıl önceki basit haberleşme protokollerinden bugünün veri merkezlerindeki çiplere kadar,
+temelde değişmeden taşınmış bir mühendislik ilkesidir.
+\end{bilginot}
+
 \begin{alistirma}[\kolay]
 $A=0101100$ (7 bit) için çift parity bitini bulunuz.
 \end{alistirma}
