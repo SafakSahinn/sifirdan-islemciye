@@ -3004,13 +3004,13 @@ gelişmiş yöntemler kullanılır; bunlar bu kitabın kapsamı dışındadır.
 
 \begin{detaybilgi}[Parity Fikri Günümüzde: ECC Bellek]
 Parity'nin sınırları (çift sayıdaki hataları kaçırması, hiçbir hatayı düzeltememesi, sadece
-sezebilmesi) onu ilkel bir yöntem gibi gösterse de, ardındaki temel fikir --- veriye fazladan
-kontrol bitleri ekleyerek hatayı yakalamak --- hâlâ günümüz işlemci ve bellek sistemlerinin
-merkezinde yer alır. Bugün kullanılan gelişmiş yönteme \textbf{ECC}\index{ECC (Error-
+sezebilmesi) onu ilkel bir yöntem gibi gösterse de, veriye fazladan kontrol bitleri ekleyerek
+hatayı yakalama fikri hâlâ günümüz işlemci ve bellek sistemlerinin merkezinde yer alır. Bugün
+kullanılan gelişmiş yönteme \textbf{ECC}\index{ECC (Error-
 Correcting Code)} (\emph{Error-Correcting Code}, hata düzeltici kod) denir.
 
 ECC bellek tipik olarak bir \textbf{Hamming kodu}\index{Hamming kodu} varyantı kullanır
-(SEC-DED: \emph{Single Error Correction, Double Error Detection} --- tek hatayı düzeltme,
+(SEC-DED: \emph{Single Error Correction, Double Error Detection}, yani tek hatayı düzeltme,
 çift hatayı sezme). Basit parity gibi tek bir kontrol biti yerine, her $64$ bitlik veri
 grubuna genellikle $8$ fazladan kontrol biti eklenir (toplam $72$ bit); bu bitler sadece
 ``hata var mı'' sorusuna değil, ``hata \emph{hangi} bitte'' sorusuna da cevap verecek şekilde
