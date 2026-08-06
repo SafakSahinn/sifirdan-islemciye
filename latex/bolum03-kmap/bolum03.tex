@@ -65,10 +65,10 @@ patentler de aldı; kariyerinin ikinci yarısını IBM'in Thomas J. Watson Araş
 Merkezi'nde sürdürdü ve 1976'da IEEE Fellow seçildi. 2022'de, 98 yaşında hayatını
 kaybetti.
 
-Mano'nun tanımıyla, \textbf{kapı seviyesinde sadeleştirme}\index{kapı seviyesinde
-sadeleştirme} (gate-level minimization), bir sayısal devreyi tanımlayan Bool
-fonksiyonlarının, mümkün olan en az kapı ve en az girişle gerçeklenecek biçimde optimal bir
-kapı-seviyesi karşılığını bulma görevidir. K-map bu göreve, doğruluk tablosunun görsel/
+\textbf{Kapı seviyesinde sadeleştirme}\index{kapı seviyesinde sadeleştirme} (gate-level
+minimization), bir sayısal devreyi tanımlayan Bool fonksiyonlarının, mümkün olan en az kapı
+ve en az girişle gerçeklenecek biçimde optimal bir kapı-seviyesi karşılığını bulma
+görevidir. K-map bu göreve, doğruluk tablosunun görsel/
 resimsel bir biçimi gibi yaklaşır: haritadaki her kare, fonksiyonun bir minterm'ini temsil
 eder, ve fonksiyon içinde yer alan minterm'lerin kapladığı alan haritada doğrudan
 \emph{görülebilir}. Bitişik karelerin oluşturduğu desenler tanınarak, aynı fonksiyonun
@@ -87,3 +87,317 @@ tablo tabanlı bir alternatifini, Quine-McCluskey algoritmasını da göreceğiz
 tanımlama dillerinin (Verilog/VHDL) bu sadeleştirilmiş ifadeleri gerçek devre modüllerine
 dönüştürmede nasıl kullanıldığını ise, kombinasyonel devreleri (toplayıcı, çoklayıcı,
 kod çözücü) işleyeceğimiz bir sonraki bölüme bırakıyoruz.
+
+\section{Harita Yöntemi: İki ve Üç Değişkenli K-map}
+\label{sec:kmap-yontemi}
+
+\subsection{Harita Yöntemine Genel Bakış}
+\label{sec:kmap-genel-bakis}
+
+Bir K-map, karelerden oluşan bir diyagramdır; sadeleştirilecek fonksiyonun her bir
+minterm'i için haritada tam olarak bir kare ayrılmıştır. Herhangi bir Bool fonksiyonu
+minterm'lerin toplamı biçiminde yazılabildiğinden, fonksiyon haritada, kendisine ait
+minterm'lerin kapladığı karelerin oluşturduğu alan olarak görsel biçimde tanınır. Bir
+fonksiyonu haritaya yerleştirmenin yolu basittir: fonksiyona ait olan her minterm'in
+karesine $1$ yazılır (ya da kare gölgelenir), fonksiyonda yer almayan minterm'lerin
+kareleri $0$ bırakılır (veya boş bırakılır). Haritayı doğruluk tablosunun iki boyutlu,
+\emph{resimsel} bir biçimi gibi düşünebilirsiniz: doğruluk tablosundaki her satır, haritada
+bir kareye karşılık gelir; farkı, haritada birbirine \emph{komşu} (bitişik) kareler her
+zaman birbirine algebraik olarak da yakın satırlardır. Bu bölümde önce iki ve üç değişkenli
+haritaları, bir sonraki bölümde ise dört değişkenli haritayı inceleyeceğiz.
+
+\subsection{İki Değişkenli K-map}
+\label{sec:kmap-iki-degiskenli}
+
+İki değişkenli bir fonksiyonun $4$ minterm'i vardır ($m_0,m_1,m_2,m_3$); bu yüzden harita
+$2\times2=4$ kareden oluşur. Şekil~\ref{fig:kmap-iki-yapi}'de gösterildiği gibi, satırlar
+$x$ değişkenine, sütunlar $y$ değişkenine ayrılmıştır: üst satır $x=0$ ($x'$), alt satır
+$x=1$ (düz $x$) durumunu; sol sütun $y=0$ ($y'$), sağ sütun $y=1$ (düz $y$) durumunu
+temsil eder. Her karenin hangi minterm'e karşılık geldiği, o karenin bulunduğu satır ve
+sütunun kesişiminden okunur.
+
+\begin{figure}[H]
+\centering
+\karnoiki{x}{y}{$m_0$,$m_1$,$m_2$,$m_3$}
+\caption{İki değişkenli K-map'in yapısı ve minterm numaraları.}
+\label{fig:kmap-iki-yapi}
+\end{figure}
+
+\begin{ornek}[İki Değişkenli K-map'te Fonksiyon Gösterimi]
+$F_1=xy$ ve $F_2=x+y$ fonksiyonlarını haritada gösterelim. $F_1=xy$ yalnızca $m_3$'e
+($x=1,y=1$) eşittir, bu yüzden haritada tek bir kareye $1$ yazılır. $F_2=x+y$ ise
+$m_1+m_2+m_3$ toplamına eşittir (yani $x$ ya da $y$'nin en az biri $1$ olduğu her durum),
+bu yüzden üç kareye $1$ yazılır.
+
+\begin{center}
+\karnoiki{x}{y}{0,0,0,1}\hspace{2cm}\karnoiki{x}{y}{0,1,1,1}
+\end{center}
+\captionof{figure}{Solda $F_1=xy$ ($m_3$), sağda $F_2=x+y$ ($m_1+m_2+m_3$).}
+\label{fig:kmap-iki-ornek}
+\end{ornek}
+
+\subsection{Üç Değişkenli K-map}
+\label{sec:kmap-uc-degiskenli}
+
+Üç değişkenli bir fonksiyonun $8$ minterm'i vardır; harita da buna uygun olarak $8$
+kareden oluşur (Şekil~\ref{fig:kmap-uc-yapi}). Satırlar yine $x$ değişkenine ayrılmıştır
+(üst $x=0$, alt $x=1$), ama sütunlar artık \emph{iki} değişkeni ($y$ ve $z$) birlikte
+temsil eder. Buradaki kritik nokta, sütunların $00,01,10,11$ gibi düz ikili sırayla
+DEĞİL, $00,01,11,10$ sırasıyla dizilmiş olmasıdır: bu, Bölüm~\ref{chap:sayi-sistemleri}'de
+gördüğümüz \textbf{Gray kodu}\index{Gray kodu!K-map'te kullanımı}
+(bkz.~Bölüm~\ref{sec:gray-kodu}) sırasının ta kendisidir. Bu sıralama rastgele değildir:
+Gray kodunun tanımlayıcı özelliği bir sonraki sütuna geçerken yalnızca \emph{tek bir}
+bitin değişmesidir, ve K-map'in bütün gücü de bu özelliğe dayanır.
+
+\begin{figure}[H]
+\centering
+\karnouc{x}{yz}{$m_0$,$m_1$,$m_3$,$m_2$,$m_4$,$m_5$,$m_7$,$m_6$}
+\caption{Üç değişkenli K-map'in yapısı ve minterm numaraları. Sütunlar $yz$'nin Gray
+kodu sırasıyla ($00,01,11,10$) dizilmiştir.}
+\label{fig:kmap-uc-yapi}
+\end{figure}
+
+\begin{tanim}{Bitişik Kareler:}
+Bir K-map'te iki kare, yalnızca \textbf{tek bir değişkende} farklıysa (o değişken bir
+karede düz, diğerinde tümlü ise) ve geri kalan tüm değişkenler aynıysa \emph{bitişik}
+(adjacent) kabul edilir. Bitişiklik yalnızca yatay ve dikey komşuluk için geçerlidir;
+köşegen (diyagonal) komşu kareler bitişik SAYILMAZ.
+\end{tanim}
+
+Gray kodu sıralamasının doğrudan sonucu şudur: haritada fiziksel olarak yan yana duran
+iki kare, her zaman cebirsel olarak da bitişiktir. Bu, bitişik iki minterm'in toplamının
+her zaman tek bir çarpım terimine indirgenebileceği anlamına gelir; çünkü Bool
+cebirinin postülatlarından, farklı olan tek değişken $y+y'=1$ olarak sadeleşir. Örneğin
+$m_5=xy'z$ ve $m_7=xyz$ karelerini ele alalım (haritada aynı sütunda, farklı satırlarda
+bulunurlar, yalnızca $y$ değişkeninde farklıdırlar):
+\[
+m_5+m_7 = xy'z+xyz = xz(y'+y) = xz
+\]
+İki bitişik kare toplandığında, aralarında farklı olan tek değişken kayboldu ve $3$
+literallik bir ifadeden $2$ literallik bir ifadeye indik.
+
+\begin{bilginot}[Çevresel Bitişiklik: Haritanın Kenarları Birbirine Değer]
+Bitişiklik tanımı ilk bakışta göründüğünden daha geniştir. Şekil~\ref{fig:kmap-uc-yapi}'de
+$m_0$ (en soldaki sütun) ile $m_2$ (en sağdaki sütun) fiziksel olarak yan yana
+\emph{çizilmemiştir}, ama minterm tanımlarına bakıldığında $m_0=x'y'z'$ ile $m_2=x'yz'$
+yalnızca $y$ değişkeninde farklıdır, yani tanım gereği bitişiktirler:
+\[
+m_0+m_2 = x'y'z'+x'yz' = x'z'(y'+y) = x'z'
+\]
+Aynı durum $m_4$ ile $m_6$ için de geçerlidir ($m_4+m_6=xz'$). Bunun nedeni, sütun
+sıralamasının Gray kodunu takip etmesidir: ilk sütun ($00$) ile son sütun ($10$) da
+yalnızca tek bir bitte ($y$) farklıdır, tıpkı ardışık iki sütun gibi. Pratik sonucu
+şudur: haritayı, sağ ve sol kenarları birbirine yapışık bir \textbf{silindir} üzerine
+sarılmış gibi düşünmek gerekir. Dört değişkenli haritada (bir sonraki bölüm) bu kural üst
+ve alt kenarlar için de geçerli olacak.
+\end{bilginot}
+
+\begin{bilginot}[Grup Büyüklüğü Neden Mutlaka İkinin Kuvveti Olmalı?]
+Bitişik kareleri ikişer ikişer birleştirme fikri, dörderli, sekizerli gruplara da
+genelleşir; ama grup büyüklüğü her zaman $2$'nin bir kuvveti ($1,2,4,8,\ldots$) olmalıdır,
+çünkü her birleştirme adımı bir $y+y'=1$ türü sadeleşmesine dayanır ve bu sadeleşme
+karelerin sayısını her seferinde ikiye katlar. Üç değişkenli bir haritada:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $1$ kare $\to$ $3$ literallik bir terim verir (sadeleşme yok).
+    \item $2$ bitişik kare $\to$ $2$ literallik bir terim verir (bir değişken düşer).
+    \item $4$ bitişik kare $\to$ $1$ literallik bir terim verir (iki değişken düşer).
+    \item $8$ kare (haritanın tamamı) $\to$ fonksiyon sabit $1$'e eşittir (üç değişken de düşer).
+\end{itemize}
+Genel kural: $2^k$ bitişik kareden oluşan bir grup, $(n-k)$ literallik bir terime karşılık
+gelir ($n$ = toplam değişken sayısı).
+\end{bilginot}
+
+\subsection{Örnekler ve Uygulama}
+\label{sec:kmap-uc-degiskenli-ornekler}
+
+\begin{ornek}[İki Ayrı İkili Grup]
+\label{orn:kmap-a}
+$F(x,y,z)=\Sigma(2,3,4,5)$ fonksiyonunu sadeleştirelim. Önce fonksiyona ait dört
+minterm'in karesine $1$ yazılır (Şekil~\ref{fig:kmap-ornek-a}). $m_2$ ve $m_3$ bitişiktir
+(aynı satır, komşu sütun) ve $x'y$ terimine indirgenir; $m_4$ ve $m_5$ de bitişiktir
+(aynı satır, komşu sütun) ve $xy'$ terimine indirgenir. İki grubun birleşimi fonksiyonun
+tamamını kapsadığından:
+\[
+F = x'y + xy'
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (2,1) rectangle (4,2);
+\fill[blokturuncu] (0,0) rectangle (2,1);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $x\backslash yz$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$0$};
+\end{tikzpicture}
+\caption{$F(x,y,z)=\Sigma(2,3,4,5)=x'y+xy'$.}
+\label{fig:kmap-ornek-a}
+\end{figure}
+\end{ornek}
+
+\begin{ornek}[Çevresel Bitişikliğin Kullanımı]
+\label{orn:kmap-b}
+$F(x,y,z)=\Sigma(3,4,6,7)$ fonksiyonunu sadeleştirelim (Şekil~\ref{fig:kmap-ornek-b}).
+$m_3$ ve $m_7$ aynı sütunda, farklı satırlardadır; birleşince $yz$ terimini verir. $m_4$
+ve $m_6$ ise haritanın en soldaki ve en sağdaki sütunlarında bulunur. Yukarıda
+gördüğümüz çevresel bitişiklik kuralı gereği bunlar da bitişiktir ve $xz'$ terimini
+verir. Sonuç:
+\[
+F = yz + xz'
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (2,0) rectangle (3,2);
+\fill[blokturuncu] (0,0) rectangle (1,1);
+\fill[blokturuncu] (3,0) rectangle (4,1);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $x\backslash yz$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\end{tikzpicture}
+\caption{$F(x,y,z)=\Sigma(3,4,6,7)=yz+xz'$. Turuncu renkli iki kare ($m_4$ ve $m_6$)
+haritanın zıt kenarlarında olsa da çevresel bitişiklik sayesinde tek bir grup oluşturur.}
+\label{fig:kmap-ornek-b}
+\end{figure}
+\end{ornek}
+
+\begin{ornek}[Dörtlü Grup ve Kare Tekrar Kullanımı]
+\label{orn:kmap-c}
+$F(x,y,z)=\Sigma(0,2,4,5,6)$ fonksiyonunu sadeleştirelim (Şekil~\ref{fig:kmap-ornek-c}).
+$m_0,m_2,m_4,m_6$ kareleri hep birlikte $4$'lü bir grup oluşturur (haritanın en soldaki
+ve en sağdaki sütunlarının tamamı, çevresel bitişiklikle birleşir): bu dört karede ortak
+olan tek şey $z=0$ olmasıdır, bu yüzden grup $z'$ terimine indirgenir. Geriye tek başına
+kalan $m_5$ ise, daha önce $z'$ grubunda kullanılmış olan $m_4$ ile tekrar birleştirilebilir
+(bir kare birden fazla grupta kullanılabilir): $m_4+m_5=xy'$. Sonuç:
+\[
+F = z' + xy'
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (0,0) rectangle (1,2);
+\fill[blokmavi] (3,0) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (2-0.12,1-0.12);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $x\backslash yz$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\end{tikzpicture}
+\caption{$F(x,y,z)=\Sigma(0,2,4,5,6)=z'+xy'$. Mavi dörtlü grup $z'$ terimini, turuncu
+çerçeveli ikili grup (biri mavi grupla ortak) $xy'$ terimini verir.}
+\label{fig:kmap-ornek-c}
+\end{figure}
+\end{ornek}
+
+\begin{ornek}[Kanonik Olmayan Bir İfadeden Minterm Okumak]
+\label{orn:kmap-d}
+Şimdiye kadarki örneklerde fonksiyon zaten minterm toplamı ($\Sigma$) biçiminde
+verilmişti. Ama bir fonksiyon toplamlar-çarpımı (SOP) biçiminde olsa bile, doğrudan
+minterm toplamı olmayabilir, yani terimlerinden bazıları birden fazla değişken
+içerebilir. Böyle bir ifadeyi de haritaya yerleştirebiliriz, her çarpım terimini
+kapsadığı kareler kümesine genişleterek. Örneğin:
+\[
+F(A,B,C) = AC + A'B + ABC' + B'C
+\]
+$AC$ terimi ($A=1,C=1$, $B$ serbest) $m_5$ ve $m_7$'yi kapsar. $A'B$ terimi ($A=0,B=1$,
+$C$ serbest) $m_2$ ve $m_3$'ü kapsar. $ABC'$ terimi tek başına $m_6$'yı kapsar. $B'C$
+terimi ($B=0,C=1$, $A$ serbest) $m_1$ ve $m_5$'i kapsar ($m_5$ zaten işaretliydi, tekrar
+işaretlemeye gerek yok). Toplamda işaretlenen kareler $\{1,2,3,5,6,7\}$'dir, yani
+$F(A,B,C)=\Sigma(1,2,3,5,6,7)$. Şimdi bu haritayı yeniden gruplarsak (Şekil
+\ref{fig:kmap-ornek-d}), çok daha sade bir sonuç ortaya çıkar: sağdaki iki sütun
+($B=1$ olan tüm kareler) bir grup oluşturup $B$ terimini, ortadaki iki sütun ($C=1$
+olan tüm kareler) başka bir grup oluşturup $C$ terimini verir:
+\[
+F = B + C
+\]
+Bu, orijinal dört terimli ifadenin yalnızca iki tek-literallik terime indiği çarpıcı bir
+örnektir. Cebirsel yoldan bu sonuca ulaşmak çok daha fazla adım gerektirirdi.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (2,0) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (1.12,0.12) rectangle (3-0.12,2-0.12);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $A\backslash BC$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\end{tikzpicture}
+\caption{$F(A,B,C)=\Sigma(1,2,3,5,6,7)=B+C$. Mavi grup ($B=1$) $B$ terimini, turuncu
+çerçeveli grup ($C=1$, ortadaki iki kareyi mavi grupla paylaşır) $C$ terimini verir.}
+\label{fig:kmap-ornek-d}
+\end{figure}
+\end{ornek}
+
+\begin{alistirma}[\kolay]
+$F(x,y,z)=\Sigma(0,1,6,7)$ fonksiyonunu sadeleştiriniz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $m_0$ ve $m_1$ bitişiktir (aynı satır, komşu sütun), $z$
+değişkeni düşer ve $x'y'$ terimi kalır. $m_6$ ve $m_7$ de bitişiktir, yine $z$ düşer ve
+$xy$ terimi kalır. Sonuç: $F = x'y' + xy$.
+
+\begin{alistirma}[\kolay]
+$F(x,y,z)=\Sigma(0,1,2,5)$ fonksiyonunu sadeleştiriniz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $m_0$ ve $m_2$ çevresel bitişiklikle birleşir ($y$ düşer),
+$x'z'$ terimini verir. $m_1$ ve $m_5$ bitişiktir ($x$ düşer), $y'z$ terimini verir. İki
+grup birlikte $\{0,2,1,5\}$'in tamamını kapsar. Sonuç: $F = x'z' + y'z$.
+
+\begin{alistirma}[\orta]
+$F(x,y,z)=\Sigma(0,2,3,4,6)$ fonksiyonunu sadeleştiriniz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $m_0,m_2,m_4,m_6$ çevresel bitişiklikle dörtlü bir grup oluşturur
+($z=0$ ortak), $z'$ terimini verir. Geriye kalan $m_3$, daha önce kullanılan $m_2$ ile
+tekrar birleştirilebilir ($x$ düşer), $x'y$ terimini verir. Sonuç: $F = z' + x'y$.
+
+\begin{alistirma}[\zor]
+$F(A,B,C)=A'BC+AB'+AC'+B'C$ ifadesi için (a) fonksiyonu minterm toplamı olarak yazınız,
+(b) minimal toplamlar-çarpımı (SOP) ifadesini bulunuz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} (a) $A'BC$ terimi $m_3$'ü, $AB'$ terimi $m_4$ ve $m_5$'i, $AC'$
+terimi $m_4$ ve $m_6$'yı, $B'C$ terimi $m_1$ ve $m_5$'i kapsar. Birleşim
+$\{1,3,4,5,6\}$'dır, yani $F(A,B,C)=\Sigma(1,3,4,5,6)$.
+(b) Haritaya yerleştirilip yeniden gruplandığında: $m_4$ ve $m_5$ bitişiktir ve $AB'$
+terimini verir; $m_4$ ve $m_6$ bitişiktir ve $AC'$ terimini verir; $m_1$ ve $m_3$
+bitişiktir ve $A'C$ terimini verir. Üç grup birlikte $\{1,3,4,5,6\}$'nın tamamını
+kapsar ($m_4$ iki grupta paylaşılır). Sonuç: $F = AB' + AC' + A'C$.
