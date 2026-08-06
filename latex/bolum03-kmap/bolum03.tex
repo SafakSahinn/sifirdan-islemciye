@@ -134,7 +134,7 @@ düz (tümlenmemiş) değer aldığı bölgeyi dıştan işaretler.
 \node at (0.5,0.5) {$m_2$}; \node at (1.5,0.5) {$m_3$};
 \draw[decorate,decoration={brace,amplitude=6pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=6pt},thick] (1,2.35) -- (2,2.35)
+\draw[decorate,decoration={brace,amplitude=6pt},thick] (1,2.6) -- (2,2.6)
     node[midway,yshift=14pt]{$y$};
 \end{tikzpicture}
 \caption{İki değişkenli K-map'in yapısı ve minterm numaraları. Soldaki parantez $x=1$
@@ -205,7 +205,7 @@ sütuna geçerken yalnızca \emph{tek bir} bitin değişmesidir, ve K-map'in bü
 \node at (2.5,0.5) {$m_7$}; \node at (3.5,0.5) {$m_6$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -332,7 +332,7 @@ F = x'y + xy'
 \node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$0$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -373,7 +373,7 @@ F = yz + xz'
 \node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -416,7 +416,7 @@ F = z' + xy'
 \node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -478,7 +478,7 @@ Bu, orijinal dört terimli ifadenin yalnızca iki tek-literallik terime indiği 
 \node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$A$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$B$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$C$};
@@ -493,9 +493,19 @@ Bu, orijinal dört terimli ifadenin yalnızca iki tek-literallik terime indiği 
 $F(x,y,z)=\Sigma(0,1,6,7)$ fonksiyonunu sadeleştiriniz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $m_0$ ve $m_1$ bitişiktir (aynı satır, komşu sütun), $z$
-değişkeni düşer ve $x'y'$ terimi kalır. $m_6$ ve $m_7$ de bitişiktir, yine $z$ düşer ve
-$xy$ terimi kalır. Sonuç: $F = x'y' + xy$.
+\noindent\textbf{Çözüm:} $m_0$ ve $m_1$ aynı satırda, komşu sütundadır (yalnızca $z$'de
+farklıdırlar), bu yüzden bitişiktirler:
+\[
+m_0+m_1 = x'y'z'+x'y'z = x'y'(z'+z) = x'y'
+\]
+$m_6$ ve $m_7$ de aynı şekilde bitişiktir:
+\[
+m_6+m_7 = xyz'+xyz = xy(z'+z) = xy
+\]
+İki grup birlikte $\{0,1,6,7\}$'nin tamamını kapsadığından:
+\[
+F = x'y' + xy
+\]
 
 \begin{figure}[H]
 \centering
@@ -513,7 +523,7 @@ $xy$ terimi kalır. Sonuç: $F = x'y' + xy$.
 \node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -527,9 +537,19 @@ terimini verir.}
 $F(x,y,z)=\Sigma(0,1,2,5)$ fonksiyonunu sadeleştiriniz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $m_0$ ve $m_2$ çevresel bitişiklikle birleşir ($y$ düşer),
-$x'z'$ terimini verir. $m_1$ ve $m_5$ bitişiktir ($x$ düşer), $y'z$ terimini verir. İki
-grup birlikte $\{0,2,1,5\}$'in tamamını kapsar. Sonuç: $F = x'z' + y'z$.
+\noindent\textbf{Çözüm:} $m_0$ ve $m_2$ çevresel bitişiklikle birleşir (yalnızca $y$'de
+farklıdırlar):
+\[
+m_0+m_2 = x'y'z'+x'yz' = x'z'(y'+y) = x'z'
+\]
+$m_1$ ve $m_5$ bitişiktir (yalnızca $x$'te farklıdırlar):
+\[
+m_1+m_5 = x'y'z+xy'z = y'z(x'+x) = y'z
+\]
+İki grup birlikte $\{0,2,1,5\}$'in tamamını kapsadığından:
+\[
+F = x'z' + y'z
+\]
 
 \begin{figure}[H]
 \centering
@@ -548,7 +568,7 @@ grup birlikte $\{0,2,1,5\}$'in tamamını kapsar. Sonuç: $F = x'z' + y'z$.
 \node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$0$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -562,9 +582,24 @@ turuncu grup $y'z$ terimini verir.}
 $F(x,y,z)=\Sigma(0,2,3,4,6)$ fonksiyonunu sadeleştiriniz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $m_0,m_2,m_4,m_6$ çevresel bitişiklikle dörtlü bir grup oluşturur
-($z=0$ ortak), $z'$ terimini verir. Geriye kalan $m_3$, daha önce kullanılan $m_2$ ile
-tekrar birleştirilebilir ($x$ düşer), $x'y$ terimini verir. Sonuç: $F = z' + x'y$.
+\noindent\textbf{Çözüm:} $m_0,m_2,m_4,m_6$ çevresel bitişiklikle dörtlü bir grup oluşturur;
+hepsinde ortak olan $z=0$ dışarı alınabilir:
+\begin{align*}
+m_0+m_2+m_4+m_6 &= x'y'z'+x'yz'+xy'z'+xyz'\\
+&= z'\big(x'y'+x'y+xy'+xy\big)\\
+&= z'\big(x'(y'+y)+x(y'+y)\big)\\
+&= z'(x'+x)\\
+&= z'
+\end{align*}
+Geriye kalan $m_3$, daha önce $z'$ grubunda kullanılmış olan $m_2$ ile tekrar
+birleştirilebilir (yalnızca $x$'te farklıdırlar):
+\[
+m_2+m_3 = x'yz'+x'yz = x'y(z'+z) = x'y
+\]
+İki grup birlikte $\{0,2,3,4,6\}$'nın tamamını kapsadığından:
+\[
+F = z' + x'y
+\]
 
 \begin{figure}[H]
 \centering
@@ -583,7 +618,7 @@ tekrar birleştirilebilir ($x$ düşer), $x'y$ terimini verir. Sonuç: $F = z' +
 \node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$x$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$y$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$z$};
@@ -598,13 +633,30 @@ $F(A,B,C)=A'BC+AB'+AC'+B'C$ ifadesi için (a) fonksiyonu minterm toplamı olarak
 (b) minimal toplamlar-çarpımı (SOP) ifadesini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} (a) $A'BC$ terimi $m_3$'ü, $AB'$ terimi $m_4$ ve $m_5$'i, $AC'$
-terimi $m_4$ ve $m_6$'yı, $B'C$ terimi $m_1$ ve $m_5$'i kapsar. Birleşim
-$\{1,3,4,5,6\}$'dır, yani $F(A,B,C)=\Sigma(1,3,4,5,6)$.
-(b) Haritaya yerleştirilip yeniden gruplandığında: $m_4$ ve $m_5$ bitişiktir ve $AB'$
-terimini verir; $m_4$ ve $m_6$ bitişiktir ve $AC'$ terimini verir; $m_1$ ve $m_3$
-bitişiktir ve $A'C$ terimini verir. Üç grup birlikte $\{1,3,4,5,6\}$'nın tamamını
-kapsar ($m_4$ iki grupta paylaşılır). Sonuç: $F = AB' + AC' + A'C$.
+\noindent\textbf{Çözüm:} (a) Her terimi tek tek ele alalım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $A'BC$ terimi (tüm değişkenler sabit) $\to$ tek başına $m_3$'ü kapsar.
+    \item $AB'$ terimi ($A=1,B=0$, $C$ serbest) $\to$ $m_4$ ve $m_5$'i kapsar.
+    \item $AC'$ terimi ($A=1,C=0$, $B$ serbest) $\to$ $m_4$ ve $m_6$'yı kapsar.
+    \item $B'C$ terimi ($B=0,C=1$, $A$ serbest) $\to$ $m_1$ ve $m_5$'i kapsar.
+\end{itemize}
+Birleşim $\{1,3,4,5,6\}$'dır, yani $F(A,B,C)=\Sigma(1,3,4,5,6)$.
+
+(b) Haritaya yerleştirilip yeniden gruplandığında üç bitişik çift bulunur:
+\[
+m_4+m_5 = AB'C'+AB'C = AB'(C'+C) = AB'
+\]
+\[
+m_4+m_6 = AB'C'+ABC' = AC'(B'+B) = AC'
+\]
+\[
+m_1+m_3 = A'B'C+A'BC = A'C(B'+B) = A'C
+\]
+Üç grup birlikte $\{1,3,4,5,6\}$'nın tamamını kapsar ($m_4$ iki grupta paylaşılır).
+Sonuç:
+\[
+F = AB' + AC' + A'C
+\]
 
 \begin{figure}[H]
 \centering
@@ -612,7 +664,7 @@ kapsar ($m_4$ iki grupta paylaşılır). Sonuç: $F = AB' + AC' + A'C$.
 \fill[blokmavi] (0,0) rectangle (2,1);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,1-0.12);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,0.12) rectangle (4-0.12,1-0.12);
-\draw[very thick, dashed, karsirenk, rounded corners=2pt] (1.12,1.12) rectangle (3-0.12,2-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (1.12,1.12) rectangle (3-0.12,2-0.12);
 \draw (0,0) grid (4,2);
 \node[above] at (0.5,2) {$00$}; \node[above] at (1.5,2) {$01$};
 \node[above] at (2.5,2) {$11$}; \node[above] at (3.5,2) {$10$};
@@ -624,13 +676,13 @@ kapsar ($m_4$ iki grupta paylaşılır). Sonuç: $F = AB' + AC' + A'C$.
 \node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
     node[midway,xshift=-16pt]{$A$};
-\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.35) -- (4,2.35)
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
     node[midway,yshift=14pt]{$B$};
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$C$};
 \end{tikzpicture}
 \caption{$F(A,B,C)=\Sigma(1,3,4,5,6)=AB'+AC'+A'C$. Mavi dolgu $AB'$, turuncu çerçeveli
-iki kare (çevresel bitişiklik) $AC'$, mor kesikli çerçeve $A'C$ terimini verir ($m_4$
+iki kare (çevresel bitişiklik) $AC'$, mor çerçeve $A'C$ terimini verir ($m_4$
 iki grupta, $m_1/m_3$'ün üst satırı bir grupta paylaşılır).}
 \label{fig:kmap-alistirma4}
 \end{figure}
