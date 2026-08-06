@@ -1,0 +1,89 @@
+% =============================================================
+% Bölüm 3: Kapı Seviyesinde Sadeleştirme (K-map)
+% =============================================================
+\chapter{Kapı Seviyesinde Sadeleştirme (K-map)}
+\label{chap:kmap}
+
+\begin{tcolorbox}[
+    colback=blokyesil!15,
+    colframe=sinyalyesil!60!black,
+    title={\textbf{Öğrenme Hedefleri}},
+    fonttitle=\bfseries,
+    rounded corners,
+    boxrule=0.8pt
+]
+Bu bölümü tamamladığınızda aşağıdakileri yapabileceksiniz:
+\begin{itemize}[nosep, leftmargin=*]
+    \item 2, 3 ve 4 değişkenli Karnaugh haritalarını (K-map) çizmek ve bir Bool
+    fonksiyonunu haritada göstermek.
+    \item Prime implicant ve essential prime implicant kavramlarını kullanarak bir
+    fonksiyonun minimum toplamlar-çarpımı (SOP) ve çarpımlar-toplamı (POS) biçimlerini
+    haritadan doğrudan okumak.
+    \item Bir doğruluk tablosundan K-map oluşturmak.
+    \item Önemsenmeyen (don't-care) durumları sadeleştirme sürecinde kullanmak.
+    \item Bir fonksiyonu yalnızca NAND ya da yalnızca NOR kapılarıyla iki-seviyeli
+    gerçeklemek.
+    \item XOR/XNOR fonksiyonlarının K-map'teki karakteristik (çapraz) desenini tanımak.
+    \item Quine-McCluskey algoritmasıyla, elle harita çizmenin pratik olmadığı çok
+    değişkenli fonksiyonları sistematik/tablo yöntemiyle sadeleştirmek.
+\end{itemize}
+\end{tcolorbox}
+
+\section{Giriş}
+\label{sec:kmap-giris}
+
+Önceki bölümde Bool cebirinin aksiyomlarını ve teoremlerini kullanarak bir ifadeyi elle
+sadeleştirmeyi öğrendik: De Morgan teoremiyle tümleyen almak, konsensüs teoremiyle fazladan
+terimi atmak, dağılma/yutma gibi teoremlerle terimleri birleştirmek. Bu yöntem doğru sonucu
+verir, ama önemli bir eksiği vardır: hangi teoremin hangi adımda uygulanacağını söyleyen
+sabit bir kural yoktur. İki mühendis aynı fonksiyonu farklı sıralarda sadeleştirmeye
+çalışıp farklı ara adımlardan geçebilir; hatta bazen hangi adımın atılacağını görmek
+neredeyse bir sezgi/deneme-yanılma işine döner. Az sayıda değişkenli küçük bir ifadede bu
+sorun olmaz, ama gerçek devrelerde onlarca terimli ifadelerle karşılaşıldığında, adım adım
+işleyen açık bir prosedürün eksikliği ciddi bir engele dönüşür.
+
+Bu bölümün konusu olan \textbf{Karnaugh haritası}\index{Karnaugh haritası} (kısaca
+\textbf{K-map}), tam olarak bu boşluğu dolduran, tamamen görsel/sistematik bir sadeleştirme
+yöntemidir.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{maurice_karnaugh.jpg}
+\caption{Maurice Karnaugh (1924--2022).}
+\label{fig:maurice-karnaugh}
+\end{figure}
+
+Yöntem, adını 1924'te New York'ta doğan Amerikalı fizikçi-mühendis \textbf{Maurice
+Karnaugh}'dan alır. Yale Üniversitesi'nde fizik doktorasını tamamladıktan sonra 1952'de
+Bell Laboratuvarları'na katılan Karnaugh, telefon santrallerinin anahtarlama devrelerini
+sayısal mantıkla tasarlama problemi üzerinde çalışırken, 1953'te \emph{The Map Method for
+Synthesis of Combinational Logic Circuits} (Kombinasyonel Mantık Devrelerinin Sentezi İçin
+Harita Yöntemi) başlıklı makalesini yayımladı. Bu makalede tanıttığı görsel yöntem, kısa
+sürede mühendislik camiasında onun adıyla anılır oldu. Karnaugh, Bell Laboratuvarları'ndaki
+yıllarında darbe kodu modülasyonu (PCM) ve manyetik mantık devreleri üzerine başka
+patentler de aldı; kariyerinin ikinci yarısını IBM'in Thomas J. Watson Araştırma
+Merkezi'nde sürdürdü ve 1976'da IEEE Fellow seçildi. 2022'de, 98 yaşında hayatını
+kaybetti.
+
+Mano'nun tanımıyla, \textbf{kapı seviyesinde sadeleştirme}\index{kapı seviyesinde
+sadeleştirme} (gate-level minimization), bir sayısal devreyi tanımlayan Bool
+fonksiyonlarının, mümkün olan en az kapı ve en az girişle gerçeklenecek biçimde optimal bir
+kapı-seviyesi karşılığını bulma görevidir. K-map bu göreve, doğruluk tablosunun görsel/
+resimsel bir biçimi gibi yaklaşır: haritadaki her kare, fonksiyonun bir minterm'ini temsil
+eder, ve fonksiyon içinde yer alan minterm'lerin kapladığı alan haritada doğrudan
+\emph{görülebilir}. Bitişik karelerin oluşturduğu desenler tanınarak, aynı fonksiyonun
+alternatif cebirsel ifadeleri sistematik biçimde türetilebilir; bunlar arasından terim ve
+literal sayısı en az olan seçilir. Bir sonraki bölümde göreceğimiz gibi, K-map yöntemiyle
+üretilen sadeleştirilmiş ifade her zaman iki standart biçimden birindedir: toplamlar-çarpımı
+(sum of products, SOP) ya da çarpımlar-toplamı (product of sums, POS).
+
+K-map'in bir sınırı vardır: kare sayısı değişken sayısıyla katlanarak arttığından ($2^n$),
+yöntem elle yalnızca birkaç değişkene (pratikte 4-6) kadar rahat uygulanabilir; daha fazla
+girişi olan gerçek devrelerde bu iş günümüzde bilgisayar tabanlı mantık sentezi araçlarına
+bırakılır. Yine de bu araçların arkasındaki matematiği anlamak, hem küçük devreleri elle
+tasarlayabilmek hem de araçların ürettiği sonucu değerlendirebilmek için vazgeçilmezdir.
+Bu yüzden bölümün sonunda, K-map'in elle çizilemeyecek kadar çok değişkenli durumlar için
+tablo tabanlı bir alternatifini, Quine-McCluskey algoritmasını da göreceğiz. Donanım
+tanımlama dillerinin (Verilog/VHDL) bu sadeleştirilmiş ifadeleri gerçek devre modüllerine
+dönüştürmede nasıl kullanıldığını ise, kombinasyonel devreleri (toplayıcı, çoklayıcı,
+kod çözücü) işleyeceğimiz bir sonraki bölüme bırakıyoruz.
