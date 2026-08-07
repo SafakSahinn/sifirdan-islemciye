@@ -1037,3 +1037,180 @@ F = w'z' + x'z' + wx'y
 \end{figure}
 Mavi dolgu (üst iki satırın sol/sağ sütunları, çevresel bitişiklik) $w'z'$, turuncu
 çerçeve (dört köşe, simit bitişikliği) $x'z'$, mor çerçeve $wx'y$ terimini verir.
+
+\section{Prime ve Essential Prime Implicant}\label{sec:kmap-prime-implicant}
+Şimdiye kadarki örneklerde grupları çoğunlukla "gözle" seçtik: haritaya bakıp en büyük
+bitişik grupları sezgisel olarak bulduk. Bu bölümde aynı süreci sistematik hâle getiren
+iki kavramı tanıyacağız; bu kavramlar, özellikle çok değişkenli ya da birden fazla eşit
+derecede minimal çözümü olan fonksiyonlarda, hangi grupların seçilmesi gerektiğine karar
+vermeyi netleştirir.
+
+\subsection{Implicant, Prime Implicant ve Essential Prime Implicant}\label{sec:prime-implicant-tanimlar}
+
+\begin{tanim}{Implicant:}
+Bir Bool fonksiyonu $F$'nin \textbf{implicant}'ı\index{implicant}, değeri $1$ olduğu her
+durumda $F$'yi de $1$ yapan bir çarpım terimidir; başka bir deyişle, terimin kapladığı
+mintermlerin tamamı $F$'nin mintermleri arasındadır. K-map'te bu, bitişik (ya da tek
+başına) $1$'lerden oluşan \emph{herhangi} bir geçerli grup anlamına gelir; grup en büyük
+mümkün boyutta olmak zorunda değildir.
+\end{tanim}
+
+\begin{tanim}{Prime Implicant:}
+Bir implicant, haritada mümkün olan en büyük bitişik kare grubuyla elde edilmişse, yani
+başka hiçbir bitişik kareyle birleşip daha da büyütülemiyorsa, buna \textbf{prime
+implicant}\index{prime implicant} denir. Eş değer bir tanım: literal sayısı daha az olan
+başka hiçbir implicant onu kapsamıyorsa, o implicant prime'dır.
+\end{tanim}
+
+\begin{tanim}{Essential Prime Implicant:}
+Bir minterm, fonksiyonun prime implicant'larından yalnızca \textbf{birisi} tarafından
+kapsanıyorsa, o prime implicant \textbf{essential (zorunlu)}\index{essential prime
+implicant} sayılır: minimal ifadeye mutlaka dahil edilmelidir, çünkü o mintermi kapsayacak
+başka hiçbir alternatif yoktur. Bir minterm birden fazla prime implicant tarafından
+kapsanıyorsa, hangisinin seçileceği konusunda esneklik vardır.
+\end{tanim}
+
+\subsection{Prime Implicant'ları Bulma Yöntemi}\label{sec:prime-implicant-yontem}
+Bir haritadaki tüm prime implicant'lar, mümkün olan en büyük kare gruplarının tamamı
+göz önünde bulundurularak sistematik biçimde bulunabilir:
+\begin{itemize}[nosep, leftmargin=*]
+    \item Tek bir kare, hiçbir $1$'e komşu değilse tek başına bir prime implicant'tır.
+    \item İki bitişik kare, $4$'lü bir grubun parçası \textbf{değilse} bir prime
+    implicant oluşturur.
+    \item Dört bitişik kare, $8$'li bir grubun parçası \textbf{değilse} bir prime
+    implicant oluşturur.
+    \item Bu örüntü, grup büyüklüğü arttıkça aynı şekilde devam eder.
+\end{itemize}
+Essential prime implicant'ları bulmak için $1$ ile işaretli her kareye tek tek bakılır ve
+o kareyi kaç farklı prime implicant'ın kapsadığı sayılır; kareyi kapsayan tek bir prime
+implicant varsa, o prime implicant essential'dır.
+
+Minimal SOP ifadesini bulma prosedürü şöyle özetlenebilir: önce tüm essential prime
+implicant'lar bulunup ifadeye eklenir; ardından, essential implicant'ların henüz
+kapsamadığı mintermler varsa, bunları kapsayacak en az sayıda (mümkünse en az literalli)
+ek prime implicant seçilir. Bazen bu ikinci adımda birden fazla eşit derecede minimal
+seçenek bulunabilir; aşağıdaki örnekte bunu göreceğiz.
+
+\subsection{Örnek}\label{sec:prime-implicant-ornek}
+\begin{ornek}[Essential Olmayan Bir Seçimle Karşılaşmak]\label{orn:kmap-prime}
+$F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)$ fonksiyonunu prime implicant yöntemiyle
+sadeleştirelim (Şekil~\ref{fig:kmap-prime-ornek}).
+
+Önce essential prime implicant'ları arayalım. $m_0$'ı ele alalım: bu kare, haritanın dört
+köşesiyle birlikte (simit bitişikliği, Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup
+oluşturabilir ve bu, $m_0$'ı kapsayan tek mümkün en büyük grup olduğundan essential'dır:
+$B'D'$ ($m_0,m_2,m_8,m_{10}$). Benzer şekilde $m_5$'i ele alalım: bu kare yalnızca orta
+$2\times2$ blokla ($m_5,m_7,m_{13},m_{15}$) $4$'lü bir grup oluşturabilir, bu da
+essential'dır: $BD$.
+
+İki essential prime implicant birlikte $\{0,2,5,7,8,10,13,15\}$'i kapsar. Geriye
+$m_3,m_9,m_{11}$ kalır. Bu üçünü incelersek:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_3$, $B'C$ ($m_2,m_3,m_{10},m_{11}$) ya da $CD$ ($m_3,m_7,m_{11},m_{15}$)
+    ile kapsanabilir.
+    \item $m_9$, $AD$ ($m_9,m_{11},m_{13},m_{15}$) ya da $AB'$
+    ($m_8,m_9,m_{10},m_{11}$) ile kapsanabilir.
+    \item $m_{11}$ her dört seçenekte de zaten kapsanır.
+\end{itemize}
+Bu dört olası ikili kombinasyon (birinden birer tane seçilerek) eşit derecede minimal,
+$4$ terimli bir sonuç verir. $CD$ ve $AD$'yi seçelim:
+\[
+F = B'D' + BD + CD + AD
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,3) rectangle (1,4);
+\fill[blokmavi] (3,3) rectangle (4,4);
+\fill[blokmavi] (0,0) rectangle (1,1);
+\fill[blokmavi] (3,0) rectangle (4,1);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (1.12,1.12) rectangle (3-0.12,3-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (2.22,0.22) rectangle (3-0.22,4-0.22);
+\draw[very thick, vurguyesil, rounded corners=2pt] (1.32,0.32) rectangle (3-0.32,2-0.32);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$1$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)=B'D'+BD+CD+AD$.}
+\label{fig:kmap-prime-ornek}
+\end{figure}
+Mavi dolgu (dört köşe, simit bitişikliği) essential $B'D'$'yi, turuncu çerçeve (orta blok)
+essential $BD$'yi verir. Mor çerçeve (turuncudan içeride, tüm $11$ sütunu) $CD$'yi, yeşil
+çerçeve (mordan içeride) $AD$'yi tamamlar; $m_{15}$ üç grupta birden paylaşılır.
+\end{ornek}
+
+\subsection{Alıştırma}\label{sec:prime-implicant-alistirma}
+\begin{alistirma}[\orta]
+$F(A,B,C,D)=\Sigma(0,1,2,3,7,12,13,14,15)$ fonksiyonu için essential prime implicant'ları
+bulup minimal SOP ifadesini yazınız.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-prime-alistirma}).
+$m_0$'ı ele alalım: yalnızca $00$ satırının tamamıyla ($m_0,m_1,m_2,m_3$) $4$'lü bir grup
+oluşturabilir, bu da tek seçenek olduğundan essential: $A'B'$. Benzer şekilde $m_{12}$
+yalnızca $11$ satırının tamamıyla ($m_{12},m_{13},m_{14},m_{15}$) $4$'lü bir grup
+oluşturabilir, essential: $AB$. İki essential prime implicant birlikte
+$\{0,1,2,3,12,13,14,15\}$'i kapsar, geriye yalnızca $m_7$ kalır.
+
+$m_7$'nin işaretli komşuları $m_3$ (zaten $A'B'$ grubunda) ve $m_{15}$'tir (zaten $AB$
+grubunda); ikisiyle de birleştirilebilir: $m_3+m_7=A'CD$ ya da $m_7+m_{15}=BCD$. İkisi de
+eşit derecede minimal, $3$ literallik birer prime implicant. $BCD$'yi seçelim:
+\[
+F = A'B' + AB + BCD
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,3) rectangle (4,4);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,1.12) rectangle (4-0.12,2-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (2.22,1.22) rectangle (3-0.22,3-0.22);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$0$};
+\node at (2.5,2.5) {$1$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(0,1,2,3,7,12,13,14,15)=A'B'+AB+BCD$.}
+\label{fig:kmap-prime-alistirma}
+\end{figure}
+Mavi dolgu (üst satırın tamamı) essential $A'B'$'yi, turuncu çerçeve (alt satırın tamamı)
+essential $AB$'yi verir. Mor çerçeve (turuncudan içeride, $m_{15}$ ile ortak) $BCD$'yi
+tamamlar.
