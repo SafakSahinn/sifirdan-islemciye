@@ -1,4 +1,4 @@
-% =============================================================
+﻿% =============================================================
 % Bölüm 3: Kapı Seviyesinde Sadeleştirme (K-map)
 % =============================================================
 \chapter{Kapı Seviyesinde Sadeleştirme (K-map)}
@@ -1093,7 +1093,7 @@ kapsamadığı mintermler varsa, bunları kapsayacak en az sayıda (mümkünse e
 ek prime implicant seçilir. Bazen bu ikinci adımda birden fazla eşit derecede minimal
 seçenek bulunabilir; aşağıdaki örnekte bunu göreceğiz.
 
-\subsection{Örnek}\label{sec:prime-implicant-ornek}
+\subsection{Örnekler}\label{sec:prime-implicant-ornek}
 \begin{ornek}[Essential Olmayan Bir Seçimle Karşılaşmak]\label{orn:kmap-prime}
 $F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)$ fonksiyonunu prime implicant yöntemiyle
 sadeleştirelim (Şekil~\ref{fig:kmap-prime-ornek}).
@@ -1161,7 +1161,7 @@ essential $BD$'yi verir. Kırmızı çerçeve (turuncudan içeride, tüm $11$ s�
 yeşil çerçeve (kırmızıdan içeride) $AD$'yi tamamlar; $m_{15}$ üç grupta birden paylaşılır.
 \end{ornek}
 
-\subsection{Alıştırma}\label{sec:prime-implicant-alistirma}
+\subsection{Alıştırmalar}\label{sec:prime-implicant-alistirma}
 \begin{alistirma}[\orta]
 $F(A,B,C,D)=\Sigma(0,1,2,3,7,12,13,14,15)$ fonksiyonu için essential prime implicant'ları
 bulup minimal SOP ifadesini yazınız.
@@ -1218,12 +1218,17 @@ essential $AB$'yi verir. Kırmızı çerçeve (turuncudan içeride, $m_{15}$ ile
 tamamlar.
 
 \section{Sadeleştirmenin Donanım Karşılığı}\label{sec:kmap-donanim-karsiligi}
-Bölüm~\ref{chap:bool-cebri}'de küçük bir örnekle ($F=x'y'z+xyz+x'yz+xy'z$'nin aslında
-$F=z$'ye eşit olduğunu görmüştük) sadeleştirmenin kapı sayısını nasıl çarpıcı biçimde
-azaltabileceğine değinmiştik. Şimdi K-map'i gerçek bir problemden başlayarak uçtan uca
-kullanalım: önce problemi tanımlayacağız, doğruluk tablosunu kendimiz çıkaracağız, K-map'e
-aktarıp sadeleştirecek, ve son olarak hem sadeleştirilmemiş hem sadeleştirilmiş devrenin
-kapı düzeyinde gerçeklemesini karşılaştıracağız.
+Bölüm~\ref{sec:sadelestirme-onemi}'de ($F=x'y'z+xyz+x'yz+xy'z$'nin aslında $F=z$'ye eşit
+olduğu örneğinde, bkz. Şekil~\ref{fig:sadelestirilmemis-devre} ve
+Şekil~\ref{fig:sadelestirilmis-devre}) sadeleştirmenin kapı sayısını nasıl çarpıcı biçimde
+azaltabileceğini görmüştük. Bunun çip üreticileri için neden bu kadar önemli olduğuna da
+orada değinmiştik (bkz. Bilgi Notu~\ref{bilginot:sadelestirme-onemi}): daha az kapı, daha
+az transistör, daha az silikon alanı, daha düşük maliyet, daha kısa yayılma gecikmesi ve
+daha az ısınma (dolayısıyla daha yüksek performans) anlamına gelir. Şimdi K-map'i gerçek
+bir problemden başlayarak uçtan uca kullanalım: önce problemi tanımlayacağız, doğruluk
+tablosunu kendimiz çıkaracağız, K-map'e aktarıp sadeleştirecek, ve son olarak hem
+sadeleştirilmemiş hem sadeleştirilmiş devrenin kapı düzeyinde gerçeklemesini
+karşılaştıracağız.
 
 \subsection{Örnek: Asal Sayı Dedektörü}\label{sec:donanim-ornek-asal}
 \begin{ornek}[Asal Sayı Dedektörü]\label{orn:asal-sayi}
@@ -1310,35 +1315,35 @@ AND (4 girişli) + 1 OR (6 girişli) = \textbf{7 kapı} ($24$ literal bağlantı
 \centering
 \begin{circuitikz}[scale=0.75, font=\scriptsize]
 \node[and port, number inputs=4] (a1) at (2,15) {};
-\draw (a1.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (a1.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (a1.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a1.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a1.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
 \node[and port, number inputs=4] (a2) at (2,12) {};
-\draw (a2.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (a2.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (a2.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a2.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a2.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a3) at (2,9) {};
-\draw (a3.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (a3.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a3.in 3) -- ++(-0.6,0) node[left] {$C'$};
-\draw (a3.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (a3.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a4) at (2,6) {};
-\draw (a4.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (a4.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a4.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a4.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a4.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a5) at (2,3) {};
-\draw (a5.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a5.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (a5.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a5.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a5.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a5.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (a5.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a5.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a6) at (2,0) {};
-\draw (a6.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a6.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a6.in 3) -- ++(-0.6,0) node[left] {$C'$};
-\draw (a6.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a6.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a6.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a6.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (a6.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[or port, number inputs=6] (o1) at (7,7.5) {};
 \draw (a1.out) -| (o1.in 1);
 \draw (a2.out) -| (o1.in 2);
@@ -1360,21 +1365,21 @@ OR (4 girişli) = \textbf{5 kapı} ($12$ literal bağlantısı).
 \centering
 \begin{circuitikz}[scale=0.85, font=\small]
 \node[and port, number inputs=3] (b1) at (2,9) {};
-\draw (b1.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (b1.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (b1.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (b1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
 \node[and port, number inputs=3] (b2) at (2,6) {};
-\draw (b2.in 1) -- ++(-0.6,0) node[left] {$B$};
-\draw (b2.in 2) -- ++(-0.6,0) node[left] {$C'$};
-\draw (b2.in 3) -- ++(-0.6,0) node[left] {$D$};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (b2.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=3] (b3) at (2,3) {};
-\draw (b3.in 1) -- ++(-0.6,0) node[left] {$B'$};
-\draw (b3.in 2) -- ++(-0.6,0) node[left] {$C$};
-\draw (b3.in 3) -- ++(-0.6,0) node[left] {$D$};
+\draw (b3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (b3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=3] (b4) at (2,0) {};
-\draw (b4.in 1) -- ++(-0.6,0) node[left] {$A'$};
-\draw (b4.in 2) -- ++(-0.6,0) node[left] {$C$};
-\draw (b4.in 3) -- ++(-0.6,0) node[left] {$D$};
+\draw (b4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (b4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (b4.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[or port, number inputs=4] (o2) at (6.5,4.5) {};
 \draw (b1.out) -| (o2.in 1);
 \draw (b2.out) -| (o2.in 2);
@@ -1464,21 +1469,21 @@ AND (3 girişli) + 1 OR (4 girişli) = \textbf{5 kapı} ($12$ literal bağlantı
 \centering
 \begin{circuitikz}[scale=0.85, font=\small]
 \node[and port, number inputs=3] (a1) at (2,9) {};
-\draw (a1.in 1) -- ++(-0.6,0) node[left] {$x'$};
-\draw (a1.in 2) -- ++(-0.6,0) node[left] {$y$};
-\draw (a1.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x'$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
 \node[and port, number inputs=3] (a2) at (2,6) {};
-\draw (a2.in 1) -- ++(-0.6,0) node[left] {$x$};
-\draw (a2.in 2) -- ++(-0.6,0) node[left] {$y'$};
-\draw (a2.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (a2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
 \node[and port, number inputs=3] (a3) at (2,3) {};
-\draw (a3.in 1) -- ++(-0.6,0) node[left] {$x$};
-\draw (a3.in 2) -- ++(-0.6,0) node[left] {$y$};
-\draw (a3.in 3) -- ++(-0.6,0) node[left] {$z'$};
+\draw (a3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z'$};
 \node[and port, number inputs=3] (a4) at (2,0) {};
-\draw (a4.in 1) -- ++(-0.6,0) node[left] {$x$};
-\draw (a4.in 2) -- ++(-0.6,0) node[left] {$y$};
-\draw (a4.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (a4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
 \node[or port, number inputs=4] (o1) at (6.5,4.5) {};
 \draw (a1.out) -| (o1.in 1);
 \draw (a2.out) -| (o1.in 2);
@@ -1497,14 +1502,14 @@ OR (3 girişli) = \textbf{4 kapı} ($6$ literal bağlantısı).
 \centering
 \begin{circuitikz}[scale=0.9, font=\small]
 \node[and port, number inputs=2] (b1) at (2,6) {};
-\draw (b1.in 1) -- ++(-0.6,0) node[left] {$y$};
-\draw (b1.in 2) -- ++(-0.6,0) node[left] {$z$};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
 \node[and port, number inputs=2] (b2) at (2,3) {};
-\draw (b2.in 1) -- ++(-0.6,0) node[left] {$x$};
-\draw (b2.in 2) -- ++(-0.6,0) node[left] {$z$};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
 \node[and port, number inputs=2] (b3) at (2,0) {};
-\draw (b3.in 1) -- ++(-0.6,0) node[left] {$x$};
-\draw (b3.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (b3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
 \node[or port, number inputs=3] (o2) at (6,3) {};
 \draw (b1.out) -| (o2.in 1);
 \draw (b2.out) -| (o2.in 2);
@@ -1599,35 +1604,35 @@ AND (4 girişli) + 1 OR (6 girişli) = \textbf{7 kapı} ($24$ literal bağlantı
 \centering
 \begin{circuitikz}[scale=0.75, font=\scriptsize]
 \node[and port, number inputs=4] (a1) at (2,15) {};
-\draw (a1.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a1.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (a1.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a1.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a1.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
 \node[and port, number inputs=4] (a2) at (2,12) {};
-\draw (a2.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a2.in 2) -- ++(-0.6,0) node[left] {$B'$};
-\draw (a2.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a2.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a2.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a3) at (2,9) {};
-\draw (a3.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a3.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a3.in 3) -- ++(-0.6,0) node[left] {$C'$};
-\draw (a3.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\draw (a3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (a3.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
 \node[and port, number inputs=4] (a4) at (2,6) {};
-\draw (a4.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a4.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a4.in 3) -- ++(-0.6,0) node[left] {$C'$};
-\draw (a4.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (a4.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[and port, number inputs=4] (a5) at (2,3) {};
-\draw (a5.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a5.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a5.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a5.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\draw (a5.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a5.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a5.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a5.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
 \node[and port, number inputs=4] (a6) at (2,0) {};
-\draw (a6.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (a6.in 2) -- ++(-0.6,0) node[left] {$B$};
-\draw (a6.in 3) -- ++(-0.6,0) node[left] {$C$};
-\draw (a6.in 4) -- ++(-0.6,0) node[left] {$D$};
+\draw (a6.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (a6.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (a6.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (a6.in 4) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \node[or port, number inputs=6] (o1) at (7,7.5) {};
 \draw (a1.out) -| (o1.in 1);
 \draw (a2.out) -| (o1.in 2);
@@ -1649,11 +1654,11 @@ OR (2 girişli) = \textbf{3 kapı} ($4$ literal bağlantısı).
 \centering
 \begin{circuitikz}[scale=0.9, font=\small]
 \node[and port, number inputs=2] (b1) at (2,3) {};
-\draw (b1.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (b1.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
 \node[and port, number inputs=2] (b2) at (2,0) {};
-\draw (b2.in 1) -- ++(-0.6,0) node[left] {$A$};
-\draw (b2.in 2) -- ++(-0.6,0) node[left] {$C$};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
 \node[or port, number inputs=2] (o2) at (5.5,1.5) {};
 \draw (b1.out) -| (o2.in 1);
 \draw (b2.out) -| (o2.in 2);
