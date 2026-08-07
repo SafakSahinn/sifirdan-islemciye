@@ -1216,3 +1216,452 @@ F = \textcolor{vurgumavi}{A'B'} + \textcolor{vurguturuncu}{AB} + \textcolor{vurg
 Mavi dolgu (üst satırın tamamı) essential $A'B'$'yi, turuncu çerçeve (alt satırın tamamı)
 essential $AB$'yi verir. Kırmızı çerçeve (turuncudan içeride, $m_{15}$ ile ortak) $BCD$'yi
 tamamlar.
+
+\section{Sadeleştirmenin Donanım Karşılığı}\label{sec:kmap-donanim-karsiligi}
+Bölüm~\ref{chap:bool-cebri}'de küçük bir örnekle ($F=x'y'z+xyz+x'yz+xy'z$'nin aslında
+$F=z$'ye eşit olduğunu görmüştük) sadeleştirmenin kapı sayısını nasıl çarpıcı biçimde
+azaltabileceğine değinmiştik. Şimdi K-map'i gerçek bir problemden başlayarak uçtan uca
+kullanalım: önce problemi tanımlayacağız, doğruluk tablosunu kendimiz çıkaracağız, K-map'e
+aktarıp sadeleştirecek, ve son olarak hem sadeleştirilmemiş hem sadeleştirilmiş devrenin
+kapı düzeyinde gerçeklemesini karşılaştıracağız.
+
+\subsection{Örnek: Asal Sayı Dedektörü}\label{sec:donanim-ornek-asal}
+\begin{ornek}[Asal Sayı Dedektörü]\label{orn:asal-sayi}
+\textbf{Problem:} $4$ bitlik bir ikili giriş $ABCD$ (en anlamlı bit $A$), $0$ ile $15$
+arasında bir tam sayıyı temsil ediyor. Bu sayı \textbf{asal} olduğunda çıkışı $F=1$ yapan,
+aksi hâlde $F=0$ veren bir devre tasarlayalım.
+
+\textbf{Doğruluk tablosu:} $0$-$15$ arasındaki asal sayılar $2,3,5,7,11,13$'tür ($0$ ve $1$
+asal sayı sayılmaz; $4,6,8,9,10,12,14,15$ ise asal değildir, çünkü $1$'den ve kendisinden
+başka çarpanları vardır). Buna göre doğruluk tablosu:
+\begin{center}
+\begin{tabular}{cccc|c||cccc|c}
+\toprule
+$A$&$B$&$C$&$D$&$F$ & $A$&$B$&$C$&$D$&$F$\\
+\midrule
+0&0&0&0&0 & 1&0&0&0&0\\
+0&0&0&1&0 & 1&0&0&1&0\\
+0&0&1&0&1 & 1&0&1&0&0\\
+0&0&1&1&1 & 1&0&1&1&1\\
+0&1&0&0&0 & 1&1&0&0&0\\
+0&1&0&1&1 & 1&1&0&1&1\\
+0&1&1&0&0 & 1&1&1&0&0\\
+0&1&1&1&1 & 1&1&1&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F=1$ olan satırlar $2,3,5,7,11,13$ numaralı mintermlere karşılık gelir:
+$F(A,B,C,D)=\Sigma(2,3,5,7,11,13)$.
+
+\textbf{K-map'e aktarma ve sadeleştirme:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-asal}).
+$m_2$'nin tek işaretli komşusu $m_3$'tür (diğer komşuları $m_0,m_6,m_{10}$ işaretli değil),
+bu yüzden essential: $A'B'C$. $m_5$'in tek işaretli komşusu $m_{13}$'tür, essential: $BC'D$.
+$m_{11}$'in tek işaretli komşusu $m_3$'tür (simit bitişikliği), essential: $B'CD$. Üç
+essential prime implicant birlikte $\{2,3,5,11,13\}$'i kapsar, geriye yalnızca $m_7$ kalır.
+$m_7$'nin işaretli komşuları $m_3$ (zaten $B'CD$ ve $A'B'C$ grubunda) ve $m_5$'tir (zaten
+$BC'D$ grubunda); $m_3+m_7=A'CD$ ya da $m_5+m_7=A'BD$ ile kapsanabilir, ikisi de eşit
+derecede minimal. $A'CD$'yi seçelim:
+\[
+F = \textcolor{vurgumavi}{A'B'C} + \textcolor{vurguturuncu}{BC'D} + \textcolor{vurgukirmizi}{B'CD} + \textcolor{vurguyesil}{A'CD}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (2,3) rectangle (4,4);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (1.12,1.12) rectangle (2-0.12,3-0.12);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (2.22,3.22) rectangle (3-0.22,4-0.22);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (2.22,0.22) rectangle (3-0.22,1-0.22);
+\draw[very thick, vurguyesil, rounded corners=2pt] (2.32,2.32) rectangle (3-0.32,4-0.32);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$0$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$1$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(2,3,5,7,11,13)=A'B'C+BC'D+B'CD+A'CD$.}
+\label{fig:kmap-asal}
+\end{figure}
+Mavi dolgu $A'B'C$'yi, turuncu çerçeve $BC'D$'yi verir. Kırmızı çerçeve (mavinin içinde
+başlayıp simit bitişikliğiyle alta atlıyor) $B'CD$'yi, yeşil çerçeve (kırmızıdan içeride)
+$A'CD$'yi tamamlar; $m_3$ üç grupta birden paylaşılır.
+
+\textbf{Sadeleştirilmemiş devre:} Kanonik SOP'ta $6$ minterm, her biri $4$ literallik: 6
+AND (4 girişli) + 1 OR (6 girişli) = \textbf{7 kapı} ($24$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.75, font=\scriptsize]
+\node[and port, number inputs=4] (a1) at (2,15) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a1.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\node[and port, number inputs=4] (a2) at (2,12) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a2.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a3) at (2,9) {};
+\draw (a3.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left] {$C'$};
+\draw (a3.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a4) at (2,6) {};
+\draw (a4.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a4.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a5) at (2,3) {};
+\draw (a5.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a5.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (a5.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a5.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a6) at (2,0) {};
+\draw (a6.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a6.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a6.in 3) -- ++(-0.6,0) node[left] {$C'$};
+\draw (a6.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[or port, number inputs=6] (o1) at (7,7.5) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (a3.out) -| (o1.in 3);
+\draw (a4.out) -| (o1.in 4);
+\draw (a5.out) -| (o1.in 5);
+\draw (a6.out) -| (o1.in 6);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmemiş devre: $F=A'B'CD'+A'B'CD+A'BC'D+A'BCD+AB'CD+ABC'D$
+(6 AND + 1 OR = 7 kapı).}
+\label{fig:asal-sadelestirilmemis}
+\end{figure}
+
+\textbf{Sadeleştirilmiş devre:} $4$ terim, her biri $3$ literallik: 4 AND (3 girişli) + 1
+OR (4 girişli) = \textbf{5 kapı} ($12$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=3] (b1) at (2,9) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (b1.in 3) -- ++(-0.6,0) node[left] {$C$};
+\node[and port, number inputs=3] (b2) at (2,6) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left] {$B$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left] {$C'$};
+\draw (b2.in 3) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=3] (b3) at (2,3) {};
+\draw (b3.in 1) -- ++(-0.6,0) node[left] {$B'$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left] {$C$};
+\draw (b3.in 3) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=3] (b4) at (2,0) {};
+\draw (b4.in 1) -- ++(-0.6,0) node[left] {$A'$};
+\draw (b4.in 2) -- ++(-0.6,0) node[left] {$C$};
+\draw (b4.in 3) -- ++(-0.6,0) node[left] {$D$};
+\node[or port, number inputs=4] (o2) at (6.5,4.5) {};
+\draw (b1.out) -| (o2.in 1);
+\draw (b2.out) -| (o2.in 2);
+\draw (b3.out) -| (o2.in 3);
+\draw (b4.out) -| (o2.in 4);
+\draw (o2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmiş devre: $F=A'B'C+BC'D+B'CD+A'CD$ (4 AND + 1 OR = 5 kapı).}
+\label{fig:asal-sadelestirilmis}
+\end{figure}
+Kapı sayısı $7$'den $5$'e, literal bağlantısı $24$'ten $12$'ye (yarı yarıya) düştü.
+K-map'in bulduğu sadeleştirme, gerçek devrede somut bir tasarruf sağlıyor.
+\end{ornek}
+
+\subsection{Örnek: Üç Kişilik Oylama Sistemi}\label{sec:donanim-ornek-oylama}
+\begin{ornek}[Üç Kişilik Oylama Sistemi]\label{orn:oylama}
+\textbf{Problem:} Üç kişilik bir yönetim kurulunda $x,y,z$ değişkenleri sırasıyla her
+üyenin oyunu temsil ediyor ($1$="evet", $0$="hayır"). Bir teklifin kabul edilmesi için
+en az iki üyenin "evet" demesi gerekiyor. Kurulun kararını ($F=1$: kabul, $F=0$: ret)
+veren bir devre tasarlayalım.
+
+\textbf{Doğruluk tablosu:}
+\begin{center}
+\begin{tabular}{ccc|c}
+\toprule
+$x$&$y$&$z$&$F$\\
+\midrule
+0&0&0&0\\
+0&0&1&0\\
+0&1&0&0\\
+0&1&1&1\\
+1&0&0&0\\
+1&0&1&1\\
+1&1&0&1\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F=1$ olan satırlar $3,5,6,7$ numaralı mintermlere karşılık gelir:
+$F(x,y,z)=\Sigma(3,5,6,7)$.
+
+\textbf{K-map'e aktarma ve sadeleştirme:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-oylama}).
+Bu, sayısal tasarımda \textbf{çoğunluk fonksiyonu} (majority function) olarak bilinen
+klasik bir örnektir. $m_3$'ün tek işaretli komşusu $m_7$'dir, essential: $yz$. $m_5$'in tek
+işaretli komşusu $m_7$'dir, essential: $xz$. $m_6$'nın tek işaretli komşusu $m_7$'dir,
+essential: $xy$. Üç essential prime implicant birlikte $\{3,5,6,7\}$'nin tamamını kapsar
+($m_7$ üçünde birden paylaşılır), ek seçim gerekmez:
+\[
+F = \textcolor{vurgumavi}{yz} + \textcolor{vurguturuncu}{xz} + \textcolor{vurgukirmizi}{xy}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (2,0) rectangle (3,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (1.12,0.12) rectangle (3-0.12,1-0.12);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (2.22,0.22) rectangle (4-0.22,1-0.22);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $\mathbf{x\backslash yz}$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
+    node[midway,yshift=14pt]{$y$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$z$};
+\end{tikzpicture}
+\caption{$F(x,y,z)=\Sigma(3,5,6,7)=yz+xz+xy$.}
+\label{fig:kmap-oylama}
+\end{figure}
+Mavi dolgu $yz$'yi verir. Turuncu çerçeve $xz$'yi, kırmızı çerçeve (turuncudan içeride)
+$xy$'yi tamamlar; $m_7$ üç grupta birden paylaşılır.
+
+\textbf{Sadeleştirilmemiş devre:} Kanonik SOP'ta $4$ minterm, her biri $3$ literallik: 4
+AND (3 girişli) + 1 OR (4 girişli) = \textbf{5 kapı} ($12$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=3] (a1) at (2,9) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left] {$x'$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left] {$z$};
+\node[and port, number inputs=3] (a2) at (2,6) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left] {$y'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left] {$z$};
+\node[and port, number inputs=3] (a3) at (2,3) {};
+\draw (a3.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left] {$z'$};
+\node[and port, number inputs=3] (a4) at (2,0) {};
+\draw (a4.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left] {$z$};
+\node[or port, number inputs=4] (o1) at (6.5,4.5) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (a3.out) -| (o1.in 3);
+\draw (a4.out) -| (o1.in 4);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmemiş devre: $F=x'yz+xy'z+xyz'+xyz$ (4 AND + 1 OR = 5 kapı).}
+\label{fig:oylama-sadelestirilmemis}
+\end{figure}
+
+\textbf{Sadeleştirilmiş devre:} $3$ terim, her biri $2$ literallik: 3 AND (2 girişli) + 1
+OR (3 girişli) = \textbf{4 kapı} ($6$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[and port, number inputs=2] (b1) at (2,6) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left] {$y$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left] {$z$};
+\node[and port, number inputs=2] (b2) at (2,3) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left] {$z$};
+\node[and port, number inputs=2] (b3) at (2,0) {};
+\draw (b3.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left] {$y$};
+\node[or port, number inputs=3] (o2) at (6,3) {};
+\draw (b1.out) -| (o2.in 1);
+\draw (b2.out) -| (o2.in 2);
+\draw (b3.out) -| (o2.in 3);
+\draw (o2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmiş devre: $F=yz+xz+xy$ (3 AND + 1 OR = 4 kapı).}
+\label{fig:oylama-sadelestirilmis}
+\end{figure}
+Kapı sayısı $5$'ten $4$'e, literal bağlantısı $12$'den $6$'ya (yarı yarıya) düştü. Bu
+örnekte sadeleşme daha mütevazı ama yine de gerçek bir kazanç.
+\end{ornek}
+
+\subsection{Örnek: Geçersiz BCD Kodu Dedektörü}\label{sec:donanim-ornek-bcd}
+\begin{ornek}[Geçersiz BCD Kodu Dedektörü]\label{orn:bcd}
+\textbf{Problem:} BCD (İkili Kodlanmış Ondalık) sisteminde her ondalık basamak ($0$-$9$)
+$4$ bitlik bir ikili kodla ($ABCD$) temsil edilir. Ama $4$ bit ile $0$-$15$ arası $16$
+farklı değer ifade edilebilir; $10$-$15$ arası değerler BCD standardında
+\textbf{kullanılmaz}, yani geçersizdir. Girişteki $4$ bitlik kodun geçersiz bir BCD
+basamağı olup olmadığını denetleyen ($F=1$: geçersiz, $F=0$: geçerli) bir devre
+tasarlayalım.
+
+\textbf{Doğruluk tablosu:} $0$-$9$ arası kodlar ($m_0$-$m_9$) geçerli olduğundan
+$F=0$; $10$-$15$ arası kodlar ($m_{10}$-$m_{15}$) geçersiz olduğundan $F=1$:
+\begin{center}
+\begin{tabular}{cccc|c||cccc|c}
+\toprule
+$A$&$B$&$C$&$D$&$F$ & $A$&$B$&$C$&$D$&$F$\\
+\midrule
+0&0&0&0&0 & 1&0&0&0&0\\
+0&0&0&1&0 & 1&0&0&1&0\\
+0&0&1&0&0 & 1&0&1&0&1\\
+0&0&1&1&0 & 1&0&1&1&1\\
+0&1&0&0&0 & 1&1&0&0&1\\
+0&1&0&1&0 & 1&1&0&1&1\\
+0&1&1&0&0 & 1&1&1&0&1\\
+0&1&1&1&0 & 1&1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F=1$ olan satırlar $10,11,12,13,14,15$ numaralı mintermlere karşılık gelir:
+$F(A,B,C,D)=\Sigma(10,11,12,13,14,15)$.
+
+\textbf{K-map'e aktarma ve sadeleştirme:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-bcd}).
+$11$ satırının tamamı ($m_{12},m_{13},m_{14},m_{15}$) işaretlidir, bu yüzden $4$'lü bir
+grup oluşturup essential $AB$ terimine indirgenir. Geriye $m_{10},m_{11}$ kalır; bunlar
+$11$ ve $10$ sütunlarının ($C=1$) $11$ ve $10$ satırlarıyla ($A=1$) kesişiminden essential
+$AC$ grubunu oluşturur ($m_{14},m_{15}$ ile paylaşılır). İki essential prime implicant
+birlikte $\{10,11,12,13,14,15\}$'in tamamını kapsar, ek seçim gerekmez:
+\[
+F = \textcolor{vurgumavi}{AB} + \textcolor{vurguturuncu}{AC}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,1) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (2.12,0.12) rectangle (4-0.12,2-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$0$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$0$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(10,11,12,13,14,15)=AB+AC$.}
+\label{fig:kmap-bcd}
+\end{figure}
+Mavi dolgu ($11$ satırının tamamı) $AB$'yi verir. Turuncu çerçeve (mavinin sağ yarısını
+da kapsayan, $m_{14},m_{15}$ ortak) $AC$'yi tamamlar.
+
+\textbf{Sadeleştirilmemiş devre:} Kanonik SOP'ta $6$ minterm, her biri $4$ literallik: 6
+AND (4 girişli) + 1 OR (6 girişli) = \textbf{7 kapı} ($24$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.75, font=\scriptsize]
+\node[and port, number inputs=4] (a1) at (2,15) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a1.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (a1.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a1.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\node[and port, number inputs=4] (a2) at (2,12) {};
+\draw (a2.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a2.in 2) -- ++(-0.6,0) node[left] {$B'$};
+\draw (a2.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a2.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a3) at (2,9) {};
+\draw (a3.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a3.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a3.in 3) -- ++(-0.6,0) node[left] {$C'$};
+\draw (a3.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\node[and port, number inputs=4] (a4) at (2,6) {};
+\draw (a4.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a4.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a4.in 3) -- ++(-0.6,0) node[left] {$C'$};
+\draw (a4.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[and port, number inputs=4] (a5) at (2,3) {};
+\draw (a5.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a5.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a5.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a5.in 4) -- ++(-0.6,0) node[left] {$D'$};
+\node[and port, number inputs=4] (a6) at (2,0) {};
+\draw (a6.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (a6.in 2) -- ++(-0.6,0) node[left] {$B$};
+\draw (a6.in 3) -- ++(-0.6,0) node[left] {$C$};
+\draw (a6.in 4) -- ++(-0.6,0) node[left] {$D$};
+\node[or port, number inputs=6] (o1) at (7,7.5) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (a3.out) -| (o1.in 3);
+\draw (a4.out) -| (o1.in 4);
+\draw (a5.out) -| (o1.in 5);
+\draw (a6.out) -| (o1.in 6);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmemiş devre: $F=AB'CD'+AB'CD+ABC'D'+ABC'D+ABCD'+ABCD$
+(6 AND + 1 OR = 7 kapı).}
+\label{fig:bcd-sadelestirilmemis}
+\end{figure}
+
+\textbf{Sadeleştirilmiş devre:} $2$ terim, her biri $2$ literallik: 2 AND (2 girişli) + 1
+OR (2 girişli) = \textbf{3 kapı} ($4$ literal bağlantısı).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[and port, number inputs=2] (b1) at (2,3) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left] {$B$};
+\node[and port, number inputs=2] (b2) at (2,0) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left] {$A$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left] {$C$};
+\node[or port, number inputs=2] (o2) at (5.5,1.5) {};
+\draw (b1.out) -| (o2.in 1);
+\draw (b2.out) -| (o2.in 2);
+\draw (o2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Sadeleştirilmiş devre: $F=AB+AC$ (2 AND + 1 OR = 3 kapı).}
+\label{fig:bcd-sadelestirilmis}
+\end{figure}
+Kapı sayısı $7$'den $3$'e, literal bağlantısı ise $24$'ten yalnızca $4$'e düştü: bu
+üçlünün en çarpıcı örneği. Aynı fonksiyon, altı kat daha az bağlantıyla gerçekleniyor.
+\end{ornek}
