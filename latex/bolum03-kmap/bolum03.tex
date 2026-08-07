@@ -282,7 +282,7 @@ gerçekte yine asıl $m_0$) yan yana gelir.}
 \end{center}
 \end{bilginot}
 
-\begin{bilginot}[Grup Büyüklüğü Neden Mutlaka İkinin Kuvveti Olmalı?]
+\begin{bilginot}[Grup Büyüklüğü Neden Mutlaka İkinin Kuvveti Olmalı?]\label{bilginot:grup-buyuklugu-uc}
 Bitişik kareleri ikişer ikişer birleştirme fikri, dörderli, sekizerli gruplara da
 genelleşir; ama grup büyüklüğü her zaman $2$'nin bir kuvveti ($1,2,4,8,\ldots$) olmalıdır,
 çünkü her birleştirme adımı bir $y+y'=1$ türü sadeleşmesine dayanır ve bu sadeleşme
@@ -685,4 +685,309 @@ F = AB' + AC' + A'C
 iki kare (çevresel bitişiklik) $AC'$, mor çerçeve $A'C$ terimini verir ($m_4$
 iki grupta, $m_1/m_3$'ün üst satırı bir grupta paylaşılır).}
 \label{fig:kmap-alistirma4}
+\end{figure}
+
+\section{Dört Değişkenli K-map}\label{sec:kmap-dort-degiskenli}
+Üç değişkenli haritada gördüğümüz yöntem, dört değişkenli fonksiyonlara da aynı mantıkla
+genişler. Dört ikili değişkenin $2^4=16$ olası kombinasyonu vardır, bu yüzden fonksiyonun
+16 mintermi ve haritada da 16 karesi olur. Farkı, artık yalnızca sütunların değil,
+\textbf{satırların da} iki değişkeni birlikte temsil etmesidir.
+
+\subsection{Dört Değişkenli K-map'in Yapısı}\label{sec:kmap-dort-yapi}
+Satırlar $wx$ ikilisini, sütunlar $yz$ ikilisini taşır; her ikisi de Bölüm~\ref{sec:kmap-uc-degiskenli}'te
+gördüğümüz Gray kodu sırasıyla ($00,01,11,10$) dizilir (Şekil~\ref{fig:kmap-dort-yapi}).
+Köşe etiketi artık $wx\backslash yz$ biçimindedir: satır başlığı hangi $(w,x)$ çiftini,
+sütun başlığı hangi $(y,z)$ çiftini gösterir.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{wx\backslash yz}$};
+\node at (0.5,3.5) {$m_0$}; \node at (1.5,3.5) {$m_1$};
+\node at (2.5,3.5) {$m_3$}; \node at (3.5,3.5) {$m_2$};
+\node at (0.5,2.5) {$m_4$}; \node at (1.5,2.5) {$m_5$};
+\node at (2.5,2.5) {$m_7$}; \node at (3.5,2.5) {$m_6$};
+\node at (0.5,1.5) {$m_{12}$}; \node at (1.5,1.5) {$m_{13}$};
+\node at (2.5,1.5) {$m_{15}$}; \node at (3.5,1.5) {$m_{14}$};
+\node at (0.5,0.5) {$m_8$}; \node at (1.5,0.5) {$m_9$};
+\node at (2.5,0.5) {$m_{11}$}; \node at (3.5,0.5) {$m_{10}$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,3) -- (-0.45,1)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-1.1,2) -- (-1.1,0)
+    node[midway,xshift=-16pt]{$w$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (1,4.6) -- (3,4.6)
+    node[midway,yshift=14pt]{$z$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,5.3) -- (4,5.3)
+    node[midway,yshift=14pt]{$y$};
+\end{tikzpicture}
+\caption{Dört değişkenli K-map'in yapısı ve minterm numaraları. Satırlar $wx$'in,
+sütunlar $yz$'nin Gray kodu sırasıyla ($00,01,11,10$) dizilmiştir. Soldaki iç parantez
+$x=1$, dıştaki $w=1$; üstteki iç parantez $z=1$, dıştaki $y=1$ bölgesini gösterir.}
+\label{fig:kmap-dort-yapi}
+\end{figure}
+
+\subsection{Simit Bitişikliği}\label{sec:kmap-dort-simit}
+\begin{bilginot}[Simit (Torus) Bitişikliği]\label{bilginot:simit-torus}
+Şekil~\ref{fig:kmap-silindir} ile silindir benzetmesini üç değişkenli haritada
+görmüştük: sağ ve sol kenarlar birbirine değiyordu. Dört değişkenli haritada bu fikir bir
+adım daha ileri gider, çünkü artık \textbf{hem satırlar hem sütunlar} Gray kodu sırasıyla
+dizilmiştir. Bu yüzden haritanın sağ-sol kenarları birbirine değdiği gibi, üst-alt kenarları
+da birbirine değer. Haritayı düz bir yüzey değil, kenarları hem yatayda hem dikeyde
+birbirine yapışmış bir \textbf{simit (torus)} yüzeyi gibi düşünmek gerekir.
+
+Bunun en çarpıcı sonucu, haritanın \textbf{dört köşesinin} de birbirine bitişik olmasıdır:
+$m_0$, $m_2$, $m_8$ ve $m_{10}$ dört köşede bulunur ve hepsi $x=0,z=0$ ortak özelliğine
+sahiptir ($w$ ve $y$ serbest), yani bu dört kare tek bir grup oluşturup $x'z'$ terimine
+indirgenir. Örnek~\ref{orn:kmap-dort-b}'de bunu somut olarak göreceğiz.
+\end{bilginot}
+
+\subsection{Grup Büyüklüğü ve Literal Sayısı}\label{sec:kmap-dort-grup-buyuklugu}
+Bilgi Notu~\ref{bilginot:grup-buyuklugu-uc}'teki ilke (grup büyüklüğünün mutlaka 2'nin kuvveti
+olması gerektiği) dört değişkenli haritada da geçerlidir; yalnızca en büyük olası grup
+büyüklüğü, değişken sayısıyla birlikte artar:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $0$ kare (hiçbir minterm işaretli değil) $\to$ $F=0$.
+    \item $1$ kare $\to$ $4$ literallik bir terim.
+    \item $2$ bitişik kare $\to$ $3$ literallik bir terim.
+    \item $4$ bitişik kare $\to$ $2$ literallik bir terim.
+    \item $8$ bitişik kare $\to$ $1$ literallik bir terim.
+    \item $16$ bitişik kare (haritanın tamamı) $\to$ $F=1$.
+\end{itemize}
+Her katlama, bir önceki bölümde gördüğümüz $y+y'=1$ türü sadeleşmenin bir kez daha
+uygulanmasından ibarettir; grup büyüklüğü ikiye katlandıkça sadeleşen değişken sayısı bir
+artar, dolayısıyla kalan literal sayısı bir azalır.
+
+\subsection{Örnekler}\label{sec:kmap-dort-ornekler}
+\begin{ornek}[Kare Tekrar Kullanımı]\label{orn:kmap-dort-a}
+$F(w,x,y,z)=\Sigma(0,1,2,4,5,6,8,9,12,13,14)$ fonksiyonunu sadeleştirelim (Şekil~\ref{fig:kmap-ornek-e}).
+Önce $00$ ve $01$ sütunlarını (yani $y=0$ olan tüm kareleri) inceleyelim: bu iki sütun,
+haritanın dört satırında da tamamen $1$'lerle doludur, yani $8$ karelik bir grup oluşturup
+$y'$ terimine indirgenir. Geriye $10$ sütununda üç işaretli kare kalır: $m_2,m_6,m_{14}$
+($m_{10}$ işaretli değildir). Bu üçünü tek bir 4'lü grupla kapsamanın iki yolu vardır ve
+her iki grup da geçerlidir (kareler tekrar kullanılabilir):
+\[
+\{m_0,m_2,m_4,m_6\}=w'z' \qquad \{m_4,m_6,m_{12},m_{14}\}=xz'
+\]
+İlk grup $00$ ve $10$ sütunlarını (ikisi de $z=0$) $00$ ve $01$ satırlarıyla ($w=0$)
+kesiştirir; ikinci grup aynı sütunları $01$ ve $11$ satırlarıyla ($x=1$) kesiştirir. İki
+grup birlikte $m_2,m_6,m_{14}$'ün tamamını kapsar ($m_4$ ve $m_6$ iki grupta paylaşılır).
+Sonuç:
+\[
+F = y' + w'z' + xz'
+\]
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,0) rectangle (2,4);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,2.12) rectangle (1-0.12,4-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,2.12) rectangle (4-0.12,4-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,2-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (3.12,0.12) rectangle (4-0.12,2-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{wx\backslash yz}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$1$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,3) -- (-0.45,1)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-1.1,2) -- (-1.1,0)
+    node[midway,xshift=-16pt]{$w$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (1,4.6) -- (3,4.6)
+    node[midway,yshift=14pt]{$z$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,5.3) -- (4,5.3)
+    node[midway,yshift=14pt]{$y$};
+\end{tikzpicture}
+\caption{$F(w,x,y,z)=\Sigma(0,1,2,4,5,6,8,9,12,13,14)=y'+w'z'+xz'$. Mavi dolgu (sol iki
+sütun) $y'$ terimini verir. Turuncu çerçeveli iki kare (çevresel bitişiklik) $w'z'$, mor
+çerçeveli iki kare (çevresel bitişiklik, $m_4$ ve $m_6$ turuncu grupla ortak) $xz'$
+terimini verir.}
+\label{fig:kmap-ornek-e}
+\end{figure}
+\end{ornek}
+
+\begin{ornek}[Dört Köşenin Bitişikliği]\label{orn:kmap-dort-b}
+$F(w,x,y,z)=\Sigma(0,2,5,7,8,10,13,15)$ fonksiyonunu sadeleştirelim (Şekil~\ref{fig:kmap-ornek-f}).
+Bu örnek, Bilgi Notu~\ref{bilginot:simit-torus}'te sözünü ettiğimiz simit bitişikliğini
+somutlaştırmak için özenle seçilmiştir. İşaretli kareleri ikiye ayıralım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_0,m_2,m_8,m_{10}$ haritanın tam dört köşesindedir. Dördü de $x=0,z=0$
+    ortak özelliğine sahiptir ($w$ ve $y$ serbest), simit bitişikliği sayesinde tek bir
+    grup oluşturup $x'z'$ terimine indirgenir.
+    \item $m_5,m_7,m_{13},m_{15}$ haritanın ortasında, $01$ ve $11$ satır-sütun
+    kesişiminde sıradan (çevresel olmayan) bir $2\times2$ blok oluşturur. Dördü de
+    $x=1,z=1$ ortak özelliğine sahiptir ($w$ ve $y$ serbest), yani $xz$ terimine indirgenir.
+\end{itemize}
+İki grup birlikte tüm $8$ mintermi kapsar, aralarında ortak kare yoktur. Sonuç:
+\[
+F = x'z' + xz
+\]
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (1,1) rectangle (3,3);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,3.12) rectangle (1-0.12,4-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,3.12) rectangle (4-0.12,4-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,1-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,0.12) rectangle (4-0.12,1-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{wx\backslash yz}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$1$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,3) -- (-0.45,1)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-1.1,2) -- (-1.1,0)
+    node[midway,xshift=-16pt]{$w$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (1,4.6) -- (3,4.6)
+    node[midway,yshift=14pt]{$z$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,5.3) -- (4,5.3)
+    node[midway,yshift=14pt]{$y$};
+\end{tikzpicture}
+\caption{$F(w,x,y,z)=\Sigma(0,2,5,7,8,10,13,15)=x'z'+xz$. Turuncu çerçeveli dört köşe
+kare (simit bitişikliği) $x'z'$ terimini, mavi dolgulu orta blok $xz$ terimini verir.}
+\label{fig:kmap-ornek-f}
+\end{figure}
+\end{ornek}
+
+\subsection{Alıştırmalar}\label{sec:kmap-dort-alistirmalar}
+\begin{alistirma}[\orta]
+$F(w,x,y,z)=\Sigma(0,1,3,8,9,10,11,12,13,14,15)$ fonksiyonunu sadeleştiriniz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-alistirma5}). $11$ ve
+$10$ satırları (yani $w=1$ olan sekiz kare) tamamen $1$'lerle doludur, bu yüzden $8$
+karelik bir grup oluşturup $w$ terimine indirgenir. Geriye $00$ satırında ($w=0,x=0$) üç
+işaretli kare kalır: $m_0,m_1,m_3$ ($m_2$ işaretli değildir). Bu üçü tek bir satır içinde
+$4$'lü bir grup oluşturamaz, çünkü $m_2$'nin eksikliği araya girer. Bunun yerine, simit
+bitişikliğinden yararlanıp $10$ satırıyla ($w=1$) birleştirelim:
+\[
+\{m_0,m_1,m_8,m_9\}=x'y' \qquad \{m_1,m_3,m_9,m_{11}\}=x'z
+\]
+İlk grup $00$ ve $01$ sütunlarını ($y=0$) $00$ ve $10$ satırlarıyla ($x=0$) kesiştirir;
+ikinci grup $01$ ve $11$ sütunlarını ($z=1$) aynı satırlarla kesiştirir. İki grup birlikte
+$m_0,m_1,m_3$'ün tamamını kapsar ($m_1$ ve $m_9$ iki grupta paylaşılır). $m_3$ tek başına
+yalnızca $x'z$ grubuyla kapsanabilir; başka bir $4$'lü grubun parçası olamaz, çünkü tek
+komşusu $m_2$ (işaretsiz) ve $m_1$'dir. Sonuç:
+\[
+F = w + x'y' + x'z
+\]
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,0) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,2.12) rectangle (2-0.12,4-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (1.12,2.12) rectangle (3-0.12,4-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{wx\backslash yz}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$0$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,3) -- (-0.45,1)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-1.1,2) -- (-1.1,0)
+    node[midway,xshift=-16pt]{$w$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (1,4.6) -- (3,4.6)
+    node[midway,yshift=14pt]{$z$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,5.3) -- (4,5.3)
+    node[midway,yshift=14pt]{$y$};
+\end{tikzpicture}
+\caption{$F(w,x,y,z)=\Sigma(0,1,3,8,9,10,11,12,13,14,15)=w+x'y'+x'z$. Mavi dolgu (alt iki
+satır) $w$ terimini, turuncu çerçeve $x'y'$'yi, mor çerçeve ($m_1,m_9$ turuncu grupla
+ortak) $x'z$'yi verir.}
+\label{fig:kmap-alistirma5}
+\end{figure}
+
+\begin{alistirma}[\zor]
+$F(w,x,y,z)=\Sigma(0,2,4,6,8,10,11)$ fonksiyonunu sadeleştiriniz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} Haritaya yerleştirelim (Şekil~\ref{fig:kmap-alistirma6}). Önce
+$00$ satırı ile $01$ satırını ($w=0$) $00$ ve $10$ sütunlarıyla ($z=0$) kesiştirelim:
+\[
+\{m_0,m_2,m_4,m_6\} = w'z'
+\]
+dördü de işaretlidir, geçerli bir $4$'lü grup. Geriye $10$ satırında ($w=1,x=0$) iki kare
+kalır: $m_8,m_{10},m_{11}$ (üçü de işaretli, $m_9$ değil). Simit bitişikliğinden yararlanıp
+bu satırı $00$ satırıyla ($x=0$) birleştirelim:
+\[
+\{m_0,m_2,m_8,m_{10}\} = x'z'
+\]
+bu, tam olarak Örnek~\ref{orn:kmap-dort-b}'de gördüğümüz dört köşe grubudur ve $m_8,m_{10}$'u
+kapsar. Geriye yalnızca $m_{11}$ kalır. $m_{11}$'in tek işaretli komşusu $m_{10}$'dur (diğer
+komşuları $m_3,m_9,m_{15}$ işaretli değildir), bu yüzden en büyük mümkün grup ikili:
+\[
+\{m_{10},m_{11}\} = wx'y
+\]
+Üç grup birlikte $\{0,2,4,6,8,10,11\}$'in tamamını kapsar ($m_0,m_2$ iki grupta, $m_{10}$
+iki grupta paylaşılır). Sonuç:
+\[
+F = w'z' + x'z' + wx'y
+\]
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,2) rectangle (1,4);
+\fill[blokmavi] (3,2) rectangle (4,4);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,4-0.12-2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,0.12) rectangle (4-0.12,4-0.12-2);
+\draw[very thick, karsirenk, rounded corners=2pt] (2.12,0.12) rectangle (4-0.12,1-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{wx\backslash yz}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$0$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$1$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,3) -- (-0.45,1)
+    node[midway,xshift=-16pt]{$x$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-1.1,2) -- (-1.1,0)
+    node[midway,xshift=-16pt]{$w$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (1,4.6) -- (3,4.6)
+    node[midway,yshift=14pt]{$z$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,5.3) -- (4,5.3)
+    node[midway,yshift=14pt]{$y$};
+\end{tikzpicture}
+\caption{$F(w,x,y,z)=\Sigma(0,2,4,6,8,10,11)=w'z'+x'z'+wx'y$. Mavi dolgu (üst iki satırın
+sol/sağ sütunları, çevresel bitişiklik) $w'z'$, turuncu çerçeve (dört köşe, simit
+bitişikliği) $x'z'$, mor çerçeve $wx'y$ terimini verir.}
+\label{fig:kmap-alistirma6}
 \end{figure}
