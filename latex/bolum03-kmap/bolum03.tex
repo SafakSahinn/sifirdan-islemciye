@@ -1047,24 +1047,26 @@ vermeyi netleştirir.
 
 \subsection{Implicant, Prime Implicant ve Essential Prime Implicant}\label{sec:prime-implicant-tanimlar}
 
-\begin{tanim}{Implicant:}
-Bir Bool fonksiyonu $F$'nin \textbf{implicant}'ı\index{implicant}, değeri $1$ olduğu her
+\begin{tanim}{Implicant (Gerektiren Terim):}
+Bir Bool fonksiyonu $F$'nin \textbf{implicant}'ı (gerektiren terimi)\index{implicant},
+değeri $1$ olduğu her
 durumda $F$'yi de $1$ yapan bir çarpım terimidir; başka bir deyişle, terimin kapladığı
 mintermlerin tamamı $F$'nin mintermleri arasındadır. K-map'te bu, bitişik (ya da tek
 başına) $1$'lerden oluşan \emph{herhangi} bir geçerli grup anlamına gelir; grup en büyük
 mümkün boyutta olmak zorunda değildir.
 \end{tanim}
 
-\begin{tanim}{Prime Implicant:}
+\begin{tanim}{Prime Implicant (Asal Gerektiren Terim):}
 Bir implicant, haritada mümkün olan en büyük bitişik kare grubuyla elde edilmişse, yani
 başka hiçbir bitişik kareyle birleşip daha da büyütülemiyorsa, buna \textbf{prime
-implicant}\index{prime implicant} denir. Eş değer bir tanım: literal sayısı daha az olan
+implicant}\index{prime implicant} (asal gerektiren terim) denir. Eş değer bir tanım:
+literal sayısı daha az olan
 başka hiçbir implicant onu kapsamıyorsa, o implicant prime'dır.
 \end{tanim}
 
-\begin{tanim}{Essential Prime Implicant:}
+\begin{tanim}{Essential Prime Implicant (Zorunlu Asal Gerektiren Terim):}
 Bir minterm, fonksiyonun prime implicant'larından yalnızca \textbf{birisi} tarafından
-kapsanıyorsa, o prime implicant \textbf{essential (zorunlu)}\index{essential prime
+kapsanıyorsa, o prime implicant \textbf{essential} (zorunlu)\index{essential prime
 implicant} sayılır: minimal ifadeye mutlaka dahil edilmelidir, çünkü o mintermi kapsayacak
 başka hiçbir alternatif yoktur. Bir minterm birden fazla prime implicant tarafından
 kapsanıyorsa, hangisinin seçileceği konusunda esneklik vardır.
