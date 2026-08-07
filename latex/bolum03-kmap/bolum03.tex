@@ -308,7 +308,7 @@ minterm'in karesine $1$ yazılır (Şekil~\ref{fig:kmap-ornek-a}). $m_2$ ve $m_3
 (aynı satır, komşu sütun) ve $xy'$ terimine indirgenir. İki grubun birleşimi fonksiyonun
 tamamını kapsadığından:
 \[
-F = x'y + xy'
+F = \textcolor{vurgumavi}{x'y} + \textcolor{vurguturuncu}{xy'}
 \]
 
 \begin{figure}[H]
@@ -348,7 +348,7 @@ ve $m_6$ ise haritanın en soldaki ve en sağdaki sütunlarında bulunur. Yukar�
 gördüğümüz çevresel bitişiklik kuralı gereği bunlar da bitişiktir ve $xz'$ terimini
 verir. Sonuç:
 \[
-F = yz + xz'
+F = \textcolor{vurgumavi}{yz} + \textcolor{vurguturuncu}{xz'}
 \]
 
 \begin{figure}[H]
@@ -392,7 +392,7 @@ olan tek şey $z=0$ olmasıdır, bu yüzden grup $z'$ terimine indirgenir. Geriy
 kalan $m_5$ ise, daha önce $z'$ grubunda kullanılmış olan $m_4$ ile tekrar birleştirilebilir
 (bir kare birden fazla grupta kullanılabilir): $m_4+m_5=xy'$. Sonuç:
 \[
-F = z' + xy'
+F = \textcolor{vurgumavi}{z'} + \textcolor{vurguturuncu}{xy'}
 \]
 
 \begin{figure}[H]
@@ -423,8 +423,8 @@ F = z' + xy'
 \caption{$F(x,y,z)=\Sigma(0,2,4,5,6)=z'+xy'$.}
 \label{fig:kmap-ornek-c}
 \end{figure}
-Mavi dörtlü grup \textcolor{vurgumavi}{$z'$} terimini, turuncu çerçeveli ikili grup (biri
-mavi grupla ortak) \textcolor{vurguturuncu}{$xy'$} terimini verir.
+Mavi dörtlü grup $z'$ terimini, turuncu çerçeveli ikili grup (biri mavi grupla ortak)
+$xy'$ terimini verir.
 \end{ornek}
 
 \begin{ornek}[Kanonik Olmayan Bir İfadeden Minterm Okumak]
@@ -454,7 +454,7 @@ sonuç ortaya çıkar:
     terimini verir.
 \end{itemize}
 \[
-F = B + C
+F = \textcolor{vurgumavi}{B} + \textcolor{vurguturuncu}{C}
 \]
 Bu, orijinal dört terimli ifadenin yalnızca iki tek-literallik terime indiği çarpıcı bir
 örnektir. Cebirsel yoldan bu sonuca ulaşmak çok daha fazla adım gerektirirdi.
@@ -486,8 +486,8 @@ Bu, orijinal dört terimli ifadenin yalnızca iki tek-literallik terime indiği 
 \caption{$F(A,B,C)=\Sigma(1,2,3,5,6,7)=B+C$.}
 \label{fig:kmap-ornek-d}
 \end{figure}
-Mavi grup ($B=1$) \textcolor{vurgumavi}{$B$} terimini, turuncu çerçeveli grup ($C=1$,
-ortadaki iki kareyi mavi grupla paylaşır) \textcolor{vurguturuncu}{$C$} terimini verir.
+Mavi grup ($B=1$) $B$ terimini, turuncu çerçeveli grup ($C=1$, ortadaki iki kareyi mavi
+grupla paylaşır) $C$ terimini verir.
 \end{ornek}
 
 \begin{alistirma}[\kolay]
@@ -505,7 +505,7 @@ m_6+m_7 = xyz'+xyz = xy(z'+z) = xy
 \]
 İki grup birlikte $\{0,1,6,7\}$'nin tamamını kapsadığından:
 \[
-F = x'y' + xy
+F = \textcolor{vurgumavi}{x'y'} + \textcolor{vurguturuncu}{xy}
 \]
 
 \begin{figure}[H]
@@ -532,8 +532,7 @@ F = x'y' + xy
 \caption{$F(x,y,z)=\Sigma(0,1,6,7)=x'y'+xy$.}
 \label{fig:kmap-alistirma1}
 \end{figure}
-Mavi grup \textcolor{vurgumavi}{$x'y'$}, turuncu grup \textcolor{vurguturuncu}{$xy$}
-terimini verir.
+Mavi grup $x'y'$, turuncu grup $xy$ terimini verir.
 
 \begin{alistirma}[\kolay]
 $F(x,y,z)=\Sigma(0,1,2,5)$ fonksiyonunu sadeleştiriniz.
@@ -550,7 +549,7 @@ m_1+m_5 = x'y'z+xy'z = y'z(x'+x) = y'z
 \]
 İki grup birlikte $\{0,2,1,5\}$'in tamamını kapsadığından:
 \[
-F = x'z' + y'z
+F = \textcolor{vurgumavi}{x'z'} + \textcolor{vurguturuncu}{y'z}
 \]
 
 \begin{figure}[H]
@@ -578,8 +577,7 @@ F = x'z' + y'z
 \caption{$F(x,y,z)=\Sigma(0,1,2,5)=x'z'+y'z$.}
 \label{fig:kmap-alistirma2}
 \end{figure}
-Mavi çift (çevresel bitişiklik) \textcolor{vurgumavi}{$x'z'$}, turuncu grup
-\textcolor{vurguturuncu}{$y'z$} terimini verir.
+Mavi çift (çevresel bitişiklik) $x'z'$, turuncu grup $y'z$ terimini verir.
 
 \begin{alistirma}[\orta]
 $F(x,y,z)=\Sigma(0,2,3,4,6)$ fonksiyonunu sadeleştiriniz.
@@ -601,7 +599,7 @@ m_2+m_3 = x'yz'+x'yz = x'y(z'+z) = x'y
 \]
 İki grup birlikte $\{0,2,3,4,6\}$'nın tamamını kapsadığından:
 \[
-F = z' + x'y
+F = \textcolor{vurgumavi}{z'} + \textcolor{vurguturuncu}{x'y}
 \]
 
 \begin{figure}[H]
@@ -629,8 +627,7 @@ F = z' + x'y
 \caption{$F(x,y,z)=\Sigma(0,2,3,4,6)=z'+x'y$.}
 \label{fig:kmap-alistirma3}
 \end{figure}
-Mavi dörtlü grup \textcolor{vurgumavi}{$z'$}, turuncu çerçeveli grup (biri mavi grupla
-ortak) \textcolor{vurguturuncu}{$x'y$} terimini verir.
+Mavi dörtlü grup $z'$, turuncu çerçeveli grup (biri mavi grupla ortak) $x'y$ terimini verir.
 
 \begin{alistirma}[\zor]
 $F(A,B,C)=A'BC+AB'+AC'+B'C$ ifadesi için (a) fonksiyonu minterm toplamı olarak yazınız,
@@ -659,7 +656,7 @@ m_1+m_3 = A'B'C+A'BC = A'C(B'+B) = A'C
 Üç grup birlikte $\{1,3,4,5,6\}$'nın tamamını kapsar ($m_4$ iki grupta paylaşılır).
 Sonuç:
 \[
-F = AB' + AC' + A'C
+F = \textcolor{vurgumavi}{AB'} + \textcolor{vurguturuncu}{AC'} + \textcolor{vurgukirmizi}{A'C}
 \]
 
 \begin{figure}[H]
@@ -688,9 +685,8 @@ F = AB' + AC' + A'C
 \caption{$F(A,B,C)=\Sigma(1,3,4,5,6)=AB'+AC'+A'C$.}
 \label{fig:kmap-alistirma4}
 \end{figure}
-Mavi dolgu \textcolor{vurgumavi}{$AB'$}, turuncu çerçeveli iki kare (çevresel bitişiklik)
-\textcolor{vurguturuncu}{$AC'$}, kırmızı çerçeve \textcolor{vurgukirmizi}{$A'C$} terimini
-verir ($m_4$ iki grupta, $m_1/m_3$'ün üst satırı bir grupta paylaşılır).
+Mavi dolgu $AB'$, turuncu çerçeveli iki kare (çevresel bitişiklik) $AC'$, kırmızı çerçeve
+$A'C$ terimini verir ($m_4$ iki grupta, $m_1/m_3$'ün üst satırı bir grupta paylaşılır).
 
 \section{Dört Değişkenli K-map}\label{sec:kmap-dort-degiskenli}
 Üç değişkenli haritada gördüğümüz yöntem, dört değişkenli fonksiyonlara da aynı mantıkla
@@ -823,7 +819,7 @@ kesiştirir; ikinci grup aynı sütunları $01$ ve $11$ satırlarıyla ($x=1$) k
 grup birlikte $m_2,m_6,m_{14}$'ün tamamını kapsar ($m_4$ ve $m_6$ iki grupta paylaşılır).
 Sonuç:
 \[
-F = y' + w'z' + xz'
+F = \textcolor{vurgumavi}{y'} + \textcolor{vurguturuncu}{w'z'} + \textcolor{vurgukirmizi}{xz'}
 \]
 \begin{figure}[H]
 \centering
@@ -859,10 +855,9 @@ F = y' + w'z' + xz'
 \caption{$F(w,x,y,z)=\Sigma(0,1,2,4,5,6,8,9,12,13,14)=y'+w'z'+xz'$.}
 \label{fig:kmap-ornek-e}
 \end{figure}
-Mavi dolgu (sol iki sütun) \textcolor{vurgumavi}{$y'$} terimini verir. Turuncu çerçeveli
-iki kare (çevresel bitişiklik) \textcolor{vurguturuncu}{$w'z'$}, kırmızı çerçeveli iki kare
-(çevresel bitişiklik, $m_4$ ve $m_6$ turuncu grupla ortak) \textcolor{vurgukirmizi}{$xz'$}
-terimini verir.
+Mavi dolgu (sol iki sütun) $y'$ terimini verir. Turuncu çerçeveli iki kare (çevresel
+bitişiklik) $w'z'$, kırmızı çerçeveli iki kare (çevresel bitişiklik, $m_4$ ve $m_6$
+turuncu grupla ortak) $xz'$ terimini verir.
 \end{ornek}
 
 \begin{ornek}[Dört Köşenin Bitişikliği]\label{orn:kmap-dort-b}
@@ -879,7 +874,7 @@ somutlaştırmak için özenle seçilmiştir. İşaretli kareleri ikiye ayıral�
 \end{itemize}
 İki grup birlikte tüm $8$ mintermi kapsar, aralarında ortak kare yoktur. Sonuç:
 \[
-F = x'z' + xz
+F = \textcolor{vurguturuncu}{x'z'} + \textcolor{vurgumavi}{xz}
 \]
 \begin{figure}[H]
 \centering
@@ -939,7 +934,7 @@ $m_0,m_1,m_3$'ün tamamını kapsar ($m_1$ ve $m_9$ iki grupta paylaşılır). $
 yalnızca $x'z$ grubuyla kapsanabilir; başka bir $4$'lü grubun parçası olamaz, çünkü tek
 komşusu $m_2$ (işaretsiz) ve $m_1$'dir. Sonuç:
 \[
-F = w + x'y' + x'z
+F = \textcolor{vurgumavi}{w} + \textcolor{vurguturuncu}{x'y'} + \textcolor{vurgukirmizi}{x'z}
 \]
 \begin{figure}[H]
 \centering
@@ -975,9 +970,8 @@ F = w + x'y' + x'z
 \caption{$F(w,x,y,z)=\Sigma(0,1,3,8,9,10,11,12,13,14,15)=w+x'y'+x'z$.}
 \label{fig:kmap-alistirma5}
 \end{figure}
-Mavi dolgu (alt iki satır) \textcolor{vurgumavi}{$w$} terimini, turuncu çerçeve
-\textcolor{vurguturuncu}{$x'y'$}'yi, kırmızı çerçeve ($m_1,m_9$ turuncu grupla ortak)
-\textcolor{vurgukirmizi}{$x'z$}'yi verir.
+Mavi dolgu (alt iki satır) $w$ terimini, turuncu çerçeve $x'y'$'yi, kırmızı çerçeve
+($m_1,m_9$ turuncu grupla ortak) $x'z$'yi verir.
 
 \begin{alistirma}[\zor]
 $F(w,x,y,z)=\Sigma(0,2,4,6,8,10,11)$ fonksiyonunu sadeleştiriniz.
@@ -1003,7 +997,7 @@ komşuları $m_3,m_9,m_{15}$ işaretli değildir), bu yüzden en büyük mümkü
 Üç grup birlikte $\{0,2,4,6,8,10,11\}$'in tamamını kapsar ($m_0,m_2$ iki grupta, $m_{10}$
 iki grupta paylaşılır). Sonuç:
 \[
-F = w'z' + x'z' + wx'y
+F = \textcolor{vurgumavi}{w'z'} + \textcolor{vurguturuncu}{x'z'} + \textcolor{vurgukirmizi}{wx'y}
 \]
 \begin{figure}[H]
 \centering
@@ -1041,10 +1035,8 @@ F = w'z' + x'z' + wx'y
 \caption{$F(w,x,y,z)=\Sigma(0,2,4,6,8,10,11)=w'z'+x'z'+wx'y$.}
 \label{fig:kmap-alistirma6}
 \end{figure}
-Mavi dolgu (üst iki satırın sol/sağ sütunları, çevresel bitişiklik)
-\textcolor{vurgumavi}{$w'z'$}, turuncu çerçeve (dört köşe, simit bitişikliği)
-\textcolor{vurguturuncu}{$x'z'$}, kırmızı çerçeve \textcolor{vurgukirmizi}{$wx'y$}
-terimini verir.
+Mavi dolgu (üst iki satırın sol/sağ sütunları, çevresel bitişiklik) $w'z'$, turuncu
+çerçeve (dört köşe, simit bitişikliği) $x'z'$, kırmızı çerçeve $wx'y$ terimini verir.
 
 \section{Prime ve Essential Prime Implicant}\label{sec:kmap-prime-implicant}
 Şimdiye kadarki örneklerde grupları çoğunlukla "gözle" seçtik: haritaya bakıp en büyük
@@ -1125,7 +1117,7 @@ $m_3,m_9,m_{11}$ kalır. Bu üçünü incelersek:
 Bu dört olası ikili kombinasyon (birinden birer tane seçilerek) eşit derecede minimal,
 $4$ terimli bir sonuç verir. $CD$ ve $AD$'yi seçelim:
 \[
-F = B'D' + BD + CD + AD
+F = \textcolor{vurgumavi}{B'D'} + \textcolor{vurguturuncu}{BD} + \textcolor{vurgukirmizi}{CD} + \textcolor{vurguyesil}{AD}
 \]
 
 \begin{figure}[H]
@@ -1164,11 +1156,9 @@ F = B'D' + BD + CD + AD
 \caption{$F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)=B'D'+BD+CD+AD$.}
 \label{fig:kmap-prime-ornek}
 \end{figure}
-Mavi dolgu (dört köşe, simit bitişikliği) essential \textcolor{vurgumavi}{$B'D'$}'yi,
-turuncu çerçeve (orta blok) essential \textcolor{vurguturuncu}{$BD$}'yi verir. Kırmızı
-çerçeve (turuncudan içeride, tüm $11$ sütunu) \textcolor{vurgukirmizi}{$CD$}'yi, yeşil
-çerçeve (kırmızıdan içeride) \textcolor{vurguyesil}{$AD$}'yi tamamlar; $m_{15}$ üç grupta
-birden paylaşılır.
+Mavi dolgu (dört köşe, simit bitişikliği) essential $B'D'$'yi, turuncu çerçeve (orta blok)
+essential $BD$'yi verir. Kırmızı çerçeve (turuncudan içeride, tüm $11$ sütunu) $CD$'yi,
+yeşil çerçeve (kırmızıdan içeride) $AD$'yi tamamlar; $m_{15}$ üç grupta birden paylaşılır.
 \end{ornek}
 
 \subsection{Alıştırma}\label{sec:prime-implicant-alistirma}
@@ -1188,7 +1178,7 @@ $m_7$'nin işaretli komşuları $m_3$ (zaten $A'B'$ grubunda) ve $m_{15}$'tir (z
 grubunda); ikisiyle de birleştirilebilir: $m_3+m_7=A'CD$ ya da $m_7+m_{15}=BCD$. İkisi de
 eşit derecede minimal, $3$ literallik birer prime implicant. $BCD$'yi seçelim:
 \[
-F = A'B' + AB + BCD
+F = \textcolor{vurgumavi}{A'B'} + \textcolor{vurguturuncu}{AB} + \textcolor{vurgukirmizi}{BCD}
 \]
 
 \begin{figure}[H]
@@ -1223,7 +1213,6 @@ F = A'B' + AB + BCD
 \caption{$F(A,B,C,D)=\Sigma(0,1,2,3,7,12,13,14,15)=A'B'+AB+BCD$.}
 \label{fig:kmap-prime-alistirma}
 \end{figure}
-Mavi dolgu (üst satırın tamamı) essential \textcolor{vurgumavi}{$A'B'$}'yi, turuncu
-çerçeve (alt satırın tamamı) essential \textcolor{vurguturuncu}{$AB$}'yi verir. Kırmızı
-çerçeve (turuncudan içeride, $m_{15}$ ile ortak) \textcolor{vurgukirmizi}{$BCD$}'yi
+Mavi dolgu (üst satırın tamamı) essential $A'B'$'yi, turuncu çerçeve (alt satırın tamamı)
+essential $AB$'yi verir. Kırmızı çerçeve (turuncudan içeride, $m_{15}$ ile ortak) $BCD$'yi
 tamamlar.
