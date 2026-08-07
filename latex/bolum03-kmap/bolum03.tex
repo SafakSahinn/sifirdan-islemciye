@@ -733,7 +733,7 @@ Satırlar $wx$'in, sütunlar $yz$'nin Gray kodu sırasıyla ($00,01,11,10$) dizi
 Soldaki parantez $x=1$, sağdaki parantez $w=1$, üstteki parantez $y=1$, alttaki parantez
 $z=1$ bölgesini gösterir.
 
-\subsection{Simit Bitişikliği}\label{sec:kmap-dort-simit}
+\subsection{Simit (Torus) Bitişikliği}\label{sec:kmap-dort-simit}
 \begin{bilginot}[Simit (Torus) Bitişikliği]\label{bilginot:simit-torus}
 Şekil~\ref{fig:kmap-silindir} ile silindir benzetmesini üç değişkenli haritada
 görmüştük: sağ ve sol kenarlar birbirine değiyordu. Dört değişkenli haritada bu fikir bir
@@ -747,6 +747,45 @@ $m_0$, $m_2$, $m_8$ ve $m_{10}$ dört köşede bulunur ve hepsi $x=0,z=0$ ortak 
 sahiptir ($w$ ve $y$ serbest), yani bu dört kare tek bir grup oluşturup $x'z'$ terimine
 indirgenir. Örnek~\ref{orn:kmap-dort-b}'de bunu somut olarak göreceğiz.
 \end{bilginot}
+
+Peki simit, geometrik olarak tam olarak nedir? İnşasını şöyle düşünebiliriz: düz dikdörtgen
+bir kağıt parçası alın. Önce kağıdın sol ve sağ kenarlarını birbirine yapıştırın; bu size
+bir \textbf{silindir} (tüp) verir. Sonra bu silindirin iki ucundaki dairesel kenarları da
+birbirine yapıştırın; tüpün iki ağzı birleşince ortaya bir \textbf{simit (torus)} çıkar.
+Eşdeğer bir tanım da şudur: simit, düzlemsel bir dairenin (yarıçapı $r$, simidin ''tüp''
+kesiti) kendisini kesmeyen bir eksen etrafında, o eksenden $R$ uzaklıkta döndürülmesiyle elde
+edilen bir dönel yüzeydir (Şekil~\ref{fig:torus-3d}).
+
+K-map'i de tam olarak bu inşa sırasıyla düşünebiliriz: harita zaten bir dikdörtgen; sütunların
+çevresel bitişikliği (sağ kenar-sol kenar yapışması) onu bir silindire, satırların çevresel
+bitişikliği (üst kenar-alt kenar yapışması) ise o silindiri bir simide dönüştürür. Yani dört
+değişkenli bir K-map, topolojik olarak gerçekten bir simidin yüzeyi üzerinde yaşar.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    hide axis,
+    view={115}{20},
+    axis equal image,
+    width=7cm,
+    height=6cm,
+]
+\addplot3[
+    surf,
+    domain=0:360,
+    y domain=0:360,
+    samples=26,
+    samples y=26,
+    colormap/blackwhite,
+    z buffer=sort,
+]
+({(2.3+cos(x))*cos(y)}, {(2.3+cos(x))*sin(y)}, {sin(x)});
+\end{axis}
+\end{tikzpicture}
+\caption{Bir simit (torus) yüzeyi.}
+\label{fig:torus-3d}
+\end{figure}
 
 \subsection{Grup Büyüklüğü ve Literal Sayısı}\label{sec:kmap-dort-grup-buyuklugu}
 Bilgi Notu~\ref{bilginot:grup-buyuklugu-uc}'teki ilke (grup büyüklüğünün mutlaka 2'nin kuvveti
@@ -788,8 +827,8 @@ F = y' + w'z' + xz'
 \fill[blokmavi] (0,0) rectangle (2,4);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,2.12) rectangle (1-0.12,4-0.12);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,2.12) rectangle (4-0.12,4-0.12);
-\draw[very thick, karsirenk, rounded corners=2pt] (0.12,1.12) rectangle (1-0.12,3-0.12);
-\draw[very thick, karsirenk, rounded corners=2pt] (3.12,1.12) rectangle (4-0.12,3-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (0.22,1.22) rectangle (1-0.22,3-0.22);
+\draw[very thick, karsirenk, rounded corners=2pt] (3.22,1.22) rectangle (4-0.22,3-0.22);
 \draw (0,0) grid (4,4);
 \node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
 \node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
@@ -903,8 +942,8 @@ F = w + x'y' + x'z
 \fill[blokmavi] (0,0) rectangle (4,2);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,3.12) rectangle (2-0.12,4-0.12);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (2-0.12,1-0.12);
-\draw[very thick, karsirenk, rounded corners=2pt] (1.12,3.12) rectangle (3-0.12,4-0.12);
-\draw[very thick, karsirenk, rounded corners=2pt] (1.12,0.12) rectangle (3-0.12,1-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (1.22,3.22) rectangle (3-0.22,4-0.22);
+\draw[very thick, karsirenk, rounded corners=2pt] (1.22,0.22) rectangle (3-0.22,1-0.22);
 \draw (0,0) grid (4,4);
 \node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
 \node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
@@ -969,7 +1008,7 @@ F = w'z' + x'z' + wx'y
 \draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,3.12) rectangle (4-0.12,4-0.12);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,1-0.12);
 \draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,0.12) rectangle (4-0.12,1-0.12);
-\draw[very thick, karsirenk, rounded corners=2pt] (2.12,0.12) rectangle (4-0.12,1-0.12);
+\draw[very thick, karsirenk, rounded corners=2pt] (2.22,0.22) rectangle (4-0.22,1-0.22);
 \draw (0,0) grid (4,4);
 \node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
 \node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
