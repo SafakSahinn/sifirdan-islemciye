@@ -1676,3 +1676,262 @@ Kapı sayısı $7$'den $3$'e, literal bağlantısı ise $24$'ten yalnızca $4$'e
 devrenin Logisim simülasyon dosyası:
 \url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ}}
 \end{ornek}
+
+\section{Toplamların Çarpımı Formunun K-map ile Bulunması}\label{sec:pos-sadelestirme}
+Bölüm~\ref{sec:standart-formlar}'de iki standart formu tanımlamıştık: çarpımların
+toplamı (SOP) ve toplamların çarpımı (POS). Bu bölümde K-map'i şimdiye kadar yalnızca
+SOP bulmak için kullandık: her zaman $1$'leri gruplayıp minimal çarpım terimlerini
+topladık. Ama K-map aynı kolaylıkla minimal POS de üretebilir; tek fark, gruplama
+yönünü tersine çevirmek, yani $1$'ler yerine $0$'ları gruplamaktır.
+
+\subsection{Yöntem}\label{sec:pos-yontem}
+$F$'in K-map'inden minimal POS elde etmek için üç adım izlenir:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item Haritaya $F$'in gerçek değerlerini (hem $1$'leri hem $0$'ları) yerleştirin,
+    tıpkı SOP'ta olduğu gibi.
+    \item Bu kez $1$'ler yerine $\mathbf{0}$'ları gruplayın: aynı bitişiklik kuralları,
+    aynı essential prime implicant yöntemi (Bölüm~\ref{sec:prime-implicant-yontem})
+    geçerlidir. Sonuç, $F'$'in (yani $F$'in tümleyeninin) minimal SOP'udur, çünkü
+    $F$'in $0$ olduğu her hücre, tanım gereği $F'$'in $1$ olduğu hücredir.
+    \item Elde edilen $SOP(F')$ ifadesine Bölüm~\ref{sec:tumleyenin-iki-yolu}'deki
+    kısayolu (dualini al, sonra her literali tümle) uygulayın. Sonuç doğrudan
+    $(F')'=F$'tir ve bu ifade otomatik olarak POS biçimindedir, çünkü dual alma işlemi
+    her $\cdot$'yi $+$'ya çevirir.
+\end{enumerate}
+
+\subsection{Örnekler}\label{sec:pos-ornek}
+\begin{ornek}[SOP ve POS'un Karşılaştırılması]\label{orn:pos-sop}
+$F(A,B,C,D)=\Sigma(0,1,2,5,8,9,10)$ fonksiyonu için hem minimal SOP'u hem minimal
+POS'u bulup karşılaştıralım.
+
+\textbf{Minimal SOP ($1$'leri gruplayarak):} Haritaya yerleştirelim
+(Şekil~\ref{fig:kmap-pos-sop-taraf}). $m_9$'u ele alalım: yalnızca sol iki sütunun
+tamamıyla ($m_0,m_1,m_8,m_9$; $B=0,C=0$) $4$'lü bir grup oluşturabilir, bu tek seçenek
+olduğundan essential: $B'C'$. $m_2$'yi ele alalım: bu kare, haritanın dört köşesiyle
+(simit bitişikliği, Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup oluşturabilir
+($m_0,m_2,m_8,m_{10}$), bu da essential: $B'D'$. $m_5$'i ele alalım: yalnızca $m_1$ ile
+($A=0,C=0,D=1$) $2$'li bir grup oluşturabilir, essential: $A'C'D$. Üç essential prime
+implicant birlikte $\{0,1,2,5,8,9,10\}$'un tamamını kapsar, ekstra bir seçime gerek
+yoktur:
+\[
+F = \textcolor{vurgumavi}{B'D'} + \textcolor{vurguturuncu}{B'C'} + \textcolor{vurgukirmizi}{A'C'D}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,3) rectangle (1,4);
+\fill[blokmavi] (3,3) rectangle (4,4);
+\fill[blokmavi] (0,0) rectangle (1,1);
+\fill[blokmavi] (3,0) rectangle (4,1);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,3.12) rectangle (2-0.12,4-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (2-0.12,1-0.12);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (1.22,2.22) rectangle (2-0.22,4-0.22);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(0,1,2,5,8,9,10)$: $1$'ler gruplanarak $SOP=B'D'+B'C'+A'C'D$.}
+\label{fig:kmap-pos-sop-taraf}
+\end{figure}
+Mavi dolgu (dört köşe, simit bitişikliği) essential $B'D'$'yi, turuncu çerçeve (sol iki
+sütun, üst ve alt satırda simit bitişikliğiyle iki parçaya bölünmüş) essential
+$B'C'$'yi verir. Kırmızı çerçeve (turuncudan içeride, $m_1$'i paylaşır) $A'C'D$'yi
+tamamlar.
+
+\textbf{Minimal POS ($0$'ları gruplayarak):} Aynı haritayı bu kez $0$'ları gruplayarak
+tekrar çizelim (Şekil~\ref{fig:kmap-pos-pos-taraf}). $m_4$'ü ele alalım: $m_6$ ile
+($A=0,B=1,D=0$) ikili birleşir, bu ikili $m_{12},m_{14}$ ile birlikte ($B=1,D=0$)
+$4$'lü bir gruba genişler, bu tek seçenek olduğundan essential: $BD'$. $m_{13}$'ü ele
+alalım: yalnızca alt satırın tamamıyla ($m_{12},m_{13},m_{14},m_{15}$; $A=1,B=1$)
+$4$'lü bir grup oluşturabilir, essential: $AB$. $m_3$'ü ele alalım: yalnızca $11$
+sütununun tamamıyla ($m_3,m_7,m_{11},m_{15}$; $C=1,D=1$) $4$'lü bir grup oluşturabilir,
+essential: $CD$. Üç essential prime implicant birlikte $\{3,4,6,7,11,12,13,14,15\}$'in
+tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
+\[
+F' = \textcolor{vurgumavi}{BD'} + \textcolor{vurguturuncu}{AB} + \textcolor{vurgukirmizi}{CD}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,1) rectangle (1,3);
+\fill[blokmavi] (3,1) rectangle (4,3);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,1.12) rectangle (4-0.12,2-0.12);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (2.22,0.22) rectangle (3-0.22,4-0.22);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$1$};
+\node at (0.5,2.5) {$0$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{Aynı $F$: bu kez $0$'lar gruplanarak $SOP(F')=BD'+AB+CD$.}
+\label{fig:kmap-pos-pos-taraf}
+\end{figure}
+Mavi dolgu ($m_4,m_6,m_{12},m_{14}$, sol ve sağ sütunların simit bitişikliğiyle iki
+parçaya bölünmüş) essential $BD'$'yi, turuncu çerçeve (alt satırın tamamı) essential
+$AB$'yi, kırmızı çerçeve ($11$ sütununun tamamı, turuncudan içeride $m_{15}$'i paylaşır)
+$CD$'yi verir.
+
+Şimdi Bölüm~\ref{sec:tumleyenin-iki-yolu}'deki kısayolu $SOP(F')=BD'+AB+CD$ ifadesine
+uygulayalım: önce duali alalım ($+\leftrightarrow\cdot$ değişimiyle),
+$(B+D')(A+B)(C+D)$; sonra her literali tümleyelim ($A\to A'$, $B\to B'$, $C\to C'$,
+$D\to D'$, $D'\to D$):
+\[
+F = \textcolor{vurguturuncu}{(A'+B')}\cdot\textcolor{vurgukirmizi}{(C'+D')}\cdot\textcolor{vurgumavi}{(B'+D)}
+\]
+
+SOP üç terim, toplam $2+2+3=7$ literal içeriyor. POS de üç terim ama toplam
+$2+2+2=6$ literal: bu örnekte POS, SOP'tan bir literal daha az. Hangisinin daha kısa
+olacağı fonksiyona bağlıdır; $0$'ların gruplanması SOP'takinden daha büyük/daha az
+sayıda grup veriyorsa POS genelde daha kazançlı çıkar.
+
+\textbf{İki-seviyeli gerçekleme:} SOP ve POS, aynı fonksiyonun birbirinden farklı ama
+eşit derecede geçerli iki-seviyeli (Bölüm~\ref{sec:standart-formlar}) gerçeklemesidir.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[and port, number inputs=2] (b1) at (2,6) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[and port, number inputs=2] (b2) at (2,3) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[and port, number inputs=3] (b3) at (2,0) {};
+\draw (b3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (b3.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[or port, number inputs=3] (o1) at (6.5,3) {};
+\draw (b1.out) -| (o1.in 1);
+\draw (b2.out) -| (o1.in 2);
+\draw (b3.out) -| (o1.in 3);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=B'D'+B'C'+A'C'D$ ifadesinin SOP (AND-OR) gerçeklemesi (3 AND + 1 OR = 4
+kapı, $7$ literal bağlantısı).}
+\label{fig:pos-sop-devre}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[or port, number inputs=2] (r1) at (2,6) {};
+\draw (r1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A'$};
+\draw (r1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\node[or port, number inputs=2] (r2) at (2,3) {};
+\draw (r2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (r2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[or port, number inputs=2] (r3) at (2,0) {};
+\draw (r3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (r3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=3] (n1) at (6.5,3) {};
+\draw (r1.out) -| (n1.in 1);
+\draw (r2.out) -| (n1.in 2);
+\draw (r3.out) -| (n1.in 3);
+\draw (n1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=(A'+B')(C'+D')(B'+D)$ ifadesinin POS (OR-AND) gerçeklemesi (3 OR + 1 AND =
+4 kapı, $6$ literal bağlantısı).}
+\label{fig:pos-pos-devre}
+\end{figure}
+İki devre de aynı $F$'i üretir; kapı sayısı ($4$) aynı kalırken POS bir literal
+bağlantısı daha az kullanıyor. Hangi formun tercih edileceği, o teknolojide AND mi OR
+mü daha ucuz/hızlı olduğuna ya da hangisinin daha az literal içerdiğine bağlı olarak
+değişebilir.
+\end{ornek}
+
+\subsection{Alıştırmalar}\label{sec:pos-alistirma}
+\begin{alistirma}[\orta]
+$F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$ fonksiyonu için K-map ile minimal POS
+ifadesini bulunuz. (İpucu: $0$ sayısının $1$ sayısından az olduğuna dikkat edin, bu
+POS'u SOP'tan daha kısa yapabilir.)
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $0$'ları gruplayalım (Şekil~\ref{fig:kmap-pos-alistirma}).
+$m_2$'yi ele alalım: yalnızca $10$ sütununun tamamıyla ($m_2,m_6,m_{10},m_{14}$;
+$C=1,D=0$) $4$'lü bir grup oluşturabilir, essential: $CD'$. $m_{12}$'yi ele alalım:
+yalnızca alt satırın tamamıyla ($m_{12},m_{13},m_{14},m_{15}$; $A=1,B=1$) $4$'lü bir
+grup oluşturabilir, essential: $AB$. İki essential prime implicant birlikte
+$\{2,6,10,12,13,14,15\}$'in tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
+\[
+F' = \textcolor{vurgumavi}{CD'} + \textcolor{vurguturuncu}{AB}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (3,0) rectangle (4,4);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,1.12) rectangle (4-0.12,2-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$1$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$1$}; \node at (3.5,2.5) {$0$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$: $0$'lar gruplanarak $SOP(F')=CD'+AB$.}
+\label{fig:kmap-pos-alistirma}
+\end{figure}
+Mavi dolgu ($10$ sütununun tamamı) essential $CD'$'yi, turuncu çerçeve (alt satırın
+tamamı, mavi ile $m_{14}$'ü paylaşır) essential $AB$'yi verir.
+
+Şimdi kısayolu uygulayalım: $SOP(F')=CD'+AB$ ifadesinin duali $(C+D')(A+B)$; her
+literali tümleyince:
+\[
+F = \textcolor{vurguturuncu}{(A'+B')}\cdot\textcolor{vurgumavi}{(C'+D)}
+\]
+Yalnızca $2$ terim, $4$ literal: bu fonksiyonun $0$ sayısının azlığı ($7$ sıfır, $9$
+bir), POS'u SOP'tan belirgin biçimde daha kısa yapıyor.
