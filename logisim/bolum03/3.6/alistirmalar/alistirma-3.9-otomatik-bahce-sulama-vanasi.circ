@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="alistirma-3.9-otomatik-bahce-sulama-vanasi"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate">
+      <a name="inputs" val="2"/>
+    </tool>
+  </toolbar>
+  <circuit name="alistirma-3.9-otomatik-bahce-sulama-vanasi">
+    <a name="circuit" val="alistirma-3.9-otomatik-bahce-sulama-vanasi"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(190,190)" to="(190,320)"/>
+    <wire from="(90,150)" to="(90,280)"/>
+    <wire from="(90,470)" to="(90,600)"/>
+    <wire from="(170,250)" to="(170,510)"/>
+    <wire from="(190,150)" to="(190,160)"/>
+    <wire from="(150,150)" to="(150,160)"/>
+    <wire from="(110,210)" to="(230,210)"/>
+    <wire from="(110,150)" to="(110,160)"/>
+    <wire from="(70,150)" to="(70,160)"/>
+    <wire from="(50,540)" to="(230,540)"/>
+    <wire from="(320,540)" to="(320,560)"/>
+    <wire from="(110,190)" to="(110,210)"/>
+    <wire from="(150,190)" to="(150,600)"/>
+    <wire from="(190,320)" to="(230,320)"/>
+    <wire from="(190,580)" to="(230,580)"/>
+    <wire from="(70,190)" to="(70,600)"/>
+    <wire from="(280,230)" to="(320,230)"/>
+    <wire from="(280,370)" to="(320,370)"/>
+    <wire from="(280,490)" to="(320,490)"/>
+    <wire from="(90,280)" to="(90,390)"/>
+    <wire from="(280,300)" to="(360,300)"/>
+    <wire from="(90,280)" to="(230,280)"/>
+    <wire from="(320,320)" to="(320,370)"/>
+    <wire from="(50,350)" to="(50,540)"/>
+    <wire from="(130,150)" to="(130,600)"/>
+    <wire from="(170,250)" to="(230,250)"/>
+    <wire from="(170,510)" to="(230,510)"/>
+    <wire from="(190,320)" to="(190,580)"/>
+    <wire from="(130,140)" to="(130,150)"/>
+    <wire from="(170,140)" to="(170,150)"/>
+    <wire from="(50,150)" to="(50,350)"/>
+    <wire from="(110,560)" to="(230,560)"/>
+    <wire from="(50,140)" to="(50,150)"/>
+    <wire from="(90,140)" to="(90,150)"/>
+    <wire from="(50,350)" to="(230,350)"/>
+    <wire from="(320,490)" to="(320,500)"/>
+    <wire from="(90,390)" to="(90,470)"/>
+    <wire from="(190,580)" to="(190,600)"/>
+    <wire from="(170,510)" to="(170,600)"/>
+    <wire from="(280,560)" to="(320,560)"/>
+    <wire from="(320,280)" to="(360,280)"/>
+    <wire from="(320,320)" to="(360,320)"/>
+    <wire from="(320,500)" to="(360,500)"/>
+    <wire from="(320,540)" to="(360,540)"/>
+    <wire from="(110,210)" to="(110,560)"/>
+    <wire from="(170,150)" to="(170,250)"/>
+    <wire from="(110,560)" to="(110,600)"/>
+    <wire from="(50,150)" to="(70,150)"/>
+    <wire from="(90,150)" to="(110,150)"/>
+    <wire from="(130,150)" to="(150,150)"/>
+    <wire from="(170,150)" to="(190,150)"/>
+    <wire from="(410,300)" to="(420,300)"/>
+    <wire from="(410,520)" to="(420,520)"/>
+    <wire from="(90,390)" to="(230,390)"/>
+    <wire from="(90,470)" to="(230,470)"/>
+    <wire from="(320,230)" to="(320,280)"/>
+    <wire from="(50,540)" to="(50,600)"/>
+    <comp lib="1" loc="(410,520)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="6" loc="(761,55)" name="Text">
+      <a name="text" val="ne toprak kuru ne de zamanlayıcı tetik lenmişse (&#119861; = 0,&#119863; = 0, sulamaya hiç gerek yok), ya da gündüz vakti (&#119860; = 0) toprak kuru ve zamanlayıcı tetiklenmiş olsa bile (&#119861; = 1,&#119863; = 1; öğle güneşinde sulama yaprak yanığına yol açabileceğinden engellenir)."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="0" loc="(420,520)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(585,281)" name="Text">
+      <a name="text" val="F(A, B, C, D) = Σ(1,3,4,6,9,11,12,13,14,15)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="6" loc="(374,75)" name="Text">
+      <a name="text" val="Diğer tüm durumlarda vana açılır (&#119865; = 1). Minimal SOP ve POS değerlerini bulup, devrelerini tasarlayalım."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="1" loc="(280,230)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="B'D"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="6" loc="(647,35)" name="Text">
+      <a name="text" val="Problem: Otomatik bir bahçe sulama vanası 4 sensör girişiyle çalışıyor: &#119860; (gece modu aktif), &#119861; (toprak nem sensörü, 1=toprak kuru), &#119862; (yağmur sensörü), &#119863; (zamanlayıcı te tiklendi). Vana şu iki durumda kapalı kalır (&#119865; = 0):"/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="1" loc="(280,370)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="AB"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="6" loc="(546,501)" name="Text">
+      <a name="text" val="F(A, B, C, D) = π(0,2,5,7,8,10)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="1" loc="(190,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(523,525)" name="Text">
+      <a name="text" val="F = (B + D)(A + B' + D')"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="1" loc="(280,300)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="BD'"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(420,300)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(280,490)" name="OR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="B+D"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(410,300)" name="OR Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(110,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(510,306)" name="Text">
+      <a name="text" val="F = B'D + BD' + AB"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="1" loc="(70,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="0" loc="(90,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="B"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(130,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="C"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(170,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="D"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(280,560)" name="OR Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="A+B'+D'"/>
+      <a name="labelfont" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="1" loc="(150,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+  </circuit>
+</project>

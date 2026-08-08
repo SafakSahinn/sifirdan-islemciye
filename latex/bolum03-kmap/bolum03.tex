@@ -1393,7 +1393,7 @@ OR (4 girişli) = \textbf{5 kapı} ($12$ literal bağlantısı).
 Kapı sayısı $7$'den $5$'e, literal bağlantısı $24$'ten $12$'ye (yarı yarıya) düştü.
 K-map'in bulduğu sadeleştirme, gerçek devrede somut bir tasarruf sağlıyor.\footnote{Bu
 devrenin Logisim simülasyon dosyası:
-\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/ornekler/ornek-3.9-asal-sayi-detektoru.circ}}
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.5/ornekler/ornek-3.9-asal-sayi-detektoru.circ}}
 \end{ornek}
 
 \subsection{Örnek: Üç Kişilik Oylama Sistemi}\label{sec:donanim-ornek-oylama}
@@ -1524,7 +1524,7 @@ OR (3 girişli) = \textbf{4 kapı} ($6$ literal bağlantısı).
 Kapı sayısı $5$'ten $4$'e, literal bağlantısı $12$'den $6$'ya (yarı yarıya) düştü. Bu
 örnekte sadeleşme daha mütevazı ama yine de gerçek bir kazanç.\footnote{Bu devrenin
 Logisim simülasyon dosyası:
-\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ}}
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.5/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ}}
 \end{ornek}
 
 \subsection{Örnek: Geçersiz BCD Kodu Dedektörü}\label{sec:donanim-ornek-bcd}
@@ -1674,7 +1674,7 @@ OR (2 girişli) = \textbf{3 kapı} ($4$ literal bağlantısı).
 Kapı sayısı $7$'den $3$'e, literal bağlantısı ise $24$'ten yalnızca $4$'e düştü: bu
 üçlünün en çarpıcı örneği. Aynı fonksiyon, altı kat daha az bağlantıyla gerçekleniyor.\footnote{Bu
 devrenin Logisim simülasyon dosyası:
-\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ}}
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.5/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ}}
 \end{ornek}
 
 \section{Toplamların Çarpımı Formunun K-map ile Bulunması}\label{sec:pos-sadelestirme}
@@ -1899,7 +1899,8 @@ kapı, $7$ literal bağlantısı).}
 İki devre de aynı $F$'i üretir; kapı sayısı ($4$) aynı kalırken POS bir literal
 bağlantısı daha az kullanıyor. Hangi formun tercih edileceği, o teknolojide AND mi OR
 mü daha ucuz/hızlı olduğuna ya da hangisinin daha az literal içerdiğine bağlı olarak
-değişebilir.
+değişebilir.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ}}
 \end{ornek}
 
 \begin{ornek}[Hata Kontrol Devresi]\label{orn:pos-hata-kontrol}
@@ -2097,7 +2098,9 @@ kapı, $4$ literal bağlantısı).}
 \label{fig:hata-pos-devre}
 \end{figure}
 SOP $5$ kapı $8$ literal bağlantısı gerektirirken, POS yalnızca $3$ kapı $4$ literal
-bağlantısıyla aynı işi görüyor: bu üçlünün en çarpıcı POS kazancı.
+bağlantısıyla aynı işi görüyor: bu üçlünün en çarpıcı POS kazancı.\footnote{Bu
+devrenin (SOP ve POS bir arada) Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ}}
 \end{ornek}
 
 \subsection{Alıştırmalar}\label{sec:pos-alistirma}
@@ -2116,13 +2119,20 @@ olan durumlar $2,6,10,12,13,14,15$ numaralı mintermlerdir, yani
 $F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$.
 
 \textbf{Minimal SOP ($1$'leri gruplayarak):} Haritaya yerleştirelim
-(Şekil~\ref{fig:kmap-alis8-sop-taraf}). $m_4$'ü ele alalım: $A=0,C=0$ olan
-hücrelerin tamamıyla ($m_0,m_1,m_4,m_5$) $4$'lü bir grup oluşturabilir, bu tek
-seçenek olduğundan essential: $A'C'$. $m_8$'i ele alalım: $B=0,C=0$ olan hücrelerin
-tamamıyla ($m_0,m_1,m_8,m_9$) essential: $B'C'$. $m_7$'yi ele alalım: $A=0,D=1$ olan
-hücrelerin tamamıyla ($m_1,m_3,m_5,m_7$) essential: $A'D$. $m_{11}$'i ele alalım:
-$B=0,D=1$ olan hücrelerin tamamıyla ($m_1,m_3,m_9,m_{11}$) essential: $B'D$. Dört
-essential prime implicant birlikte $\{0,1,3,4,5,7,8,9,11\}$'in tamamını kapsar:
+(Şekil~\ref{fig:kmap-alis8-sop-taraf}). Dört essential prime implicant'ı sırayla
+bulalım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_4$'ü ele alalım: $A=0,C=0$ olan hücrelerin tamamıyla
+    ($m_0,m_1,m_4,m_5$) $4$'lü bir grup oluşturabilir, bu tek seçenek olduğundan
+    essential: $A'C'$.
+    \item $m_8$'i ele alalım: $B=0,C=0$ olan hücrelerin tamamıyla
+    ($m_0,m_1,m_8,m_9$) essential: $B'C'$.
+    \item $m_7$'yi ele alalım: $A=0,D=1$ olan hücrelerin tamamıyla
+    ($m_1,m_3,m_5,m_7$) essential: $A'D$.
+    \item $m_{11}$'i ele alalım: $B=0,D=1$ olan hücrelerin tamamıyla
+    ($m_1,m_3,m_9,m_{11}$) essential: $B'D$.
+\end{itemize}
+Dört essential prime implicant birlikte $\{0,1,3,4,5,7,8,9,11\}$'in tamamını kapsar:
 \[
 F = \textcolor{vurgumavi}{A'C'} + \textcolor{vurguturuncu}{B'C'} + \textcolor{vurgukirmizi}{A'D} + \textcolor{vurguyesil}{B'D}
 \]
@@ -2169,12 +2179,18 @@ sağında) essential $A'D$'yi, yeşil çerçeve (kırmızıdan içeride, yine ik
 bölünmüş) essential $B'D$'yi verir; $m_1$ dört grupta birden paylaşılır.
 
 \textbf{Minimal POS ($0$'ları gruplayarak):} Aynı haritayı bu kez $0$'ları
-gruplayarak tekrar çizelim (Şekil~\ref{fig:kmap-alis8-pos-taraf}).
-$m_2$'yi ele alalım: yalnızca $10$ sütununun tamamıyla ($m_2,m_6,m_{10},m_{14}$;
-$C=1,D=0$) $4$'lü bir grup oluşturabilir, essential: $CD'$. $m_{12}$'yi ele alalım:
-yalnızca alt satırın tamamıyla ($m_{12},m_{13},m_{14},m_{15}$; $A=1,B=1$) $4$'lü bir
-grup oluşturabilir, essential: $AB$. İki essential prime implicant birlikte
-$\{2,6,10,12,13,14,15\}$'in tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
+gruplayarak tekrar çizelim (Şekil~\ref{fig:kmap-alis8-pos-taraf}). İki essential
+prime implicant'ı bulalım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_2$'yi ele alalım: yalnızca $10$ sütununun tamamıyla
+    ($m_2,m_6,m_{10},m_{14}$; $C=1,D=0$) $4$'lü bir grup oluşturabilir, essential:
+    $CD'$.
+    \item $m_{12}$'yi ele alalım: yalnızca alt satırın tamamıyla
+    ($m_{12},m_{13},m_{14},m_{15}$; $A=1,B=1$) $4$'lü bir grup oluşturabilir,
+    essential: $AB$.
+\end{itemize}
+İki essential prime implicant birlikte $\{2,6,10,12,13,14,15\}$'in tamamını, yani
+$F$'in tüm $0$ hücrelerini kapsar:
 \[
 F' = \textcolor{vurgumavi}{CD'} + \textcolor{vurguturuncu}{AB}
 \]
@@ -2270,7 +2286,9 @@ kapı, $4$ literal bağlantısı).}
 \label{fig:alis8-pos-devre}
 \end{figure}
 SOP $5$ kapı $8$ literal, POS $3$ kapı $4$ literal: aynı üçlü desen burada da
-tekrarlanıyor.
+tekrarlanıyor.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim simülasyon
+dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ}}
 
 \begin{alistirma}[\zor]
 Otomatik bir bahçe sulama vanası $4$ sensör girişiyle çalışıyor: $A$ (gece modu
@@ -2288,15 +2306,20 @@ olan durumlar $0,2,5,7,8,10$ numaralı mintermlerdir, yani
 $F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,13,14,15)$.
 
 \textbf{Minimal SOP ($1$'leri gruplayarak):} Haritaya yerleştirelim
-(Şekil~\ref{fig:kmap-alis9-sop-taraf}). $m_1$'i ele alalım: $B=0,D=1$ olan
-hücrelerin tamamıyla ($m_1,m_3,m_9,m_{11}$) $4$'lü bir grup oluşturabilir, bu tek
-seçenek olduğundan essential: $B'D$. $m_4$'ü ele alalım: $B=1,D=0$ olan hücrelerin
-tamamıyla ($m_4,m_6,m_{12},m_{14}$; sol ve sağ sütunların simit bitişikliğiyle iki
-parçaya bölünmüş) essential: $BD'$. Bu iki essential prime implicant
-$\{1,3,4,6,9,11,12,14\}$'ü kapsar, geriye $m_{13},m_{15}$ kalır. Bu ikisi ya alt
-satırın tamamıyla ($AB$, $m_{12},m_{13},m_{14},m_{15}$) ya da $A=1,D=1$ olan
-hücrelerin tamamıyla ($AD$, $m_9,m_{11},m_{13},m_{15}$) kapsanabilir, ikisi de eşit
-derecede minimal. $AB$'yi seçelim:
+(Şekil~\ref{fig:kmap-alis9-sop-taraf}). Önce essential prime implicant'ları bulalım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_1$'i ele alalım: $B=0,D=1$ olan hücrelerin tamamıyla
+    ($m_1,m_3,m_9,m_{11}$) $4$'lü bir grup oluşturabilir, bu tek seçenek
+    olduğundan essential: $B'D$.
+    \item $m_4$'ü ele alalım: $B=1,D=0$ olan hücrelerin tamamıyla
+    ($m_4,m_6,m_{12},m_{14}$; sol ve sağ sütunların simit bitişikliğiyle iki
+    parçaya bölünmüş) essential: $BD'$.
+\end{itemize}
+Bu iki essential prime implicant $\{1,3,4,6,9,11,12,14\}$'ü kapsar, geriye
+$m_{13},m_{15}$ kalır. Bu ikisi ya alt satırın tamamıyla ($AB$,
+$m_{12},m_{13},m_{14},m_{15}$) ya da $A=1,D=1$ olan hücrelerin tamamıyla ($AD$,
+$m_9,m_{11},m_{13},m_{15}$) kapsanabilir, ikisi de eşit derecede minimal. $AB$'yi
+seçelim:
 \[
 F = \textcolor{vurgumavi}{B'D} + \textcolor{vurguturuncu}{BD'} + \textcolor{vurgukirmizi}{AB}
 \]
@@ -2342,12 +2365,17 @@ satırın tamamı, turuncunun içinden geçer) $AB$'yi tamamlar; $m_{12}$ ve $m_
 turuncu ile kırmızıda birden paylaşılır.
 
 \textbf{Minimal POS ($0$'ları gruplayarak):} Aynı haritayı bu kez $0$'ları
-gruplayarak tekrar çizelim (Şekil~\ref{fig:kmap-alis9-pos-taraf}).
-$m_2$'yi ele alalım: bu kare, haritanın dört köşesiyle (simit bitişikliği,
-Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup oluşturabilir ($m_0,m_2,m_8,m_{10}$),
-essential: $B'D'$. $m_5$'i ele alalım: yalnızca $m_7$ ile ($A=0,B=1,D=1$) $2$'li bir
-grup oluşturabilir, essential: $A'BD$. İki essential prime implicant birlikte
-$\{0,2,5,7,8,10\}$'un tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
+gruplayarak tekrar çizelim (Şekil~\ref{fig:kmap-alis9-pos-taraf}). İki essential
+prime implicant'ı bulalım:
+\begin{itemize}[nosep, leftmargin=*]
+    \item $m_2$'yi ele alalım: bu kare, haritanın dört köşesiyle (simit
+    bitişikliği, Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup oluşturabilir
+    ($m_0,m_2,m_8,m_{10}$), essential: $B'D'$.
+    \item $m_5$'i ele alalım: yalnızca $m_7$ ile ($A=0,B=1,D=1$) $2$'li bir grup
+    oluşturabilir, essential: $A'BD$.
+\end{itemize}
+İki essential prime implicant birlikte $\{0,2,5,7,8,10\}$'un tamamını, yani $F$'in
+tüm $0$ hücrelerini kapsar:
 \[
 F' = \textcolor{vurgumavi}{B'D'} + \textcolor{vurguturuncu}{A'BD}
 \]
@@ -2446,4 +2474,6 @@ kapı, $5$ literal bağlantısı).}
 \label{fig:alis9-pos-devre}
 \end{figure}
 SOP $4$ kapı $6$ literal, POS $3$ kapı $5$ literal: POS burada da hem daha az kapı
-hem daha az literal içeriyor.
+hem daha az literal içeriyor.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim
+simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ}}

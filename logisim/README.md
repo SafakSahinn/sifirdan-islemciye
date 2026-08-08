@@ -1,4 +1,4 @@
-# Logisim Simülasyonları
+﻿# Logisim Simülasyonları
 
 <img src="../assets/logos/logism.svg" height="60" alt="Logisim">
 
@@ -60,20 +60,40 @@ simüle edilişi:
 
 ## Klasör yapısı
 
+Her bölüm klasörü, kitaptaki alt bölüm numarasına göre ayrılır; her alt bölümün
+içinde de "Örnek" ve "Alıştırma" kutuları ayrı klasörlere düşer:
+
 ```
 logisim/
 └── bolum03/
-    ├── ornekler/      → kitaptaki "Örnek" kutularının devreleri
-    └── alistirmalar/  → kitaptaki "Alıştırma" kutularının devreleri (henüz eklenmedi)
+    ├── 3.5/
+    │   └── ornekler/      → §3.5'in "Örnek" kutularının devreleri
+    └── 3.6/
+        ├── ornekler/      → §3.6'nın "Örnek" kutularının devreleri
+        └── alistirmalar/  → §3.6'nın "Alıştırma" kutularının devreleri
 ```
 
 ## Mevcut dosyalar
 
+### §3.5: Sadeleştirmenin Donanım Karşılığı
+
 | Dosya | Kitaptaki karşılığı | Sadeleştirilmiş fonksiyon |
 |---|---|---|
-| [`bolum03/ornekler/ornek-3.9-asal-sayi-detektoru.circ`](bolum03/ornekler/ornek-3.9-asal-sayi-detektoru.circ) | Örnek 3.9: Asal Sayı Dedektörü | $F=A'B'C+BC'D+B'CD+A'CD$ |
-| [`bolum03/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ`](bolum03/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ) | Örnek 3.10: Üç Kişilik Oylama Sistemi | $F=xy+xz+yz$ |
-| [`bolum03/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ`](bolum03/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ) | Örnek 3.11: Geçersiz BCD Kodu Dedektörü | $F=AB+AC$ |
+| [`bolum03/3.5/ornekler/ornek-3.9-asal-sayi-detektoru.circ`](bolum03/3.5/ornekler/ornek-3.9-asal-sayi-detektoru.circ) | Örnek 3.9: Asal Sayı Dedektörü | $F=A'B'C+BC'D+B'CD+A'CD$ |
+| [`bolum03/3.5/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ`](bolum03/3.5/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ) | Örnek 3.10: Üç Kişilik Oylama Sistemi | $F=xy+xz+yz$ |
+| [`bolum03/3.5/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ`](bolum03/3.5/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ) | Örnek 3.11: Geçersiz BCD Kodu Dedektörü | $F=AB+AC$ |
 
-Her dosyaya kitabın ilgili örneğindeki devre şeklinin altındaki dipnottan da
-ulaşılabilir.
+### §3.6: Toplamların Çarpımı Formunun K-map ile Bulunması
+
+Bu dosyaların her biri **SOP ve POS gerçeklemesini bir arada** içerir (tek
+Logisim tuvalinde iki devre).
+
+| Dosya | Kitaptaki karşılığı | SOP | POS |
+|---|---|---|---|
+| [`bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ`](bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ) | Örnek 3.12: Endüstriyel Kontrol Paneli | $B'D'+B'C'+A'C'D$ | $(A'+B')(C'+D')(B'+D)$ |
+| [`bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ`](bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ) | Örnek 3.13: Hata Kontrol Devresi | $BC'+BD'+AC'+AD'$ | $(A+B)(C'+D')$ |
+| [`bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ`](bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ) | Alıştırma 3.8: Akıllı Kapı Kilidi | $A'C'+B'C'+A'D+B'D$ | $(A'+B')(C'+D)$ |
+| [`bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ`](bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ) | Alıştırma 3.9: Otomatik Bahçe Sulama Vanası | $B'D+BD'+AB$ | $(B+D)(A+B'+D')$ |
+
+Her dosyaya kitabın ilgili örneğinin/alıştırmasının devre şeklinin altındaki
+dipnottan da ulaşılabilir.

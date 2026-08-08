@@ -60,58 +60,37 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
     <wire from="(130,200)" to="(130,270)"/>
-    <wire from="(50,230)" to="(50,300)"/>
     <wire from="(50,230)" to="(170,230)"/>
-    <wire from="(50,300)" to="(170,300)"/>
-    <wire from="(90,160)" to="(170,160)"/>
-    <wire from="(90,340)" to="(170,340)"/>
-    <wire from="(350,250)" to="(360,250)"/>
-    <wire from="(220,250)" to="(300,250)"/>
-    <wire from="(90,140)" to="(90,160)"/>
-    <wire from="(90,340)" to="(90,360)"/>
-    <wire from="(90,160)" to="(90,340)"/>
-    <wire from="(260,180)" to="(260,230)"/>
-    <wire from="(260,270)" to="(260,320)"/>
-    <wire from="(130,270)" to="(130,360)"/>
     <wire from="(130,200)" to="(170,200)"/>
     <wire from="(50,140)" to="(50,230)"/>
+    <wire from="(260,270)" to="(300,270)"/>
+    <wire from="(260,230)" to="(300,230)"/>
+    <wire from="(350,250)" to="(360,250)"/>
+    <wire from="(260,180)" to="(260,230)"/>
+    <wire from="(50,230)" to="(50,300)"/>
+    <wire from="(50,300)" to="(170,300)"/>
+    <wire from="(90,140)" to="(90,160)"/>
+    <wire from="(90,340)" to="(90,360)"/>
+    <wire from="(130,270)" to="(130,360)"/>
     <wire from="(130,270)" to="(170,270)"/>
     <wire from="(220,180)" to="(260,180)"/>
     <wire from="(220,320)" to="(260,320)"/>
-    <wire from="(260,270)" to="(300,270)"/>
-    <wire from="(260,230)" to="(300,230)"/>
+    <wire from="(90,160)" to="(170,160)"/>
+    <wire from="(90,340)" to="(170,340)"/>
+    <wire from="(220,250)" to="(300,250)"/>
+    <wire from="(90,160)" to="(90,340)"/>
+    <wire from="(260,270)" to="(260,320)"/>
     <wire from="(50,300)" to="(50,360)"/>
     <wire from="(130,140)" to="(130,200)"/>
-    <comp lib="1" loc="(220,250)" name="AND Gate">
-      <a name="inputs" val="2"/>
-      <a name="label" val="xz"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="6" loc="(439,255)" name="Text">
-      <a name="text" val="F = yz + xz + xy"/>
-      <a name="font" val="SansSerif bold 14"/>
-    </comp>
-    <comp lib="1" loc="(220,320)" name="AND Gate">
-      <a name="inputs" val="2"/>
-      <a name="label" val="xy"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="0" loc="(90,140)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="y"/>
-      <a name="labelloc" val="north"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
     <comp lib="0" loc="(360,250)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="0" loc="(50,140)" name="Pin">
+    <comp lib="0" loc="(130,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="x"/>
+      <a name="label" val="z"/>
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
@@ -125,12 +104,29 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="F"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
-    <comp lib="0" loc="(130,140)" name="Pin">
+    <comp lib="0" loc="(90,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="z"/>
+      <a name="label" val="y"/>
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="x"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(220,320)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="xy"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(220,250)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="xz"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
     <comp lib="6" loc="(694,46)" name="Text">
       <a name="text" val="Problem: Üç kişilik bir yönetim kurulunda &#119909;,&#119910;,&#119911; değişkenleri sırasıyla her üyenin oyunu temsil ediyor (1=”evet”, 0=”hayır”). Bir teklifin kabul edilmesi için en az iki üye nin ”evet” demesi gerekiyor. Kurulun kararını (&#119865; = 1: kabul, &#119865; = 0: ret) veren bir devre tasarlayalım."/>
