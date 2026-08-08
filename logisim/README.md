@@ -67,15 +67,16 @@ içinde de "Örnek" ve "Alıştırma" kutuları ayrı klasörlere düşer:
 logisim/
 └── bolum03/
     ├── 3.5/
-    │   └── ornekler/      → §3.5'in "Örnek" kutularının devreleri
-    └── 3.6/
-        ├── ornekler/      → §3.6'nın "Örnek" kutularının devreleri
-        └── alistirmalar/  → §3.6'nın "Alıştırma" kutularının devreleri
+    │   └── ornekler/      → Bölüm 3.5'in "Örnek" kutularının devreleri
+    ├── 3.6/
+    │   ├── ornekler/      → Bölüm 3.6'nın "Örnek" kutularının devreleri
+    │   └── alistirmalar/  → Bölüm 3.6'nın "Alıştırma" kutularının devreleri
+    └── ...                → sonraki alt bölümler eklendikçe aynı düzende devam eder
 ```
 
 ## Mevcut dosyalar
 
-### §3.5: Sadeleştirmenin Donanım Karşılığı
+### Bölüm 3.5: Sadeleştirmenin Donanım Karşılığı
 
 | Dosya | Kitaptaki karşılığı | Sadeleştirilmiş fonksiyon |
 |---|---|---|
@@ -83,7 +84,7 @@ logisim/
 | [`bolum03/3.5/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ`](bolum03/3.5/ornekler/ornek-3.10-uc-kisilik-oylama-sistemi.circ) | Örnek 3.10: Üç Kişilik Oylama Sistemi | $F=xy+xz+yz$ |
 | [`bolum03/3.5/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ`](bolum03/3.5/ornekler/ornek-3.11-gecersiz-bcd-kodu-dedektoru.circ) | Örnek 3.11: Geçersiz BCD Kodu Dedektörü | $F=AB+AC$ |
 
-### §3.6: Toplamların Çarpımı Formunun K-map ile Bulunması
+### Bölüm 3.6: Toplamların Çarpımı Formunun K-map ile Bulunması
 
 Bu dosyaların her biri **SOP ve POS gerçeklemesini bir arada** içerir (tek
 Logisim tuvalinde iki devre).
