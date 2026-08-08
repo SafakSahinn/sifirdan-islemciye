@@ -1701,8 +1701,33 @@ $F$'in K-map'inden minimal POS elde etmek için üç adım izlenir:
 
 \subsection{Örnekler}\label{sec:pos-ornek}
 \begin{ornek}[SOP ve POS'un Karşılaştırılması]\label{orn:pos-sop}
-$F(A,B,C,D)=\Sigma(0,1,2,5,8,9,10)$ fonksiyonu için hem minimal SOP'u hem minimal
-POS'u bulup karşılaştıralım.
+\textbf{Problem:} $4$ girişli bir endüstriyel kontrol panelinde $A,B,C,D$ sinyalleri
+($1$=aktif, $0$=pasif) çeşitli sensör/anahtar durumlarını temsil ediyor. Sistem şu üç
+durumdan herhangi biri gerçekleştiğinde otomatik olarak \textbf{güvenli moda} geçip
+duruyor ($F=0$): $B$ aktifken $D$'nin pasif olması, $A$ ve $B$'nin ikisinin birden
+aktif olması (aşırı yük), ya da $C$ ve $D$'nin ikisinin birden aktif olması (çakışma).
+Bu üç durumun hiçbiri gerçekleşmezse sistem \textbf{normal çalışmada} kalır ($F=1$).
+$F$'i hem SOP hem POS biçiminde sadeleştirip karşılaştıralım.
+
+\textbf{Doğruluk tablosu:}
+\begin{center}
+\begin{tabular}{cccc|c||cccc|c}
+\toprule
+$A$&$B$&$C$&$D$&$F$ & $A$&$B$&$C$&$D$&$F$\\
+\midrule
+0&0&0&0&1 & 1&0&0&0&1\\
+0&0&0&1&1 & 1&0&0&1&1\\
+0&0&1&0&1 & 1&0&1&0&1\\
+0&0&1&1&0 & 1&0&1&1&0\\
+0&1&0&0&0 & 1&1&0&0&0\\
+0&1&0&1&1 & 1&1&0&1&0\\
+0&1&1&0&0 & 1&1&1&0&0\\
+0&1&1&1&0 & 1&1&1&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F=1$ olan satırlar $0,1,2,5,8,9,10$ numaralı mintermlere karşılık gelir:
+$F(A,B,C,D)=\Sigma(0,1,2,5,8,9,10)$.
 
 \textbf{Minimal SOP ($1$'leri gruplayarak):} Haritaya yerleştirelim
 (Şekil~\ref{fig:kmap-pos-sop-taraf}). $m_9$'u ele alalım: yalnızca sol iki sütunun
@@ -1966,12 +1991,20 @@ sistematik biçimde bulmamızı sağlar.
 
 \subsection{Alıştırmalar}\label{sec:pos-alistirma}
 \begin{alistirma}[\orta]
-$F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$ fonksiyonu için K-map ile minimal POS
-ifadesini bulunuz. (İpucu: $0$ sayısının $1$ sayısından az olduğuna dikkat edin, bu
-POS'u SOP'tan daha kısa yapabilir.)
+Akıllı bir kapı kilidi $4$ durum bitiyle çalışıyor: $A$ (gece modu aktif), $B$ (bakım
+modu aktif), $C$ (hareket sensörü tetiklendi), $D$ (yetkili kart okutuldu). Sistem şu
+iki durumdan herhangi birinde kapıyı \textbf{kilitli} tutuyor ($F=0$): hareket sensörü
+tetiklenmiş ($C=1$) ama yetkili kart okutulmamışsa ($D=0$), ya da gece modu ve bakım
+modu aynı anda aktifse ($A=1,B=1$, çakışan iki mod). Diğer tüm durumlarda kapı
+\textbf{açık} kalır ($F=1$). K-map ile minimal POS ifadesini bulunuz. (İpucu: $0$
+sayısının $1$ sayısından az olduğuna dikkat edin, bu POS'u SOP'tan daha kısa
+yapabilir.)
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $0$'ları gruplayalım (Şekil~\ref{fig:kmap-pos-alistirma}).
+\noindent\textbf{Çözüm:} Kilitli-kalma kuralı doğrudan $F'=CD'+AB$'yi verir; $F=0$
+olan durumlar $2,6,10,12,13,14,15$ numaralı mintermlerdir, yani
+$F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$. $0$'ları gruplayalım
+(Şekil~\ref{fig:kmap-pos-alistirma}).
 $m_2$'yi ele alalım: yalnızca $10$ sütununun tamamıyla ($m_2,m_6,m_{10},m_{14}$;
 $C=1,D=0$) $4$'lü bir grup oluşturabilir, essential: $CD'$. $m_{12}$'yi ele alalım:
 yalnızca alt satırın tamamıyla ($m_{12},m_{13},m_{14},m_{15}$; $A=1,B=1$) $4$'lü bir
@@ -2024,11 +2057,19 @@ Yalnızca $2$ terim, $4$ literal: bu fonksiyonun $0$ sayısının azlığı ($7$
 bir), POS'u SOP'tan belirgin biçimde daha kısa yapıyor.
 
 \begin{alistirma}[\zor]
-$F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,13,14,15)$ fonksiyonu için K-map ile minimal POS
-ifadesini bulunuz.
+Otomatik bir bahçe sulama vanası $4$ sensör girişiyle çalışıyor: $A$ (gece modu
+aktif), $B$ (toprak nem sensörü, $1$=toprak kuru), $C$ (yağmur sensörü), $D$
+(zamanlayıcı tetiklendi). Vana şu iki durumda \textbf{kapalı} kalır ($F=0$): ne
+toprak kuru ne de zamanlayıcı tetiklenmişse ($B=0,D=0$, sulamaya hiç gerek yok), ya
+da gündüz vakti ($A=0$) toprak kuru ve zamanlayıcı tetiklenmiş olsa bile ($B=1,D=1$;
+öğle güneşinde sulama yaprak yanığına yol açabileceğinden engellenir). Diğer tüm
+durumlarda vana \textbf{açılır} ($F=1$). K-map ile minimal POS ifadesini bulunuz.
 \end{alistirma}
 
-\noindent\textbf{Çözüm:} $0$'ları gruplayalım (Şekil~\ref{fig:kmap-pos-alistirma2}).
+\noindent\textbf{Çözüm:} Kapalı-kalma kuralı doğrudan $F'=B'D'+A'BD$'yi verir; $F=0$
+olan durumlar $0,2,5,7,8,10$ numaralı mintermlerdir, yani
+$F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,13,14,15)$. $0$'ları gruplayalım
+(Şekil~\ref{fig:kmap-pos-alistirma2}).
 $m_2$'yi ele alalım: bu kare, haritanın dört köşesiyle (simit bitişikliği,
 Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup oluşturabilir ($m_0,m_2,m_8,m_{10}$),
 essential: $B'D'$. $m_5$'i ele alalım: yalnızca $m_7$ ile ($A=0,B=1,D=1$) $2$'li bir
@@ -2082,4 +2123,6 @@ sonra her literali tümleyelim ($B'\to B$, $D'\to D$, $A'\to A$, $D\to D'$):
 \[
 F = \textcolor{vurgumavi}{(B+D)}\cdot\textcolor{vurguturuncu}{(A+B'+D')}
 \]
-İki terim, $2+3=5$ literal.
+İki terim, $2+3=5$ literal. İlginç bir gözlem: sonuçta $C$ (yağmur sensörü) hiç
+geçmiyor, yani bu vana mantığı $C$'nin değerinden tamamen bağımsız. Yağmur sensörü
+muhtemelen başka bir amaç için eklenmiş, ama bu kararda hiçbir etkisi yok.
