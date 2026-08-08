@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="ornek-3.10-uc-kisilik-oylama-sistemi"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+  </toolbar>
+  <circuit name="ornek-3.10-uc-kisilik-oylama-sistemi">
+    <a name="circuit" val="ornek-3.10-uc-kisilik-oylama-sistemi"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(130,200)" to="(130,270)"/>
+    <wire from="(50,230)" to="(170,230)"/>
+    <wire from="(130,200)" to="(170,200)"/>
+    <wire from="(50,140)" to="(50,230)"/>
+    <wire from="(260,270)" to="(300,270)"/>
+    <wire from="(260,230)" to="(300,230)"/>
+    <wire from="(350,250)" to="(360,250)"/>
+    <wire from="(260,180)" to="(260,230)"/>
+    <wire from="(50,230)" to="(50,300)"/>
+    <wire from="(50,300)" to="(170,300)"/>
+    <wire from="(90,140)" to="(90,160)"/>
+    <wire from="(90,340)" to="(90,360)"/>
+    <wire from="(130,270)" to="(130,360)"/>
+    <wire from="(130,270)" to="(170,270)"/>
+    <wire from="(220,180)" to="(260,180)"/>
+    <wire from="(220,320)" to="(260,320)"/>
+    <wire from="(90,160)" to="(170,160)"/>
+    <wire from="(90,340)" to="(170,340)"/>
+    <wire from="(220,250)" to="(300,250)"/>
+    <wire from="(90,160)" to="(90,340)"/>
+    <wire from="(260,270)" to="(260,320)"/>
+    <wire from="(50,300)" to="(50,360)"/>
+    <wire from="(130,140)" to="(130,200)"/>
+    <comp lib="0" loc="(360,250)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(130,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="z"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(220,180)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="yz"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(350,250)" name="OR Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(90,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="y"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="x"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(220,320)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="xy"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(220,250)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="xz"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="6" loc="(694,46)" name="Text">
+      <a name="text" val="Problem: Üç kişilik bir yönetim kurulunda &#119909;,&#119910;,&#119911; değişkenleri sırasıyla her üyenin oyunu temsil ediyor (1=”evet”, 0=”hayır”). Bir teklifin kabul edilmesi için en az iki üye nin ”evet” demesi gerekiyor. Kurulun kararını (&#119865; = 1: kabul, &#119865; = 0: ret) veren bir devre tasarlayalım."/>
+      <a name="font" val="SansSerif bold 10"/>
+    </comp>
+  </circuit>
+</project>
