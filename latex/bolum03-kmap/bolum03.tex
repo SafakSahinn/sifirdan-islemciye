@@ -1877,6 +1877,93 @@ mü daha ucuz/hızlı olduğuna ya da hangisinin daha az literal içerdiğine ba
 değişebilir.
 \end{ornek}
 
+\begin{ornek}[Basit Bir Hata Kontrol Devresi]\label{orn:pos-hata-kontrol}
+\textbf{Problem:} $4$ bitlik bir kontrol kodu $ABCD$, bir gömülü sistemde donanım
+durumunu temsil ediyor. Sistem tasarımcıları şu iki durumu \textbf{hatalı} kabul
+ediyor: $A$ ve $B$'nin ikisi de $0$ olması, ya da $C$ ve $D$'nin ikisi de $1$ olması.
+Bu iki durumdan herhangi biri gerçekleşirse çıkış $F=0$ (hata), aksi hâlde $F=1$
+(normal) olsun. $F$'i K-map ile sadeleştirelim.
+
+\textbf{Doğruluk tablosu:}
+\begin{center}
+\begin{tabular}{cccc|c||cccc|c}
+\toprule
+$A$&$B$&$C$&$D$&$F$ & $A$&$B$&$C$&$D$&$F$\\
+\midrule
+0&0&0&0&0 & 1&0&0&0&1\\
+0&0&0&1&0 & 1&0&0&1&1\\
+0&0&1&0&0 & 1&0&1&0&1\\
+0&0&1&1&0 & 1&0&1&1&0\\
+0&1&0&0&1 & 1&1&0&0&1\\
+0&1&0&1&1 & 1&1&0&1&1\\
+0&1&1&0&1 & 1&1&1&0&1\\
+0&1&1&1&0 & 1&1&1&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F=0$ olan satırlar $0,1,2,3,7,11,15$ numaralı mintermlere karşılık gelir; geri kalan
+$9$ minterm $F=1$'dir. $F(A,B,C,D)=\Sigma(4,5,6,8,9,10,12,13,14)$.
+
+\textbf{K-map'e aktarma ve sadeleştirme:} $0$ sayısı ($7$) $1$ sayısından ($9$) az
+olduğundan, doğrudan $0$'ları gruplamak daha kısa yolu verir. Haritaya yerleştirelim
+(Şekil~\ref{fig:kmap-pos-hata}). $m_0$'ı ele alalım: yalnızca üst satırın tamamıyla
+($m_0,m_1,m_2,m_3$; $A=0,B=0$) $4$'lü bir grup oluşturabilir, essential: $A'B'$.
+$m_7$'yi ele alalım: yalnızca $11$ sütununun tamamıyla ($m_3,m_7,m_{11},m_{15}$;
+$C=1,D=1$) $4$'lü bir grup oluşturabilir, essential: $CD$. İki essential prime
+implicant birlikte $\{0,1,2,3,7,11,15\}$'in tamamını, yani $F$'in tüm $0$ hücrelerini
+kapsar:
+\[
+F' = \textcolor{vurgumavi}{A'B'} + \textcolor{vurguturuncu}{CD}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\draw[very thick, vurgumavi, rounded corners=2pt] (0.12,3.12) rectangle (4-0.12,4-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (2.22,0.22) rectangle (3-0.22,4-0.22);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$0$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$1$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(4,5,6,8,9,10,12,13,14)$: $0$'lar gruplanarak $SOP(F')=A'B'+CD$.}
+\label{fig:kmap-pos-hata}
+\end{figure}
+Mavi çerçeve (üst satırın tamamı) essential $A'B'$'yi, turuncu çerçeve ($11$
+sütununun tamamı, mavi ile $m_3$'ü paylaşır) essential $CD$'yi verir. Burada iki grup
+da tam bir satır/sütun kapladığından simit bitişikliğine gerek kalmadı.
+
+Kısayolu uygulayalım: $SOP(F')=A'B'+CD$ ifadesinin duali ($+\leftrightarrow\cdot$
+değişimiyle, literallere dokunmadan) $(A'+B')(C+D)$; sonra her literali tümleyelim
+($A'\to A$, $B'\to B$, $C\to C'$, $D\to D'$):
+\[
+F = \textcolor{vurgumavi}{(A+B)}\cdot\textcolor{vurguturuncu}{(C'+D')}
+\]
+Yalnızca $2$ terim, $4$ literal. İlginç bir şekilde bu sonuca problemin kendi
+ifadesinden de doğrudan ulaşılabilirdi: "hata $=A'B'+CD$" tanımına De Morgan
+uygulanınca (Bölüm~\ref{sec:demorgan}) $F=\text{hata}'=(A'B')'\cdot(CD)'=
+(A+B)(C'+D')$ çıkar. K-map, bu sonucu problemin sözel ifadesini fark etmesek bile
+sistematik biçimde bulmamızı sağlar.
+\end{ornek}
+
 \subsection{Alıştırmalar}\label{sec:pos-alistirma}
 \begin{alistirma}[\orta]
 $F(A,B,C,D)=\Sigma(0,1,3,4,5,7,8,9,11)$ fonksiyonu için K-map ile minimal POS
@@ -1935,3 +2022,64 @@ F = \textcolor{vurguturuncu}{(A'+B')}\cdot\textcolor{vurgumavi}{(C'+D)}
 \]
 Yalnızca $2$ terim, $4$ literal: bu fonksiyonun $0$ sayısının azlığı ($7$ sıfır, $9$
 bir), POS'u SOP'tan belirgin biçimde daha kısa yapıyor.
+
+\begin{alistirma}[\zor]
+$F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,13,14,15)$ fonksiyonu için K-map ile minimal POS
+ifadesini bulunuz.
+\end{alistirma}
+
+\noindent\textbf{Çözüm:} $0$'ları gruplayalım (Şekil~\ref{fig:kmap-pos-alistirma2}).
+$m_2$'yi ele alalım: bu kare, haritanın dört köşesiyle (simit bitişikliği,
+Bölüm~\ref{sec:kmap-dort-simit}) $4$'lü bir grup oluşturabilir ($m_0,m_2,m_8,m_{10}$),
+essential: $B'D'$. $m_5$'i ele alalım: yalnızca $m_7$ ile ($A=0,B=1,D=1$) $2$'li bir
+grup oluşturabilir, essential: $A'BD$. İki essential prime implicant birlikte
+$\{0,2,5,7,8,10\}$'un tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
+\[
+F' = \textcolor{vurgumavi}{B'D'} + \textcolor{vurguturuncu}{A'BD}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,3) rectangle (1,4);
+\fill[blokmavi] (3,3) rectangle (4,4);
+\fill[blokmavi] (0,0) rectangle (1,1);
+\fill[blokmavi] (3,0) rectangle (4,1);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (1.12,2.12) rectangle (3-0.12,3-0.12);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$0$}; \node at (1.5,3.5) {$1$};
+\node at (2.5,3.5) {$1$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$0$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$1$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,13,14,15)$: $0$'lar gruplanarak
+$SOP(F')=B'D'+A'BD$.}
+\label{fig:kmap-pos-alistirma2}
+\end{figure}
+Mavi dolgu (dört köşe, simit bitişikliği) essential $B'D'$'yi, turuncu çerçeve
+(turuncudan bağımsız, örtüşme yok) essential $A'BD$'yi verir.
+
+Şimdi kısayolu uygulayalım: $SOP(F')=B'D'+A'BD$ ifadesinin duali
+($+\leftrightarrow\cdot$ değişimiyle, literallere dokunmadan) $(B'+D')(A'+B+D)$;
+sonra her literali tümleyelim ($B'\to B$, $D'\to D$, $A'\to A$, $D\to D'$):
+\[
+F = \textcolor{vurgumavi}{(B+D)}\cdot\textcolor{vurguturuncu}{(A+B'+D')}
+\]
+İki terim, $2+3=5$ literal.
