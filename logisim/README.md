@@ -1,5 +1,7 @@
 # Logisim Simülasyonları
 
+<img src="../assets/logos/logism.svg" height="60" alt="Logisim">
+
 Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) örneklerin **gerçek,
 çalıştırılabilir Logisim devre dosyalarını** (`.circ`) içerir. Kitapta bir devre
 [circuitikz](https://ctan.org/pkg/circuitikz) ile statik bir şema olarak çizilir; buradaki
@@ -11,7 +13,7 @@ dosyalar aynı devrenin Logisim'de kurulup simüle edilebilen, interaktif karş�
 tasarlayıp gerçek zamanlı simüle etmeye yarayan, eğitim amaçlı, açık kaynaklı bir
 araçtır. Kapıları (AND/OR/NOT/...) sahaya yerleştirip birbirine bağlarsınız, giriş
 pinlerine tıklayarak 0/1 değerini değiştirirsiniz ve çıkışın anında nasıl değiştiğini
-görürsünüz — devrenin kağıt üzerinde "doğru görünmesi" ile gerçekten doğru çalıştığını
+görürsünüz. Devrenin kağıt üzerinde "doğru görünmesi" ile gerçekten doğru çalıştığını
 görmek arasındaki farkı kapatır.
 
 Bu, kitabın "Dört Sütunlu Metodoloji"sinin ikinci ayağıdır:
@@ -31,7 +33,8 @@ Bu dosyalar **klasik Logisim, sürüm 2.7.1** ile oluşturuldu (dosyaların içi
 `<project source="2.7.1">` etiketinden anlaşılıyor). İki seçenek var:
 
 - **Klasik Logisim** (orijinal, Carl Burch tarafından geliştirildi): <http://www.cburch.com/logisim/>
-  Java gerektirir (Java çalışma zamanı kuruluysa `.jar` dosyasını çift tıklamak yeterli).
+  Java Runtime Environment (JRE) gerektirir. JRE kuruluysa `.jar` dosyasını çift
+  tıklamak yeterlidir. JRE eksikse: <https://www.java.com/en/download/>
 - **Logisim-evolution** (klasik projenin hâlâ aktif geliştirilen topluluk forku, daha
   güncel arayüz ve özellikler sunar, klasik `.circ` dosyalarını da sorunsuz açar):
   <https://github.com/logisim-evolution/logisim-evolution>
@@ -44,8 +47,8 @@ açabilir, ya da dosya ilişkilendirmesi varsa doğrudan çift tıklayabilirsini
 1. `.circ` dosyasını Logisim'de açın.
 2. Soldaki giriş pinlerine (`A`, `B`, `C`, `D` gibi) tıklayarak değerlerini `0`/`1`
    arasında değiştirin.
-3. Sağdaki çıkış pininin (`F`) değerin doğruluk tablosuyla eşleştiğini gözlemleyin —
-   bu, kitaptaki K-map sadeleştirmesinin gerçekten doğru olduğunun bağımsız bir
+3. Sağdaki çıkış pininin (`F`) değerin doğruluk tablosuyla eşleştiğini gözlemleyin.
+   Bu, kitaptaki K-map sadeleştirmesinin gerçekten doğru olduğunun bağımsız bir
    doğrulamasıdır.
 
 ## Klasör yapısı
