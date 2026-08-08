@@ -1700,7 +1700,7 @@ $F$'in K-map'inden minimal POS elde etmek için üç adım izlenir:
 \end{enumerate}
 
 \subsection{Örnekler}\label{sec:pos-ornek}
-\begin{ornek}[SOP ve POS'un Karşılaştırılması]\label{orn:pos-sop}
+\begin{ornek}[Endüstriyel Kontrol Paneli]\label{orn:pos-sop}
 \textbf{Problem:} $4$ girişli bir endüstriyel kontrol panelinde $A,B,C,D$ sinyalleri
 ($1$=aktif, $0$=pasif) çeşitli sensör/anahtar durumlarını temsil ediyor. Sistem şu üç
 durumdan herhangi biri gerçekleştiğinde otomatik olarak \textbf{güvenli moda} geçip
@@ -1902,7 +1902,7 @@ mü daha ucuz/hızlı olduğuna ya da hangisinin daha az literal içerdiğine ba
 değişebilir.
 \end{ornek}
 
-\begin{ornek}[Basit Bir Hata Kontrol Devresi]\label{orn:pos-hata-kontrol}
+\begin{ornek}[Hata Kontrol Devresi]\label{orn:pos-hata-kontrol}
 \textbf{Problem:} $4$ bitlik bir kontrol kodu $ABCD$, bir gömülü sistemde donanım
 durumunu temsil ediyor. Sistem tasarımcıları şu iki durumu \textbf{hatalı} kabul
 ediyor: $A$ ve $B$'nin ikisi de $0$ olması, ya da $C$ ve $D$'nin ikisi de $1$ olması.
@@ -1929,14 +1929,68 @@ $A$&$B$&$C$&$D$&$F$ & $A$&$B$&$C$&$D$&$F$\\
 $F=0$ olan satırlar $0,1,2,3,7,11,15$ numaralı mintermlere karşılık gelir; geri kalan
 $9$ minterm $F=1$'dir. $F(A,B,C,D)=\Sigma(4,5,6,8,9,10,12,13,14)$.
 
-\textbf{K-map'e aktarma ve sadeleştirme:} $0$ sayısı ($7$) $1$ sayısından ($9$) az
-olduğundan, doğrudan $0$'ları gruplamak daha kısa yolu verir. Haritaya yerleştirelim
-(Şekil~\ref{fig:kmap-pos-hata}). $m_0$'ı ele alalım: yalnızca üst satırın tamamıyla
-($m_0,m_1,m_2,m_3$; $A=0,B=0$) $4$'lü bir grup oluşturabilir, essential: $A'B'$.
-$m_7$'yi ele alalım: yalnızca $11$ sütununun tamamıyla ($m_3,m_7,m_{11},m_{15}$;
-$C=1,D=1$) $4$'lü bir grup oluşturabilir, essential: $CD$. İki essential prime
-implicant birlikte $\{0,1,2,3,7,11,15\}$'in tamamını, yani $F$'in tüm $0$ hücrelerini
-kapsar:
+\textbf{Minimal SOP ($1$'leri gruplayarak):} Haritaya yerleştirelim
+(Şekil~\ref{fig:kmap-hata-sop-taraf}). $m_5$'i ele alalım: $B=1,C=0$ olan hücrelerin
+tamamıyla ($m_4,m_5,m_{12},m_{13}$) $4$'lü bir grup oluşturabilir, bu tek seçenek
+olduğundan essential: $BC'$. $m_6$'yı ele alalım: $B=1,D=0$ olan hücrelerin tamamıyla
+($m_4,m_6,m_{12},m_{14}$; sol ve sağ sütunların simit bitişikliğiyle iki parçaya
+bölünmüş) essential: $BD'$. $m_9$'u ele alalım: $A=1,C=0$ olan hücrelerin tamamıyla
+($m_8,m_9,m_{12},m_{13}$) essential: $AC'$. $m_{10}$'u ele alalım: $A=1,D=0$ olan
+hücrelerin tamamıyla ($m_8,m_{10},m_{12},m_{14}$; yine simit bitişikliğiyle iki
+parçaya bölünmüş) essential: $AD'$. Dört essential prime implicant birlikte
+$\{4,5,6,8,9,10,12,13,14\}$'ün tamamını kapsar:
+\[
+F = \textcolor{vurgumavi}{BC'} + \textcolor{vurguturuncu}{BD'} + \textcolor{vurgukirmizi}{AC'} + \textcolor{vurguyesil}{AD'}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.9, font=\small]
+\fill[blokmavi] (0,1) rectangle (2,3);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,1.12) rectangle (1-0.12,3-0.12);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (3.12,1.12) rectangle (4-0.12,3-0.12);
+\draw[very thick, vurgukirmizi, rounded corners=2pt] (0.22,0.22) rectangle (2-0.22,2-0.22);
+\draw[very thick, vurguyesil, rounded corners=2pt] (0.32,0.32) rectangle (1-0.32,2-0.32);
+\draw[very thick, vurguyesil, rounded corners=2pt] (3.32,0.32) rectangle (4-0.32,2-0.32);
+\draw (0,0) grid (4,4);
+\node[above] at (0.5,4) {$00$}; \node[above] at (1.5,4) {$01$};
+\node[above] at (2.5,4) {$11$}; \node[above] at (3.5,4) {$10$};
+\node[left] at (0,3.5) {$00$}; \node[left] at (0,2.5) {$01$};
+\node[left] at (0,1.5) {$11$}; \node[left] at (0,0.5) {$10$};
+\node[above left] at (0,4) {\scriptsize $\mathbf{AB\backslash CD}$};
+\node at (0.5,3.5) {$0$}; \node at (1.5,3.5) {$0$};
+\node at (2.5,3.5) {$0$}; \node at (3.5,3.5) {$0$};
+\node at (0.5,2.5) {$1$}; \node at (1.5,2.5) {$1$};
+\node at (2.5,2.5) {$0$}; \node at (3.5,2.5) {$1$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$0$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.7,3) -- (-0.7,1)
+    node[midway,xshift=-16pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (4.45,2) -- (4.45,0)
+    node[midway,xshift=16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,4.6) -- (4,4.6)
+    node[midway,yshift=14pt]{$C$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$D$};
+\end{tikzpicture}
+\caption{$F(A,B,C,D)=\Sigma(4,5,6,8,9,10,12,13,14)$: $1$'ler gruplanarak
+$SOP=BC'+BD'+AC'+AD'$.}
+\label{fig:kmap-hata-sop-taraf}
+\end{figure}
+Mavi dolgu essential $BC'$'yi, turuncu çerçeve (sol ve sağ sütunların simit
+bitişikliğiyle iki parçaya bölünmüş) essential $BD'$'yi, kırmızı çerçeve (mavinin
+altında) essential $AC'$'yi, yeşil çerçeve (kırmızıdan içeride, yine iki parçaya
+bölünmüş) essential $AD'$'yi verir; $m_{12}$ dört grupta birden paylaşılır.
+
+\textbf{Minimal POS ($0$'ları gruplayarak):} Aynı haritayı bu kez $0$'ları
+gruplayarak tekrar çizelim (Şekil~\ref{fig:kmap-hata-pos-taraf}). $m_0$'ı ele
+alalım: yalnızca üst satırın tamamıyla ($m_0,m_1,m_2,m_3$; $A=0,B=0$) $4$'lü bir
+grup oluşturabilir, essential: $A'B'$. $m_7$'yi ele alalım: yalnızca $11$
+sütununun tamamıyla ($m_3,m_7,m_{11},m_{15}$; $C=1,D=1$) $4$'lü bir grup
+oluşturabilir, essential: $CD$. İki essential prime implicant birlikte
+$\{0,1,2,3,7,11,15\}$'in tamamını, yani $F$'in tüm $0$ hücrelerini kapsar:
 \[
 F' = \textcolor{vurgumavi}{A'B'} + \textcolor{vurguturuncu}{CD}
 \]
@@ -1969,8 +2023,8 @@ F' = \textcolor{vurgumavi}{A'B'} + \textcolor{vurguturuncu}{CD}
 \draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
     node[midway,yshift=-14pt]{$D$};
 \end{tikzpicture}
-\caption{$F(A,B,C,D)=\Sigma(4,5,6,8,9,10,12,13,14)$: $0$'lar gruplanarak $SOP(F')=A'B'+CD$.}
-\label{fig:kmap-pos-hata}
+\caption{Aynı $F$: bu kez $0$'lar gruplanarak $SOP(F')=A'B'+CD$.}
+\label{fig:kmap-hata-pos-taraf}
 \end{figure}
 Mavi çerçeve (üst satırın tamamı) essential $A'B'$'yi, turuncu çerçeve ($11$
 sütununun tamamı, mavi ile $m_3$'ü paylaşır) essential $CD$'yi verir. Burada iki grup
@@ -1982,11 +2036,68 @@ değişimiyle, literallere dokunmadan) $(A'+B')(C+D)$; sonra her literali tümle
 \[
 F = \textcolor{vurgumavi}{(A+B)}\cdot\textcolor{vurguturuncu}{(C'+D')}
 \]
-Yalnızca $2$ terim, $4$ literal. İlginç bir şekilde bu sonuca problemin kendi
-ifadesinden de doğrudan ulaşılabilirdi: "hata $=A'B'+CD$" tanımına De Morgan
-uygulanınca (Bölüm~\ref{sec:demorgan}) $F=\text{hata}'=(A'B')'\cdot(CD)'=
-(A+B)(C'+D')$ çıkar. K-map, bu sonucu problemin sözel ifadesini fark etmesek bile
-sistematik biçimde bulmamızı sağlar.
+
+SOP dört terim, toplam $2+2+2+2=8$ literal içeriyor. POS iki terim, toplam
+$2+2=4$ literal: bu örnekte POS, SOP'un tam yarısı kadar kısa. Bunun nedeni açık:
+$0$'lar yalnızca $2$ essential prime implicant'a (her biri tam bir satır/sütun)
+ihtiyaç duyarken, $1$'lerin kapladığı düzensiz şekilli bölge $4$ essential prime
+implicant gerektiriyor.
+
+İlginç bir şekilde POS sonucuna problemin kendi ifadesinden de doğrudan
+ulaşılabilirdi: "hata $=A'B'+CD$" tanımına De Morgan uygulanınca
+(Bölüm~\ref{sec:demorgan}) $F=\text{hata}'=(A'B')'\cdot(CD)'=(A+B)(C'+D')$ çıkar.
+K-map, bu sonucu problemin sözel ifadesini fark etmesek bile sistematik biçimde
+bulmamızı sağlar.
+
+\textbf{İki-seviyeli gerçekleme:} SOP ve POS'un devre karşılıklarını çizelim.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=2] (b1) at (2,9) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[and port, number inputs=2] (b2) at (2,6) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[and port, number inputs=2] (b3) at (2,3) {};
+\draw (b3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (b3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[and port, number inputs=2] (b4) at (2,0) {};
+\draw (b4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (b4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[or port, number inputs=4] (o1) at (6.5,4.5) {};
+\draw (b1.out) -| (o1.in 1);
+\draw (b2.out) -| (o1.in 2);
+\draw (b3.out) -| (o1.in 3);
+\draw (b4.out) -| (o1.in 4);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=BC'+BD'+AC'+AD'$ ifadesinin SOP (AND-OR) gerçeklemesi (4 AND + 1 OR = 5
+kapı, $8$ literal bağlantısı).}
+\label{fig:hata-sop-devre}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[or port, number inputs=2] (r1) at (2,3) {};
+\draw (r1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (r1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\node[or port, number inputs=2] (r2) at (2,0) {};
+\draw (r2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (r2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[and port, number inputs=2] (n1) at (6,1.5) {};
+\draw (r1.out) -| (n1.in 1);
+\draw (r2.out) -| (n1.in 2);
+\draw (n1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=(A+B)(C'+D')$ ifadesinin POS (OR-AND) gerçeklemesi (2 OR + 1 AND = 3
+kapı, $4$ literal bağlantısı).}
+\label{fig:hata-pos-devre}
+\end{figure}
+SOP $5$ kapı $8$ literal bağlantısı gerektirirken, POS yalnızca $3$ kapı $4$ literal
+bağlantısıyla aynı işi görüyor: bu üçlünün en çarpıcı POS kazancı.
 \end{ornek}
 
 \subsection{Alıştırmalar}\label{sec:pos-alistirma}
