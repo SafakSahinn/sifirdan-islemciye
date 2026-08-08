@@ -51,6 +51,13 @@ açabilir, ya da dosya ilişkilendirmesi varsa doğrudan çift tıklayabilirsini
    Bu, kitaptaki K-map sadeleştirmesinin gerçekten doğru olduğunun bağımsız bir
    doğrulamasıdır.
 
+## Demo
+
+Örnek 3.9 (Asal Sayı Dedektörü, $F=A'B'C+BC'D+B'CD+A'CD$) devresinin Logisim'de
+simüle edilişi:
+
+<img src="assets/asal-sayi-detektoru-demo.gif" alt="Asal sayı dedektörü devresi Logisim'de simüle ediliyor" width="480">
+
 ## Klasör yapısı
 
 ```
