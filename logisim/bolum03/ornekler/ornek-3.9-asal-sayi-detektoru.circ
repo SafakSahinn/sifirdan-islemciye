@@ -116,70 +116,14 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <wire from="(110,230)" to="(110,350)"/>
     <wire from="(130,250)" to="(130,370)"/>
     <wire from="(70,420)" to="(70,480)"/>
-    <comp lib="1" loc="(280,300)" name="AND Gate">
-      <a name="inputs" val="3"/>
-      <a name="label" val="BC'D"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="1" loc="(280,440)" name="AND Gate">
-      <a name="inputs" val="3"/>
-      <a name="label" val="A'CD"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="1" loc="(110,190)" name="NOT Gate">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="1" loc="(280,370)" name="AND Gate">
-      <a name="inputs" val="3"/>
-      <a name="label" val="B'CD"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="1" loc="(70,190)" name="NOT Gate">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="1" loc="(280,230)" name="AND Gate">
-      <a name="inputs" val="3"/>
-      <a name="label" val="A'B'C"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
+    <comp lib="6" loc="(552,345)" name="Text">
+      <a name="text" val="F = A'B'C + BC'D + B'CD + A'CD"/>
+      <a name="font" val="SansSerif bold 14"/>
     </comp>
     <comp lib="0" loc="(170,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
       <a name="label" val="D"/>
-      <a name="labelloc" val="north"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
-    <comp lib="0" loc="(130,140)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="C"/>
-      <a name="labelloc" val="north"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
-    <comp lib="1" loc="(410,340)" name="OR Gate">
-      <a name="inputs" val="4"/>
-      <a name="label" val="F"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
-    <comp lib="6" loc="(637,45)" name="Text">
-      <a name="text" val="Problem: 4 bitlik bir ikili giriş &#119860;&#119861;&#119862;&#119863; (en anlamlı bit &#119860;), 0 ile 15 arasında bir tam sayıyı temsil ediyor. Bu sayı asal olduğunda çıkışı &#119865; = 1 yapan, aksi hâlde &#119865; = 0 veren bir devre tasarlayalım."/>
-      <a name="font" val="SansSerif bold 13"/>
-    </comp>
-    <comp lib="1" loc="(150,190)" name="NOT Gate">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(420,340)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="1" loc="(190,190)" name="NOT Gate">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(50,140)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="A"/>
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
@@ -189,6 +133,66 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="B"/>
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(410,340)" name="OR Gate">
+      <a name="inputs" val="4"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(150,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(637,45)" name="Text">
+      <a name="text" val="Problem: 4 bitlik bir ikili giriş &#119860;&#119861;&#119862;&#119863; (en anlamlı bit &#119860;), 0 ile 15 arasında bir tam sayıyı temsil ediyor. Bu sayı asal olduğunda çıkışı &#119865; = 1 yapan, aksi hâlde &#119865; = 0 veren bir devre tasarlayalım."/>
+      <a name="font" val="SansSerif bold 13"/>
+    </comp>
+    <comp lib="1" loc="(280,440)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="A'CD"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(280,300)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="BC'D"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(110,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(190,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(70,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="0" loc="(130,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="C"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(420,340)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="1" loc="(280,370)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="B'CD"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(280,230)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="A'B'C"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
   </circuit>
 </project>

@@ -34,7 +34,7 @@ Bu dosyalar **klasik Logisim, sürüm 2.7.1** ile oluşturuldu (dosyaların içi
 
 - **Klasik Logisim** (orijinal, Carl Burch tarafından geliştirildi): <http://www.cburch.com/logisim/>
   Java Runtime Environment (JRE) gerektirir. JRE kuruluysa `.jar` dosyasını çift
-  tıklamak yeterlidir. JRE eksikse: <https://www.java.com/en/download/>
+  tıklamak yeterlidir. JRE eksikse buradan indirebilirsiniz: <https://www.java.com/en/download/>
 - **Logisim-evolution** (klasik projenin hâlâ aktif geliştirilen topluluk forku, daha
   güncel arayüz ve özellikler sunar, klasik `.circ` dosyalarını da sorunsuz açar):
   <https://github.com/logisim-evolution/logisim-evolution>
