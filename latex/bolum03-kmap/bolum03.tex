@@ -3233,3 +3233,454 @@ ezici biçimde daha ucuz.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim
 simülasyon dosyası:
 \url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ}}
 \end{alistirma}
+
+\section{NAND/NOR Gerçekleme}\label{sec:nandnor}
+Bölüm~\ref{sec:pos-mi-sop-mu}'de SOP ile POS arasında seçim yaparken "donanım bağlamı"
+diye bir ölçütten bahsetmiş, bunu ileride somutlaştıracağımızı söylemiştik. Bu bölüm tam
+olarak o sözü tutuyor: dijital devreler pratikte çoğunlukla AND/OR/NOT kapılarıyla değil,
+\textbf{NAND} ve \textbf{NOR} kapılarıyla üretilir. Bunun nedeni tamamen üretim
+mühendisliğiyle ilgilidir: NAND ve NOR kapıları, transistör düzeyinde AND/OR kapılarından
+daha az eleman ve daha basit bir yapıyla üretilebilir, bu yüzden hemen hemen tüm entegre
+devre (IC) ailelerinde temel yapı taşı olarak kullanılırlar. Bu bölümde, şimdiye kadar
+SOP/POS biçiminde bulduğumuz ifadeleri NAND-yalnız ya da NOR-yalnız devrelere nasıl
+çevireceğimizi öğreneceğiz.
+
+\subsection{Evrensel Kapı Kavramı}\label{sec:nandnor-evrensel}
+\begin{tanim}[Evrensel Kapı]
+Bir kapı türü, yalnızca kendisinden (başka hiçbir kapı türüne ihtiyaç duymadan) AND, OR
+ve NOT işlemlerinin üçünü de üretebiliyorsa \textbf{evrensel kapı} olarak adlandırılır.
+Evrensel bir kapıyla, herhangi bir Bool fonksiyonu (dolayısıyla herhangi bir sayısal
+devre) gerçeklenebilir.
+\end{tanim}
+
+NAND evrensel bir kapıdır. Bunu göstermek için üç işlemi de yalnızca NAND kapılarıyla
+kuralım (Şekil~\ref{fig:nand-evrensel}):
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{NOT:} bir NAND kapısının iki girişini birbirine bağlayıp aynı sinyali
+    verirsek, $(x\cdot x)'=x'$ elde ederiz.
+    \item \textbf{AND:} bir NAND kapısının çıkışını ($(xy)'$) ikinci bir NAND kapısına
+    (girişleri birbirine bağlı, yani NOT olarak) verirsek, $((xy)')'=xy$ elde ederiz.
+    \item \textbf{OR:} $x$ ve $y$'yi önce (girişleri birbirine bağlı NAND'larla) tümleyip
+    $x',y'$ elde ederiz, sonra bunları üçüncü bir NAND'a verirsek, De Morgan'la
+    $(x'y')'=x+y$ elde ederiz.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[nand port, number inputs=2] (n1) at (0,0) {};
+\draw (n1.in 1) -- (n1.in 2);
+\draw (n1.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (n1.out) -- ++(0.5,0) node[right] {$x'$};
+\node at (0,-1.3) {(a) NOT};
+
+\node[nand port, number inputs=2] (n2) at (4,1) {};
+\draw (n2.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (n2.in 2) -- ++(-0.5,0) node[left] {$y$};
+\node[nand port, number inputs=2] (n3) at (5.5,-0.5) {};
+\draw (n3.in 1) -- (n3.in 2);
+\draw (n2.out) -| (n3.in 1);
+\draw (n3.out) -- ++(0.5,0) node[right] {$xy$};
+\node at (4.75,-1.8) {(b) AND};
+
+\node[nand port, number inputs=2] (n4) at (9,1.6) {};
+\draw (n4.in 1) -- (n4.in 2);
+\draw (n4.in 1) -- ++(-0.5,0) node[left] {$x$};
+\node[nand port, number inputs=2] (n5) at (9,0.2) {};
+\draw (n5.in 1) -- (n5.in 2);
+\draw (n5.in 1) -- ++(-0.5,0) node[left] {$y$};
+\node[nand port, number inputs=2] (n6) at (10.5,0.9) {};
+\draw (n4.out) -| (n6.in 1);
+\draw (n5.out) -| (n6.in 2);
+\draw (n6.out) -- ++(0.5,0) node[right] {$x+y$};
+\node at (9.75,-1.3) {(c) OR};
+\end{circuitikz}
+\caption{Yalnızca NAND kapılarıyla NOT, AND ve OR işlemlerinin kurulması.}
+\label{fig:nand-evrensel}
+\end{figure}
+
+NOR de tamamen benzer şekilde evrenseldir; tek fark, dual yöntemin gereği rolleri
+AND ve OR'un yer değiştirmesidir (Şekil~\ref{fig:nor-evrensel}):
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{NOT:} girişleri birbirine bağlı bir NOR, $(x+x)'=x'$ verir.
+    \item \textbf{OR:} bir NOR'un çıkışını ($(x+y)'$) ikinci bir NOR'a (NOT olarak)
+    verirsek, $((x+y)')'=x+y$ elde ederiz.
+    \item \textbf{AND:} $x',y'$'yi (NOR'lardan) elde edip üçüncü bir NOR'a verirsek,
+    De Morgan'la $(x'+y')'=xy$ elde ederiz.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[nor port, number inputs=2] (m1) at (0,0) {};
+\draw (m1.in 1) -- (m1.in 2);
+\draw (m1.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (m1.out) -- ++(0.5,0) node[right] {$x'$};
+\node at (0,-1.3) {(a) NOT};
+
+\node[nor port, number inputs=2] (m2) at (4,1) {};
+\draw (m2.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (m2.in 2) -- ++(-0.5,0) node[left] {$y$};
+\node[nor port, number inputs=2] (m3) at (5.5,-0.5) {};
+\draw (m3.in 1) -- (m3.in 2);
+\draw (m2.out) -| (m3.in 1);
+\draw (m3.out) -- ++(0.5,0) node[right] {$x+y$};
+\node at (4.75,-1.8) {(b) OR};
+
+\node[nor port, number inputs=2] (m4) at (9,1.6) {};
+\draw (m4.in 1) -- (m4.in 2);
+\draw (m4.in 1) -- ++(-0.5,0) node[left] {$x$};
+\node[nor port, number inputs=2] (m5) at (9,0.2) {};
+\draw (m5.in 1) -- (m5.in 2);
+\draw (m5.in 1) -- ++(-0.5,0) node[left] {$y$};
+\node[nor port, number inputs=2] (m6) at (10.5,0.9) {};
+\draw (m4.out) -| (m6.in 1);
+\draw (m5.out) -| (m6.in 2);
+\draw (m6.out) -- ++(0.5,0) node[right] {$xy$};
+\node at (9.75,-1.3) {(c) AND};
+\end{circuitikz}
+\caption{Yalnızca NOR kapılarıyla NOT, OR ve AND işlemlerinin kurulması.}
+\label{fig:nor-evrensel}
+\end{figure}
+
+\subsection{İki Grafik Sembol: Karışık Gösterim}\label{sec:nandnor-karisik-gosterim}
+Bir NAND kapısının çıkışı $(xy)'$'dir. De Morgan teoremiyle (Bölüm~\ref{sec:demorgan})
+bunu $(xy)'=x'+y'$ olarak da yazabiliriz. Bu cebirsel özdeşlik, \emph{aynı} NAND kapısını
+iki farklı ama eşdeğer grafik sembolle çizebileceğimiz anlamına gelir
+(Şekil~\ref{fig:karisik-gosterim}):
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{AND-invert:} standart NAND sembolü, bir AND şekli + çıkışta tek bir
+    balon (tümleme işareti).
+    \item \textbf{invert-OR:} bir OR şekli, ama bu kez balon her girişin üzerinde. Bu da
+    aynı fiziksel kapıdır; yalnızca $x'+y'$ ifadesini görsel olarak daha doğrudan yansıtır.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1.1, font=\small]
+\node[nand port, number inputs=3] (p1) at (0,0) {};
+\draw (p1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (p1.in 2) -- ++(-0.6,0) node[left] {$y$};
+\draw (p1.in 3) -- ++(-0.6,0) node[left] {$z$};
+\draw (p1.out) -- ++(0.5,0) node[right] {$(xyz)'$};
+\node at (0,-1.6) {(a) AND-invert};
+
+\node[or port, number inputs=3] (p2) at (0,-4) {};
+\draw (p2.in 1) ++(-0.15,0) circle (0.08) (p2.in 1) -- ++(-0.31,0) node[left] {$x'$};
+\draw (p2.in 2) ++(-0.15,0) circle (0.08) (p2.in 2) -- ++(-0.31,0) node[left] {$y'$};
+\draw (p2.in 3) ++(-0.15,0) circle (0.08) (p2.in 3) -- ++(-0.31,0) node[left] {$z'$};
+\draw (p2.out) -- ++(0.5,0) node[right] {$x'+y'+z'$};
+\node at (0,-5.6) {(b) invert-OR};
+\end{circuitikz}
+\caption{Aynı NAND kapısının iki eşdeğer sembolü: $(xyz)'=x'+y'+z'$.}
+\label{fig:karisik-gosterim}
+\end{figure}
+
+Bu iki sembolü karışık olarak (bazı kapılarda AND-invert, bazılarında invert-OR) aynı
+şemada kullanmaya \textbf{karışık gösterim} (mixed notation) denir; bir sonraki alt
+bölümde, SOP ifadesinin yapısını görsel olarak koruyan devreler çizerken bu faydalı
+olacak. Ama Logisim gibi çoğu pratik CAD aracı, iki sembolü ayırt etmez; her NAND kapısını
+tek tip (AND-invert) sembolüyle çizer. Bu kitapta da devreleri çizerken, iki sembol
+arasındaki denklik fikrini \emph{anladıktan sonra}, sadeliği korumak için tüm NAND
+kapılarını standart AND-invert sembolüyle çizeceğiz.
+
+Aynı mantık NOR için de dualiyle geçerlidir: bir NOR kapısının çıkışı $(x+y)'$'dir, De
+Morgan'la $x'y'$'ye eşittir. \textbf{OR-invert} sembolü (standart NOR, OR şekli + çıkışta
+balon) ile \textbf{invert-AND} sembolü (AND şekli, her girişte balon) aynı fiziksel NOR
+kapısını temsil eder.
+
+\subsection{İki-Seviyeli NAND Gerçekleme}\label{sec:nandnor-iki-seviyeli-nand}
+SOP biçimindeki bir ifadeyi yalnızca NAND kapılarıyla gerçeklemek için şu adımlar izlenir:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item $F$'i minimal SOP biçiminde ifade edin.
+    \item En az iki literallik her terim için bir NAND kapısı çizin; kapının girişleri o
+    terimin literalleridir. Bu, ilk seviye kapılarını oluşturur.
+    \item İkinci seviyeye, ilk seviye kapılarının çıkışlarını girdi olarak alan tek bir
+    NAND kapısı çizin.
+    \item Tek literallik bir terim ($X$ gibi, tümlenmemiş) ilk seviyede bir NOT kapısı
+    (girişleri birbirine bağlı bir NAND) gerektirir, çünkü ikinci seviye kapısına $X'$
+    beslenmesi gerekir. Ama terim zaten tümlenmiş bir literalse ($X'$ gibi), ikinci
+    seviye kapısına doğrudan ham sinyal ($X$) bağlanabilir. Ekstra bir kapıya gerek
+    yoktur, çünkü ihtiyaç duyulan $(X')'=X$ zaten elimizdeki sinyaldir.
+\end{enumerate}
+Bu prosedürün neden işlediğini anlamak kolay: ikinci seviye kapısı $n$ girişli bir NAND
+olduğundan, çıkışı $(g_1 g_2 \cdots g_n)'$'dir; her $g_i$ zaten $(terim_i)'$ olduğundan
+(3. ve 4. adımlar bunu garanti eder), toplam çıkış
+$((terim_1)'(terim_2)'\cdots(terim_n)')'=terim_1+terim_2+\cdots+terim_n=F$ olur (De
+Morgan). Yani devre, iki seviye NAND kapısından oluştuğu hâlde, tam olarak SOP'un
+AND-OR gerçeklemesiyle aynı sonucu verir.
+
+\begin{ornek}[Onluk Yuvarlama Sinyalinin NAND Gerçeklemesi]\label{orn:nand-yuvarlama}
+Bölüm~\ref{sec:dont-care-ornek}'teki Örnek~\ref{orn:dontcare-yuvarlama}'ün minimal SOP'unu
+hatırlayalım: $F=A+BC+BD$. Bunu yalnızca NAND kapılarıyla gerçekleyelim.
+
+$BC$ ve $BD$ terimlerinin her biri (en az iki literallik) bir NAND kapısı alır: $(BC)'$
+ve $(BD)'$. $A$ terimi tek literallik ve tümlenmemiş, bu yüzden ilk seviyede bir NOT
+kapısı (girişleri birbirine bağlı NAND) gerekir: $A'$. İkinci seviyedeki $3$ girişli NAND
+kapısı bu üç sinyali birleştirir:
+\[
+F=((BC)'(BD)'A')'=BC+BD+A
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[nand port, number inputs=2] (g1) at (2,6) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[nand port, number inputs=2] (g2) at (2,3) {};
+\draw (g2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[nand port, number inputs=2] (g3) at (2,0) {};
+\draw (g3.in 1) -- (g3.in 2);
+\draw (g3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\node[nand port, number inputs=3] (g4) at (6.5,3) {};
+\draw (g1.out) -| (g4.in 1);
+\draw (g2.out) -| (g4.in 2);
+\draw (g3.out) -| (g4.in 3);
+\draw (g4.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A+BC+BD$ ifadesinin iki-seviyeli NAND gerçeklemesi (alttaki NAND, girişleri
+birbirine bağlı olduğundan NOT işlevi görüyor).}
+\label{fig:nand-yuvarlama-devre}
+\end{figure}
+Karşılaştırma için: Bölüm~\ref{sec:dont-care-ornek}'teki AND-OR gerçeklemesi (Şekil
+3.49) $2$ AND $+1$ OR $=3$ kapı kullanıyordu; bu NAND gerçeklemesi de $4$ kapı
+kullanıyor ($2$ NAND $+1$ NOT-NAND $+1$ çıkış NAND): kapı \emph{sayısı} neredeyse aynı,
+fark yalnızca kullanılan kapı \emph{türünde}.
+\end{ornek}
+
+\begin{alistirma}[\orta]
+Bir bahçe güvenlik aydınlatması $3$ sinyal okur: $A$ = gündüz sensörü ($1$=gündüz), $B$ =
+hareket sensörü, $C$ = ses sensörü. Işıklar yanar ($F=1$): gece ise ($A=0$, yani $A'=1$)
+her zaman yanar, ya da gündüzken bile hem hareket hem ses algılanıyorsa ($B=1$ ve $C=1$,
+güvenlik amaçlı). Minimal SOP'u bulup yalnızca NAND kapılarıyla gerçekleyin.
+
+\textbf{Çözüm:} Kural doğrudan $F=A'+BC$ verir ($3$ değişkenli, don't-care yok). $A'$
+terimi tek literallik ve zaten tümlenmiş, bu yüzden ikinci seviye kapısına \textbf{doğrudan}
+ham $A$ sinyali bağlanabilir. Ekstra bir NOT kapısına gerek yok. $BC$ terimi bir NAND
+kapısı alır: $(BC)'$. İkinci seviyedeki $2$ girişli NAND bu ikisini birleştirir:
+\[
+F=(A\cdot(BC)')'=A'+BC
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[nand port, number inputs=2] (h1) at (2,2) {};
+\draw (h1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (h1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[nand port, number inputs=2] (h2) at (6,3) {};
+\draw (h2.in 1) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (h1.out) -| (h2.in 2);
+\draw (h2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A'+BC$ ifadesinin iki-seviyeli NAND gerçeklemesi: $A'$ terimi tümlenmiş
+olduğundan ham $A$ sinyali doğrudan ikinci seviyeye bağlanıyor, hiç NOT kapısı
+gerekmiyor (yalnızca $2$ kapı).}
+\label{fig:nand-alistirma-devre}
+\end{figure}
+\end{alistirma}
+
+\subsection{İki-Seviyeli NOR Gerçekleme}\label{sec:nandnor-iki-seviyeli-nor}
+POS biçimindeki bir ifadeyi yalnızca NOR kapılarıyla gerçeklemek, NAND yönteminin tam
+duali izler:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item $F$'i minimal POS biçiminde ifade edin.
+    \item En az iki literallik her çarpan için bir NOR kapısı çizin; kapının girişleri o
+    çarpanın literalleridir. Bu, ilk seviye kapılarını oluşturur.
+    \item İkinci seviyeye, ilk seviye kapılarının çıkışlarını girdi olarak alan tek bir
+    NOR kapısı çizin.
+    \item Tek literallik bir çarpan ($X$ gibi, tümlenmemiş) ilk seviyede bir NOT kapısı
+    (girişleri birbirine bağlı bir NOR) gerektirir. Ama çarpan zaten tümlenmiş bir
+    literalse ($X'$ gibi), ikinci seviye kapısına doğrudan ham sinyal ($X$) bağlanabilir.
+\end{enumerate}
+Doğrulama NAND'inkiyle simetrik: ikinci seviye $n$ girişli NOR'un çıkışı
+$(g_1+g_2+\cdots+g_n)'$'dir; her $g_i=(çarpan_i)'$ olduğundan, toplam çıkış
+$((çarpan_1)'+(çarpan_2)'+\cdots)'=çarpan_1\cdot çarpan_2\cdots=F$ olur (De Morgan).
+
+\begin{ornek}[Güvenlik Kapısı Kilidinin NOR Gerçeklemesi]\label{orn:nor-kilit}
+Örnek~\ref{orn:dontcare-kilit}'in minimal POS'unu hatırlayalım: $F=C'(A+D)$. Bunu
+yalnızca NOR kapılarıyla gerçekleyelim.
+
+$(A+D)$ çarpanı (en az iki literallik) bir NOR kapısı alır: $(A+D)'$. $C'$ çarpanı tek
+literallik ve zaten tümlenmiş, bu yüzden ikinci seviye kapısına doğrudan ham $C$ sinyali
+bağlanabilir. İkinci seviyedeki $2$ girişli NOR bu ikisini birleştirir:
+\[
+F=(C+(A+D)')'=C'(A+D)
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[nor port, number inputs=2] (g1) at (2,2) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[nor port, number inputs=2] (g2) at (6,3) {};
+\draw (g2.in 1) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (g1.out) -| (g2.in 2);
+\draw (g2.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=C'(A+D)$ ifadesinin iki-seviyeli NOR gerçeklemesi: $C'$ çarpanı tümlenmiş
+olduğundan ham $C$ sinyali doğrudan ikinci seviyeye bağlanıyor.}
+\label{fig:nor-kilit-devre}
+\end{figure}
+\end{ornek}
+
+\begin{alistirma}[\orta]
+Bir montaj hattı konveyör bandı $3$ sinyal okur: $A$ = ana güç anahtarı aktif, $B$ = bandın
+sol tarafındaki hareket sensörü, $C$ = bandın sağ tarafındaki hareket sensörü. Bant çalışır
+($F=1$) yalnızca ana güç açıksa ($A=1$) VE bandın herhangi bir tarafında hareket
+algılanıyorsa ($B=1$ ya da $C=1$). Minimal POS'u bulup yalnızca NOR kapılarıyla
+gerçekleyin.
+
+\textbf{Çözüm:} Kural doğrudan $F=A(B+C)$ verir; bu zaten POS biçiminde ($2$ çarpan,
+$1+2=3$ literal). $A$ çarpanı tek literallik ve tümlenmemiş, bu yüzden ilk seviyede bir
+NOT kapısı (girişleri birbirine bağlı NOR) gerekir: $A'$. $(B+C)$ çarpanı bir NOR kapısı
+alır: $(B+C)'$. İkinci seviyedeki $2$ girişli NOR bu ikisini birleştirir:
+\[
+F=(A'+(B+C)')'=A(B+C)
+\]
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[nor port, number inputs=2] (h1) at (2,6) {};
+\draw (h1.in 1) -- (h1.in 2);
+\draw (h1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\node[nor port, number inputs=2] (h2) at (2,3) {};
+\draw (h2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (h2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[nor port, number inputs=2] (h3) at (6,4.5) {};
+\draw (h1.out) -| (h3.in 1);
+\draw (h2.out) -| (h3.in 2);
+\draw (h3.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A(B+C)$ ifadesinin iki-seviyeli NOR gerçeklemesi: $A$ çarpanı tümlenmemiş
+olduğundan üstteki NOR, NOT olarak $A'$ üretiyor.}
+\label{fig:nor-alistirma-devre}
+\end{figure}
+\end{alistirma}
+
+\subsection{Çok-Seviyeli NAND/NOR Dönüşümü}\label{sec:nandnor-cok-seviyeli}
+Bazı fonksiyonlar, iki-seviyeli SOP/POS yerine, ortak alt ifadeleri paylaşarak kapı
+sayısından tasarruf eden \textbf{çok-seviyeli} (ikiden fazla kapı katmanlı) devrelerle
+daha ekonomik gerçeklenir. Böyle bir AND-OR devresini tamamen NAND'a (ya da tamamen
+NOR'a) çevirmek için genel prosedür şudur:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item Her AND kapısını NAND'a (AND-invert sembolüyle), her OR kapısını da NAND'a
+    (invert-OR sembolüyle) çevirin. NOR'a çeviriyorsak roller ters: her AND
+    invert-AND, her OR da OR-invert sembolüyle NOR olur.
+    \item Şemadaki her balonu kontrol edin. Bir kapının çıkışındaki balon, hemen ardından
+    gelen kapının aynı hat üzerindeki giriş balonuyla eşleşiyorsa (yani bir kapının
+    çıkışı doğrudan bir sonraki kapının girişiyse), iki balon birbirini götürür, ekstra
+    bir şey gerekmez.
+    \item Eşleşmeyen (telafi edilmemiş) her balon, ya bir NOT kapısıyla ya da o girişin
+    literalini tümleyerek telafi edilmelidir. Bu genellikle, devrenin doğrudan bir
+    girişten (ara bir kapı çıkışından değil) beslenen ve invert-OR/invert-AND sembollü
+    bir kapıya giren bir hatta ortaya çıkar.
+\end{enumerate}
+
+\begin{ornek}[Çok-Seviyeli Bir Kontrol Sinyalinin NAND Gerçeklemesi]\label{orn:nand-cok-seviyeli}
+Bir kontrol sinyali şu çok-seviyeli ifadeyle tanımlanmış olsun ($A,B,C,D$ çeşitli
+sensör durumları): $F=A(CD+B)+BC'$. Önce standart AND-OR kapılarıyla çizelim
+(Şekil~\ref{fig:cokseviyeli-andor}): $CD$ (AND) ve $B$'nin toplamı $CD+B$'yi (OR)
+verir; bunun $A$ ile çarpımı $A(CD+B)$'yi (AND) verir. Ayrı bir dalda $BC'$ (AND)
+hesaplanır. En üstte bu iki dalın toplamı (OR) $F$'i verir.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=2] (g1) at (2,9) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=2] (g4) at (2,1) {};
+\draw (g4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[or port, number inputs=2] (g2) at (5.5,6.5) {};
+\draw (g1.out) -| (g2.in 1);
+\draw (g2.in 2) -- ++(-2.7,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\node[and port, number inputs=2] (g3) at (9.5,8.5) {};
+\node (Alabel) at (6.3,11) {};
+\draw (g3.in 1) |- (Alabel) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (g2.out) -| (g3.in 2);
+\node[or port, number inputs=2] (g5) at (13,4.5) {};
+\draw (g3.out) -| (g5.in 1);
+\draw (g4.out) -| (g5.in 2);
+\draw (g5.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A(CD+B)+BC'$ ifadesinin AND-OR gerçeklemesi ($4$ seviyeli gating).}
+\label{fig:cokseviyeli-andor}
+\end{figure}
+
+Şimdi her AND'i AND-invert, her OR'u invert-OR sembolüyle NAND'a çevirelim. Bir kapının
+çıkış balonu, hemen ardından gelen kapının giriş balonuyla her yerde eşleşiyor;
+\emph{tek istisna} $B$ girişi: $B$, ikinci seviyedeki (eskiden OR olan, şimdi invert-OR)
+kapıya \emph{doğrudan} bir devre girişinden bağlanıyor, herhangi bir kapı çıkışından
+değil. Bu balon telafisiz kalır, bu yüzden $B$ literalini $B'$'ye çeviririz
+(Şekil~\ref{fig:cokseviyeli-nand}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[nand port, number inputs=2] (h1) at (2,9) {};
+\draw (h1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (h1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[nand port, number inputs=2] (h4) at (2,1) {};
+\draw (h4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (h4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[nand port, number inputs=2] (h2) at (5.5,6.5) {};
+\draw (h1.out) -| (h2.in 1);
+\draw (h2.in 2) -- ++(-2.7,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\node[nand port, number inputs=2] (h3) at (9.5,8.5) {};
+\node (Blabel) at (6.3,11) {};
+\draw (h3.in 1) |- (Blabel) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (h2.out) -| (h3.in 2);
+\node[nand port, number inputs=2] (h5) at (13,4.5) {};
+\draw (h3.out) -| (h5.in 1);
+\draw (h4.out) -| (h5.in 2);
+\draw (h5.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{Aynı fonksiyonun tüm-NAND gerçeklemesi: telafisiz kalan tek balon yüzünden
+$B$ literali $B'$'ye çevrildi.}
+\label{fig:cokseviyeli-nand}
+\end{figure}
+
+Doğrulama: alttaki iki NAND (eskiden AND) sırasıyla $(CD)'$ ve $(BC')'$ üretir.
+Ortadaki NAND (eskiden OR), girişlerinden biri ($(CD)'$) zaten tümlenmiş geldiğinden
+ve diğeri ($B'$) telafi edildiğinden, gerçek değeri üretir: $((CD)'B')'=CD+B$. Bir
+üstteki NAND (eskiden AND) bunu $A$ ile birleştirip tümler: $(A(CD+B))'$. En üstteki
+NAND (eskiden OR), her iki girişi de (bir önceki AND'lerden) zaten tümlenmiş geldiğinden
+gerçek değeri, yani $F$'i üretir:
+\[
+F=\big((A(CD+B))'\cdot(BC')'\big)'=A(CD+B)+BC'
+\]
+NOR ile çok-seviyeli dönüşüm tamamen aynı mantığın dualiyle işler; tek fark, hangi
+tip kapının (AND mı OR mü) otomatik tümlenmiş çıkış verdiğidir: NAND devrelerinde
+bu AND kapılarıdır (OR kapıları, girdileri doğru kaynaktan geldiğinde gerçek değeri
+verir), NOR devrelerinde ise tam tersi: AND kapıları gerçek değeri verir, OR
+kapıları otomatik tümlenmiş çıkış verir.
+\end{ornek}
+
+\begin{alistirma}[\zor]
+$F=(A+BC)D$ ifadesini önce standart AND-OR kapılarıyla ($3$ seviyeli: $BC$ için AND,
+$A+BC$ için OR, sonucu $D$ ile çarpmak için AND), sonra yalnızca NOR kapılarıyla
+gerçekleyin.
+
+\textbf{Çözüm:} En alttaki kapı (eskiden AND, $BC$'yi hesaplıyor) hiçbir kapı
+çıkışından beslenmiyor; her iki girişi de ($B$ ve $C$) doğrudan devre girişi.
+invert-AND sembolüyle NOR'a çevrildiğinde bu iki balon da telafisiz kalır, bu yüzden
+her ikisi de tümlenir: $B\to B'$, $C\to C'$. Bu kapı $NOR(B',C')=(B'+C')'=BC$
+(gerçek değer) üretir. Ortadaki kapı (eskiden OR, $A+BC$'yi hesaplıyor) $A$'yı ve bu
+$BC$ değerini alır; OR-invert sembolüyle otomatik olarak tümlenmiş çıkış verir:
+$NOR(BC,A)=(A+BC)'$. En üstteki kapı (eskiden AND, $D$ ile çarpıyor) girişlerinden
+biri (ortadaki kapıdan gelen) zaten tümlenmiş, ama diğeri ($D$) yine doğrudan devre
+girişi olduğundan telafisiz kalır: $D\to D'$. Sonuç:
+\[
+F=\big((A+BC)'+D'\big)'=(A+BC)D
+\]
+Yani üç kapının ikisinde ($BC$'yi üreten alttaki kapı ile en üstteki kapı) toplam
+$3$ girişte literal tümleme gerekti ($B,C,D$); ortadaki kapıda hiç gerekmedi, çünkü
+her iki girişi de zaten uygun kaynaktan (bir kapı çıkışı ya da başka bir telafi)
+geliyordu.
+\end{alistirma}
