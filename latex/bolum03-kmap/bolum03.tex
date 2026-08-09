@@ -2539,13 +2539,13 @@ ek kuralla devam eder:
     yarıyorsa gruba dahil edin; yaramıyorsa göz ardı edin. Karar tamamen "hangi
     seçim daha az literalli bir terim veriyor" sorusuna göre yapılır. \textbf{Bir
     $X$ asla tek başına, sadece gruba katılmak için, gerçek bir $1$'miş gibi
-    zorla kapsanmaz} -- yalnızca zaten oluşan bir grubu büyütüyorsa işe yarar.
+    zorla kapsanmaz}. Yalnızca zaten oluşan bir grubu büyütüyorsa işe yarar.
     \item Aynı $X$'ler, POS türetirken ($0$'ları gruplarken) de kullanılabilir.
     \textbf{Önemli:} SOP tarafı ve POS tarafı, aynı $X$'i birbirinden bağımsız
-    olarak $1$ ya da $0$ seçebilir -- ikisinin aynı seçimi yapması garanti
+    olarak $1$ ya da $0$ seçebilir; ikisinin aynı seçimi yapması garanti
     değildir. Bu yüzden bir fonksiyonun don't-care'li minimal SOP'u ile minimal
     POS'u, tanımlı (gerçek $1$/$0$) noktalarda her zaman aynı sonucu verir, ama
-    önemsenmeyen noktalarda \emph{farklı} değerler üretebilirler -- ikisi de
+    önemsenmeyen noktalarda \emph{farklı} değerler üretebilir. İkisi de
     eşit derecede doğrudur, çünkü orijinal problem zaten o noktalarda bir değer
     talep etmiyordu. Bunu Örnek~\ref{orn:dontcare-kilit}'de somut olarak
     göreceğiz.
@@ -2558,7 +2558,7 @@ bir haneyi ($ABCD$, $A$ en anlamlı bit) okuyup, o hane $5$ veya daha büyükse
 yukarı yuvarlama sinyali üretir ($F=1$). Bölüm~\ref{sec:bcd}'de gördüğümüz gibi
 BCD yalnızca $0$-$9$ rakamlarını temsil eder; bu devreye giren kod, Örnek~\ref{orn:bcd}'deki
 geçersiz-kod dedektörünün hemen ardından bağlı olduğundan, $10$-$15$ ($1010$-$1111$)
-kalıpları bu devreye \textbf{hiçbir zaman ulaşmaz} -- onlar zaten bir önceki
+kalıpları bu devreye \textbf{hiçbir zaman ulaşmaz}: onlar zaten bir önceki
 aşamada yakalanıp elenmiştir. Dolayısıyla bu $6$ kalıp, bu devre için gerçek
 anlamda önemsenmeyen durumdur.
 
@@ -2627,7 +2627,7 @@ F = \textcolor{vurgumavi}{A} + \textcolor{vurguturuncu}{BD} + \textcolor{vurguki
 $SOP=A+BD+BC$.}
 \label{fig:kmap-yuvarlama-sop}
 \end{figure}
-Mavi dolgu (alt iki satırın tamamı, tüm $X$'ler dahil) essential $A$'yı verir --
+Mavi dolgu (alt iki satırın tamamı, tüm $X$'ler dahil) essential $A$'yı verir:
 tek bir literalle $8$ hücrenin tamamını kapsıyor. Turuncu çerçeve $BD$'yi,
 kırmızı çerçeve (turuncuyla $m_7,m_{15}$'i paylaşan) $BC$'yi tamamlar.
 
@@ -2685,8 +2685,8 @@ F = \textcolor{vurgumavi}{(A+B)}\cdot\textcolor{vurguturuncu}{(A+C+D)}
 
 SOP üç terim, toplam $1+2+2=5$ literal içeriyor. POS iki terim, toplam $2+3=5$
 literal: bu örnekte SOP ve POS tam olarak eşit maliyetli çıkıyor. Ayrıca dikkat
-edin: SOP'u açarsak, $(A+B)(A+C+D)=AA+AC+AD+AB+BC+BD=A+BC+BD$ (soğurma kuralıyla)
--- yani bu kez SOP ve POS, önemsenmeyen mintermleri \textbf{aynı şekilde} seçmiş
+edin: SOP'u açarsak, $(A+B)(A+C+D)=AA+AC+AD+AB+BC+BD=A+BC+BD$ (soğurma kuralıyla),
+yani bu kez SOP ve POS, önemsenmeyen mintermleri \textbf{aynı şekilde} seçmiş
 ve cebirsel olarak özdeş bir fonksiyona ulaşmıştır. (Az sonra Örnek~\ref{orn:dontcare-kilit}'de
 bunun her zaman böyle olmadığını göreceğiz.)
 
@@ -2742,7 +2742,7 @@ durumda.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim simülasyon dosyas�
 okur: $A$ = yangın alarmı aktif, $B$ = gece modu, $C$ = bakım modu, $D$ = manuel
 açma butonuna basıldı. Kilit açılır ($F=1$): yangın alarmı aktifken ($A=1$) HER
 ZAMAN, ya da bakım modunda değilken manuel butona basılmışsa ($C=0$ VE $D=1$).
-Gece modunun ($B$) bu karara hiçbir etkisi yoktur -- kilit mantığı gece/gündüz
+Gece modunun ($B$) bu karara hiçbir etkisi yoktur; kilit mantığı gece/gündüz
 ayrımı yapmaz. Bakım modundayken ($C=1$) yangın alarmı sensörü güvenlik gereği
 devre dışı bırakılır; dolayısıyla $A=1$ ve $C=1$'in aynı anda gerçekleştiği
 hiçbir durum yoktur, bu kombinasyon önemsenmeyen durumdur.
@@ -2809,7 +2809,7 @@ gruplanarak $SOP=A+C'D$.}
 \end{figure}
 Mavi dolgu (alt iki satırın tamamı, $B$'nin değerinden bağımsız) essential $A$'yı
 verir. Turuncu çerçeve (tüm dört satırı kapsayan tek bir sütun) essential $C'D$'yi
-tamamlar. Dikkat: $B$ hiçbir terimde görünmüyor -- bu, gece modunun kilide gerçekten
+tamamlar. Dikkat: $B$ hiçbir terimde görünmüyor. Bu, gece modunun kilide gerçekten
 etkisi olmadığının cebirsel doğrulamasıdır.
 
 \textbf{Minimal POS ($0$'ları gruplayarak):} Aynı haritayı bu kez $0$'ları
@@ -2868,7 +2868,7 @@ F = \textcolor{vurgumavi}{C'}\cdot\textcolor{vurguturuncu}{(A+D)}
 
 SOP iki terim, toplam $1+2=3$ literal içeriyor. POS de iki çarpan, toplam
 $1+2=3$ literal: yine eşit maliyetli. Ama bu kez ilginç bir fark var: SOP'u
-açarsak, $C'(A+D)=AC'+C'D$ -- bu, bizim türettiğimiz SOP'tan ($A+C'D$) \textbf{cebirsel
+açarsak, $C'(A+D)=AC'+C'D$: bu, bizim türettiğimiz SOP'tan ($A+C'D$) \textbf{cebirsel
 olarak farklı} bir fonksiyon! İkisi de $F$'in tanımlı olduğu tüm noktalarda
 ($1,5,8,9,12,13$ ve $0,2,3,4,6,7$) aynı sonucu verir, ama önemsenmeyen
 $\{10,11,14,15\}$ kümesinde farklı davranır: SOP tarafı bunları $A$ terimi
@@ -2912,7 +2912,7 @@ $3$ literal bağlantısı; $A$ doğrudan OR'a bağlanır).}
 kapı, $3$ literal bağlantısı).}
 \label{fig:kilit-pos-devre}
 \end{figure}
-İki devre de $2$ kapı ve $3$ literal bağlantısı kullanıyor -- ama artık
+İki devre de $2$ kapı ve $3$ literal bağlantısı kullanıyor. Ama artık
 biliyoruz ki, tanımsız girişlerde (ki gerçekte hiç oluşmuyorlar) farklı
 davranıyorlar.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim simülasyon
 dosyası:
@@ -2926,7 +2926,7 @@ ve bakım modu ($D$) ile izleniyor. Alarm çalar ($F=1$): bakım modunda değilk
 ($D=0$), gaz sızıntısı algılanmışsa ($C=1$) HER ZAMAN, ya da sıcaklık VE nem
 ikisi de yüksekse ($A=1$ VE $B=1$). Bakım sırasında ($D=1$) teknisyen gaz
 hattını önceden kapattığından, gaz sızıntısı sensörünün ($C=1$) aynı anda aktif
-olduğu hiçbir durum kaydedilmemiştir -- bu kombinasyon önemsenmeyen durumdur.
+olduğu hiçbir durum kaydedilmemiştir; bu kombinasyon önemsenmeyen durumdur.
 Ayrıca bakım modunda sıcaklık/nem alarmı da devre dışıdır. $F$'i hem SOP hem
 POS biçiminde sadeleştirip devrelerini çizin.
 
@@ -3079,7 +3079,7 @@ hareket sensörü aktif, $C$ = ön kapı açık, $D$ = arka kapı açık. Işık
 ($F=1$): hareket algılanmışsa ($B=1$) VE [gece modundaysa ($A=1$) HER ZAMAN
 yanar, YA DA gündüzken ($A=0$) yalnızca kapılardan en az biri açıksa ($C=1$
 VEYA $D=1$)]. Hareket sensörü pasifken ($B=0$), enerji tasarrufu için kapı
-sensörleri hiç okunmaz -- bu durumda hangi kapıların açık olduğu bilinmiyor,
+sensörleri hiç okunmaz; bu durumda hangi kapıların açık olduğu bilinmiyor,
 yani önemsenmeyen durumdur. $F$'i hem SOP hem POS biçiminde sadeleştirip
 devrelerini çizin.
 
@@ -3132,7 +3132,7 @@ $SOP=AB+BD+BC$.}
 \label{fig:kmap-alis11-sop}
 \end{figure}
 Mavi dolgu (ortadaki iki satırın tamamı) essential $AB$'yi (yalnızca alt yarısı,
-$A=1$, gerçek $1$ içeriyor -- üst yarısı zaten $X$'lerle örtüşen $BD$/$BC$
+$A=1$, gerçek $1$ içeriyor; üst yarısı zaten $X$'lerle örtüşen $BD$/$BC$
 tarafından kapsanıyor) ve turuncu/kırmızı essential $BD$/$BC$'yi tamamlıyor.
 
 \textbf{Minimal POS:} $0$'ları gruplayalım. Tek gerçek $0$ hücresi $m_4$'tür
@@ -3183,8 +3183,8 @@ F = \textcolor{vurgumavi}{A+C+D}
 \]
 
 SOP üç terim, toplam $2+2+2=6$ literal. POS tek bir terim (üç girişli tek bir
-OR kapısı), toplam $3$ literal: POS burada dramatik biçimde daha kısa --
-$8$ önemsenmeyen durumun ($16$ hücrenin yarısı!) ne kadar güçlü bir sadeleştirme
+OR kapısı), toplam $3$ literal: POS burada dramatik biçimde daha kısa.
+Bu, $8$ önemsenmeyen durumun ($16$ hücrenin yarısı!) ne kadar güçlü bir sadeleştirme
 sağlayabileceğinin bir göstergesi. Bu, Bölüm~\ref{sec:pos-mi-sop-mu}'deki $1$/$0$
 sayısı ipucuyla da tutarlı: yalnızca tek bir gerçek $0$ varken, POS'un tek bir
 terimde toplanması şaşırtıcı değil.
@@ -3223,7 +3223,7 @@ kapı, $6$ literal bağlantısı).}
 \draw (o1.in 3) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
 \draw (o1.out) -- ++(0.5,0) node[right] {$F$};
 \end{circuitikz}
-\caption{$F=A+C+D$ ifadesinin POS gerçeklemesi -- tek bir $3$-girişli OR kapısı,
+\caption{$F=A+C+D$ ifadesinin POS gerçeklemesi: tek bir $3$-girişli OR kapısı,
 AND kapısına gerek yok ($1$ kapı, $3$ literal bağlantısı).}
 \label{fig:alis11-pos-devre}
 \end{figure}
