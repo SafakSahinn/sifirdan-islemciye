@@ -4088,3 +4088,387 @@ Yani üç kapının ikisinde ($BC$'yi üreten alttaki kapı ile en üstteki kap�
 girişte literal tümleme gerekti ($B,C,D$); ortadaki kapıda hiç gerekmedi, çünkü her iki
 girişi de zaten uygun kaynaktan (bir kapı çıkışı ya da başka bir telafi) geliyordu.
 \end{alistirma}
+
+\section{XOR/XNOR}\label{sec:xorxnor}
+Bölüm~\ref{sec:sekiz-temel-kapi}'de sekiz temel kapıyı tanıtırken XOR (özel-VEYA) ve
+XNOR (denklik) kapılarına da kısaca değinmiştik. Bu bölümde bu iki kapının cebirsel
+özelliklerine, çok-girişli gerçeklemesine ve pratikte en çok kullanıldığı yere (hata
+sezme/parity) daha derinlemesine bakacağız.
+
+\subsection{XOR ve XNOR: Tanım ve Özdeşlikler}\label{sec:xorxnor-tanim}
+Doğruluk tablolarını hatırlayalım (Şekil~\ref{fig:xorxnor-hatirlatma}):
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{5.2cm}m{4.6cm}@{}}
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[xor port] (g1) at (0,1.3) {};
+\draw (g1.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (g1.in 2) -- ++(-0.5,0) node[left] {$y$};
+\draw (g1.out) -- ++(0.5,0) node[right] {$x\oplus y$};
+\node[xnor port] (g2) at (0,-1.3) {};
+\draw (g2.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (g2.in 2) -- ++(-0.5,0) node[left] {$y$};
+\draw (g2.out) -- ++(0.5,0) node[right] {$(x\oplus y)'$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|cc}
+\toprule
+$x$&$y$&$x\oplus y$&$(x\oplus y)'$\\
+\midrule
+0&0&0&1\\0&1&1&0\\1&0&1&0\\1&1&0&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{XOR ve XNOR doğruluk tabloları (Bölüm~\ref{sec:sekiz-temel-kapi}'den
+hatırlatma).}
+\label{fig:xorxnor-hatirlatma}
+\end{figure}
+
+XOR, girişleri \emph{farklı} olduğunda $1$ üretir: $x\oplus y=xy'+x'y$. XNOR ise
+girişleri \emph{aynı} olduğunda $1$ üretir: $(x\oplus y)'=xy+x'y'$; bu yüzden XNOR'a
+\textbf{denklik} (equivalence) kapısı da denir. XOR'un birkaç faydalı özdeşliği vardır:
+
+\begin{tanim}[XOR Özdeşlikleri]
+\begin{align*}
+x\oplus 0 &= x & x\oplus 1 &= x' \\
+x\oplus x &= 0 & x\oplus x' &= 1
+\end{align*}
+\[
+x\oplus y' = x'\oplus y = (x\oplus y)'
+\]
+Bu özdeşliklerin her biri, $\oplus$ işlemini $xy'+x'y$ karşılığıyla değiştirip
+doğruluk tablosuyla ya da cebirsel olarak kolayca doğrulanabilir.
+\end{tanim}
+
+\subsection{Değişme ve Birleşme Özellikleri}\label{sec:xorxnor-degisme-birlesme}
+XOR hem değişme hem birleşme özelliğine sahiptir:
+\[
+A\oplus B = B\oplus A \qquad\qquad (A\oplus B)\oplus C = A\oplus(B\oplus C) = A\oplus B\oplus C
+\]
+Birleşme özelliği sayesinde üç ya da daha fazla değişkenli bir XOR ifadesi parantez
+kullanmadan yazılabilir; sonuç, işlemlerin hangi sırayla yapıldığından etkilenmez. Bu,
+ileride çok-girişli XOR devrelerini kademeli olarak kurarken işimize yarayacak.
+
+\subsection{İki-Girişli XOR Gerçeklemesi}\label{sec:xorxnor-iki-girisli}
+$x\oplus y=xy'+x'y$ ifadesi doğrudan bir AND-OR-NOT devresi verir: $x$ ve $y$ önce ayrı
+ayrı tümlenir, sonra $xy'$ ve $x'y$ terimleri AND ile hesaplanıp OR ile toplanır
+(Şekil~\ref{fig:xor-andornot}).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[not port] (n1) at (0,3) {};
+\draw (n1.in) -- ++(-0.5,0) node[left] {$x$};
+\node[not port] (n2) at (0,0) {};
+\draw (n2.in) -- ++(-0.5,0) node[left] {$y$};
+\node[and port, number inputs=2] (a1) at (3,3.5) {};
+\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (n2.out) -| (a1.in 2);
+\node[and port, number inputs=2] (a2) at (3,0.5) {};
+\draw (n1.out) -| (a2.in 1);
+\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\node[or port, number inputs=2] (o1) at (6.5,2) {};
+\draw (a1.out) -| (o1.in 1);
+\draw (a2.out) -| (o1.in 2);
+\draw (o1.out) -- ++(0.5,0) node[right] {$x\oplus y$};
+\end{circuitikz}
+\caption{XOR'un AND-OR-NOT kapılarıyla gerçeklemesi: $2$ NOT $+2$ AND $+1$ OR $=5$ kapı.}
+\label{fig:xor-andornot}
+\end{figure}
+
+XOR yalnızca NAND kapılarıyla da kurulabilir (Şekil~\ref{fig:xor-nand}). İlk NAND
+kapısı $(xy)'=x'+y'$ üretir; bu sinyal, ikinci ve üçüncü NAND kapılarının birer
+girişine, $x$ ve $y$'nin kendileri de diğer girişlerine verilir. Sonuç iki-seviyeli bir
+NAND-NAND yapısıdır ve $(x'+y')x+(x'+y')y=xy'+x'y=x\oplus y$ eşitliğini sağlar.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[nand port, number inputs=2] (g1) at (2,3) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\node[nand port, number inputs=2] (g2) at (6,4.5) {};
+\draw (g2.in 1) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (g1.out) -| (g2.in 2);
+\node[nand port, number inputs=2] (g3) at (6,1.5) {};
+\draw (g1.out) -| (g3.in 1);
+\draw (g3.in 2) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\node[nand port, number inputs=2] (g4) at (9.5,3) {};
+\draw (g2.out) -| (g4.in 1);
+\draw (g3.out) -| (g4.in 2);
+\draw (g4.out) -- ++(0.5,0) node[right] {$x\oplus y$};
+\end{circuitikz}
+\caption{XOR'un yalnızca NAND kapılarıyla gerçeklemesi ($4$ NAND kapısı).}
+\label{fig:xor-nand}
+\end{figure}
+Pratikte çok-girişli XOR kapıları üretim açısından zordur; bu yüzden $3$ ya da daha
+fazla girişli bir XOR işlemi, genellikle burada gördüğümüz gibi $2$-girişli XOR
+kapılarının kademeli bağlanmasıyla kurulur (bir sonraki alt bölümde göreceğiz).
+
+\subsection{Tek Sayı Fonksiyonu (Odd/Even Function)}\label{sec:xorxnor-tek-sayi}
+Değişme ve birleşme özellikleri sayesinde $3$ ya da daha fazla değişkenli bir XOR
+ifadesini ($A\oplus B\oplus C$ gibi) sıradan bir Bool ifadesine çevirebiliriz. Örneğin
+$3$ değişkenli durumu açalım:
+\[
+A\oplus B\oplus C = (AB'+A'B)C' + (AB+A'B')C = AB'C'+A'BC'+ABC+A'B'C = \Sigma(1,2,4,7)
+\]
+Bu dört mintermin ($1,2,4,7$) ikili karşılıklarına ($001,010,100,111$) bakalım: her
+birinde \emph{tek sayıda} $1$ var. Bu bir rastlantı değildir: genel olarak, $n$
+değişkenli bir XOR ifadesi, ikili değeri tek sayıda $1$ içeren mintermlerin toplamına
+eşittir. Bu yüzden çok-değişkenli XOR'a \textbf{tek sayı fonksiyonu} (odd function) da
+denir; tümleyeni (XNOR'un çok-değişkenli hâli) ise \textbf{çift sayı fonksiyonu} (even
+function) olarak adlandırılır.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $\mathbf{A\backslash BC}$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$1$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
+    node[midway,xshift=-16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
+    node[midway,yshift=14pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$C$};
+\end{tikzpicture}
+\caption{$F=A\oplus B\oplus C=\Sigma(1,2,4,7)$'nin K-map'i: hiçbir $1$ hücresi bir
+diğerine bitişik değil.}
+\label{fig:kmap-xor-3var}
+\end{figure}
+Şekil~\ref{fig:kmap-xor-3var}'e dikkat edin: dört $1$ hücresinin hiçbiri bir diğerine
+bitişik değildir (her biri $0$'larla çevrilidir). Bu, tek sayı fonksiyonlarının genel
+bir özelliğidir ve önemli bir sonuç doğurur: \textbf{XOR/tek sayı fonksiyonları K-map ile
+sadeleştirilemez}. Ne kadar değişken olursa olsun, $1$ hücreleri hiçbir zaman
+bitişik çıkmaz. Bu yüzden çok-girişli XOR, SOP/POS yerine, Şekil~\ref{fig:xor-nand}'daki
+gibi kademeli $2$-girişli XOR kapılarıyla gerçeklenir (Şekil~\ref{fig:odd-function-devre}):
+$3$ girişli bir tek sayı fonksiyonu $A\oplus B\oplus C$, iki $2$-girişli XOR kapısının
+art arda bağlanmasıyla kurulur; çıkış kapısı XNOR'a çevrilirse tümleyeni, yani çift
+sayı fonksiyonu $(A\oplus B\oplus C)'$ elde edilir.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[xor port, number inputs=2] (x1) at (0,1) {};
+\draw (x1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (x1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\node[xor port, number inputs=2] (x2) at (4,0.5) {};
+\draw (x1.out) -| (x2.in 1);
+\draw (x2.in 2) -- ++(-2.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (x2.out) -- ++(0.5,0) node[right] {$A\oplus B\oplus C$};
+\end{circuitikz}
+\caption{Tek sayı fonksiyonu $A\oplus B\oplus C$'nin kademeli $2$-girişli XOR
+kapılarıyla gerçeklemesi (çıkıştaki kapı XNOR'a çevrilirse, çift sayı fonksiyonu
+$(A\oplus B\oplus C)'$ elde edilir).}
+\label{fig:odd-function-devre}
+\end{figure}
+
+\subsection{Parity Üretimi ve Kontrolü}\label{sec:xorxnor-parity}
+Bölüm~\ref{sec:parity}'de parity bitini tanımlamış ve elle nasıl hesaplandığını
+görmüştük. Şimdi bu hesabı otomatik yapan devreyi kuralım. $3$ bitlik bir mesaj
+($x,y,z$) düşünelim; çift parity isteniyorsa, parity biti $P$, mesajdaki $1$'lerin
+sayısı \emph{tek} olduğunda $1$ olmalıdır ki toplam ($x,y,z,P$ birlikte) çift kalsın.
+Ama "girdilerdeki $1$ sayısı tek mi" sorusu, tam olarak tek sayı fonksiyonunun
+tanımıdır. Bu yüzden:
+\[
+P = x\oplus y\oplus z
+\]
+Bu devreye \textbf{parity üreteci} (parity generator) denir ve Şekil~\ref{fig:odd-function-devre}'deki
+$3$-girişli tek sayı fonksiyonu devresiyle birebir aynıdır.
+
+Alıcı tarafta, gelen $4$ bit ($x,y,z,P$) bir \textbf{parity denetleyicisi} (parity
+checker) ile kontrol edilir. İletim hatasızsa toplam $1$ sayısı çift kalmalıdır; yani
+$4$ bitin tek sayı fonksiyonu $C=x\oplus y\oplus z\oplus P$ sıfır çıkmalıdır. $C=1$
+çıkarsa, aktarım sırasında tek bir bitin bozulduğu (ve pariteyi tek yaptığı)
+anlaşılır. Parity denetleyicisi de $4$-girişli bir tek sayı fonksiyonu devresidir;
+$3$ tane $2$-girişli XOR kapısının kademeli bağlanmasıyla kurulur.
+
+\subsection{Örnekler}\label{sec:xorxnor-ornekler}
+\begin{ornek}[Çift Sensör Uyuşmazlık Alarmı]\label{orn:xor-uyusmazlik}
+Bir güvenlik sisteminde aynı koridoru izleyen iki bağımsız hareket sensörü var: $A$ ve
+$B$. Sistem tasarımına göre bu iki sensör her zaman birlikte hareket etmelidir; ikisi
+de aynı anda tetiklenmeli ya da ikisi de sakin kalmalıdır. Yalnızca birinin
+tetiklenmesi, sensörlerden birinde bir arıza olduğunu ya da izleme alanına yalnızca
+kısmi bir müdahale olduğunu gösterir. Sistem bu uyuşmazlığı yakalayıp bir alarm
+sinyali ($F=1$) üretsin.
+
+\textbf{Çözüm:} $F=1$ olması gereken tek durum, $A$ ile $B$'nin \emph{farklı} değer
+aldığı durumdur; bu tam olarak XOR'un tanımıdır:
+\[
+F = A\oplus B
+\]
+\begin{center}
+\begin{tabular}{cc|c}
+\toprule
+$A$&$B$&$F$\\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1, font=\small]
+\node[xor port, number inputs=2] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.6,0) node[left, text width=0.6cm, align=left, inner sep=1pt] {\small $A$};
+\draw (g.in 2) -- ++(-0.6,0) node[left, text width=0.6cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A\oplus B$ uyuşmazlık alarmı: tek bir XOR kapısı yeterli.}
+\label{fig:xor-uyusmazlik-devre}
+\end{figure}
+Tek bir kapı yeterli olduğu için bu, bir Bool fonksiyonunun XOR'la ifade edildiğinde
+K-map/SOP'a göre çarpıcı biçimde daha kısa çıktığı bir örnektir.\footnote{Bu devrenin
+Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.9/ornekler/ornek-3.19-cift-sensor-uyusmazlik-alarmi.circ}}
+\end{ornek}
+
+\begin{ornek}[Uzak Hava İstasyonu Parity Üreteci ve Denetleyicisi]\label{orn:xor-parity}
+Bir uzak hava istasyonu, $3$ bitlik bir durum kodunu ($x$ = pil seviyesi düşük, $y$ =
+sensör arızası var, $z$ = bağlantı zayıf; her biri $1$=evet) kablosuz olarak merkeze
+gönderiyor. İletim hatalarını yakalamak için istasyon çift-parity biti $P$ ekliyor,
+merkez de gelen $4$ biti denetliyor.
+
+\textbf{Çözüm:} Bölüm~\ref{sec:xorxnor-parity}'deki genel sonucu doğrudan uygulayalım:
+$P=x\oplus y\oplus z$.
+\begin{center}
+\begin{tabular}{ccc|c}
+\toprule
+$x$&$y$&$z$&$P$\\
+\midrule
+0&0&0&0\\
+0&0&1&1\\
+0&1&0&1\\
+0&1&1&0\\
+1&0&0&1\\
+1&0&1&0\\
+1&1&0&0\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[xor port, number inputs=2] (x1) at (0,1) {};
+\draw (x1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (x1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\node[xor port, number inputs=2] (x2) at (4,0.5) {};
+\draw (x1.out) -| (x2.in 1);
+\draw (x2.in 2) -- ++(-2.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+\draw (x2.out) -- ++(0.5,0) node[right] {$P$};
+\end{circuitikz}
+\caption{İstasyondaki parity üreteci: $P=x\oplus y\oplus z$, $2$ XOR kapısı.}
+\label{fig:parity-uretec-devre}
+\end{figure}
+
+Merkezde, gelen $x,y,z,P$ bitleri bir parity denetleyicisine girer: $C=x\oplus y\oplus
+z\oplus P$. Tanımı gereği $P$ zaten $x\oplus y\oplus z$'ye eşit seçildiğinden,
+hatasız bir iletimde $C=(x\oplus y\oplus z)\oplus(x\oplus y\oplus z)=0$ çıkar (bir
+değişkenin kendisiyle XOR'u sıfırdır). $C=1$ çıkması, yolda tam olarak bir bitin
+değiştiğinin işaretidir.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[xor port, number inputs=2] (y1) at (0,3) {};
+\draw (y1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
+\draw (y1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
+\node[xor port, number inputs=2] (y2) at (4,2) {};
+\draw (y1.out) -| (y2.in 1);
+\draw (y2.in 2) -- ++(-2.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $z$};
+\node[xor port, number inputs=2] (y3) at (8,1) {};
+\draw (y2.out) -| (y3.in 1);
+\draw (y3.in 2) -- ++(-6.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $P$};
+\draw (y3.out) -- ++(0.5,0) node[right] {$C$};
+\end{circuitikz}
+\caption{Merkezdeki parity denetleyicisi: $C=x\oplus y\oplus z\oplus P$, $3$ XOR
+kapısı.}
+\label{fig:parity-denetleyici-devre}
+\end{figure}
+\end{ornek}
+
+\subsection{Alıştırmalar}\label{sec:xorxnor-alistirmalar}
+\begin{alistirma}[\kolay]
+Bir tanktaki sıvı seviyesi, birbirinden bağımsız çalışan iki basınç sensörüyle ($A$ ve
+$B$) ölçülüyor; ikisi de aynı seviyeyi (yüksek ya da düşük) okumalıdır. Sensörler
+uyuştuğunda sistem bir onay sinyali ($F=1$) üretsin. $F$'i XOR ya da XNOR cinsinden
+ifade edip devresini çizin.
+
+\textbf{Çözüm:} $F=1$ olması gereken durum, $A$ ile $B$'nin \emph{aynı} değeri aldığı
+durumdur; bu tam olarak XNOR'un tanımıdır:
+\[
+F = A\odot B = (A\oplus B)'
+\]
+\begin{center}
+\begin{tabular}{cc|c}
+\toprule
+$A$&$B$&$F$\\
+\midrule
+0&0&1\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1, font=\small]
+\node[xnor port, number inputs=2] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.6,0) node[left, text width=0.6cm, align=left, inner sep=1pt] {\small $A$};
+\draw (g.in 2) -- ++(-0.6,0) node[left, text width=0.6cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A\odot B$ onay sinyali: tek bir XNOR kapısı yeterli.}
+\label{fig:xnor-alistirma-devre}
+\end{figure}
+\end{alistirma}
+
+\begin{alistirma}[\orta]
+Bir montaj hattında $4$ istasyon, kendi görevini tamamladığında birer sinyal
+($A,B,C,D$) gönderir. Hat tasarımına göre bu $4$ görev birbirine bağımlıdır: ya
+hepsi ya da hiçbiri aynı anda tamamlanmış olmalıdır. Kalite kontrol sistemi, istasyon
+sinyallerinden \emph{tek sayıda} tanesi aktifken bunu tutarsız bir durum olarak
+algılayıp bir uyarı ($F=1$) üretsin. $F$'i ifade edip kademeli XOR kapılarıyla
+gerçekleyin.
+
+\textbf{Çözüm:} "Tek sayıda giriş $1$" tanımı, doğrudan $4$-değişkenli tek sayı
+fonksiyonuna karşılık gelir:
+\[
+F = A\oplus B\oplus C\oplus D
+\]
+Bölüm~\ref{sec:xorxnor-tek-sayi}'te gördüğümüz gibi bu fonksiyon K-map ile
+sadeleştirilemez ($1$ hücrelerinin hiçbiri birbirine bitişik değildir); bu yüzden
+doğrudan $3$ tane $2$-girişli XOR kapısını kademeli bağlayarak gerçekleriz
+(Şekil~\ref{fig:xor-alistirma-devre}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[xor port, number inputs=2] (z1) at (0,3) {};
+\draw (z1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (z1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\node[xor port, number inputs=2] (z2) at (4,2) {};
+\draw (z1.out) -| (z2.in 1);
+\draw (z2.in 2) -- ++(-2.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[xor port, number inputs=2] (z3) at (8,1) {};
+\draw (z2.out) -| (z3.in 1);
+\draw (z3.in 2) -- ++(-6.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\draw (z3.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A\oplus B\oplus C\oplus D$ ifadesinin kademeli XOR kapılarıyla
+gerçeklemesi ($3$ XOR kapısı).}
+\label{fig:xor-alistirma-devre}
+\end{figure}
+\end{alistirma}
