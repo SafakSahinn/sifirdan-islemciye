@@ -3558,7 +3558,30 @@ AND-OR gerçeklemesiyle aynı sonucu verir.
 
 \begin{ornek}[Onluk Yuvarlama Sinyalinin NAND Gerçeklemesi]\label{orn:nand-yuvarlama}
 Bölüm~\ref{sec:dont-care-ornek}'teki Örnek~\ref{orn:dontcare-yuvarlama}'ün minimal SOP'unu
-hatırlayalım: $F=A+BC+BD$. Bunu yalnızca NAND kapılarıyla gerçekleyelim.
+hatırlayalım: $F=A+BC+BD$. Karşılaştırma için önce normal AND-OR kapılarıyla gerçeklemesini
+tekrar görelim (Şekil~\ref{fig:yuvarlama-andor-tekrar}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[and port, number inputs=2] (b1) at (2,4) {};
+\draw (b1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (b1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=2] (b2) at (2,0) {};
+\draw (b2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (b2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[or port, number inputs=3] (o1) at (6.5,2) {};
+\draw (b1.out) -| (o1.in 1);
+\draw (o1.in 2) -- ++(-4.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (b2.out) -| (o1.in 3);
+\draw (o1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A+BD+BC$ ifadesinin AND-OR (SOP) gerçeklemesi (2 AND + 1 OR = 3 kapı; bkz.
+Bölüm~\ref{sec:dont-care-ornek} Şekil~\ref{fig:yuvarlama-sop-devre}).}
+\label{fig:yuvarlama-andor-tekrar}
+\end{figure}
+
+Şimdi bunu yalnızca NAND kapılarıyla gerçekleyelim.
 
 $BC$ ve $BD$ terimlerinin her biri (en az iki literallik) bir NAND kapısı alır: $(BC)'$
 ve $(BD)'$. $A$ terimi tek literallik ve tümlenmemiş, bu yüzden ilk seviyede bir NOT
@@ -3590,10 +3613,9 @@ F=((BC)'(BD)'A')'=BC+BD+A
 birbirine bağlı olduğundan NOT işlevi görüyor).}
 \label{fig:nand-yuvarlama-devre}
 \end{figure}
-Karşılaştırma için: Bölüm~\ref{sec:dont-care-ornek}'teki AND-OR gerçeklemesi (Şekil
-3.49) $2$ AND $+1$ OR $=3$ kapı kullanıyordu; bu NAND gerçeklemesi de $4$ kapı
-kullanıyor ($2$ NAND $+1$ NOT-NAND $+1$ çıkış NAND): kapı \emph{sayısı} neredeyse aynı,
-fark yalnızca kullanılan kapı \emph{türünde}.
+Karşılaştırma için: yukarıdaki AND-OR gerçeklemesi $2$ AND $+1$ OR $=3$ kapı kullanıyordu;
+bu NAND gerçeklemesi de $4$ kapı kullanıyor ($2$ NAND $+1$ NOT-NAND $+1$ çıkış NAND): kapı
+\emph{sayısı} neredeyse aynı, fark yalnızca kullanılan kapı \emph{türünde}.
 \end{ornek}
 
 \begin{alistirma}[\orta]
@@ -3720,8 +3742,27 @@ $(g_1+g_2+\cdots+g_n)'$'dir; her $g_i=(çarpan_i)'$ olduğundan, toplam çıkı�
 $((çarpan_1)'+(çarpan_2)'+\cdots)'=çarpan_1\cdot çarpan_2\cdots=F$ olur (De Morgan).
 
 \begin{ornek}[Güvenlik Kapısı Kilidinin NOR Gerçeklemesi]\label{orn:nor-kilit}
-Örnek~\ref{orn:dontcare-kilit}'in minimal POS'unu hatırlayalım: $F=C'(A+D)$. Bunu
-yalnızca NOR kapılarıyla gerçekleyelim.
+Örnek~\ref{orn:dontcare-kilit}'in minimal POS'unu hatırlayalım: $F=C'(A+D)$.
+Karşılaştırma için önce normal OR-AND kapılarıyla gerçeklemesini tekrar görelim
+(Şekil~\ref{fig:kilit-orand-tekrar}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[or port, number inputs=2] (r1) at (2,2) {};
+\draw (r1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (r1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=2] (n1) at (6,3) {};
+\draw (n1.in 1) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\draw (r1.out) -| (n1.in 2);
+\draw (n1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=C'(A+D)$ ifadesinin OR-AND (POS) gerçeklemesi (1 OR + 1 AND = 2 kapı; bkz.
+Bölüm~\ref{sec:dont-care-ornek} Şekil~\ref{fig:kilit-pos-devre}).}
+\label{fig:kilit-orand-tekrar}
+\end{figure}
+
+Şimdi bunu yalnızca NOR kapılarıyla gerçekleyelim.
 
 $(A+D)$ çarpanı (en az iki literallik) bir NOR kapısı alır: $(A+D)'$. $C'$ çarpanı tek
 literallik ve zaten tümlenmiş, bu yüzden ikinci seviye kapısına doğrudan ham $C$ sinyali
@@ -3745,6 +3786,8 @@ F=(C+(A+D)')'=C'(A+D)
 olduğundan ham $C$ sinyali doğrudan ikinci seviyeye bağlanıyor.}
 \label{fig:nor-kilit-devre}
 \end{figure}
+Karşılaştırma için: yukarıdaki OR-AND gerçeklemesi $1$ OR $+1$ AND $=2$ kapı kullanıyordu;
+bu NOR gerçeklemesi de aynı $2$ kapıyı kullanıyor, tek fark kullanılan kapı \emph{türünde}.
 \end{ornek}
 
 \begin{alistirma}[\orta]
@@ -3754,10 +3797,93 @@ sol tarafındaki hareket sensörü, $C$ = bandın sağ tarafındaki hareket sens
 algılanıyorsa ($B=1$ ya da $C=1$). Minimal POS'u bulup yalnızca NOR kapılarıyla
 gerçekleyin.
 
-\textbf{Çözüm:} Kural doğrudan $F=A(B+C)$ verir; bu zaten POS biçiminde ($2$ çarpan,
-$1+2=3$ literal). $A$ çarpanı tek literallik ve tümlenmemiş, bu yüzden ilk seviyede bir
-NOT kapısı (girişleri birbirine bağlı NOR) gerekir: $A'$. $(B+C)$ çarpanı bir NOR kapısı
-alır: $(B+C)'$. İkinci seviyedeki $2$ girişli NOR bu ikisini birleştirir:
+\textbf{Çözüm:} Kuralı doğruluk tablosuna dökelim:
+\begin{center}
+\begin{tabular}{ccc|c}
+\toprule
+$A$&$B$&$C$&$F$\\
+\midrule
+0&0&0&0\\
+0&0&1&0\\
+0&1&0&0\\
+0&1&1&0\\
+1&0&0&0\\
+1&0&1&1\\
+1&1&0&1\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F(A,B,C)=\Sigma(5,6,7)$. Haritaya yerleştirelim (Şekil~\ref{fig:kmap-alistirma13}).
+$0$'ları gruplayalım: $m_1$'i ele alalım: $A=0$ satırının tamamıyla
+($m_0,m_1,m_2,m_3$) $4$'lü bir grup oluşturur, bu tek seçenek olduğundan essential: $A'$.
+$m_4$'ü ele alalım: yalnızca $m_0$ ile ($A$ değişerek) essential $2$ literallik $B'C'$'yi
+verir. İki essential prime implicant birlikte $\{0,1,2,3,4\}$'ün tamamını, yani $F$'in
+tüm $0$ hücrelerini kapsar:
+\[
+F' = \textcolor{vurgumavi}{A'} + \textcolor{vurguturuncu}{B'C'}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (0,1) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (0.12,0.12) rectangle (1-0.12,2-0.12);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $\mathbf{A\backslash BC}$};
+\node at (0.5,1.5) {$0$}; \node at (1.5,1.5) {$0$};
+\node at (2.5,1.5) {$0$}; \node at (3.5,1.5) {$0$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$1$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
+    node[midway,xshift=-16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
+    node[midway,yshift=14pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$C$};
+\end{tikzpicture}
+\caption{$F(A,B,C)=\Sigma(5,6,7)$: $0$'lar gruplanarak $SOP(F')=A'+B'C'$.}
+\label{fig:kmap-alistirma13}
+\end{figure}
+Mavi dolgu ($A=0$ satırının tamamı) essential $A'$'yi verir. Turuncu çerçeve ($m_0,m_4$)
+essential $B'C'$'yi tamamlar.
+
+Şimdi Bölüm~\ref{sec:tumleyenin-iki-yolu}'deki kısayolu $SOP(F')=A'+B'C'$ ifadesine
+uygulayalım: önce duali alalım, $A'\cdot(B'+C')$; sonra her literali tümleyelim
+($A'\to A$, $B'\to B$, $C'\to C$):
+\[
+F = A\cdot(B+C)
+\]
+Bu zaten POS biçiminde: $2$ çarpan, toplam $1+2=3$ literal.
+
+Önce normal OR-AND kapılarıyla gerçekleyelim (Şekil~\ref{fig:orand-alistirma13}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9, font=\small]
+\node[or port, number inputs=2] (r1) at (2,2) {};
+\draw (r1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (r1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[and port, number inputs=2] (n1) at (6,3) {};
+\draw (n1.in 1) -- ++(-3.5,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (r1.out) -| (n1.in 2);
+\draw (n1.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=A(B+C)$ ifadesinin OR-AND (POS) gerçeklemesi (1 OR + 1 AND = 2 kapı; $A$ tek
+literalli olduğundan doğrudan AND'e bağlanır).}
+\label{fig:orand-alistirma13}
+\end{figure}
+
+Şimdi bunu yalnızca NOR kapılarıyla gerçekleyelim. $A$ çarpanı tek literallik ve
+tümlenmemiş, bu yüzden ilk seviyede bir NOT kapısı (girişleri birbirine bağlı NOR)
+gerekir: $A'$. $(B+C)$ çarpanı bir NOR kapısı alır: $(B+C)'$. İkinci seviyedeki $2$
+girişli NOR bu ikisini birleştirir:
 \[
 F=(A'+(B+C)')'=A(B+C)
 \]
