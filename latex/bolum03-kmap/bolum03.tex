@@ -2739,12 +2739,13 @@ durumda.\footnote{Bu devrenin (SOP ve POS bir arada) Logisim simülasyon dosyas�
 \begin{ornek}[Güvenlik Kapısı Otomatik Kilit Sistemi]\label{orn:dontcare-kilit}
 \textbf{Problem:} Bir güvenlik kapısının otomatik kilit açma devresi $4$ sinyal
 okur: $A$ = yangın alarmı aktif, $B$ = gece modu, $C$ = bakım modu, $D$ = manuel
-açma butonuna basıldı. Kilit açılır ($F=1$): yangın alarmı aktifken ($A=1$) HER
-ZAMAN, ya da bakım modunda değilken manuel butona basılmışsa ($C=0$ VE $D=1$).
-Gece modunun ($B$) bu karara hiçbir etkisi yoktur; kilit mantığı gece/gündüz
-ayrımı yapmaz. Bakım modundayken ($C=1$) yangın alarmı sensörü güvenlik gereği
-devre dışı bırakılır; dolayısıyla $A=1$ ve $C=1$'in aynı anda gerçekleştiği
-hiçbir durum yoktur, bu kombinasyon önemsenmeyen durumdur.
+açma butonuna basıldı. Devre kilidi iki durumda açar ($F=1$): yangın alarmı
+aktif olduğunda ($A=1$), ya da bakım modunda değilken manuel açma butonuna
+basıldığında ($C=0$ ve $D=1$). Gece modunun ($B$) bu karara hiçbir etkisi
+yoktur; kilit mantığı gece ile gündüzü ayırt etmez. Bakım modundayken ($C=1$)
+yangın alarmı sensörü güvenlik gereği devre dışı bırakılır. Bu yüzden $A=1$
+ile $C=1$'in aynı anda gerçekleştiği bir durum hiç yaşanmaz; bu kombinasyon
+önemsenmeyen durumdur.
 
 \textbf{Doğruluk tablosu:}
 \begin{center}
