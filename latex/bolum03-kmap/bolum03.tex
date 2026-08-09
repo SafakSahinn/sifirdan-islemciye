@@ -2556,11 +2556,10 @@ ek kuralla devam eder:
 \textbf{Problem:} Bir hesap makinesinin ondalık yuvarlama devresi, BCD kodlu tek
 bir haneyi ($ABCD$, $A$ en anlamlı bit) okuyup, o hane $5$ veya daha büyükse
 yukarı yuvarlama sinyali üretir ($F=1$). Bölüm~\ref{sec:bcd}'de gördüğümüz gibi
-BCD yalnızca $0$-$9$ rakamlarını temsil eder; bu devreye giren kod, Örnek~\ref{orn:bcd}'deki
-geçersiz-kod dedektörünün hemen ardından bağlı olduğundan, $10$-$15$ ($1010$-$1111$)
-kalıpları bu devreye \textbf{hiçbir zaman ulaşmaz}: onlar zaten bir önceki
-aşamada yakalanıp elenmiştir. Dolayısıyla bu $6$ kalıp, bu devre için gerçek
-anlamda önemsenmeyen durumdur.
+BCD yalnızca $0$-$9$ rakamlarını temsil eder; bu $4$ bit doğrudan bir ondalık
+tuş takımından (yalnızca $0$-$9$ tuşları vardır) geldiğinden, $10$-$15$
+($1010$-$1111$) kalıpları bu devreye \textbf{fiziksel olarak hiç ulaşamaz}.
+Dolayısıyla bu $6$ kalıp, bu devre için gerçek anlamda önemsenmeyen durumdur.
 
 \textbf{Doğruluk tablosu:} $0$-$4$ için $F=0$, $5$-$9$ için $F=1$, $10$-$15$ için
 $F=X$:
