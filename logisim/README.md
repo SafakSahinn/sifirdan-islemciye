@@ -71,6 +71,9 @@ logisim/
     ├── 3.6/
     │   ├── ornekler/      → Bölüm 3.6'nın "Örnek" kutularının devreleri
     │   └── alistirmalar/  → Bölüm 3.6'nın "Alıştırma" kutularının devreleri
+    ├── 3.7/
+    │   ├── ornekler/      → Bölüm 3.7'nin "Örnek" kutularının devreleri
+    │   └── alistirmalar/  → Bölüm 3.7'nin "Alıştırma" kutularının devreleri
     └── ...                → sonraki alt bölümler eklendikçe aynı düzende devam eder
 ```
 
@@ -95,6 +98,18 @@ Logisim tuvalinde iki devre).
 | [`bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ`](bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ) | Örnek 3.13: Hata Kontrol Devresi | $BC'+BD'+AC'+AD'$ | $(A+B)(C'+D')$ |
 | [`bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ`](bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ) | Alıştırma 3.8: Akıllı Kapı Kilidi | $A'C'+B'C'+A'D+B'D$ | $(A'+B')(C'+D)$ |
 | [`bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ`](bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ) | Alıştırma 3.9: Otomatik Bahçe Sulama Vanası | $B'D+BD'+AB$ | $(B+D)(A+B'+D')$ |
+
+### Bölüm 3.7: Önemsenmeyen Durumlar
+
+Bu dosyaların her biri **SOP ve POS gerçeklemesini bir arada** içerir. $d$, önemsenmeyen
+(don't-care) mintermleri gösterir.
+
+| Dosya | Kitaptaki karşılığı | SOP | POS |
+|---|---|---|---|
+| [`bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ`](bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ) | Örnek 3.14: Onluk Yuvarlama Sinyali | $A+BC+BD$ | $(A+B)(A+C+D)$ |
+| [`bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ`](bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ) | Örnek 3.15: Güvenlik Kapısı Otomatik Kilit Sistemi | $A+C'D$ | $C'(A+D)$ |
+| [`bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ`](bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ) | Alıştırma 3.10: Depo Sıcaklık/Gaz Alarmı | $C+ABD'$ | $D'(A+C)(B+C)$ |
+| [`bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ`](bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ) | Alıştırma 3.11: Güvenlik Işığı Sistemi | $AB+BD+BC$ | $A+C+D$ |
 
 Her dosyaya kitabın ilgili örneğinin/alıştırmasının devre şeklinin altındaki
 dipnottan da ulaşılabilir.

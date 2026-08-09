@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="alistirma-3.10-akilli-depo"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate">
+      <a name="inputs" val="2"/>
+    </tool>
+  </toolbar>
+  <circuit name="alistirma-3.10-akilli-depo">
+    <a name="circuit" val="alistirma-3.10-akilli-depo"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(50,370)" to="(50,500)"/>
+    <wire from="(130,410)" to="(130,480)"/>
+    <wire from="(130,140)" to="(130,210)"/>
+    <wire from="(190,150)" to="(190,160)"/>
+    <wire from="(170,140)" to="(170,150)"/>
+    <wire from="(130,210)" to="(130,410)"/>
+    <wire from="(50,230)" to="(230,230)"/>
+    <wire from="(50,230)" to="(50,370)"/>
+    <wire from="(50,370)" to="(230,370)"/>
+    <wire from="(320,350)" to="(320,370)"/>
+    <wire from="(190,190)" to="(190,270)"/>
+    <wire from="(190,270)" to="(190,350)"/>
+    <wire from="(190,350)" to="(190,500)"/>
+    <wire from="(130,480)" to="(130,500)"/>
+    <wire from="(50,140)" to="(50,230)"/>
+    <wire from="(190,270)" to="(230,270)"/>
+    <wire from="(170,150)" to="(170,500)"/>
+    <wire from="(280,460)" to="(320,460)"/>
+    <wire from="(130,410)" to="(230,410)"/>
+    <wire from="(130,480)" to="(230,480)"/>
+    <wire from="(130,210)" to="(350,210)"/>
+    <wire from="(320,410)" to="(350,410)"/>
+    <wire from="(320,370)" to="(350,370)"/>
+    <wire from="(170,150)" to="(190,150)"/>
+    <wire from="(90,140)" to="(90,250)"/>
+    <wire from="(400,230)" to="(410,230)"/>
+    <wire from="(400,390)" to="(410,390)"/>
+    <wire from="(90,250)" to="(230,250)"/>
+    <wire from="(90,440)" to="(230,440)"/>
+    <wire from="(320,410)" to="(320,460)"/>
+    <wire from="(90,440)" to="(90,500)"/>
+    <wire from="(190,350)" to="(320,350)"/>
+    <wire from="(280,390)" to="(350,390)"/>
+    <wire from="(280,250)" to="(350,250)"/>
+    <wire from="(90,250)" to="(90,440)"/>
+    <comp lib="1" loc="(190,190)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(480,235)" name="Text">
+      <a name="text" val="F = C + ABD'"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="1" loc="(400,230)" name="OR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(280,390)" name="OR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="A+C"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(90,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="B"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(400,390)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="6" loc="(630,372)" name="Text">
+      <a name="text" val="F(A, B, C, D) = π(0,1,4,5,8,9,13), &#119889;(A, B, C, D)=Σ(3,7,11,15)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="0" loc="(130,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="C"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(410,390)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(653,41)" name="Text">
+      <a name="text" val="ya da sıcaklık ile nem ikisi birden yüksek olduğunda (&#119860; = 1 ve &#119861; = 1). Bakım sırasında (&#119863; = 1) teknisyen gaz hattını önceden kapattığından, gaz sızıntısı sensörünün (&#119862; = 1) aynı anda aktif olduğu bir durum hiç kaydedilmemiştir;"/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="6" loc="(499,396)" name="Text">
+      <a name="text" val="F = D'(A + C)(B+C)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="1" loc="(280,460)" name="OR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="B+C"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="6" loc="(212,80)" name="Text">
+      <a name="text" val="Minimal SOP ve POS değerlerini bulup, devrelerini tasarlayalım."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="6" loc="(625,211)" name="Text">
+      <a name="text" val="F(A, B, C, D) = Σ(2,6,10,12,14), &#119889;(A, B, C, D)=Σ(3,7,11,15)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="0" loc="(410,230)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(346,61)" name="Text">
+      <a name="text" val="bu kombinasyon önemsenmeyen durumdur. Ayrıca bakım modunda sıcaklık/ nem alarmı da devre dışı bırakılır."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="0" loc="(170,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="D"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="6" loc="(691,22)" name="Text">
+      <a name="text" val="Problem: Bir depo, sıcaklık sensörü (&#119860;), nem sensörü (&#119861;), gaz sızıntısı sensörü (&#119862;) ve bakım modu (&#119863;) ile izleniyor. Alarm, bakım modunda değilken (&#119863; = 0) iki durumdan biri gerçekleştiğinde çalar (&#119865; = 1): gaz sızıntısı algılandığında (&#119862; = 1),"/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="1" loc="(280,250)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="label" val="ABD'"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+  </circuit>
+</project>
