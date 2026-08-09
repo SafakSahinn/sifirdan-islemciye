@@ -2922,13 +2922,14 @@ dosyası:
 \subsection{Alıştırmalar}\label{sec:dont-care-alistirma}
 \begin{alistirma}[\orta]
 Bir depo, sıcaklık sensörü ($A$), nem sensörü ($B$), gaz sızıntısı sensörü ($C$)
-ve bakım modu ($D$) ile izleniyor. Alarm çalar ($F=1$): bakım modunda değilken
-($D=0$), gaz sızıntısı algılanmışsa ($C=1$) HER ZAMAN, ya da sıcaklık VE nem
-ikisi de yüksekse ($A=1$ VE $B=1$). Bakım sırasında ($D=1$) teknisyen gaz
-hattını önceden kapattığından, gaz sızıntısı sensörünün ($C=1$) aynı anda aktif
-olduğu hiçbir durum kaydedilmemiştir; bu kombinasyon önemsenmeyen durumdur.
-Ayrıca bakım modunda sıcaklık/nem alarmı da devre dışıdır. $F$'i hem SOP hem
-POS biçiminde sadeleştirip devrelerini çizin.
+ve bakım modu ($D$) ile izleniyor. Alarm, bakım modunda değilken ($D=0$) iki
+durumdan biri gerçekleştiğinde çalar ($F=1$): gaz sızıntısı algılandığında
+($C=1$), ya da sıcaklık ile nem ikisi birden yüksek olduğunda ($A=1$ ve
+$B=1$). Bakım sırasında ($D=1$) teknisyen gaz hattını önceden kapattığından,
+gaz sızıntısı sensörünün ($C=1$) aynı anda aktif olduğu bir durum hiç
+kaydedilmemiştir; bu kombinasyon önemsenmeyen durumdur. Ayrıca bakım modunda
+sıcaklık/nem alarmı da devre dışı bırakılır. $F$'i hem SOP hem POS biçiminde
+sadeleştirip devrelerini çizin.
 
 \textbf{Çözüm:} Kural, $D=0$ iken $F=C+AB$, $D=1$ iken $F=0$ verir; $C=1,D=1$
 önemsenmeyen durumdur ($d=\Sigma(3,7,11,15)$). Doğruluk tablosundan:
