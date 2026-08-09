@@ -1684,6 +1684,33 @@ SOP bulmak için kullandık: her zaman $1$'leri gruplayıp minimal çarpım teri
 topladık. Ama K-map aynı kolaylıkla minimal POS de üretebilir; tek fark, gruplama
 yönünü tersine çevirmek, yani $1$'ler yerine $0$'ları gruplamaktır.
 
+\subsection{SOP mu POS mu? Hangisini Seçmeliyiz?}\label{sec:pos-mi-sop-mu}
+Bir fonksiyonun hem SOP hem POS biçimi türetilebiliyorsa, akla doğal bir soru gelir: ikisini
+de mi kuralım, yoksa aralarında bir seçim mi yapmalıyız? Cevap ikincisi: pratikte ikisi de
+türetilir, karşılaştırılır ve daha ucuz/basit olan gerçeklenir. Peki bu karşılaştırma neye
+göre yapılır?
+
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Hızlı ipucu: $1$ ve $0$ sayısı.} K-map'teki $1$ sayısı azsa (dolayısıyla
+    $0$ sayısı çoksa), az sayıda $1$'i gruplamak genelde az terim gerektirir, yani SOP kısa
+    çıkma eğilimindedir. Tam tersi durumda, $0$ sayısı azsa POS kısa çıkma eğilimindedir.
+    Bu kesin bir kural değildir, çünkü sonuç grupların büyüklüğüne de bağlıdır; ama hangi
+    formu önce denemek mantıklı olur konusunda hızlı bir ilk tahmin verir.
+    \item \textbf{Kesin ölçüt: literal ve kapı sayısı.} Tahmin yerine kesin karar için, her
+    iki form da türetilip literal sayıları (ve buna bağlı kapı sayısı/kapı girişi sayısı)
+    doğrudan karşılaştırılır. Bu bölümün örneklerinde her seferinde bu karşılaştırma
+    yapılacak.
+    \item \textbf{Donanım bağlamı.} Literal sayısı eşit ya da çok yakın çıktığında, karar
+    kullanılan donanım teknolojisine bırakılabilir: bazı lojik ailelerinde NAND tabanlı
+    (SOP'a karşılık gelen) devreler, bazılarında NOR tabanlı (POS'a karşılık gelen) devreler
+    daha az alan kaplar veya daha hızlı çalışır. Bu bağlantıyı ilerleyen bir bölümde
+    (NAND/NOR Gerçekleme) somut olarak göreceğiz.
+\end{itemize}
+
+Bu üç ölçütü, az sonra göreceğimiz Örnek~\ref{orn:pos-sop} ve Örnek~\ref{orn:pos-hata-kontrol}'de
+her defasında uygulayacağız: önce $1$/$0$ sayısına bakıp bir tahminde bulunacağız, sonra her
+iki formu da türetip literal sayılarıyla bu tahmini doğrulayacağız.
+
 \subsection{Yöntem}\label{sec:pos-yontem}
 $F$'in K-map'inden minimal POS elde etmek için üç adım izlenir:
 \begin{enumerate}[nosep, leftmargin=*]
