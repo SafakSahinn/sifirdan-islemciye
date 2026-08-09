@@ -63,49 +63,42 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabelfont" val="SansSerif plain 12"/>
     <wire from="(170,320)" to="(230,320)"/>
     <wire from="(170,580)" to="(230,580)"/>
-    <wire from="(90,280)" to="(90,350)"/>
-    <wire from="(50,540)" to="(230,540)"/>
-    <wire from="(50,140)" to="(50,230)"/>
-    <wire from="(280,370)" to="(320,370)"/>
-    <wire from="(280,490)" to="(320,490)"/>
-    <wire from="(320,510)" to="(360,510)"/>
-    <wire from="(320,550)" to="(360,550)"/>
-    <wire from="(130,390)" to="(230,390)"/>
-    <wire from="(90,350)" to="(90,510)"/>
-    <wire from="(130,390)" to="(130,560)"/>
-    <wire from="(410,530)" to="(420,530)"/>
-    <wire from="(50,230)" to="(320,230)"/>
-    <wire from="(280,300)" to="(360,300)"/>
-    <wire from="(90,280)" to="(230,280)"/>
-    <wire from="(320,320)" to="(320,370)"/>
-    <wire from="(130,140)" to="(130,390)"/>
     <wire from="(50,470)" to="(50,540)"/>
     <wire from="(170,320)" to="(170,580)"/>
+    <wire from="(90,280)" to="(90,350)"/>
+    <wire from="(50,540)" to="(230,540)"/>
     <wire from="(50,470)" to="(230,470)"/>
     <wire from="(90,140)" to="(90,280)"/>
     <wire from="(320,550)" to="(320,560)"/>
     <wire from="(320,490)" to="(320,510)"/>
     <wire from="(170,580)" to="(170,600)"/>
+    <wire from="(50,140)" to="(50,230)"/>
     <wire from="(90,510)" to="(90,600)"/>
+    <wire from="(280,370)" to="(320,370)"/>
+    <wire from="(280,490)" to="(320,490)"/>
     <wire from="(320,280)" to="(360,280)"/>
     <wire from="(280,560)" to="(320,560)"/>
+    <wire from="(320,510)" to="(360,510)"/>
+    <wire from="(320,550)" to="(360,550)"/>
     <wire from="(320,320)" to="(360,320)"/>
+    <wire from="(130,390)" to="(230,390)"/>
     <wire from="(130,560)" to="(230,560)"/>
+    <wire from="(90,350)" to="(90,510)"/>
+    <wire from="(130,390)" to="(130,560)"/>
     <wire from="(130,560)" to="(130,600)"/>
+    <wire from="(410,530)" to="(420,530)"/>
     <wire from="(410,300)" to="(420,300)"/>
     <wire from="(50,230)" to="(50,470)"/>
+    <wire from="(50,230)" to="(320,230)"/>
+    <wire from="(280,300)" to="(360,300)"/>
+    <wire from="(90,280)" to="(230,280)"/>
     <wire from="(90,350)" to="(230,350)"/>
     <wire from="(90,510)" to="(230,510)"/>
     <wire from="(320,230)" to="(320,280)"/>
     <wire from="(170,140)" to="(170,320)"/>
+    <wire from="(320,320)" to="(320,370)"/>
+    <wire from="(130,140)" to="(130,390)"/>
     <wire from="(50,540)" to="(50,600)"/>
-    <comp lib="0" loc="(90,140)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B"/>
-      <a name="labelloc" val="north"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
     <comp lib="0" loc="(130,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
@@ -117,6 +110,11 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="text" val="F = A + BD + BC"/>
       <a name="font" val="SansSerif bold 14"/>
     </comp>
+    <comp lib="1" loc="(410,530)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="F"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
     <comp lib="0" loc="(50,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
@@ -124,56 +122,25 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
-    <comp lib="1" loc="(410,530)" name="AND Gate">
+    <comp lib="1" loc="(280,300)" name="AND Gate">
       <a name="inputs" val="2"/>
-      <a name="label" val="F"/>
-      <a name="labelfont" val="SansSerif bold 20"/>
-    </comp>
-    <comp lib="6" loc="(535,280)" name="Text">
-      <a name="text" val="F(A, B, C, D) = Σ(5,6,7,8,9)"/>
-      <a name="font" val="SansSerif bold 14"/>
-    </comp>
-    <comp lib="6" loc="(548,41)" name="Text">
-      <a name="text" val="Problem: Bir hesap makinesinin ondalık yuvarlama devresi, BCD kodlu tek bir haneyi (&#119860;&#119861;&#119862;&#119863;, &#119860; en anlamlı bit) okuyup, o hane 5 veya daha büyükse yukarı yuvarlama sinyali üretir (&#119865; = 1)."/>
-      <a name="font" val="SansSerif bold 12"/>
+      <a name="label" val="BD"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
     <comp lib="1" loc="(280,490)" name="OR Gate">
       <a name="inputs" val="2"/>
       <a name="label" val="A+B"/>
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
-    <comp lib="0" loc="(420,300)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="6" loc="(536,510)" name="Text">
-      <a name="text" val="F(A, B, C, D) = π(0,1,2,3,4)"/>
-      <a name="font" val="SansSerif bold 14"/>
-    </comp>
-    <comp lib="1" loc="(280,370)" name="AND Gate">
-      <a name="inputs" val="2"/>
-      <a name="label" val="BC"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="1" loc="(280,300)" name="AND Gate">
-      <a name="inputs" val="2"/>
-      <a name="label" val="BD"/>
-      <a name="labelfont" val="SansSerif bold 12"/>
-    </comp>
-    <comp lib="6" loc="(519,535)" name="Text">
-      <a name="text" val="F = (A + B)(A + C + D)"/>
-      <a name="font" val="SansSerif bold 14"/>
-    </comp>
     <comp lib="1" loc="(410,300)" name="OR Gate">
       <a name="inputs" val="3"/>
       <a name="label" val="F"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
-    <comp lib="0" loc="(170,140)" name="Pin">
+    <comp lib="0" loc="(90,140)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="D"/>
+      <a name="label" val="B"/>
       <a name="labelloc" val="north"/>
       <a name="labelfont" val="SansSerif bold 20"/>
     </comp>
@@ -182,11 +149,44 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="A+C+D"/>
       <a name="labelfont" val="SansSerif bold 12"/>
     </comp>
+    <comp lib="6" loc="(657,281)" name="Text">
+      <a name="text" val="F(A, B, C, D) = Σ(5,6,7,8,9),  &#119889;(A, B, C, D) = Σ(10,11,12,13,14,15)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="6" loc="(519,535)" name="Text">
+      <a name="text" val="F = (A + B)(A + C + D)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="6" loc="(658,512)" name="Text">
+      <a name="text" val="F(A, B, C, D) = π(0,1,2,3,4),  &#119889;(A, B, C, D) = Σ(10,11,12,13,14,15)"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
     <comp lib="6" loc="(208,61)" name="Text">
       <a name="text" val="Minimal SOP ve POS değerlerini bulup, devrelerini tasarlayalım."/>
       <a name="font" val="SansSerif bold 12"/>
     </comp>
     <comp lib="0" loc="(420,530)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(548,41)" name="Text">
+      <a name="text" val="Problem: Bir hesap makinesinin ondalık yuvarlama devresi, BCD kodlu tek bir haneyi (&#119860;&#119861;&#119862;&#119863;, &#119860; en anlamlı bit) okuyup, o hane 5 veya daha büyükse yukarı yuvarlama sinyali üretir (&#119865; = 1)."/>
+      <a name="font" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(170,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="D"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(280,370)" name="AND Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="BC"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(420,300)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="labelloc" val="east"/>
