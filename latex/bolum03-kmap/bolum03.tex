@@ -3959,7 +3959,8 @@ hesaplanır. En üstte bu iki dalın toplamı (OR) $F$'i verir.
 \label{fig:cokseviyeli-andor}
 \end{figure}
 
-Şimdi her AND'i AND-invert, her OR'u invert-OR sembolüyle NAND'a çevirelim. Bir kapının
+Şimdi her iki kapı türünü de NAND'a çevirelim: AND kapıları AND-invert sembolüyle, OR
+kapıları invert-OR sembolüyle NAND olarak çizilir. Bir kapının
 çıkış balonu, hemen ardından gelen kapının giriş balonuyla her yerde eşleşiyor;
 \emph{tek istisna} $B$ girişi: $B$, ikinci seviyedeki (eskiden OR olan, şimdi invert-OR)
 kapıya \emph{doğrudan} bir devre girişinden bağlanıyor, herhangi bir kapı çıkışından
@@ -4013,20 +4014,70 @@ $F=(A+BC)D$ ifadesini önce standart AND-OR kapılarıyla ($3$ seviyeli: $BC$ i�
 $A+BC$ için OR, sonucu $D$ ile çarpmak için AND), sonra yalnızca NOR kapılarıyla
 gerçekleyin.
 
-\textbf{Çözüm:} En alttaki kapı (eskiden AND, $BC$'yi hesaplıyor) hiçbir kapı
-çıkışından beslenmiyor; her iki girişi de ($B$ ve $C$) doğrudan devre girişi.
-invert-AND sembolüyle NOR'a çevrildiğinde bu iki balon da telafisiz kalır, bu yüzden
-her ikisi de tümlenir: $B\to B'$, $C\to C'$. Bu kapı $NOR(B',C')=(B'+C')'=BC$
-(gerçek değer) üretir. Ortadaki kapı (eskiden OR, $A+BC$'yi hesaplıyor) $A$'yı ve bu
-$BC$ değerini alır; OR-invert sembolüyle otomatik olarak tümlenmiş çıkış verir:
-$NOR(BC,A)=(A+BC)'$. En üstteki kapı (eskiden AND, $D$ ile çarpıyor) girişlerinden
-biri (ortadaki kapıdan gelen) zaten tümlenmiş, ama diğeri ($D$) yine doğrudan devre
-girişi olduğundan telafisiz kalır: $D\to D'$. Sonuç:
+\textbf{Çözüm:} Önce AND-OR kapılarıyla çizelim (Şekil~\ref{fig:alistirma14-andor}):
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=2] (g1) at (2,0) {};
+\draw (g1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (g1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\node[or port, number inputs=2] (g2) at (5.5,2) {};
+\node (Alabel14) at (2.3,4.5) {};
+\draw (g2.in 1) |- (Alabel14) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (g1.out) -| (g2.in 2);
+\node[and port, number inputs=2] (g3) at (9,4) {};
+\node (Dlabel14) at (5.8,6.5) {};
+\draw (g3.in 1) |- (Dlabel14) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\draw (g2.out) -| (g3.in 2);
+\draw (g3.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=(A+BC)D$ ifadesinin AND-OR gerçeklemesi ($3$ seviyeli gating).}
+\label{fig:alistirma14-andor}
+\end{figure}
+
+Şimdi bunu kapı kapı yalnızca NOR kapılarıyla gerçekleyelim:
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{En alttaki kapı} (eskiden AND, $BC$'yi hesaplıyor) hiçbir kapı
+    çıkışından beslenmiyor; her iki girişi de ($B$ ve $C$) doğrudan devre girişi.
+    invert-AND sembolüyle NOR'a çevrildiğinde bu iki balon da telafisiz kalır, bu yüzden
+    her ikisi de tümlenir: $B\to B'$, $C\to C'$. Bu kapı $NOR(B',C')=(B'+C')'=BC$
+    (gerçek değer) üretir.
+    \item \textbf{Ortadaki kapı} (eskiden OR, $A+BC$'yi hesaplıyor) $A$'yı ve bu $BC$
+    değerini alır. $A$ doğrudan devre girişi olsa da, bu kapı OR-invert sembolüyle
+    çevrildiğinden (girişlerinde balon yok, yalnızca çıkışında) hiçbir telafiye gerek
+    kalmadan otomatik olarak tümlenmiş çıkış verir: $NOR(BC,A)=(A+BC)'$.
+    \item \textbf{En üstteki kapı} (eskiden AND, $D$ ile çarpıyor) girişlerinden biri
+    (ortadaki kapıdan gelen) zaten tümlenmiş, ama diğeri ($D$) yine doğrudan devre
+    girişi olduğundan telafisiz kalır: $D\to D'$.
+\end{itemize}
+Sonuç (Şekil~\ref{fig:alistirma14-nor}):
 \[
 F=\big((A+BC)'+D'\big)'=(A+BC)D
 \]
-Yani üç kapının ikisinde ($BC$'yi üreten alttaki kapı ile en üstteki kapı) toplam
-$3$ girişte literal tümleme gerekti ($B,C,D$); ortadaki kapıda hiç gerekmedi, çünkü
-her iki girişi de zaten uygun kaynaktan (bir kapı çıkışı ya da başka bir telafi)
-geliyordu.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[nor port, number inputs=2] (h1) at (2,0) {};
+\draw (h1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (h1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C'$};
+\node[nor port, number inputs=2] (h2) at (5.5,2) {};
+\node (Alabel14b) at (2.3,4.5) {};
+\draw (h2.in 1) |- (Alabel14b) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (h1.out) -| (h2.in 2);
+\node[nor port, number inputs=2] (h3) at (9,4) {};
+\node (Dlabel14b) at (5.8,6.5) {};
+\draw (h3.in 1) |- (Dlabel14b) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\draw (h2.out) -| (h3.in 2);
+\draw (h3.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=(A+BC)D$ ifadesinin tüm-NOR gerçeklemesi: telafisiz kalan balonlar yüzünden
+$B,C,D$ literalleri tümlendi ($B',C',D'$).}
+\label{fig:alistirma14-nor}
+\end{figure}
+
+Yani üç kapının ikisinde ($BC$'yi üreten alttaki kapı ile en üstteki kapı) toplam $3$
+girişte literal tümleme gerekti ($B,C,D$); ortadaki kapıda hiç gerekmedi, çünkü her iki
+girişi de zaten uygun kaynaktan (bir kapı çıkışı ya da başka bir telafi) geliyordu.
 \end{alistirma}
