@@ -4158,20 +4158,20 @@ ayrı tümlenir, sonra $xy'$ ve $x'y$ terimleri AND ile hesaplanıp OR ile topla
 \begin{figure}[H]
 \centering
 \begin{circuitikz}[scale=0.9, font=\small]
-\node[not port] (n1) at (0,3) {};
-\draw (n1.in) -- ++(-0.5,0) node[left] {$x$};
-\node[not port] (n2) at (0,0) {};
-\draw (n2.in) -- ++(-0.5,0) node[left] {$y$};
-\node[and port, number inputs=2] (a1) at (3,3.5) {};
-\draw (a1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $x$};
-\draw (n2.out) -| (a1.in 2);
-\node[and port, number inputs=2] (a2) at (3,0.5) {};
-\draw (n1.out) -| (a2.in 1);
-\draw (a2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $y$};
-\node[or port, number inputs=2] (o1) at (6.5,2) {};
+\node[not port] (n1) at (2,5) {};
+\node[not port] (n2) at (2,0) {};
+\node[and port, number inputs=2] (a1) at (5,4.5) {};
+\node[and port, number inputs=2] (a2) at (5,0.5) {};
+\node[or port, number inputs=2] (o1) at (8.5,2.5) {};
+\draw (-1,5) node[left] {$x$} -- (n1.in);
+\draw (-1,5) -- ++(0,-3.2) -| (a2.in 1);
+\draw (-1,0) node[left] {$y$} -- (n2.in);
+\draw (-1,0) -- ++(0.6,0) |- (a1.in 2);
+\draw (n1.out) -| (a1.in 1);
+\draw (n2.out) -| (a2.in 2);
 \draw (a1.out) -| (o1.in 1);
 \draw (a2.out) -| (o1.in 2);
-\draw (o1.out) -- ++(0.5,0) node[right] {$x\oplus y$};
+\draw (o1.out) -- ++(0.6,0) node[right] {$x\oplus y$};
 \end{circuitikz}
 \caption{XOR'un AND-OR-NOT kapılarıyla gerçeklemesi: $2$ NOT $+2$ AND $+1$ OR $=5$ kapı.}
 \label{fig:xor-andornot}
