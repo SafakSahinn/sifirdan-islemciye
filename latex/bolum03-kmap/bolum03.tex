@@ -3242,7 +3242,8 @@ olarak o sözü tutuyor: dijital devreler pratikte çoğunlukla AND/OR/NOT kapı
 mühendisliğiyle ilgilidir: NAND ve NOR kapıları, transistör düzeyinde AND/OR kapılarından
 daha az eleman ve daha basit bir yapıyla üretilebilir, bu yüzden hemen hemen tüm entegre
 devre (IC) ailelerinde temel yapı taşı olarak kullanılırlar. Bu bölümde, şimdiye kadar
-SOP/POS biçiminde bulduğumuz ifadeleri NAND-yalnız ya da NOR-yalnız devrelere nasıl
+SOP/POS biçiminde bulduğumuz ifadeleri, başka hiçbir kapı türü kullanmadan, içinde
+yalnızca NAND kapısı (ya da yalnızca NOR kapısı) bulunan devrelere nasıl
 çevireceğimizi öğreneceğiz.
 
 \subsection{Evrensel Kapı Kavramı}\label{sec:nandnor-evrensel}
@@ -3253,94 +3254,236 @@ Evrensel bir kapıyla, herhangi bir Bool fonksiyonu (dolayısıyla herhangi bir 
 devre) gerçeklenebilir.
 \end{tanim}
 
-NAND evrensel bir kapıdır. Bunu göstermek için üç işlemi de yalnızca NAND kapılarıyla
-kuralım (Şekil~\ref{fig:nand-evrensel}):
-\begin{itemize}[nosep, leftmargin=*]
-    \item \textbf{NOT:} bir NAND kapısının iki girişini birbirine bağlayıp aynı sinyali
-    verirsek, $(x\cdot x)'=x'$ elde ederiz.
-    \item \textbf{AND:} bir NAND kapısının çıkışını ($(xy)'$) ikinci bir NAND kapısına
-    (girişleri birbirine bağlı, yani NOT olarak) verirsek, $((xy)')'=xy$ elde ederiz.
-    \item \textbf{OR:} $x$ ve $y$'yi önce (girişleri birbirine bağlı NAND'larla) tümleyip
-    $x',y'$ elde ederiz, sonra bunları üçüncü bir NAND'a verirsek, De Morgan'la
-    $(x'y')'=x+y$ elde ederiz.
-\end{itemize}
+Bölüm~\ref{sec:sekiz-temel-kapi}'de gördüğümüz NAND kapısının doğruluk tablosunu
+hatırlayalım (Şekil~\ref{fig:kapi-nand-hatirlatma}): çıkış yalnızca her iki giriş de
+$1$ olduğunda $0$'dır, diğer tüm durumlarda $1$'dir.
 
 \begin{figure}[H]
 \centering
-\begin{circuitikz}[scale=0.85, font=\small]
-\node[nand port, number inputs=2] (n1) at (0,0) {};
-\draw (n1.in 1) -- (n1.in 2);
-\draw (n1.in 1) -- ++(-0.5,0) node[left] {$x$};
-\draw (n1.out) -- ++(0.5,0) node[right] {$x'$};
-\node at (0,-1.3) {(a) NOT};
-
-\node[nand port, number inputs=2] (n2) at (4,1) {};
-\draw (n2.in 1) -- ++(-0.5,0) node[left] {$x$};
-\draw (n2.in 2) -- ++(-0.5,0) node[left] {$y$};
-\node[nand port, number inputs=2] (n3) at (5.5,-0.5) {};
-\draw (n3.in 1) -- (n3.in 2);
-\draw (n2.out) -| (n3.in 1);
-\draw (n3.out) -- ++(0.5,0) node[right] {$xy$};
-\node at (4.75,-1.8) {(b) AND};
-
-\node[nand port, number inputs=2] (n4) at (9,1.6) {};
-\draw (n4.in 1) -- (n4.in 2);
-\draw (n4.in 1) -- ++(-0.5,0) node[left] {$x$};
-\node[nand port, number inputs=2] (n5) at (9,0.2) {};
-\draw (n5.in 1) -- (n5.in 2);
-\draw (n5.in 1) -- ++(-0.5,0) node[left] {$y$};
-\node[nand port, number inputs=2] (n6) at (10.5,0.9) {};
-\draw (n4.out) -| (n6.in 1);
-\draw (n5.out) -| (n6.in 2);
-\draw (n6.out) -- ++(0.5,0) node[right] {$x+y$};
-\node at (9.75,-1.3) {(c) OR};
+\begin{tabular}{@{}m{5cm}m{4cm}@{}}
+\begin{circuitikz}[scale=1, font=\small]
+\node[nand port, number inputs=2] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.5,0) node[left] {$y$};
+\draw (g.out) -- ++(0.5,0) node[right] {$(xy)'$};
 \end{circuitikz}
-\caption{Yalnızca NAND kapılarıyla NOT, AND ve OR işlemlerinin kurulması.}
-\label{fig:nand-evrensel}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$(xy)'$\\
+\midrule
+0&0&1\\0&1&1\\1&0&1\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NAND kapısının doğruluk tablosu (Bölüm~\ref{sec:sekiz-temel-kapi}'den hatırlatma).}
+\label{fig:kapi-nand-hatirlatma}
 \end{figure}
 
-NOR de tamamen benzer şekilde evrenseldir; tek fark, dual yöntemin gereği rolleri
-AND ve OR'un yer değiştirmesidir (Şekil~\ref{fig:nor-evrensel}):
-\begin{itemize}[nosep, leftmargin=*]
-    \item \textbf{NOT:} girişleri birbirine bağlı bir NOR, $(x+x)'=x'$ verir.
-    \item \textbf{OR:} bir NOR'un çıkışını ($(x+y)'$) ikinci bir NOR'a (NOT olarak)
-    verirsek, $((x+y)')'=x+y$ elde ederiz.
-    \item \textbf{AND:} $x',y'$'yi (NOR'lardan) elde edip üçüncü bir NOR'a verirsek,
-    De Morgan'la $(x'+y')'=xy$ elde ederiz.
-\end{itemize}
+NAND evrensel bir kapıdır. Bunu göstermek için üç işlemi de yalnızca NAND kapılarıyla
+kuralım ve her birinin doğru çalıştığını kendi doğruluk tablosuyla doğrulayalım.
+
+\textbf{NOT:} bir NAND kapısının iki girişini birbirine bağlayıp aynı sinyali verirsek,
+$(x\cdot x)'=x'$ elde ederiz (Şekil~\ref{fig:nand-not}).
 
 \begin{figure}[H]
 \centering
-\begin{circuitikz}[scale=0.85, font=\small]
+\begin{tabular}{@{}m{7cm}m{4cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
+\node[nand port, number inputs=2] (n1) at (0,0) {};
+\draw (n1.in 1) -- (n1.in 2);
+\draw (n1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (n1.out) -- ++(0.6,0) node[right] {$x'$};
+\end{circuitikz}
+&
+\begin{tabular}{c|c}
+\toprule
+$x$&$x'$\\
+\midrule
+0&1\\1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NAND kapısıyla NOT işlemi: girişler birbirine bağlanır.}
+\label{fig:nand-not}
+\end{figure}
+
+\textbf{AND:} bir NAND kapısının çıkışını ($(xy)'$) ikinci bir NAND kapısına (girişleri
+birbirine bağlı, yani NOT olarak) verirsek, $((xy)')'=xy$ elde ederiz
+(Şekil~\ref{fig:nand-and}).
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{7.8cm}m{3.6cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
+\node[nand port, number inputs=2] (n2) at (0,1) {};
+\draw (n2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (n2.in 2) -- ++(-0.6,0) node[left] {$y$};
+\node[nand port, number inputs=2] (n3) at (2.2,-0.5) {};
+\draw (n3.in 1) -- (n3.in 2);
+\draw (n2.out) -| (n3.in 1);
+\draw (n3.out) -- ++(0.6,0) node[right] {$xy$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$xy$\\
+\midrule
+0&0&0\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NAND kapılarıyla AND işlemi: bir NAND'ın çıkışı ikinci bir NAND'a (NOT olarak)
+verilir.}
+\label{fig:nand-and}
+\end{figure}
+
+\textbf{OR:} $x$ ve $y$'yi önce (girişleri birbirine bağlı NAND'larla) tümleyip $x',y'$
+elde ederiz, sonra bunları üçüncü bir NAND'a verirsek, De Morgan'la $(x'y')'=x+y$ elde
+ederiz (Şekil~\ref{fig:nand-or}).
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{7.8cm}m{3.6cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
+\node[nand port, number inputs=2] (n4) at (0,1.8) {};
+\draw (n4.in 1) -- (n4.in 2);
+\draw (n4.in 1) -- ++(-0.6,0) node[left] {$x$};
+\node[nand port, number inputs=2] (n5) at (0,0.2) {};
+\draw (n5.in 1) -- (n5.in 2);
+\draw (n5.in 1) -- ++(-0.6,0) node[left] {$y$};
+\node[nand port, number inputs=2] (n6) at (2.2,1) {};
+\draw (n4.out) -| (n6.in 1);
+\draw (n5.out) -| (n6.in 2);
+\draw (n6.out) -- ++(0.6,0) node[right] {$x+y$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$x+y$\\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NAND kapılarıyla OR işlemi: girişler önce tümlenir, sonra üçüncü bir NAND'a
+verilir.}
+\label{fig:nand-or}
+\end{figure}
+
+Bölüm~\ref{sec:sekiz-temel-kapi}'deki NOR kapısının doğruluk tablosunu da hatırlayalım
+(Şekil~\ref{fig:kapi-nor-hatirlatma}): çıkış yalnızca her iki giriş de $0$ olduğunda
+$1$'dir, diğer tüm durumlarda $0$'dır.
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{5cm}m{4cm}@{}}
+\begin{circuitikz}[scale=1, font=\small]
+\node[nor port, number inputs=2] (g) at (0,0) {};
+\draw (g.in 1) -- ++(-0.5,0) node[left] {$x$};
+\draw (g.in 2) -- ++(-0.5,0) node[left] {$y$};
+\draw (g.out) -- ++(0.5,0) node[right] {$(x+y)'$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$(x+y)'$\\
+\midrule
+0&0&1\\0&1&0\\1&0&0\\1&1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOR kapısının doğruluk tablosu (Bölüm~\ref{sec:sekiz-temel-kapi}'den hatırlatma).}
+\label{fig:kapi-nor-hatirlatma}
+\end{figure}
+
+NOR de tamamen benzer şekilde evrenseldir; tek fark, dual yöntemin gereği rolleri AND ve
+OR'un yer değiştirmesidir.
+
+\textbf{NOT:} girişleri birbirine bağlı bir NOR, $(x+x)'=x'$ verir
+(Şekil~\ref{fig:nor-not}).
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{7cm}m{4cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
 \node[nor port, number inputs=2] (m1) at (0,0) {};
 \draw (m1.in 1) -- (m1.in 2);
-\draw (m1.in 1) -- ++(-0.5,0) node[left] {$x$};
-\draw (m1.out) -- ++(0.5,0) node[right] {$x'$};
-\node at (0,-1.3) {(a) NOT};
+\draw (m1.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (m1.out) -- ++(0.6,0) node[right] {$x'$};
+\end{circuitikz}
+&
+\begin{tabular}{c|c}
+\toprule
+$x$&$x'$\\
+\midrule
+0&1\\1&0\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOR kapısıyla NOT işlemi: girişler birbirine bağlanır.}
+\label{fig:nor-not}
+\end{figure}
 
-\node[nor port, number inputs=2] (m2) at (4,1) {};
-\draw (m2.in 1) -- ++(-0.5,0) node[left] {$x$};
-\draw (m2.in 2) -- ++(-0.5,0) node[left] {$y$};
-\node[nor port, number inputs=2] (m3) at (5.5,-0.5) {};
+\textbf{OR:} bir NOR'un çıkışını ($(x+y)'$) ikinci bir NOR'a (NOT olarak) verirsek,
+$((x+y)')'=x+y$ elde ederiz (Şekil~\ref{fig:nor-or}).
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{7.8cm}m{3.6cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
+\node[nor port, number inputs=2] (m2) at (0,1) {};
+\draw (m2.in 1) -- ++(-0.6,0) node[left] {$x$};
+\draw (m2.in 2) -- ++(-0.6,0) node[left] {$y$};
+\node[nor port, number inputs=2] (m3) at (2.2,-0.5) {};
 \draw (m3.in 1) -- (m3.in 2);
 \draw (m2.out) -| (m3.in 1);
-\draw (m3.out) -- ++(0.5,0) node[right] {$x+y$};
-\node at (4.75,-1.8) {(b) OR};
+\draw (m3.out) -- ++(0.6,0) node[right] {$x+y$};
+\end{circuitikz}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$x+y$\\
+\midrule
+0&0&0\\0&1&1\\1&0&1\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOR kapılarıyla OR işlemi: bir NOR'un çıkışı ikinci bir NOR'a (NOT olarak)
+verilir.}
+\label{fig:nor-or}
+\end{figure}
 
-\node[nor port, number inputs=2] (m4) at (9,1.6) {};
+\textbf{AND:} $x',y'$'yi (NOR'lardan) elde edip üçüncü bir NOR'a verirsek, De Morgan'la
+$(x'+y')'=xy$ elde ederiz (Şekil~\ref{fig:nor-and}).
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{@{}m{7.8cm}m{3.6cm}@{}}
+\begin{circuitikz}[scale=1.3, font=\normalsize]
+\node[nor port, number inputs=2] (m4) at (0,1.8) {};
 \draw (m4.in 1) -- (m4.in 2);
-\draw (m4.in 1) -- ++(-0.5,0) node[left] {$x$};
-\node[nor port, number inputs=2] (m5) at (9,0.2) {};
+\draw (m4.in 1) -- ++(-0.6,0) node[left] {$x$};
+\node[nor port, number inputs=2] (m5) at (0,0.2) {};
 \draw (m5.in 1) -- (m5.in 2);
-\draw (m5.in 1) -- ++(-0.5,0) node[left] {$y$};
-\node[nor port, number inputs=2] (m6) at (10.5,0.9) {};
+\draw (m5.in 1) -- ++(-0.6,0) node[left] {$y$};
+\node[nor port, number inputs=2] (m6) at (2.2,1) {};
 \draw (m4.out) -| (m6.in 1);
 \draw (m5.out) -| (m6.in 2);
-\draw (m6.out) -- ++(0.5,0) node[right] {$xy$};
-\node at (9.75,-1.3) {(c) AND};
+\draw (m6.out) -- ++(0.6,0) node[right] {$xy$};
 \end{circuitikz}
-\caption{Yalnızca NOR kapılarıyla NOT, OR ve AND işlemlerinin kurulması.}
-\label{fig:nor-evrensel}
+&
+\begin{tabular}{cc|c}
+\toprule
+$x$&$y$&$xy$\\
+\midrule
+0&0&0\\0&1&0\\1&0&0\\1&1&1\\
+\bottomrule
+\end{tabular}
+\end{tabular}
+\caption{NOR kapılarıyla AND işlemi: girişler önce tümlenir, sonra üçüncü bir NOR'a
+verilir.}
+\label{fig:nor-and}
 \end{figure}
 
 \subsection{İki Grafik Sembol: Karışık Gösterim}\label{sec:nandnor-karisik-gosterim}
