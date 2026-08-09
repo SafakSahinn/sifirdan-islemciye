@@ -3076,13 +3076,13 @@ Logisim simülasyon dosyası:
 
 \begin{alistirma}[\zor]
 Bir binanın güvenlik ışığı sistemi $4$ sinyal okur: $A$ = gece modu, $B$ =
-hareket sensörü aktif, $C$ = ön kapı açık, $D$ = arka kapı açık. Işık yanar
-($F=1$): hareket algılanmışsa ($B=1$) VE [gece modundaysa ($A=1$) HER ZAMAN
-yanar, YA DA gündüzken ($A=0$) yalnızca kapılardan en az biri açıksa ($C=1$
-VEYA $D=1$)]. Hareket sensörü pasifken ($B=0$), enerji tasarrufu için kapı
-sensörleri hiç okunmaz; bu durumda hangi kapıların açık olduğu bilinmiyor,
-yani önemsenmeyen durumdur. $F$'i hem SOP hem POS biçiminde sadeleştirip
-devrelerini çizin.
+hareket sensörü aktif, $C$ = ön kapı açık, $D$ = arka kapı açık. Işık yalnızca
+hareket algılandığında ($B=1$) yanabilir ($F=1$): gece modundaysa ($A=1$)
+koşulsuz yanar, gündüzken ($A=0$) ise yalnızca kapılardan en az biri açık
+olduğunda ($C=1$ ya da $D=1$) yanar. Hareket sensörü pasifken ($B=0$), enerji
+tasarrufu için kapı sensörleri hiç okunmaz; bu durumda hangi kapıların açık
+olduğu bilinmiyor, yani önemsenmeyen durumdur. $F$'i hem SOP hem POS
+biçiminde sadeleştirip devrelerini çizin.
 
 \textbf{Çözüm:} Kural, $B=1$ iken $F=A+C+D$ verir ($B$ zaten $1$'i garanti
 ediyor, kalan koşul $A\lor C\lor D$'dir); $B=0$ iken tüm $8$ durum önemsenmeyen
