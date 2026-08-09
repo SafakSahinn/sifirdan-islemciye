@@ -3283,7 +3283,7 @@ $x$&$y$&$(xy)'$\\
 NAND evrensel bir kapıdır. Bunu göstermek için üç işlemi de yalnızca NAND kapılarıyla
 kuralım ve her birinin doğru çalıştığını kendi doğruluk tablosuyla doğrulayalım.
 
-\textbf{NOT:} bir NAND kapısının iki girişini birbirine bağlayıp aynı sinyali verirsek,
+\textbf{NOT:} Bir NAND kapısının iki girişini birbirine bağlayıp aynı sinyali verirsek,
 $(x\cdot x)'=x'$ elde ederiz (Şekil~\ref{fig:nand-not}).
 
 \begin{figure}[H]
@@ -3308,7 +3308,7 @@ $x$&$x'$\\
 \label{fig:nand-not}
 \end{figure}
 
-\textbf{AND:} bir NAND kapısının çıkışını ($(xy)'$) ikinci bir NAND kapısına (girişleri
+\textbf{AND:} Bir NAND kapısının çıkışını ($(xy)'$) ikinci bir NAND kapısına (girişleri
 birbirine bağlı, yani NOT olarak) verirsek, $((xy)')'=xy$ elde ederiz
 (Şekil~\ref{fig:nand-and}).
 
@@ -3400,7 +3400,7 @@ $x$&$y$&$(x+y)'$\\
 NOR de tamamen benzer şekilde evrenseldir; tek fark, dual yöntemin gereği rolleri AND ve
 OR'un yer değiştirmesidir.
 
-\textbf{NOT:} girişleri birbirine bağlı bir NOR, $(x+x)'=x'$ verir
+\textbf{NOT:} Girişleri birbirine bağlı bir NOR, $(x+x)'=x'$ verir
 (Şekil~\ref{fig:nor-not}).
 
 \begin{figure}[H]
@@ -3425,7 +3425,7 @@ $x$&$x'$\\
 \label{fig:nor-not}
 \end{figure}
 
-\textbf{OR:} bir NOR'un çıkışını ($(x+y)'$) ikinci bir NOR'a (NOT olarak) verirsek,
+\textbf{OR:} Bir NOR'un çıkışını ($(x+y)'$) ikinci bir NOR'a (NOT olarak) verirsek,
 $((x+y)')'=x+y$ elde ederiz (Şekil~\ref{fig:nor-or}).
 
 \begin{figure}[H]
@@ -3493,7 +3493,7 @@ iki farklı ama eşdeğer grafik sembolle çizebileceğimiz anlamına gelir
 (Şekil~\ref{fig:karisik-gosterim}):
 \begin{itemize}[nosep, leftmargin=*]
     \item \textbf{AND-invert:} standart NAND sembolü, bir AND şekli + çıkışta tek bir
-    balon (tümleme işareti).
+    balon (bubble; tümleme işareti).
     \item \textbf{invert-OR:} bir OR şekli, ama bu kez balon her girişin üzerinde. Bu da
     aynı fiziksel kapıdır; yalnızca $x'+y'$ ifadesini görsel olarak daha doğrudan yansıtır.
 \end{itemize}
@@ -3509,9 +3509,12 @@ iki farklı ama eşdeğer grafik sembolle çizebileceğimiz anlamına gelir
 \node at (0,-1.6) {(a) AND-invert};
 
 \node[or port, number inputs=3] (p2) at (0,-4) {};
-\draw (p2.in 1) ++(-0.15,0) circle (0.08) (p2.in 1) -- ++(-0.31,0) node[left] {$x'$};
-\draw (p2.in 2) ++(-0.15,0) circle (0.08) (p2.in 2) -- ++(-0.31,0) node[left] {$y'$};
-\draw (p2.in 3) ++(-0.15,0) circle (0.08) (p2.in 3) -- ++(-0.31,0) node[left] {$z'$};
+\draw (p2.in 1) -- ++(-0.16,0) node[left] {$x'$};
+\filldraw[fill=white] ($(p2.in 1)+(-0.08,0)$) circle (0.08);
+\draw (p2.in 2) -- ++(-0.16,0) node[left] {$y'$};
+\filldraw[fill=white] ($(p2.in 2)+(-0.08,0)$) circle (0.08);
+\draw (p2.in 3) -- ++(-0.16,0) node[left] {$z'$};
+\filldraw[fill=white] ($(p2.in 3)+(-0.08,0)$) circle (0.08);
 \draw (p2.out) -- ++(0.5,0) node[right] {$x'+y'+z'$};
 \node at (0,-5.6) {(b) invert-OR};
 \end{circuitikz}
@@ -3599,10 +3602,65 @@ hareket sensörü, $C$ = ses sensörü. Işıklar yanar ($F=1$): gece ise ($A=0$
 her zaman yanar, ya da gündüzken bile hem hareket hem ses algılanıyorsa ($B=1$ ve $C=1$,
 güvenlik amaçlı). Minimal SOP'u bulup yalnızca NAND kapılarıyla gerçekleyin.
 
-\textbf{Çözüm:} Kural doğrudan $F=A'+BC$ verir ($3$ değişkenli, don't-care yok). $A'$
-terimi tek literallik ve zaten tümlenmiş, bu yüzden ikinci seviye kapısına \textbf{doğrudan}
-ham $A$ sinyali bağlanabilir. Ekstra bir NOT kapısına gerek yok. $BC$ terimi bir NAND
-kapısı alır: $(BC)'$. İkinci seviyedeki $2$ girişli NAND bu ikisini birleştirir:
+\textbf{Çözüm:} Kuralı doğruluk tablosuna dökelim:
+\begin{center}
+\begin{tabular}{ccc|c}
+\toprule
+$A$&$B$&$C$&$F$\\
+\midrule
+0&0&0&1\\
+0&0&1&1\\
+0&1&0&1\\
+0&1&1&1\\
+1&0&0&0\\
+1&0&1&0\\
+1&1&0&0\\
+1&1&1&1\\
+\bottomrule
+\end{tabular}
+\end{center}
+$F(A,B,C)=\Sigma(0,1,2,3,7)$. Haritaya yerleştirelim (Şekil~\ref{fig:kmap-alistirma12}).
+$A=0$ satırının tamamı $1$ olduğundan essential $A'$; geriye yalnızca $m_7$ kalır, bu da
+$m_3$ ile (aynı sütun, $A$ değişerek) birleşip essential $BC$'yi verir. İki essential
+prime implicant birlikte $\{0,1,2,3,7\}$'nin tamamını kapsar:
+\[
+F = \textcolor{vurgumavi}{A'} + \textcolor{vurguturuncu}{BC}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, font=\small]
+\fill[blokmavi] (0,1) rectangle (4,2);
+\draw[very thick, vurguturuncu, rounded corners=2pt] (2.12,0.12) rectangle (3-0.12,2-0.12);
+\draw (0,0) grid (4,2);
+\node[above] at (0.5,2) {$00$};
+\node[above] at (1.5,2) {$01$};
+\node[above] at (2.5,2) {$11$};
+\node[above] at (3.5,2) {$10$};
+\node[left] at (0,1.5) {$0$};
+\node[left] at (0,0.5) {$1$};
+\node[above left] at (0,2) {\scriptsize $\mathbf{A\backslash BC}$};
+\node at (0.5,1.5) {$1$}; \node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$1$}; \node at (3.5,1.5) {$1$};
+\node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$1$}; \node at (3.5,0.5) {$0$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (-0.45,1) -- (-0.45,0)
+    node[midway,xshift=-16pt]{$A$};
+\draw[decorate,decoration={brace,amplitude=5pt},thick] (2,2.6) -- (4,2.6)
+    node[midway,yshift=14pt]{$B$};
+\draw[decorate,decoration={brace,amplitude=5pt,mirror},thick] (1,-0.15) -- (3,-0.15)
+    node[midway,yshift=-14pt]{$C$};
+\end{tikzpicture}
+\caption{$F(A,B,C)=\Sigma(0,1,2,3,7)$: $SOP=A'+BC$.}
+\label{fig:kmap-alistirma12}
+\end{figure}
+Mavi dolgu ($A=0$ satırının tamamı) essential $A'$'yi verir. Turuncu çerçeve ($m_3,m_7$)
+essential $BC$'yi tamamlar.
+
+$A'$ terimi tek literallik ve zaten tümlenmiş, bu yüzden ikinci seviye kapısına
+\textbf{doğrudan} ham $A$ sinyali bağlanabilir. Ekstra bir NOT kapısına gerek yok. $BC$
+terimi bir NAND kapısı alır: $(BC)'$. İkinci seviyedeki $2$ girişli NAND bu ikisini
+birleştirir:
 \[
 F=(A\cdot(BC)')'=A'+BC
 \]
