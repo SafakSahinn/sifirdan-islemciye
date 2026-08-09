@@ -94,10 +94,10 @@ Logisim tuvalinde iki devre).
 
 | Dosya | Kitaptaki karşılığı | SOP | POS |
 |---|---|---|---|
-| [`bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ`](bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ) | Örnek 3.12: Endüstriyel Kontrol Paneli | $B'D'+B'C'+A'C'D$ | $(A'+B')(C'+D')(B'+D)$ |
-| [`bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ`](bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ) | Örnek 3.13: Hata Kontrol Devresi | $BC'+BD'+AC'+AD'$ | $(A+B)(C'+D')$ |
-| [`bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ`](bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ) | Alıştırma 3.8: Akıllı Kapı Kilidi | $A'C'+B'C'+A'D+B'D$ | $(A'+B')(C'+D)$ |
-| [`bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ`](bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ) | Alıştırma 3.9: Otomatik Bahçe Sulama Vanası | $B'D+BD'+AB$ | $(B+D)(A+B'+D')$ |
+| [`bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ`](bolum03/3.6/ornekler/ornek-3.12-endustriyel-kontrol-paneli.circ) | Örnek 3.12: Endüstriyel Kontrol Paneli | $F=B'D'+B'C'+A'C'D$ | $F=(A'+B')(C'+D')(B'+D)$ |
+| [`bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ`](bolum03/3.6/ornekler/ornek-3.13-hata-kontrol-devresi.circ) | Örnek 3.13: Hata Kontrol Devresi | $F=BC'+BD'+AC'+AD'$ | $F=(A+B)(C'+D')$ |
+| [`bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ`](bolum03/3.6/alistirmalar/alistirma-3.8-akilli-kapi-kilidi.circ) | Alıştırma 3.8: Akıllı Kapı Kilidi | $F=A'C'+B'C'+A'D+B'D$ | $F=(A'+B')(C'+D)$ |
+| [`bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ`](bolum03/3.6/alistirmalar/alistirma-3.9-otomatik-bahce-sulama-vanasi.circ) | Alıştırma 3.9: Otomatik Bahçe Sulama Vanası | $F=B'D+BD'+AB$ | $F=(B+D)(A+B'+D')$ |
 
 ### Bölüm 3.7: Önemsenmeyen Durumlar
 
@@ -106,10 +106,10 @@ Bu dosyaların her biri **SOP ve POS gerçeklemesini bir arada** içerir. $d$, �
 
 | Dosya | Kitaptaki karşılığı | SOP | POS |
 |---|---|---|---|
-| [`bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ`](bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ) | Örnek 3.14: Onluk Yuvarlama Sinyali | $A+BC+BD$ | $(A+B)(A+C+D)$ |
-| [`bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ`](bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ) | Örnek 3.15: Güvenlik Kapısı Otomatik Kilit Sistemi | $A+C'D$ | $C'(A+D)$ |
-| [`bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ`](bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ) | Alıştırma 3.10: Depo Sıcaklık/Gaz Alarmı | $C+ABD'$ | $D'(A+C)(B+C)$ |
-| [`bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ`](bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ) | Alıştırma 3.11: Güvenlik Işığı Sistemi | $AB+BD+BC$ | $A+C+D$ |
+| [`bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ`](bolum03/3.7/ornekler/ornek-3.14-onluk-yuvarlama-sinyali.circ) | Örnek 3.14: Onluk Yuvarlama Sinyali | $F=A+BC+BD$ | $F=(A+B)(A+C+D)$ |
+| [`bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ`](bolum03/3.7/ornekler/ornek-3.15-guvenlik-kapisi-otomatik-kilit.circ) | Örnek 3.15: Güvenlik Kapısı Otomatik Kilit Sistemi | $F=A+C'D$ | $F=C'(A+D)$ |
+| [`bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ`](bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ) | Alıştırma 3.10: Depo Sıcaklık/Gaz Alarmı | $F=C+ABD'$ | $F=D'(A+C)(B+C)$ |
+| [`bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ`](bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ) | Alıştırma 3.11: Güvenlik Işığı Sistemi | $F=AB+BD+BC$ | $F=A+C+D$ |
 
 Her dosyaya kitabın ilgili örneğinin/alıştırmasının devre şeklinin altındaki
 dipnottan da ulaşılabilir.
