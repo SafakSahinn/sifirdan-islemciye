@@ -3722,6 +3722,9 @@ olduğundan ham $A$ sinyali doğrudan ikinci seviyeye bağlanıyor, hiç NOT kap
 gerekmiyor (yalnızca $2$ kapı).}
 \label{fig:nand-alistirma-devre}
 \end{figure}
+İki devre de $2$ kapı kullanıyor; fark yalnızca kullanılan kapı
+türünde.\footnote{Bu devrenin (AND-OR ve NAND bir arada) Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.8/alistirmalar/alistirma-3.12-bahce-guvenlik-aydinlatmasi.circ}}
 \end{alistirma}
 
 \subsection{İki-Seviyeli NOR Gerçekleme}\label{sec:nandnor-iki-seviyeli-nor}
@@ -3906,6 +3909,10 @@ F=(A'+(B+C)')'=A(B+C)
 olduğundan üstteki NOR, NOT olarak $A'$ üretiyor.}
 \label{fig:nor-alistirma-devre}
 \end{figure}
+OR-AND devresi $2$ kapı kullanıyordu, bu NOR devresi $3$ kapı kullanıyor: $A$'nın
+tümlenmemiş olması (ekstra bir NOT-NOR gerektirmesi) tek farkın
+kaynağı.\footnote{Bu devrenin (OR-AND ve NOR bir arada) Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.8/alistirmalar/alistirma-3.13-montaj-hatti-konveyor-bandi.circ}}
 \end{alistirma}
 
 \subsection{Çok-Seviyeli NAND/NOR Dönüşümü}\label{sec:nandnor-cok-seviyeli}

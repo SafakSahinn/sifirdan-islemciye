@@ -111,5 +111,15 @@ Bu dosyaların her biri **SOP ve POS gerçeklemesini bir arada** içerir. $d$, �
 | [`bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ`](bolum03/3.7/alistirmalar/alistirma-3.10-depo-sicaklik-gaz-alarmi.circ) | Alıştırma 3.10: Depo Sıcaklık/Gaz Alarmı | $F=C+ABD'$ | $F=D'(A+C)(B+C)$ |
 | [`bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ`](bolum03/3.7/alistirmalar/alistirma-3.11-guvenlik-isigi-sistemi.circ) | Alıştırma 3.11: Güvenlik Işığı Sistemi | $F=AB+BD+BC$ | $F=A+C+D$ |
 
+### Bölüm 3.8: NAND/NOR Gerçekleme
+
+Bu dosyaların her biri **standart (AND-OR/OR-AND) ve NAND/NOR gerçeklemesini bir arada**
+içerir.
+
+| Dosya | Kitaptaki karşılığı | $F$ | Gerçekleme |
+|---|---|---|---|
+| [`bolum03/3.8/alistirmalar/alistirma-3.12-bahce-guvenlik-aydinlatmasi.circ`](bolum03/3.8/alistirmalar/alistirma-3.12-bahce-guvenlik-aydinlatmasi.circ) | Alıştırma 3.12: Bahçe Güvenlik Aydınlatması | $F=A'+BC$ | AND-OR + NAND |
+| [`bolum03/3.8/alistirmalar/alistirma-3.13-montaj-hatti-konveyor-bandi.circ`](bolum03/3.8/alistirmalar/alistirma-3.13-montaj-hatti-konveyor-bandi.circ) | Alıştırma 3.13: Montaj Hattı Konveyör Bandı | $F=A(B+C)$ | OR-AND + NOR |
+
 Her dosyaya kitabın ilgili örneğinin/alıştırmasının devre şeklinin altındaki
 dipnottan da ulaşılabilir.
