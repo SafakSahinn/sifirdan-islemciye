@@ -2139,18 +2139,7 @@ kararıdır. Bu yüzden her dil, eşitlik operatörü yerine ayrı bir \texttt{i
 fonksiyonu sağlar.
 
 \textbf{C:}
-\begin{lstlisting}[language=C]
-#include <stdio.h>
-#include <math.h>
-
-int main(void) {
-    double x = 0.0 / 0.0;                 /* NaN uretir */
-    printf("x = %f\n", x);                /* "x = nan" */
-    printf("x == x: %d\n", x == x);       /* 0 (yanlis!) */
-    printf("isnan(x): %d\n", isnan(x));   /* 1 (dogru yontem) */
-    return 0;
-}
-\end{lstlisting}
+\lstinputlisting[language=C]{bolum01/1.6/nan_ornegi.c}
 \noindent\textbf{Çıktı:}
 \begin{lstlisting}[style=cikti]
 x = nan
@@ -2160,19 +2149,7 @@ isnan(x): 1
 \captionof{lstlisting}{C'de NaN üretimi ve $x\neq x$}
 
 \textbf{C++:}
-\begin{lstlisting}[language=C++]
-#include <iostream>
-#include <cmath>
-#include <limits>
-
-int main() {
-    double x = std::numeric_limits<double>::quiet_NaN();
-    std::cout << "x = " << x << "\n";
-    std::cout << "x == x: " << (x == x) << "\n";        // false
-    std::cout << "isnan(x): " << std::isnan(x) << "\n"; // true
-    return 0;
-}
-\end{lstlisting}
+\lstinputlisting[language=C++]{bolum01/1.6/nan_ornegi.cpp}
 \noindent\textbf{Çıktı:}
 \begin{lstlisting}[style=cikti]
 x = nan
@@ -2182,16 +2159,7 @@ isnan(x): 1
 \captionof{lstlisting}{C++'ta NaN üretimi ve $x\neq x$}
 
 \textbf{Java:}
-\begin{lstlisting}[language=Java]
-public class NanOrnegi {
-    public static void main(String[] args) {
-        double x = 0.0 / 0.0;                                  // NaN uretir
-        System.out.println("x = " + x);                        // "x = NaN"
-        System.out.println("x == x: " + (x == x));             // false
-        System.out.println("Double.isNaN(x): " + Double.isNaN(x)); // true
-    }
-}
-\end{lstlisting}
+\lstinputlisting[language=Java]{bolum01/1.6/NanOrnegi.java}
 \noindent\textbf{Çıktı:}
 \begin{lstlisting}[style=cikti]
 x = NaN

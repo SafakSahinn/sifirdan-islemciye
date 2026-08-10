@@ -4698,42 +4698,7 @@ eşitse ve maskelenmemiş bitlerinde tam olarak tek bir konumda farklılaşıyor
 birleştirilebiliyor --- bu, dize üzerinde karakter karşılaştırmak yerine doğrudan bit
 işlemleriyle (XOR ve "tek bit açık mı" testi) yapılıyor:
 
-\begin{lstlisting}[style=python, caption={Quine-McCluskey algoritmasının (değer, maske) tamsayı çiftleriyle Python gerçeklemesi}, label={kod:quine-mccluskey-py}]
-def asal_kapsayanlari_bul(n, mintermler):
-    tum_bitler = (1 << n) - 1
-    terimler = {(m, 0): {m} for m in mintermler}
-    asal = {}
-    while terimler:
-        yeni, kullanilan = {}, set()
-        liste = list(terimler)
-        for i, (v1, maske1) in enumerate(liste):
-            for v2, maske2 in liste[i + 1:]:
-                if maske1 != maske2:
-                    continue
-                fark = (v1 ^ v2) & (tum_bitler & ~maske1)
-                tek_bit_acik = fark and (fark & (fark - 1)) == 0
-                if tek_bit_acik:
-                    yeni_terim = (v1 & ~fark, maske1 | fark)
-                    yeni[yeni_terim] = terimler[(v1, maske1)] | terimler[(v2, maske2)]
-                    kullanilan.update({(v1, maske1), (v2, maske2)})
-        asal.update({t: s for t, s in terimler.items() if t not in kullanilan})
-        terimler = yeni
-    return asal
-
-def sadelestir(n, mintermler):
-    asal = asal_kapsayanlari_bul(n, mintermler)
-    kalan, secim = set(mintermler), []
-    for terim, kapsanan in asal.items():
-        digerleri = set().union(*(s for t, s in asal.items() if t != terim))
-        if (kapsanan & kalan) - digerleri:
-            secim.append(terim)
-            kalan -= kapsanan
-    for terim, kapsanan in asal.items():
-        if kalan and (kapsanan & kalan):
-            secim.append(terim)
-            kalan -= kapsanan
-    return secim
-\end{lstlisting}
+\lstinputlisting[style=python, caption={Quine-McCluskey algoritmasının (değer, maske) tamsayı çiftleriyle Python gerçeklemesi}, label={kod:quine-mccluskey-py}]{bolum03/3.10/quine_mccluskey.py}
 İlk fonksiyon Aşama 1'i uygular; \texttt{kullanilan} kümesine giremeyen (yani hiçbir
 komşusuyla birleşemeyen) her terim asal kapsayan olarak işaretlenir. İkinci fonksiyon
 Aşama 2'yi uygular: önce her asal kapsayan için, yalnızca \emph{onun} kapsadığı bir
@@ -4744,72 +4709,7 @@ Aynı (değer, maske) yaklaşımının C++ karşılığı, tip güvenliği ve pe
 kazandıran bit düzeyinde işlemlerin donanıma daha yakın bir dilde nasıl
 göründüğünü gösteriyor:
 
-\begin{lstlisting}[language=C++, caption={Quine-McCluskey algoritmasının C++ gerçeklemesi}, label={kod:quine-mccluskey-cpp}]
-using Terim = std::pair<uint32_t, uint32_t>;  // (deger, maske)
-
-std::map<Terim, std::set<int>>
-asalKapsayanlariBul(int n, const std::vector<int>& mintermler) {
-    uint32_t tumBitler = (1u << n) - 1;
-    std::map<Terim, std::set<int>> terimler;
-    for (int m : mintermler)
-        terimler[{(uint32_t)m, 0u}] = {m};
-
-    std::map<Terim, std::set<int>> asal;
-    while (!terimler.empty()) {
-        std::map<Terim, std::set<int>> yeni;
-        std::set<Terim> kullanilan;
-        for (auto it1 = terimler.begin(); it1 != terimler.end(); ++it1) {
-            for (auto it2 = std::next(it1); it2 != terimler.end(); ++it2) {
-                auto [v1, maske1] = it1->first;
-                auto [v2, maske2] = it2->first;
-                if (maske1 != maske2) continue;
-                uint32_t fark = (v1 ^ v2) & (tumBitler & ~maske1);
-                bool tekBitAcik = fark && (fark & (fark - 1)) == 0;
-                if (tekBitAcik) {
-                    Terim yeniTerim{v1 & ~fark, maske1 | fark};
-                    auto birlesim = it1->second;
-                    birlesim.insert(it2->second.begin(), it2->second.end());
-                    yeni[yeniTerim] = birlesim;
-                    kullanilan.insert(it1->first);
-                    kullanilan.insert(it2->first);
-                }
-            }
-        }
-        for (auto& [terim, kapsanan] : terimler)
-            if (!kullanilan.count(terim)) asal[terim] = kapsanan;
-        terimler = std::move(yeni);
-    }
-    return asal;
-}
-
-std::vector<Terim> sadelestir(int n, const std::vector<int>& mintermler) {
-    auto asal = asalKapsayanlariBul(n, mintermler);
-    std::set<int> kalan(mintermler.begin(), mintermler.end());
-    std::vector<Terim> secim;
-
-    for (auto& [terim, kapsanan] : asal) {
-        std::set<int> digerleri;
-        for (auto& [t2, s2] : asal)
-            if (t2 != terim) digerleri.insert(s2.begin(), s2.end());
-        bool tekBasinaKapsiyor = std::any_of(kapsanan.begin(), kapsanan.end(),
-            [&](int m) { return kalan.count(m) && !digerleri.count(m); });
-        if (tekBasinaKapsiyor) {
-            secim.push_back(terim);
-            for (int m : kapsanan) kalan.erase(m);
-        }
-    }
-    for (auto& [terim, kapsanan] : asal) {
-        if (kalan.empty()) break;
-        bool ortakVar = std::any_of(kapsanan.begin(), kapsanan.end(),
-            [&](int m) { return kalan.count(m); });
-        if (ortakVar) {
-            secim.push_back(terim);
-            for (int m : kapsanan) kalan.erase(m);
-        }
-    }
-    return secim;
-}
-\end{lstlisting}
+\lstinputlisting[language=C++, caption={Quine-McCluskey algoritmasının C++ gerçeklemesi}, label={kod:quine-mccluskey-cpp}]{bolum03/3.10/quine_mccluskey.cpp}
 Mantık birebir aynı; fark, Python'daki dinamik küme/sözlük işlemlerinin yerini
 \texttt{std::map}, \texttt{std::set} ve C++17'nin \emph{structured bindings}
 (\texttt{auto [a, b] = ...}) özelliğinin alması.
