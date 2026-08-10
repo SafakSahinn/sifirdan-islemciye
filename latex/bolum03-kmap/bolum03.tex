@@ -4703,7 +4703,8 @@ işlemleriyle (XOR ve "tek bit açık mı" testi) yapılıyor:
 komşusuyla birleşemeyen) her terim asal kapsayan olarak işaretlenir. İkinci fonksiyon
 Aşama 2'yi uygular: önce her asal kapsayan için, yalnızca \emph{onun} kapsadığı bir
 minterm olup olmadığına bakılır (varsa temel), sonra kalan mintermler basitçe kapsayan
-ilk asal kapsayanla eşleştirilir.
+ilk asal kapsayanla eşleştirilir.\footnote{Bu kodun kaynak dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/src/bolum03/3.10/kod-dosyalari/quine_mccluskey.py}}
 
 Aynı (değer, maske) yaklaşımının C++ karşılığı, tip güvenliği ve performans
 kazandıran bit düzeyinde işlemlerin donanıma daha yakın bir dilde nasıl
@@ -4712,7 +4713,8 @@ göründüğünü gösteriyor:
 \lstinputlisting[language=C++, caption={Quine-McCluskey algoritmasının C++ gerçeklemesi}, label={kod:quine-mccluskey-cpp}]{bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp}
 Mantık birebir aynı; fark, Python'daki dinamik küme/sözlük işlemlerinin yerini
 \texttt{std::map}, \texttt{std::set} ve C++17'nin \emph{structured bindings}
-(\texttt{auto [a, b] = ...}) özelliğinin alması.
+(\texttt{auto [a, b] = ...}) özelliğinin alması.\footnote{Bu kodun kaynak dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/src/bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp}}
 \end{detaybilgi}
 
 \subsection{Alıştırmalar}\label{sec:qm-alistirmalar}
