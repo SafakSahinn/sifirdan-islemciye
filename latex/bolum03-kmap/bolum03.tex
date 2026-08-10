@@ -4485,3 +4485,239 @@ verimli şekilde gerçeklenebileceğini gösteriyor.\footnote{Bu devrenin Logisi
 simülasyon dosyası:
 \url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.9/alistirmalar/alistirma-3.16-kalite-kontrol-sistemi.circ}}
 \end{alistirma}
+
+\section{Quine-McCluskey Algoritması}\label{sec:quine-mccluskey}
+\index{Quine-McCluskey algoritması}
+Bölümün başında (Bölüm~\ref{sec:kmap-giris}) bir sınır belirtmiştik: K-map'teki kare
+sayısı değişken sayısıyla katlanarak arttığından ($2^n$), yöntem elle yalnızca birkaç
+değişkene kadar rahat uygulanabilir. Dört değişkende harita hâlâ kâğıda kolayca sığar;
+beş-altı değişkende üç boyutlu katmanlar (bkz. Şekil~\ref{fig:kmap-asal} benzeri
+örnekler) gerekir ve bitişikliği takip etmek zorlaşır; yedi ve üzerinde ise görsel
+gruplama tamamen güvenilirliğini yitirir. Oysa gerçek devrelerde onlarca girişli
+fonksiyonlarla karşılaşmak sıra dışı değildir.
+
+\textbf{Quine-McCluskey algoritması}\index{Quine-McCluskey algoritması}, aynı
+sadeleştirme hedefine (prime implicant'ları bulup essential olanları seçme, bkz.
+Bölüm~\ref{sec:kmap-prime-implicant}) görsel değil \emph{tablo tabanlı} bir yolla
+ulaşır: mintermler ikili gösterimleriyle karşılaştırılır, hiçbir kare çizilmez. Bunun
+getirisi, yöntemin herhangi bir değişken sayısında (K-map'in aksine) aynı verimlilikle
+çalışması ve bir bilgisayar programına birebir aktarılabilmesidir. Yöntem, 1952'de
+mantıkçı Willard Van Orman Quine tarafından ortaya atılmış, 1956'da Edward McCluskey
+tarafından bugünkü tablo hâline getirilmiştir.
+
+\subsection{Aşama 1: Asal Kapsayanları Sistematik Bulma}\label{sec:qm-asal-kapsayan}
+K-map'te iki bitişik kareyi birleştirmenin koşulu, ikilik gösterimlerinin tam olarak
+\emph{tek} bir bitte farklılaşmasıydı (Bölüm~\ref{sec:kmap-dort-simit}). Quine-McCluskey
+bu aynı koşulu, haritaya bakmadan, doğrudan bit dizileri üzerinde arar:
+\begin{enumerate}[nosep, leftmargin=*]
+    \item Fonksiyonun $1$ ürettiği tüm mintermler, ikilik gösterimlerindeki $1$
+    bitlerinin \emph{sayısına} göre gruplara ayrılır (bu gruplama, yalnızca komşu
+    sayıdaki gruplar arasında karşılaştırma yapmayı yeterli kılar; iki bitişik terim
+    her zaman $1$-sayısı bir eksik/fazla komşu gruplarda bulunur).
+    \item Yalnızca \emph{komşu} gruplardaki (1-sayısı bir farklı) her terim çifti
+    karşılaştırılır: ikilik gösterimleri tam olarak tek bir bitte farklılaşıyorsa
+    birleştirilirler, o bit "$-$" ("fark etmez") ile değiştirilir.
+    \item Böyle birleştirilebilen her terim, bir sonraki turda tekrar aynı kurala göre
+    komşularıyla karşılaştırılır ("$-$" işaretleri de aynı konumda olmak koşuluyla).
+    \item Bir terim, hiçbir komşusuyla artık birleştirilemiyorsa (yani harita üzerinde
+    daha büyük bir bitişik grubun parçası olamıyorsa), bu terim bir \textbf{asal
+    kapsayan}dır (Bölüm~\ref{sec:kmap-prime-implicant}'teki tanımın ta kendisi). Süreç,
+    hiçbir yeni birleştirme kalmayana kadar tekrarlanır.
+\end{enumerate}
+Bu prosedürün K-map'ten farkı yalnızca \emph{nasıl} arandığıdır; bulunan asal
+kapsayanların kendisi, aynı fonksiyon için her iki yöntemde de birebir aynı çıkar.
+
+\subsection{Aşama 2: Kapsama Tablosuyla Temel Asal Kapsayanları Seçme}\label{sec:qm-essential}
+Birinci aşamadan çıkan asal kapsayan listesi genellikle gereğinden fazladır: bazıları
+birbirinin kapsadığı mintermleri paylaşır. İkinci aşamada bir \textbf{kapsama tablosu}
+kurulur: satırlar asal kapsayanları, sütunlar fonksiyonun mintermlerini temsil eder;
+bir asal kapsayan bir mintermi kapsıyorsa ilgili hücreye işaret konur.
+
+Bir sütunda (yani bir mintermi kapsayan asal kapsayanlar arasında) yalnızca \emph{tek}
+bir işaret varsa, o satırdaki asal kapsayan \textbf{temel asal kapsayan}dır
+(Bölüm~\ref{sec:kmap-prime-implicant}'teki essential prime implicant tanımıyla aynı
+kavram): o mintermi kapsayacak başka hiçbir alternatif olmadığından, minimal ifadeye
+mutlaka girmesi gerekir. Tüm temel asal kapsayanlar seçildikten sonra, henüz kapsanmamış
+mintermler kalmışsa (K-map'teki essential-olmayan seçim durumunun, bkz.
+Örnek~\ref{orn:kmap-prime}, tablo karşılığı), bunları kapsayacak en az sayıda ek asal
+kapsayan seçilir.
+
+\subsection{Örnek: K-map Sonucunun Tabloyla Doğrulanması}\label{sec:qm-ornek}
+\begin{ornek}[K-map Sonucunun Tabloyla Doğrulanması]\label{orn:qm-dogrulama}
+Örnek~\ref{orn:kmap-prime}'te $F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)$
+fonksiyonunu K-map ile $F=B'D'+BD+CD+AD$'ye sadeleştirmiştik. Aynı fonksiyonu şimdi
+Quine-McCluskey ile, hiç harita çizmeden, baştan çözüp aynı sonuca ulaştığımızı
+görelim.
+
+\textbf{Aşama 1 --- gruplama ve birleştirme:} Mintermler $1$-bit sayısına göre
+gruplanır ($m_0$:$0000$; $m_2$:$0010$, $m_8$:$1000$; $m_3$:$0011$, $m_5$:$0101$,
+$m_9$:$1001$, $m_{10}$:$1010$; $m_7$:$0111$, $m_{11}$:$1011$, $m_{13}$:$1101$;
+$m_{15}$:$1111$) ve komşu gruplar birleştirilir:
+\begin{center}
+\scriptsize
+\begin{tabular}{lll}
+\toprule
+Grup & Mintermler & 1. birleştirme \\
+\midrule
+0 (sıfır $1$) & $m_0{:}0000$ & $(0,2){:}00{-}0$,\; $(0,8){:}{-}000$ \\
+1 (bir $1$) & $m_2{:}0010$,\ $m_8{:}1000$ & $(2,3){:}001{-}$,\; $(2,10){:}{-}010$,\; $(8,9){:}100{-}$,\; $(8,10){:}10{-}0$ \\
+2 (iki $1$) & $m_3{:}0011$,\ $m_5{:}0101$,\ $m_9{:}1001$,\ $m_{10}{:}1010$ &
+$(3,7){:}0{-}11$,\; $(3,11){:}{-}011$,\; $(5,7){:}01{-}1$,\; $(5,13){:}{-}101$ \\
+& & $(9,11){:}10{-}1$,\; $(9,13){:}1{-}01$,\; $(10,11){:}101{-}$ \\
+3 (üç $1$) & $m_7{:}0111$,\ $m_{11}{:}1011$,\ $m_{13}{:}1101$ &
+$(7,15){:}{-}111$,\; $(11,15){:}1{-}11$,\; $(13,15){:}11{-}1$ \\
+4 (dört $1$) & $m_{15}{:}1111$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+Bu $13$ ikili terim, aynı kuralla (aynı konumda "$-$" taşıyanlar, kalan bitlerde tek
+fark) ikinci turda birleştirilir. Sonuçta $6$ asal kapsayan kalır (hiçbiri bir
+sonrakiyle birleşemez):
+\[
+B'D'\ (\text{--}0\text{--}0,\ \{0,2,8,10\}),\quad
+AB'\ (10\text{--}\text{--},\ \{8,9,10,11\}),\quad
+BD\ (\text{--}1\text{--}1,\ \{5,7,13,15\}),
+\]
+\[
+CD\ (\text{--}\text{--}11,\ \{3,7,11,15\}),\quad
+B'C\ (\text{--}01\text{--},\ \{2,3,10,11\}),\quad
+AD\ (1\text{--}\text{--}1,\ \{9,11,13,15\}).
+\]
+
+\textbf{Aşama 2 --- kapsama tablosu:}
+\begin{center}
+\scriptsize
+\begin{tabular}{l*{11}{c}}
+\toprule
+AK & $m_0$ & $m_2$ & $m_3$ & $m_5$ & $m_7$ & $m_8$ & $m_9$ & $m_{10}$ & $m_{11}$ & $m_{13}$ & $m_{15}$ \\
+\midrule
+$B'D'$ & $\times$ & $\times$ & & & & $\times$ & & $\times$ & & & \\
+$AB'$ & & & & & & $\times$ & $\times$ & $\times$ & $\times$ & & \\
+$BD$ & & & & $\times$ & $\times$ & & & & & $\times$ & $\times$ \\
+$CD$ & & & $\times$ & & $\times$ & & & & $\times$ & & $\times$ \\
+$B'C$ & & $\times$ & $\times$ & & & & & $\times$ & $\times$ & & \\
+$AD$ & & & & & & & $\times$ & & $\times$ & $\times$ & $\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$m_0$ sütununda tek işaret $B'D'$'de, $m_5$ sütununda tek işaret $BD$'de --- ikisi de
+\textbf{temel}. Birlikte $\{0,2,5,7,8,10,13,15\}$'i kapsarlar, geriye $m_3,m_9,m_{11}$
+kalır; tam da K-map çözümündeki essential-olmayan seçim durumuyla aynı üç minterm.
+$m_3$, $B'C$ ya da $CD$ ile; $m_9$, $AB'$ ya da $AD$ ile kapsanabilir. $CD$ ve $AD$'yi
+seçersek:
+\[
+F = \textcolor{vurgumavi}{B'D'} + \textcolor{vurguturuncu}{BD} + \textcolor{vurgukirmizi}{CD} + \textcolor{vurguyesil}{AD}
+\]
+K-map ile bulduğumuz ifadenin birebir aynısı --- iki farklı yöntem, aynı minimal
+sonuç.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.85, font=\small]
+\node[and port, number inputs=2] (q1) at (2,9) {};
+\draw (q1.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B'$};
+\draw (q1.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D'$};
+\node[and port, number inputs=2] (q2) at (2,6) {};
+\draw (q2.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $B$};
+\draw (q2.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=2] (q3) at (2,3) {};
+\draw (q3.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $C$};
+\draw (q3.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[and port, number inputs=2] (q4) at (2,0) {};
+\draw (q4.in 1) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $A$};
+\draw (q4.in 2) -- ++(-0.6,0) node[left, text width=0.45cm, align=left, inner sep=1pt] {\small $D$};
+\node[or port, number inputs=4] (oq) at (6.5,4.5) {};
+\draw (q1.out) -| (oq.in 1);
+\draw (q2.out) -| (oq.in 2);
+\draw (q3.out) -| (oq.in 3);
+\draw (q4.out) -| (oq.in 4);
+\draw (oq.out) -- ++(0.5,0) node[right] {$F$};
+\end{circuitikz}
+\caption{$F=B'D'+BD+CD+AD$: $4$ AND (2 girişli) + 1 OR (4 girişli) = $5$ kapı.}
+\label{fig:qm-dogrulama-devre}
+\end{figure}
+\end{ornek}
+
+\begin{detaybilgi}[Bugün Bu İşi Kim Yapıyor?]
+Gerçek bir işlemcide binlerce, hatta milyonlarca giriş değişkeni içeren mantık
+fonksiyonları vardır --- ne elle K-map, ne de elle Quine-McCluskey bunlara
+yetişebilir. Bu görevi günümüzde \textbf{CAD} (Computer-Aided Design, bilgisayar
+destekli tasarım) araçlarının bir alt dalı olan \textbf{EDA} (Electronic Design
+Automation, elektronik tasarım otomasyonu) yazılımları üstlenir: bir donanım tanımlama
+dilinde (Verilog/VHDL) yazılan tasarımı, \emph{mantık sentezi} (logic synthesis) adımında
+otomatik olarak sadeleştirip hedef teknolojinin (FPGA ya da ASIC) kapı kütüphanesine
+eşler. Quine-McCluskey'nin kendisi büyük fonksiyonlar için hâlâ verimsiz kalabilir
+($2^n$ mertebesinde büyüyebilir); gerçek EDA araçları bunun yerine Espresso ve
+BDD (Binary Decision Diagram) tabanlı daha ölçeklenebilir algoritmalar kullanır. Yine
+de bu algoritmaların tümü, burada öğrendiğimiz aynı temel fikri --- birleştirilebilen
+terimleri bulup gereksiz olanı ele --- çok daha büyük ölçekte uygular.
+
+Algoritmanın küçük ölçekte bir bilgisayar programına ne kadar doğrudan aktarılabildiğini
+görmek için, Aşama 1 ve Aşama 2'yi birebir izleyen kısa bir Python fonksiyonu:
+
+\begin{lstlisting}[style=python, caption={Quine-McCluskey algoritmasının Python ile gerçeklemesi}, label={kod:quine-mccluskey}]
+def asal_kapsayanlari_bul(n, mintermler):
+    grup = {format(m, f'0{n}b'): {m} for m in mintermler}
+    asal = {}
+    while grup:
+        yeni_grup, kullanilan = {}, set()
+        anahtarlar = list(grup)
+        for i, b1 in enumerate(anahtarlar):
+            for b2 in anahtarlar[i + 1:]:
+                farklar = [k for k in range(n) if b1[k] != b2[k]]
+                if len(farklar) == 1:
+                    k = farklar[0]
+                    yeni_desen = b1[:k] + '-' + b1[k + 1:]
+                    yeni_grup[yeni_desen] = grup[b1] | grup[b2]
+                    kullanilan.update((b1, b2))
+        asal.update({d: s for d, s in grup.items() if d not in kullanilan})
+        grup = yeni_grup
+    return asal
+
+def sadelestir(n, mintermler):
+    asal = asal_kapsayanlari_bul(n, mintermler)
+    kalan, secim = set(mintermler), []
+    for desen, kapsanan in asal.items():
+        digerleri = set().union(*(s for d, s in asal.items() if d != desen))
+        if (kapsanan & kalan) - digerleri:
+            secim.append(desen)
+            kalan -= kapsanan
+    for desen, kapsanan in asal.items():
+        if kalan and (kapsanan & kalan):
+            secim.append(desen)
+            kalan -= kapsanan
+    return secim
+\end{lstlisting}
+İlk fonksiyon Aşama 1'i (mintermleri ikişer ikişer karşılaştırıp birleştirme) uygular;
+\texttt{kullanilan} kümesine giremeyen (yani hiçbir komşusuyla birleşemeyen) her terim
+asal kapsayan olarak işaretlenir. İkinci fonksiyon Aşama 2'yi uygular: önce her asal
+kapsayan için, yalnızca \emph{onun} kapsadığı bir minterm olup olmadığına bakılır
+(varsa temel), sonra kalan mintermler basitçe kapsayan ilk asal kapsayanla eşleştirilir.
+\end{detaybilgi}
+
+\subsection{Alıştırmalar}\label{sec:qm-alistirmalar}
+\begin{alistirma}[\orta]
+Bir üretim hattında dört sensör ($A,B,C,D$) bulunuyor; ancak sistemin uyarı üretmesi
+için yalnızca $B$ ile $D$'nin birbirinden \emph{farklı} okuma yapması gerekiyor ---
+$A$ ve $C$'nin durumu sonucu etkilemiyor. Uyarı sinyali $F(A,B,C,D)$'yi Quine-McCluskey
+algoritmasıyla sadeleştirin.
+
+\textbf{Çözüm:} $B\neq D$ koşulunu sağlayan mintermler: $A,C$ serbestçe $0$ ya da $1$
+olabildiğinden, $B{=}0,D{=}1$ ve $B{=}1,D{=}0$ durumlarının her biri $4$'er minterm
+verir: $F(A,B,C,D)=\Sigma(1,3,4,6,9,11,12,14)$.
+
+Gruplama: $1$-bit sayısına göre $m_1{:}0001$, $m_4{:}0100$ (bir $1$); $m_3{:}0011$,
+$m_6{:}0110$, $m_9{:}1001$, $m_{12}{:}1100$ (iki $1$); $m_{11}{:}1011$, $m_{14}{:}1110$
+(üç $1$). Birinci tur: $(1,3){:}00{-}1$, $(1,9){:}{-}001$, $(4,6){:}01{-}0$,
+$(4,12){:}{-}100$, $(3,11){:}{-}011$, $(6,14){:}{-}110$, $(9,11){:}10{-}1$,
+$(12,14){:}11{-}0$. İkinci tur: $(1,3,9,11){:}{-}0{-}1$ ($B'D$) ve
+$(4,6,12,14){:}{-}1{-}0$ ($BD'$); ikisi de başka hiçbir terimle birleşemediğinden asal
+kapsayan. Kapsama tablosuna bakmaya bile gerek yok: iki asal kapsayan $8$ mintermin
+tamamını ayrık biçimde kapsıyor, ikisi de otomatik olarak temel:
+\[
+F = B'D + BD'
+\]
+İlginç bir ayrıntı: sonuç yalnızca $B$ ve $D$'ye bağlı çıktı ($A,C$ hiç görünmüyor) ---
+tam da beklendiği gibi, çünkü $F=B\oplus D$'nin (Bölüm~\ref{sec:xorxnor}) başka bir
+yazımından ibaret.
+\end{alistirma}
