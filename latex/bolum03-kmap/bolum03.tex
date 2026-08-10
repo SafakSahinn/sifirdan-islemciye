@@ -4501,9 +4501,47 @@ sadeleştirme hedefine (prime implicant'ları bulup essential olanları seçme, 
 Bölüm~\ref{sec:kmap-prime-implicant}) görsel değil \emph{tablo tabanlı} bir yolla
 ulaşır: mintermler ikili gösterimleriyle karşılaştırılır, hiçbir kare çizilmez. Bunun
 getirisi, yöntemin herhangi bir değişken sayısında (K-map'in aksine) aynı verimlilikle
-çalışması ve bir bilgisayar programına birebir aktarılabilmesidir. Yöntem, 1952'de
-mantıkçı Willard Van Orman Quine tarafından ortaya atılmış, 1956'da Edward McCluskey
-tarafından bugünkü tablo hâline getirilmiştir.
+çalışması ve bir bilgisayar programına birebir aktarılabilmesidir.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{willard_quine.jpg}
+\caption{Willard Van Orman Quine (1908--2000).}
+\label{fig:willard-quine}
+\end{figure}
+Yöntemin ilk adımını, aslında bir mühendis değil bir \textbf{felsefeci ve
+mantıkçı}\index{Quine, Willard Van Orman} attı: 25 Haziran 1908'de Ohio'nun Akron
+kentinde doğan \textbf{Willard Van Orman Quine}, Oberlin College'da matematik ve
+mantık okuduktan sonra 1932'de Harvard Üniversitesi'nde doktorasını tamamladı,
+1936'da öğretim üyesi oldu ve --- II. Dünya Savaşı'nda deniz istihbaratında görev
+yaptığı 1942--1945 arası hariç --- kariyerinin tamamını orada geçirdi. $20$.
+yüzyılın en etkili analitik felsefecilerinden biri olan Quine, mantık, ontoloji ve
+dil felsefesi üzerine çalıştı; analitik-sentetik ayrımına yönelik eleştirisi ve
+"çeviri belirsizliği" tezi felsefede çığır açtı. Onun bu konudaki tek katkısı,
+$1952$'de \emph{American Mathematical Monthly}'de yayımladığı \emph{The Problem of
+Simplifying Truth Functions} (Doğruluk Fonksiyonlarını Sadeleştirme Problemi)
+başlıklı makalesidir: asal kapsayanları sistematik biçimde bulma fikrini ilk kez
+burada ortaya koydu. $2000$ yılında, $92$ yaşında Boston'da hayatını kaybetti.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=4cm,keepaspectratio]{edward_mccluskey.jpg}
+\caption{Edward J. McCluskey (1929--2016).}
+\label{fig:edward-mccluskey}
+\end{figure}
+Quine'ın fikrini bugün bildiğimiz tablo tabanlı, bir mühendisin doğrudan
+uygulayabileceği algoritmaya dönüştüren kişi ise \textbf{Edward J.
+McCluskey}\index{McCluskey, Edward J.} oldu. $1929$'da New York'ta doğan
+McCluskey, $1953$'te Bowdoin College'dan mezun olduktan sonra $1956$'da MIT'de
+elektrik mühendisliği doktorasını tamamladı; doktora çalışmasının bir parçası
+olarak aynı yıl \emph{Bell System Technical Journal}'da yayımladığı
+\emph{Minimization of Boolean Functions} (Bool Fonksiyonlarının Küçültülmesi)
+makalesiyle yöntemi bugünkü tablo hâline getirdi --- yöntem bu yüzden her iki
+ismi birlikte taşır. Bell Laboratuvarları'nda başlayan kariyerini $1959$'da
+Princeton'da, $1966$'dan sonra Stanford Üniversitesi'nde sürdürdü; $1975$'te
+kurduğu Center for Reliable Computing ile devre testi ve arıza toleranslı
+hesaplama alanlarının öncülerinden oldu, $1970$'te IEEE Computer Society'nin ilk
+başkanı seçildi. $2016$'da, $86$ yaşında Stanford'da hayatını kaybetti.
 
 \subsection{Aşama 1: Asal Kapsayanları Sistematik Bulma}\label{sec:qm-asal-kapsayan}
 K-map'te iki bitişik kareyi birleştirmenin koşulu, ikilik gösterimlerinin tam olarak
@@ -4653,46 +4691,128 @@ de bu algoritmaların tümü, burada öğrendiğimiz aynı temel fikri --- birle
 terimleri bulup gereksiz olanı ele --- çok daha büyük ölçekte uygular.
 
 Algoritmanın küçük ölçekte bir bilgisayar programına ne kadar doğrudan aktarılabildiğini
-görmek için, Aşama 1 ve Aşama 2'yi birebir izleyen kısa bir Python fonksiyonu:
+görmek için, Aşama 1 ve Aşama 2'yi birebir izleyen kısa bir gerçekleme. Burada her terim
+$0/1$ dizisi yerine bir \emph{(değer, maske)} tamsayı çifti olarak tutuluyor: maske,
+"$-$" ile işaretlenmiş (fark etmez) bit konumlarını gösteriyor. İki terim, maskeleri
+eşitse ve maskelenmemiş bitlerinde tam olarak tek bir konumda farklılaşıyorsa
+birleştirilebiliyor --- bu, dize üzerinde karakter karşılaştırmak yerine doğrudan bit
+işlemleriyle (XOR ve "tek bit açık mı" testi) yapılıyor:
 
-\begin{lstlisting}[style=python, caption={Quine-McCluskey algoritmasının Python ile gerçeklemesi}, label={kod:quine-mccluskey}]
+\begin{lstlisting}[style=python, caption={Quine-McCluskey algoritmasının (değer, maske) tamsayı çiftleriyle Python gerçeklemesi}, label={kod:quine-mccluskey-py}]
 def asal_kapsayanlari_bul(n, mintermler):
-    grup = {format(m, f'0{n}b'): {m} for m in mintermler}
+    tum_bitler = (1 << n) - 1
+    terimler = {(m, 0): {m} for m in mintermler}
     asal = {}
-    while grup:
-        yeni_grup, kullanilan = {}, set()
-        anahtarlar = list(grup)
-        for i, b1 in enumerate(anahtarlar):
-            for b2 in anahtarlar[i + 1:]:
-                farklar = [k for k in range(n) if b1[k] != b2[k]]
-                if len(farklar) == 1:
-                    k = farklar[0]
-                    yeni_desen = b1[:k] + '-' + b1[k + 1:]
-                    yeni_grup[yeni_desen] = grup[b1] | grup[b2]
-                    kullanilan.update((b1, b2))
-        asal.update({d: s for d, s in grup.items() if d not in kullanilan})
-        grup = yeni_grup
+    while terimler:
+        yeni, kullanilan = {}, set()
+        liste = list(terimler)
+        for i, (v1, maske1) in enumerate(liste):
+            for v2, maske2 in liste[i + 1:]:
+                if maske1 != maske2:
+                    continue
+                fark = (v1 ^ v2) & (tum_bitler & ~maske1)
+                tek_bit_acik = fark and (fark & (fark - 1)) == 0
+                if tek_bit_acik:
+                    yeni_terim = (v1 & ~fark, maske1 | fark)
+                    yeni[yeni_terim] = terimler[(v1, maske1)] | terimler[(v2, maske2)]
+                    kullanilan.update({(v1, maske1), (v2, maske2)})
+        asal.update({t: s for t, s in terimler.items() if t not in kullanilan})
+        terimler = yeni
     return asal
 
 def sadelestir(n, mintermler):
     asal = asal_kapsayanlari_bul(n, mintermler)
     kalan, secim = set(mintermler), []
-    for desen, kapsanan in asal.items():
-        digerleri = set().union(*(s for d, s in asal.items() if d != desen))
+    for terim, kapsanan in asal.items():
+        digerleri = set().union(*(s for t, s in asal.items() if t != terim))
         if (kapsanan & kalan) - digerleri:
-            secim.append(desen)
+            secim.append(terim)
             kalan -= kapsanan
-    for desen, kapsanan in asal.items():
+    for terim, kapsanan in asal.items():
         if kalan and (kapsanan & kalan):
-            secim.append(desen)
+            secim.append(terim)
             kalan -= kapsanan
     return secim
 \end{lstlisting}
-İlk fonksiyon Aşama 1'i (mintermleri ikişer ikişer karşılaştırıp birleştirme) uygular;
-\texttt{kullanilan} kümesine giremeyen (yani hiçbir komşusuyla birleşemeyen) her terim
-asal kapsayan olarak işaretlenir. İkinci fonksiyon Aşama 2'yi uygular: önce her asal
-kapsayan için, yalnızca \emph{onun} kapsadığı bir minterm olup olmadığına bakılır
-(varsa temel), sonra kalan mintermler basitçe kapsayan ilk asal kapsayanla eşleştirilir.
+İlk fonksiyon Aşama 1'i uygular; \texttt{kullanilan} kümesine giremeyen (yani hiçbir
+komşusuyla birleşemeyen) her terim asal kapsayan olarak işaretlenir. İkinci fonksiyon
+Aşama 2'yi uygular: önce her asal kapsayan için, yalnızca \emph{onun} kapsadığı bir
+minterm olup olmadığına bakılır (varsa temel), sonra kalan mintermler basitçe kapsayan
+ilk asal kapsayanla eşleştirilir.
+
+Aynı (değer, maske) yaklaşımının C++ karşılığı, tip güvenliği ve performans
+kazandıran bit düzeyinde işlemlerin donanıma daha yakın bir dilde nasıl
+göründüğünü gösteriyor:
+
+\begin{lstlisting}[language=C++, caption={Quine-McCluskey algoritmasının C++ gerçeklemesi}, label={kod:quine-mccluskey-cpp}]
+using Terim = std::pair<uint32_t, uint32_t>;  // (deger, maske)
+
+std::map<Terim, std::set<int>>
+asalKapsayanlariBul(int n, const std::vector<int>& mintermler) {
+    uint32_t tumBitler = (1u << n) - 1;
+    std::map<Terim, std::set<int>> terimler;
+    for (int m : mintermler)
+        terimler[{(uint32_t)m, 0u}] = {m};
+
+    std::map<Terim, std::set<int>> asal;
+    while (!terimler.empty()) {
+        std::map<Terim, std::set<int>> yeni;
+        std::set<Terim> kullanilan;
+        for (auto it1 = terimler.begin(); it1 != terimler.end(); ++it1) {
+            for (auto it2 = std::next(it1); it2 != terimler.end(); ++it2) {
+                auto [v1, maske1] = it1->first;
+                auto [v2, maske2] = it2->first;
+                if (maske1 != maske2) continue;
+                uint32_t fark = (v1 ^ v2) & (tumBitler & ~maske1);
+                bool tekBitAcik = fark && (fark & (fark - 1)) == 0;
+                if (tekBitAcik) {
+                    Terim yeniTerim{v1 & ~fark, maske1 | fark};
+                    auto birlesim = it1->second;
+                    birlesim.insert(it2->second.begin(), it2->second.end());
+                    yeni[yeniTerim] = birlesim;
+                    kullanilan.insert(it1->first);
+                    kullanilan.insert(it2->first);
+                }
+            }
+        }
+        for (auto& [terim, kapsanan] : terimler)
+            if (!kullanilan.count(terim)) asal[terim] = kapsanan;
+        terimler = std::move(yeni);
+    }
+    return asal;
+}
+
+std::vector<Terim> sadelestir(int n, const std::vector<int>& mintermler) {
+    auto asal = asalKapsayanlariBul(n, mintermler);
+    std::set<int> kalan(mintermler.begin(), mintermler.end());
+    std::vector<Terim> secim;
+
+    for (auto& [terim, kapsanan] : asal) {
+        std::set<int> digerleri;
+        for (auto& [t2, s2] : asal)
+            if (t2 != terim) digerleri.insert(s2.begin(), s2.end());
+        bool tekBasinaKapsiyor = std::any_of(kapsanan.begin(), kapsanan.end(),
+            [&](int m) { return kalan.count(m) && !digerleri.count(m); });
+        if (tekBasinaKapsiyor) {
+            secim.push_back(terim);
+            for (int m : kapsanan) kalan.erase(m);
+        }
+    }
+    for (auto& [terim, kapsanan] : asal) {
+        if (kalan.empty()) break;
+        bool ortakVar = std::any_of(kapsanan.begin(), kapsanan.end(),
+            [&](int m) { return kalan.count(m); });
+        if (ortakVar) {
+            secim.push_back(terim);
+            for (int m : kapsanan) kalan.erase(m);
+        }
+    }
+    return secim;
+}
+\end{lstlisting}
+Mantık birebir aynı; fark, Python'daki dinamik küme/sözlük işlemlerinin yerini
+\texttt{std::map}, \texttt{std::set} ve C++17'nin \emph{structured bindings}
+(\texttt{auto [a, b] = ...}) özelliğinin alması.
 \end{detaybilgi}
 
 \subsection{Alıştırmalar}\label{sec:qm-alistirmalar}
