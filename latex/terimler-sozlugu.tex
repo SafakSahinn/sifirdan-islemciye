@@ -31,6 +31,40 @@ için saklanmaz (örtük bit).
 \textbf{Bias} --- IEEE 754'te üs alanına eklenen sabit kaydırma değeri (tek duyarlıkta
 $127$); negatif üsleri de işaretsiz tam sayı olarak karşılaştırılabilir kılar.
 
+\textbf{NaN (Not a Number)} --- IEEE 754'te üs alanı tümü $1$, mantissa sıfır olmayan bit
+kalıplarının temsil ettiği özel değer; $0/0$ ya da $\infty-\infty$ gibi tanımsız işlemlerin
+sonucudur. Standardın bilinçli bir tasarım kararı gereği NaN hiçbir zaman kendisine eşit
+değildir ($x\neq x$).
+
+\textbf{İkili Kod (Binary Code)} --- Bir kümedeki $N$ farklı elemanı ayırt etmek için her
+birine benzersiz bir $n$-bit kalıp atayan kodlama; ayırt etmek için gereken minimum bit
+sayısı $n=\lceil\log_2 N\rceil$'dir.
+
+\textbf{BCD (Binary-Coded Decimal)} --- Her ondalık haneyi ayrı ayrı $4$ bitle ($0000$-
+$1001$) kodlayan sayı gösterimi; $1010$-$1111$ kombinasyonları geçersizdir. Bir sayının
+gerçek ikili karşılığıyla aynı şey değildir.
+
+\textbf{Ağırlıklı Kod (Weighted Code)} --- Her bitine sabit bir ağırlık (BCD'de $8,4,2,1$
+gibi) atanan ve bir hanenin değerinin, $1$ olan bitlerin ağırlıkları toplanarak bulunduğu
+kod türü.
+
+\textbf{Öz-Tümleyen (Self-Complementing) Kod} --- Bir rakamın bit kalıbındaki tüm bitler
+tersine çevrildiğinde ($1\to0$, $0\to1$), ortaya çıkan yeni kalıbın tam olarak $9-d$
+rakamının koduna eşit olduğu kodlama şeması (ör. Excess-3, 2421); $9$'un tümleyenini
+donanımda çıkarma devresi kurmadan, yalnızca NOT kapılarıyla hesaplamayı sağlar.
+
+\textbf{Gray Kodu} --- Ardışık iki değer arasında yalnızca tek bir bitin değiştiği ikili
+kodlama şeması; adını Frank Gray'den alır, mekanik/elektriksel geçiş sırasında oluşabilecek
+geçici yanlış ara değerleri önler.
+
+\textbf{ASCII (American Standard Code for Information Interchange)} --- Harf, rakam,
+noktalama ve kontrol karakterlerini $7$ bitle ($128$ karakter) temsil eden standart
+karakter kodu.
+
+\textbf{Parity Biti} --- Bir mesaja eklenen ve mesajdaki toplam $1$ sayısını istenen
+pariteye (çift ya da tek) tamamlayan fazladan bit; tek bitlik iletim hatalarını sezmek için
+kullanılır.
+
 \textbf{Bool Değişkeni} --- Yalnızca $0$ veya $1$ değerini alabilen değişken.
 
 \textbf{Mantık Kapısı} --- Bir veya birden çok ikili girişten tek bir ikili çıkış üreten
@@ -99,3 +133,37 @@ sürebileceği standart yük sayısı.
 
 \textbf{Yayılma Gecikmesi (Propagation Delay)} --- Bir sinyalin girişten çıkışa ulaşması
 için geçen ortalama süre; çalışma hızı bu gecikmeyle ters orantılıdır.
+
+\textbf{Karnaugh Haritası (K-map)} --- Bir Bool fonksiyonunun doğruluk tablosunu görsel bir
+ızgaraya aktaran, bitişik $1$ hücrelerinin gruplanmasıyla sadeleştirilmiş ifadenin
+sistematik biçimde bulunmasını sağlayan yöntem; adını 1953'te bu yöntemi tanıtan Maurice
+Karnaugh'dan alır.
+
+\textbf{Bitişik Kareler (Adjacent Cells)} --- Bir K-map'te yalnızca tek bir değişkende
+farklılaşan (geri kalanı aynı olan) iki kare; yalnızca yatay/dikey komşuluk geçerlidir,
+köşegen komşuluk sayılmaz.
+
+\textbf{Implicant (Gerektiren Terim)} --- Değeri $1$ olduğu her durumda fonksiyonu da $1$
+yapan bir çarpım terimi; K-map'te bitişik (ya da tek başına) $1$'lerden oluşan herhangi
+bir geçerli grup.
+
+\textbf{Prime Implicant (Asal Gerektiren Terim)} --- Başka hiçbir bitişik kareyle birleşip
+büyütülemeyen, yani mümkün olan en büyük bitişik gruptan elde edilmiş bir implicant.
+
+\textbf{Essential Prime Implicant (Zorunlu Asal Gerektiren Terim)} --- Fonksiyonun bir
+mintermini kapsayan tek prime implicant; o mintermi kapsayacak başka alternatif
+olmadığından minimal ifadeye mutlaka dahil edilmesi gerekir.
+
+\textbf{Önemsenmeyen Durum (Don't-Care Condition)} --- Bir devrenin girişinde asla
+oluşmayan ya da çıkışı önemli olmayan giriş kombinasyonu; K-map'te "X" ile gösterilir ve
+gruplamayı büyütmek için hem $1$ hem $0$ gibi ele alınabilir.
+
+\textbf{Quine-McCluskey Algoritması} --- K-map'in görsel gruplamasının yerini alan,
+mintermleri ikili gösterimleriyle karşılaştırıp tablo tabanlı biçimde asal ve temel asal
+kapsayanları bulan; herhangi bir değişken sayısında çalışan ve bilgisayarla
+otomatikleştirilebilen sadeleştirme yöntemi.
+
+\textbf{CAD/EDA (Computer-Aided Design / Electronic Design Automation)} --- Bir donanım
+tasarımını (Verilog/VHDL) otomatik olarak sadeleştirip hedef teknolojinin kapı
+kütüphanesine eşleyen (mantık sentezi), günümüzde K-map/Quine-McCluskey'nin elle yapılan
+işini üstlenen bilgisayar destekli tasarım araçları ve bu disiplinin adı.
