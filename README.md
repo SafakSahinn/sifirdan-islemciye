@@ -5,7 +5,7 @@
 ![status](https://img.shields.io/badge/durum-aktif%20geli%C5%9Ftirme-yellow)
 ![language](https://img.shields.io/badge/dil-T%C3%BCrk%C3%A7e-red)
 ![engine](https://img.shields.io/badge/-XeLaTeX-008080?logo=latex&logoColor=white)
-![chapters](https://img.shields.io/badge/b%C3%B6l%C3%BCm-2%2F9%20tamam-blue)
+![chapters](https://img.shields.io/badge/b%C3%B6l%C3%BCm-3%2F9%20tamam-blue)
 
 Bool cebri ve temel mantık kapılarından başlayıp kombinasyonel ve ardışık mantık
 devreleri üzerinden ilerleyen, sonlu durum makinelerine (FSM) ve basit bir CPU
@@ -29,7 +29,7 @@ işlenir.
 |---|-------|:---:|
 | 1 | Sayı Sistemleri ve Kodlama | ✅ Tamamlandı |
 | 2 | Bool Cebri ve Mantık Kapıları | ✅ Tamamlandı |
-| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | ⬜ Planlandı |
+| 3 | Kapı Seviyesinde Sadeleştirme (K-map) | ✅ Tamamlandı |
 | 4 | Kombinasyonel Mantık Devreleri | ⬜ Planlandı |
 | 5 | Senkron Ardışık Mantık | ⬜ Planlandı |
 | 6 | Yazmaçlar ve Sayaçlar | ⬜ Planlandı |
@@ -63,6 +63,23 @@ işlenir.
 - [x] Sayısal Mantık Kapıları (çok girişli genişletme, pozitif/negatif mantık dahil)
 - [x] Kanonik ve Standart Formlar (minterm/maxterm, Σ/Π simgeleri)
 - [x] Entegre Devreler (entegrasyon seviyeleri, dijital lojik aileleri)
+
+</details>
+
+<details>
+<summary><b>Bölüm 3 — detaylı ilerleme</b></summary>
+<br>
+
+- [x] Giriş
+- [x] Harita Yöntemi: İki ve Üç Değişkenli K-map
+- [x] Dört Değişkenli K-map
+- [x] Prime ve Essential Prime Implicant
+- [x] Sadeleştirmenin Donanım Karşılığı
+- [x] Toplamların Çarpımı Formunun K-map ile Bulunması (POS)
+- [x] Önemsenmeyen Durumlar
+- [x] NAND/NOR Gerçekleme
+- [x] XOR/XNOR
+- [x] Quine-McCluskey Algoritması
 
 </details>
 
