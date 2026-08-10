@@ -7,7 +7,7 @@
 
 Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) kod
 örneklerinin **çalıştırılabilir hâlini** içerir. Kitapta gördüğünüz her kod
-bloğu, buradaki bir dosyanın birebir kopyasıdır — PDF'ten elle kopyalamanıza
+bloğu, buradaki bir dosyanın birebir kopyasıdır. PDF'ten elle kopyalamanıza
 gerek kalmadan doğrudan indirip kendi derleyicinizde/yorumlayıcınızda
 çalıştırabilir, kitaptaki sonucun gerçekten doğru olduğunu kendiniz
 doğrulayabilirsiniz. Dosyalar, kitaptaki gibi okunabilirlik için kısaltılmış

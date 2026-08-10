@@ -74,6 +74,11 @@ logisim/
     ├── 3.7/
     │   ├── ornekler/      → Bölüm 3.7'nin "Örnek" kutularının devreleri
     │   └── alistirmalar/  → Bölüm 3.7'nin "Alıştırma" kutularının devreleri
+    ├── 3.8/
+    │   └── alistirmalar/  → Bölüm 3.8'in "Alıştırma" kutularının devreleri
+    ├── 3.9/
+    │   ├── ornekler/      → Bölüm 3.9'un "Örnek" kutularının devreleri
+    │   └── alistirmalar/  → Bölüm 3.9'un "Alıştırma" kutularının devreleri
     └── ...                → sonraki alt bölümler eklendikçe aynı düzende devam eder
 ```
 
@@ -120,6 +125,15 @@ içerir.
 |---|---|---|---|
 | [`bolum03/3.8/alistirmalar/alistirma-3.12-bahce-guvenlik-aydinlatmasi.circ`](bolum03/3.8/alistirmalar/alistirma-3.12-bahce-guvenlik-aydinlatmasi.circ) | Alıştırma 3.12: Bahçe Güvenlik Aydınlatması | $F=A'+BC$ | AND-OR + NAND |
 | [`bolum03/3.8/alistirmalar/alistirma-3.13-montaj-hatti-konveyor-bandi.circ`](bolum03/3.8/alistirmalar/alistirma-3.13-montaj-hatti-konveyor-bandi.circ) | Alıştırma 3.13: Montaj Hattı Konveyör Bandı | $F=A(B+C)$ | OR-AND + NOR |
+
+### Bölüm 3.9: XOR/XNOR
+
+| Dosya | Kitaptaki karşılığı | Fonksiyon |
+|---|---|---|
+| [`bolum03/3.9/ornekler/ornek-3.19-cift-sensor-uyusmazlik-alarmi.circ`](bolum03/3.9/ornekler/ornek-3.19-cift-sensor-uyusmazlik-alarmi.circ) | Örnek 3.19: Çift Sensör Uyuşmazlık Alarmı | $F=A\oplus B$ |
+| [`bolum03/3.9/ornekler/ornek-3.20-hava-istasyonu-parity-uretici-denetleyici.circ`](bolum03/3.9/ornekler/ornek-3.20-hava-istasyonu-parity-uretici-denetleyici.circ) | Örnek 3.20: Uzak Hava İstasyonu Parity Üreteci ve Denetleyicisi | $P=x\oplus y\oplus z$, $C=x\oplus y\oplus z\oplus P$ |
+| [`bolum03/3.9/alistirmalar/alistirma-3.15-tank-basinc-olcer.circ`](bolum03/3.9/alistirmalar/alistirma-3.15-tank-basinc-olcer.circ) | Alıştırma 3.15: Tank Basınç Ölçer | $F=A\odot B$ |
+| [`bolum03/3.9/alistirmalar/alistirma-3.16-kalite-kontrol-sistemi.circ`](bolum03/3.9/alistirmalar/alistirma-3.16-kalite-kontrol-sistemi.circ) | Alıştırma 3.16: Kalite Kontrol Sistemi | $F=A\oplus B\oplus C\oplus D$ |
 
 Her dosyaya kitabın ilgili örneğinin/alıştırmasının devre şeklinin altındaki
 dipnottan da ulaşılabilir.
