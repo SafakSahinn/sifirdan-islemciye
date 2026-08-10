@@ -1,0 +1,79 @@
+# Kod Örnekleri
+
+Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) kod bloklarının
+**tek doğru kaynağını** içerir. Kitapta bir kod örneği göründüğünde, LaTeX
+kaynağı o metni elle içermez; `\lstinputlisting` komutuyla doğrudan buradaki
+dosyayı okuyup basar. Yani PDF'te gördüğünüz kod ile buradaki dosya **birebir
+aynı** — ikisi ayrışamaz, çünkü ikinci bir kopya yok.
+
+## Neden ayrı bir klasör?
+
+1. **Tek kaynak, sıfır tutarsızlık:** Kod kitapta ve burada iki kez elle
+   yazılıp senkronize tutulmaya çalışılsaydı, zamanla ikisi birbirinden
+   sapardı. `\lstinputlisting` bu riski tasarım gereği ortadan kaldırır.
+2. **Taranabilir/indirilebilir:** GitHub'da doğrudan gezinip dosyayı
+   görüntüleyebilir, indirebilir, kendi derleyicinizde/yorumlayıcınızda
+   çalıştırabilirsiniz — PDF'ten kopyala-yapıştır yapmanıza gerek kalmaz.
+3. **Gerçekten derlenebilir:** Buradaki dosyalar kitapta okunabilirlik için
+   kısaltılmış parçalar değil, gerekli `#include`/`import` ifadeleriyle
+   birlikte eksiksiz dosyalardır.
+
+## Klasör yapısı
+
+Her bölüm klasörü, kitaptaki alt bölüm numarasına göre ayrılır; her alt
+bölümün içindeki kod dosyaları da `kod-dosyalari/` alt klasörüne düşer
+(bu, [`logisim/`](../logisim/) klasöründeki `ornekler/`/`alistirmalar/`
+ayrımının kod tarafındaki karşılığıdır):
+
+```
+src/
+├── bolum01/
+│   └── 1.6/
+│       └── kod-dosyalari/   → IEEE 754: NaN örnekleri (C, C++, Java)
+└── bolum03/
+    └── 3.10/
+        └── kod-dosyalari/   → Quine-McCluskey algoritması (Python, C++)
+```
+
+## Mevcut dosyalar
+
+### Bölüm 1.6: IEEE 754 ile Kayan Noktalı Sayı Gösterimi
+
+NaN'ın kendisine bile eşit olmadığını (`x != x`) üç dilde gösteren, birbirinin
+birebir karşılığı üç kısa program:
+
+| Dosya | Dil | Çalıştırma |
+|---|---|---|
+| [`bolum01/1.6/kod-dosyalari/nan_ornegi.c`](bolum01/1.6/kod-dosyalari/nan_ornegi.c) | C | `gcc nan_ornegi.c -o nan && ./nan` |
+| [`bolum01/1.6/kod-dosyalari/nan_ornegi.cpp`](bolum01/1.6/kod-dosyalari/nan_ornegi.cpp) | C++ | `g++ nan_ornegi.cpp -o nan && ./nan` |
+| [`bolum01/1.6/kod-dosyalari/NanOrnegi.java`](bolum01/1.6/kod-dosyalari/NanOrnegi.java) | Java | `javac NanOrnegi.java && java NanOrnegi` |
+
+### Bölüm 3.10: Quine-McCluskey Algoritması
+
+Aşama 1 (asal kapsayan bulma) ve Aşama 2'yi (kapsama tablosuyla temel asal
+kapsayan seçme) birebir izleyen, her terimi bir *(değer, maske)* tamsayı
+çifti olarak tutan iki gerçekleme:
+
+| Dosya | Dil | Kullanım |
+|---|---|---|
+| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.py`](bolum03/3.10/kod-dosyalari/quine_mccluskey.py) | Python 3 | `from quine_mccluskey import sadelestir` |
+| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp`](bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp) | C++17 | `asalKapsayanlariBul`/`sadelestir` fonksiyonlarını kendi projenize kopyalayın |
+
+Örnek kullanım (Python) — kitaptaki Örnek 3.21'in ($F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)$) doğrulaması:
+
+```python
+>>> from quine_mccluskey import sadelestir
+>>> sadelestir(4, {0, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15})
+[(0, 10), (5, 10), (2, 9), (8, 3)]
+```
+
+Her çift bir *(değer, maske)* asal kapsayanı temsil eder ($A$ bit 3, $B$ bit 2,
+$C$ bit 1, $D$ bit 0; maskedeki her `1` biti o değişkenin elendiğini gösterir).
+Burada çözülen `(0,10)`$\to B'D'$, `(5,10)`$\to BD$, `(2,9)`$\to B'C$,
+`(8,3)`$\to AB'$'dir — yani $F=B'D'+BD+B'C+AB'$. Kitapta essential-olmayan
+seçim için $CD+AD$ tercih edilmişti; ikisi de eşit derecede minimal, geçerli
+alternatif çözümlerdir (fonksiyonun birden fazla eşit-minimal SOP ifadesi
+olabileceğini gösteren iyi bir örnek).
+
+Her dosyaya, kitabın ilgili kod bloğunun hemen üzerindeki/altındaki
+paragraftan da (Bölüm 1.6 ve Bölüm 3.10) ulaşılabilir.
