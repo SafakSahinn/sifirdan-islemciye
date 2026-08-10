@@ -4400,6 +4400,9 @@ değiştiğinin işaretidir.
 kapısı.}
 \label{fig:parity-denetleyici-devre}
 \end{figure}
+Böylece merkez, ek bir donanım katmanına gerek kalmadan tek bir bitlik iletim
+hatasını yakalayabiliyor.\footnote{Bu devrenin Logisim simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.9/ornekler/ornek-3.20-hava-istasyonu-parity-uretici-denetleyici.circ}}
 \end{ornek}
 
 \subsection{Alıştırmalar}\label{sec:xorxnor-alistirmalar}
@@ -4435,15 +4438,19 @@ $A$&$B$&$F$\\
 \caption{$F=A\odot B$ onay sinyali: tek bir XNOR kapısı yeterli.}
 \label{fig:xnor-alistirma-devre}
 \end{figure}
+Tek bir XNOR kapısı, iki sensörün uyumunu ek bir karşılaştırma mantığına gerek
+kalmadan doğrudan donanımda gerçekliyor.\footnote{Bu devrenin Logisim simülasyon
+dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.9/alistirmalar/alistirma-3.15-tank-basinc-olcer.circ}}
 \end{alistirma}
 
 \begin{alistirma}[\orta]
 Bir montaj hattında $4$ istasyon, kendi görevini tamamladığında birer sinyal
-($A,B,C,D$) gönderir. Hat tasarımına göre bu $4$ görev birbirine bağımlıdır: ya
-hepsi ya da hiçbiri aynı anda tamamlanmış olmalıdır. Kalite kontrol sistemi, istasyon
-sinyallerinden \emph{tek sayıda} tanesi aktifken bunu tutarsız bir durum olarak
-algılayıp bir uyarı ($F=1$) üretsin. $F$'i ifade edip kademeli XOR kapılarıyla
-gerçekleyin.
+($A,B,C,D$) gönderir. Hat tasarımı gereği normal çalışmada bu sinyallerden çift
+sayıda tanesi aynı anda aktif olur. Kalite kontrol sistemi bunu doğrulamak için
+$A,B,C,D$ arasından $1$ değerini alanların \emph{sayısını} kontrol eder: bu sayı
+tek ise (yani $1$ ya da $3$ istasyon aktifse) tutarsız bir durum algılanmış demektir
+ve bir uyarı ($F=1$) üretilir. $F$'i ifade edip kademeli XOR kapılarıyla gerçekleyin.
 
 \textbf{Çözüm:} "Tek sayıda giriş $1$" tanımı, doğrudan $4$-değişkenli tek sayı
 fonksiyonuna karşılık gelir:
@@ -4473,4 +4480,8 @@ doğrudan $3$ tane $2$-girişli XOR kapısını kademeli bağlayarak gerçekleri
 gerçeklemesi ($3$ XOR kapısı).}
 \label{fig:xor-alistirma-devre}
 \end{figure}
+Bu, K-map ile sadeleştirilemeyen bir fonksiyonun bile kademeli XOR kapılarıyla
+verimli şekilde gerçeklenebileceğini gösteriyor.\footnote{Bu devrenin Logisim
+simülasyon dosyası:
+\url{https://github.com/SafakSahinn/sifirdan-islemciye/blob/master/logisim/bolum03/3.9/alistirmalar/alistirma-3.16-kalite-kontrol-sistemi.circ}}
 \end{alistirma}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="ornek-3.20-hava-istasyonu-parity-uretici-denetleyici"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate">
+      <a name="inputs" val="2"/>
+    </tool>
+  </toolbar>
+  <circuit name="ornek-3.20-hava-istasyonu-parity-uretici-denetleyici">
+    <a name="circuit" val="ornek-3.20-hava-istasyonu-parity-uretici-denetleyici"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(130,140)" to="(130,270)"/>
+    <wire from="(50,140)" to="(50,210)"/>
+    <wire from="(50,210)" to="(170,210)"/>
+    <wire from="(50,300)" to="(170,300)"/>
+    <wire from="(330,340)" to="(510,340)"/>
+    <wire from="(130,270)" to="(130,360)"/>
+    <wire from="(50,210)" to="(50,300)"/>
+    <wire from="(50,300)" to="(50,390)"/>
+    <wire from="(230,230)" to="(270,230)"/>
+    <wire from="(230,320)" to="(270,320)"/>
+    <wire from="(90,250)" to="(90,340)"/>
+    <wire from="(370,250)" to="(370,280)"/>
+    <wire from="(130,360)" to="(130,390)"/>
+    <wire from="(330,250)" to="(370,250)"/>
+    <wire from="(370,250)" to="(410,250)"/>
+    <wire from="(370,280)" to="(410,280)"/>
+    <wire from="(470,300)" to="(510,300)"/>
+    <wire from="(380,320)" to="(410,320)"/>
+    <wire from="(90,140)" to="(90,250)"/>
+    <wire from="(90,250)" to="(170,250)"/>
+    <wire from="(90,340)" to="(170,340)"/>
+    <wire from="(90,340)" to="(90,390)"/>
+    <wire from="(130,270)" to="(270,270)"/>
+    <wire from="(130,360)" to="(270,360)"/>
+    <wire from="(570,320)" to="(580,320)"/>
+    <comp lib="0" loc="(580,320)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(277,61)" name="Text">
+      <a name="text" val="İstasyondaki parity üreteci ve merkezdeki parity denetleyicisi devrelerini tasarlayalım."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="6" loc="(307,41)" name="Text">
+      <a name="text" val="İletim hatalarını yakalamak için istasyon çift-parity biti &#119875; ekliyor, merkez de gelen 4 biti denetliyor."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="0" loc="(380,320)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="HATA_VAR"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(330,250)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="P"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="0" loc="(410,250)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(394,440)" name="Text">
+      <a name="text" val="HATA_VAR: P'yi tersine çevirip hata simüle eder → C = HATA_VAR"/>
+      <a name="font" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(130,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="z"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(330,340)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="x⊕y⊕z"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="0" loc="(50,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="x"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(570,320)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="C"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="1" loc="(230,320)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="x ⊕ y"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="1" loc="(470,300)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="6" loc="(666,325)" name="Text">
+      <a name="text" val="C = x ⊕ y ⊕ z ⊕ P"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+    <comp lib="0" loc="(90,140)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="y"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="SansSerif bold 20"/>
+    </comp>
+    <comp lib="6" loc="(525,21)" name="Text">
+      <a name="text" val="Problem: Bir uzak hava istasyonu, 3 bitlik bir durum kodunu (&#119909; = pil seviyesi düşük, &#119910; = sensör arızası var, &#119911; = bağlantı zayıf; her biri 1=evet) kablosuz olarak merkeze gönderiyor."/>
+      <a name="font" val="SansSerif bold 11"/>
+    </comp>
+    <comp lib="1" loc="(230,230)" name="XOR Gate">
+      <a name="inputs" val="2"/>
+      <a name="label" val="x ⊕ y"/>
+      <a name="labelfont" val="SansSerif bold 12"/>
+    </comp>
+    <comp lib="6" loc="(482,255)" name="Text">
+      <a name="text" val="P = x ⊕ y ⊕ z"/>
+      <a name="font" val="SansSerif bold 14"/>
+    </comp>
+  </circuit>
+</project>

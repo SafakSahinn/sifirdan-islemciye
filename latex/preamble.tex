@@ -21,6 +21,14 @@
 \usepackage[a4paper, margin=2.5cm, top=3cm, bottom=3cm, headheight=25pt]{geometry}
 \raggedbottom  % Sayfaları aynı yüksekliğe zorlamayı kapat (aşırı dikey boşluk önlenir)
 
+% Dipnot ayraç çizgisi: varsayılan LaTeX kısa (0.4\columnwidth) çiziyor, tam sayfa
+% genişliğine (\textwidth) çıkarıldı.
+\renewcommand{\footnoterule}{%
+  \kern-3pt
+  \hrule width\textwidth
+  \kern2.6pt
+}
+
 % --- Renkler (font/listing/titlesec tanımlarından önce) ---
 \usepackage{xcolor}
 \usepackage{pifont}  % \ding{51} (checkmark) ve \ding{55} (cross) için
