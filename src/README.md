@@ -1,22 +1,13 @@
 # Kod Örnekleri
 
-Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) kod bloklarının
-**tek doğru kaynağını** içerir. Kitapta bir kod örneği göründüğünde, LaTeX
-kaynağı o metni elle içermez; `\lstinputlisting` komutuyla doğrudan buradaki
-dosyayı okuyup basar. Yani PDF'te gördüğünüz kod ile buradaki dosya **birebir
-aynı** — ikisi ayrışamaz, çünkü ikinci bir kopya yok.
-
-## Neden ayrı bir klasör?
-
-1. **Tek kaynak, sıfır tutarsızlık:** Kod kitapta ve burada iki kez elle
-   yazılıp senkronize tutulmaya çalışılsaydı, zamanla ikisi birbirinden
-   sapardı. `\lstinputlisting` bu riski tasarım gereği ortadan kaldırır.
-2. **Taranabilir/indirilebilir:** GitHub'da doğrudan gezinip dosyayı
-   görüntüleyebilir, indirebilir, kendi derleyicinizde/yorumlayıcınızda
-   çalıştırabilirsiniz — PDF'ten kopyala-yapıştır yapmanıza gerek kalmaz.
-3. **Gerçekten derlenebilir:** Buradaki dosyalar kitapta okunabilirlik için
-   kısaltılmış parçalar değil, gerekli `#include`/`import` ifadeleriyle
-   birlikte eksiksiz dosyalardır.
+Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) kod
+örneklerinin **çalıştırılabilir hâlini** içerir. Kitapta gördüğünüz her kod
+bloğu, buradaki bir dosyanın birebir kopyasıdır — PDF'ten elle kopyalamanıza
+gerek kalmadan doğrudan indirip kendi derleyicinizde/yorumlayıcınızda
+çalıştırabilir, kitaptaki sonucun gerçekten doğru olduğunu kendiniz
+doğrulayabilirsiniz. Dosyalar, kitaptaki gibi okunabilirlik için kısaltılmış
+parçalar değil; gerekli `#include`/`import` ifadeleriyle birlikte eksiksiz,
+gerçekten derlenip çalışan programlardır.
 
 ## Klasör yapısı
 
