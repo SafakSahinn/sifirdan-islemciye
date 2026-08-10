@@ -1,5 +1,10 @@
 # Kod Örnekleri
 
+<img src="../assets/logos/c.webp" height="50" alt="C">&nbsp;&nbsp;&nbsp;
+<img src="../assets/logos/cpp.webp" height="50" alt="C++">&nbsp;&nbsp;&nbsp;
+<img src="../assets/logos/java.webp" height="50" alt="Java">&nbsp;&nbsp;&nbsp;
+<img src="../assets/logos/python.webp" height="50" alt="Python">
+
 Bu klasör, kitaptaki (bkz. ana repo [`README.md`](../README.md)) kod
 örneklerinin **çalıştırılabilir hâlini** içerir. Kitapta gördüğünüz her kod
 bloğu, buradaki bir dosyanın birebir kopyasıdır — PDF'ten elle kopyalamanıza
@@ -34,10 +39,10 @@ NaN'ın kendisine bile eşit olmadığını (`x != x`) üç dilde gösteren, bir
 birebir karşılığı üç kısa program:
 
 | Dosya | Dil | Çalıştırma |
-|---|---|---|
-| [`bolum01/1.6/kod-dosyalari/nan_ornegi.c`](bolum01/1.6/kod-dosyalari/nan_ornegi.c) | C | `gcc nan_ornegi.c -o nan && ./nan` |
-| [`bolum01/1.6/kod-dosyalari/nan_ornegi.cpp`](bolum01/1.6/kod-dosyalari/nan_ornegi.cpp) | C++ | `g++ nan_ornegi.cpp -o nan && ./nan` |
-| [`bolum01/1.6/kod-dosyalari/NanOrnegi.java`](bolum01/1.6/kod-dosyalari/NanOrnegi.java) | Java | `javac NanOrnegi.java && java NanOrnegi` |
+|---|:---:|---|
+| [`bolum01/1.6/kod-dosyalari/nan_ornegi.c`](bolum01/1.6/kod-dosyalari/nan_ornegi.c) | <img src="../assets/logos/c.webp" height="24" alt="C"> | `gcc nan_ornegi.c -o nan && ./nan` |
+| [`bolum01/1.6/kod-dosyalari/nan_ornegi.cpp`](bolum01/1.6/kod-dosyalari/nan_ornegi.cpp) | <img src="../assets/logos/cpp.webp" height="24" alt="C++"> | `g++ nan_ornegi.cpp -o nan && ./nan` |
+| [`bolum01/1.6/kod-dosyalari/NanOrnegi.java`](bolum01/1.6/kod-dosyalari/NanOrnegi.java) | <img src="../assets/logos/java.webp" height="24" alt="Java"> | `javac NanOrnegi.java && java NanOrnegi` |
 
 ### Bölüm 3.10: Quine-McCluskey Algoritması
 
@@ -46,9 +51,9 @@ kapsayan seçme) birebir izleyen, her terimi bir *(değer, maske)* tamsayı
 çifti olarak tutan iki gerçekleme:
 
 | Dosya | Dil | Kullanım |
-|---|---|---|
-| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.py`](bolum03/3.10/kod-dosyalari/quine_mccluskey.py) | Python 3 | `from quine_mccluskey import sadelestir` |
-| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp`](bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp) | C++17 | `asalKapsayanlariBul`/`sadelestir` fonksiyonlarını kendi projenize kopyalayın |
+|---|:---:|---|
+| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.py`](bolum03/3.10/kod-dosyalari/quine_mccluskey.py) | <img src="../assets/logos/python.webp" height="24" alt="Python"> | `from quine_mccluskey import sadelestir` |
+| [`bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp`](bolum03/3.10/kod-dosyalari/quine_mccluskey.cpp) | <img src="../assets/logos/cpp.webp" height="24" alt="C++"> | `asalKapsayanlariBul`/`sadelestir` fonksiyonlarını kendi projenize kopyalayın |
 
 Örnek kullanım (Python) — kitaptaki Örnek 3.21'in ($F(A,B,C,D)=\Sigma(0,2,3,5,7,8,9,10,11,13,15)$) doğrulaması:
 
