@@ -17,9 +17,7 @@ gerçekten derlenip çalışan programlardır.
 ## Klasör yapısı
 
 Her bölüm klasörü, kitaptaki alt bölüm numarasına göre ayrılır; her alt
-bölümün içindeki kod dosyaları da `kod-dosyalari/` alt klasörüne düşer
-(bu, [`logisim/`](../logisim/) klasöründeki `ornekler/`/`alistirmalar/`
-ayrımının kod tarafındaki karşılığıdır):
+bölümün içindeki kod dosyaları da `kod-dosyalari/` alt klasörüne düşer:
 
 ```
 src/
