@@ -845,7 +845,7 @@ sayılar üzerinde temel aritmetik işlemleri (toplama, çıkarma, çarpma, böl
 yapacağımızı ele alıyoruz. $r$ tabanındaki aritmetik işlemler, ilkokulda öğrendiğimiz ondalık
 kurallarla \textbf{birebir aynı mantıkla} işler; tek fark, her basamağın $0$'dan $r{-}1$'e kadar
 sınırlı olması ve elde/borç eşiğinin $10$ değil $r$ olmasıdır. Bir sonraki bölümde (Tümleyenler)
-çıkarmayı toplamaya çeviren bir "trik" öğreneceğiz. Ama önce, optimize edeceğimiz ham
+çıkarmayı toplamaya çeviren bir yöntem öğreneceğiz. Ama önce, optimize edeceğimiz ham
 işlemi elle nasıl yaptığımızı bilmemiz gerekiyor. Her işlem için önce genel $r$-tabanlı
 matematiksel formülü kuracağız, sonra $r=2$ özel durumunu (ikili) örneklerle pekiştireceğiz;
 bu formüller, ileride mantık kapılarıyla gerçek toplayıcı/çarpıcı/bölücü \emph{devreleri}
@@ -868,7 +868,7 @@ Hiçbir zaman $2$ veya daha büyük bir elde oluşmaz.
 İkilide ($r{=}2$) bu formül $s_i=(a_i+b_i+c_i)\bmod2$, $c_{i+1}=\lfloor(a_i+b_i+c_i)/2\rfloor$'ye
 indirgenir; bu, ileride kuracağımız bir "tam toplayıcı" (full adder) mantık kapısı
 devresinin giriş-çıkış ilişkisinin ta kendisidir. Ondalıkta iki basamağın toplamı $10$'u geçince
-elde doğar; ikilide eşik $r{=}2$'dir: $1+1=(10)_2$ --- yani bu basamağa $0$ yazılır, bir üst
+elde doğar; ikilide eşik $r{=}2$'dir: $1+1=(10)_2$. Yani bu basamağa $0$ yazılır, bir üst
 basamağa $1$ elde gider.
 
 \begin{ornek}[$(101101)_2+(100111)_2$]
